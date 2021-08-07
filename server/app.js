@@ -1,58 +1,58 @@
 const express = require('express');
-const cors = require('cors');
-const controllers = require('./controllers');
-const cookieParser = require('cookie-parser');
-
 const app = express();
+const cors = require('cors');
 app.use(express.json());
-const port = 80;
 
 app.use(
   cors({
-    origin: true,
+    origin: ['http://localhost:3000', 'http://localhost:3001'],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   }),
 );
-
-app.use(cookieParser());
-
-//users routing
-app.get('/users', controllers.users.get);
-app.put('/users', controllers.users.put);
-app.post('/users/signin', controllers.signin);
-app.get('/users/signout', controllers.signout);
-app.post('/users/signup', controllers.signup);
-app.post('/users/auth', controllers.auth);
-
-//advisers routing
-app.get('/advisers', controllers.advisers.get);
-app.put('/advisers', controllers.advisers.put);
-app.post('/advisers', controllers.advisers.post);
-
-//feedbacks routing
-app.get('/feedbacks/:id', controllers.feedbacks.get);
-app.put('/feedbacks/:id', controllers.feedbacks.put);
-app.post('/feedbacks', controllers.feedbacks.post);
-app.delete('/feedbacks/:id', controllers.feedbacks.delete);
-
-//posts routing
-app.get('/posts', controllers.posts.get);
-app.get('/posts/:id', controllers.posts.get);
-app.put('/posts/:id', controllers.posts.put);
-app.post('/posts', controllers.posts.post);
-app.delete('/posts/:id', controllers.posts.delete);
-
-//chats routing
-app.get('/chats', controllers.chats.get);
-app.post('/chats', controllers.chats.post);
-app.get('/chats/messages', controllers.chats.get);
-app.post('/chats/messages', controllers.chats.post);
-
-app.get('/', (req, res) => {
-  res.status(201).send('Welcome to 이거맞아? API Server!');
+const server = require('http').createServer(app);
+const io = require('socket.io')(server, {
+  cors: {
+    origin: ['http://localhost:3000', 'http://localhost:3001'],
+  },
 });
+const port = process.env.PORT || 80;
 
-app.listen(port, () => {
-  console.log(`서버가 ${port}번에서 작동중입니다.`);
+server.listen(port, () => {
+  console.log(`Listening on port ${port}`);
+});
+const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
+
+const router = require('./router');
+
+app.use(router);
+
+let test = () => {
+  console.log('채팅을 보낼때마다 데이터베이스에갑니다');
+};
+
+io.on('connection', (socket) => {
+  // 클라와 채팅방과 연결
+  socket.on('test', (data) => {
+    console.log('received: "' + data + '" from client' + socket.id);
+    socket.emit('test', 'Ok, i got it, ' + socket.id);
+  });
+
+  socket.on('join', (data) => {
+    // 방입장할때 기존에 있던 방에서 나옴
+    socket.leaveAll();
+  });
+
+  socket.on('sendMessage', (message, callback) => {
+    // 메세지 날릴때
+    socket.join(message.room);
+    console.log('여기메세지떠야하는뎅', message);
+    io.to(message.room).emit('message', { user: '상현', text: message.message });
+
+    //callback(); 여기서 데이타베이스에 저장
+  });
+
+  socket.on('disconnect', () => {
+    console.log('disconnected from ', socket.id);
+  });
 });
