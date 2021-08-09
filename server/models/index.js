@@ -3,7 +3,7 @@ require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
-const posts = require('../../../itr/server/controllers/posts');
+
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config')[env];
@@ -36,6 +36,7 @@ db.Sequelize = Sequelize;
 
 //Associations
 const { adviser, chat, chats_user, feedback, message, post, source, user } = sequelize.models;
+
 user.hasOne(adviser, {
   foreignKey: 'userId',
 });
@@ -58,7 +59,7 @@ user.hasMany(post);
 post.hasMany(source);
 source.belongsTo(post);
 
-message.belongsTo(user);
+// message.belongsTo(user);
 user.hasMany(message, { foreignKey: 'sender' });
 user.hasMany(message, { foreignKey: 'receiver' });
 
