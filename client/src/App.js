@@ -1,3 +1,4 @@
+
 import logo from './logo.svg';
 import './App.css';
 import React, { useState, useEffect } from 'react';
@@ -6,6 +7,18 @@ import axios from 'axios';
 import ChatRoom from './components/chat/ChatRoom';
 import Chat from './components/chat/Chat';
 import io from 'socket.io-client';
+
+import 'antd/dist/antd.css';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import styled from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
+import { Switch, Route } from 'react-router-dom';
+import Footer from './components/Footer';
+import Nav from './components/Nav';
+import QuestionListPage from './pages/QuestionListPage';
+import SignInPage from './pages/SignInPage';
+
 
 const url = process.env.REACT_APP_API_URL;
 
@@ -52,19 +65,32 @@ function App() {
 
   return (
     <div className="App">
-      <button onClick={handleClick}>Get API</button>
-      <div>{text} </div>
-      <div>테스트 </div>
-      <button onClick={() => createRoom(userInfo, coach)}>트레이너랑 채팅하러 가기</button>
-      {isChat ? (
-        <div>
-          <ChatRoom chatClick={chatClick} userInfo={userInfo} changeRoom={changeRoom}></ChatRoom>
-          {roomNum ? <Chat room={roomNum} name={userInfo.username} socket={currentSocket} /> : null}
-        </div>
-      ) : (
-        <button onClick={chatClick}>채팅하러가기</button>
-      )}
+      <Switch>
+        <Route exact={true} path="/">
+          <button onClick={handleClick}>Get API</button>
+          <div>{text} </div>
+          <div>테스트 </div>
+          <button onClick={() => createRoom(userInfo, coach)}>트레이너랑 채팅하러 가기</button>
+          {isChat ? (
+            <div>
+              <ChatRoom chatClick={chatClick} userInfo={userInfo} changeRoom={changeRoom}></ChatRoom>
+              {roomNum ? <Chat room={roomNum} name={userInfo.username} socket={currentSocket} /> : null}
+            </div>
+          ) : (
+            <button onClick={chatClick}>채팅하러가기</button>
+          )}
+          <Nav />
+          <QuestionListPage />
+          <Footer />
+        </Route>
+        <Route path="/SignIn">
+          <SignInPage />
+        </Route>
+    </Switch>
+
     </div>
+    
+
   );
 }
 
