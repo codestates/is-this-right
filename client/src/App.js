@@ -1,5 +1,3 @@
-
-import logo from './logo.svg';
 import './App.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -9,16 +7,13 @@ import Chat from './components/chat/Chat';
 import io from 'socket.io-client';
 
 import 'antd/dist/antd.css';
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import styled from 'styled-components';
-import { useSelector, useDispatch } from 'react-redux';
+
 import { Switch, Route } from 'react-router-dom';
 import Footer from './components/Footer';
 import Nav from './components/Nav';
 import QuestionListPage from './pages/QuestionListPage';
 import SignInPage from './pages/SignInPage';
-
+import UserSignUpPage from './pages/UserSignUpPage';
 
 const url = process.env.REACT_APP_API_URL;
 
@@ -86,11 +81,11 @@ function App() {
         <Route path="/SignIn">
           <SignInPage />
         </Route>
-    </Switch>
-
+        <Route path="/UserSignUp">
+          <UserSignUpPage />
+        </Route>
+      </Switch>
     </div>
-    
-
   );
 }
 
