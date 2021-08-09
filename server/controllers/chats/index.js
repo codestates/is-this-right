@@ -1,11 +1,34 @@
-const { user, chat, chats_user, message } = require('../../models');
+const { user, chat, chats_user, message, sequelize } = require('../../models');
+const { QueryTypes } = require('sequelize');
 
 module.exports = {
   get: async (req, res) => {
     //토큰을 받아서 유저정보를 획득 후
-    //해당유저의 메세지 정보를 쿼리.
-    // [{ roomId, partnerName, image, lastMessage, unreadMessageCount}] 를 클라에게 보내야함.
-
+    //해당유저의 메세지 정보를 쿼리. .// 본인 아이디만 있음
+    // [{ chatId, partnerName, image, lastMessage, unreadMessageCount}] 를 클라에게 보내야함.
+    // 메세지에서 리시버가 나인걸 받아서, 샌더의 정보로 유저테이블 연결, 오더는 챗의 크리에이티드 엣으로 한다음에, 그룹을 챗아이디로 묶음.
+    // 안읽은 메세지는 chats_users table의 updatedAt컬럼보다 늦은거 찾아서 카운트.< messages가 레프트조인할거라 ㄱㅊ
+    // 마지막 메세지 null이면 빈문자열 넣어주기.
+    // where messages.createdAt < chats_users.updatedAt
+    const userInfo = { id: 1 };
+    const chatRoomList = await sequelize.query(
+      `SELECT chats_users.chatId, IFNULL(advisers.name, users.username) as username, users.profileImg, lastMessages.message as lastMessage, IFNULL(unread.unreadMessageCount,0) as unreadMessageCount
+        FROM (SELECT messages.chatId, messages.message 
+          FROM messages 
+          JOIN (SELECT max(createdAt) as lastCreate,chatId from messages group by chatId) latest 
+          ON messages.createdAt = latest.lastCreate and messages.chatId = latest.chatId) lastMessages
+        JOIN chats_users ON lastMessages.chatId = chats_users.chatId
+        JOIN users ON users.id = chats_users.userId
+        LEFT JOIN advisers ON users.id = advisers.userId
+        LEFT JOIN (SELECT messages.chatId, COUNT(messages.message) as unreadMessageCount 
+          FROM messages 
+          JOIN chats_users 
+          ON chats_users.chatId = messages.chatId AND chats_users.userId = messages.receiver 
+          WHERE chats_users.updatedAt < messages.createdAt AND messages.receiver = ${userInfo.id} GROUP BY chatId) unread ON chats_users.chatId = unread.chatId
+        WHERE NOT chats_users.userId = ${userInfo.id}
+        `,
+      { type: QueryTypes.SELECT },
+    );
     let list = await message.findAll({
       include: { model: user },
       raw: true,
