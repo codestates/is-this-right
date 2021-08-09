@@ -1,21 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
-import React,{useState} from 'react';
+import 'antd/dist/antd.css';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import styled from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
+import { Switch, Route } from 'react-router-dom';
+import Footer from './components/Footer';
+import Nav from './components/Nav';
+import QuestionListPage from './pages/QuestionListPage';
+import SignInPage from './pages/SignInPage';
+
 const url = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 
 function App() {
-  const [text, setText] = useState('text');
-  const handleClick = async () =>{
-    let result = await axios.get(`${url}/`);
-    setText(result.data)
-  }
   return (
-    <div className="App">
-      <button onClick={handleClick}>Get API</button>
-      <div>{text}</div>
-    </div>
+    <Switch>
+      <Route exact={true} path="/">
+        <Nav />
+        <QuestionListPage />
+        <Footer />
+      </Route>
+      <Route path="/SignIn">
+        <SignInPage />
+      </Route>
+    </Switch>
   );
 }
 
