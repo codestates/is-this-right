@@ -16,23 +16,34 @@ const Chat = ({ name, room, socket }) => {
     event.preventDefault();
 
     if (message) {
-      socket.emit('sendMessage', { message, room }, () => setMessage(''));
+      socket.emit('sendMessage', { message, room });
+      setMessage('');
+
+      // socket.emit('online', { socketId })
+      //
     }
   };
-  useEffect(async () => {
-    let list = await axios.get('http://localhost:80/chats/messages', {
-      withCredentials: true,
-    });
-    setMessages(list.data);
+
+  //방 번호가 바뀔때마다 해당 방 메세지 받아오기
+  useEffect(() => {
+    let getChatdata = async () => {
+      let list = await axios.get('http://localhost:80/chats/messages', {
+        withCredentials: true,
+      });
+      setMessages(list.data);
+    };
+    getChatdata();
+
     socket.emit('join', { room });
-  }, [room]);
+  }, [room, socket]);
+
+  // 페이지가 로딩되었을때 소켓 io 대기상태 만들기 .
   useEffect(() => {
     socket.on('message', (message, af) => {
       console.log('클라 메세지 받기', message);
-
       setMessages((messages) => [...messages, message]);
     });
-  }, []);
+  }, [socket]);
 
   return (
     <div className="outerContainer">

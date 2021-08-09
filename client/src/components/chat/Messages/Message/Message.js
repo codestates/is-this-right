@@ -13,6 +13,7 @@ const Message = ({ message: { text, user }, name }) => {
     isSentByCurrentUser = true;
   }
 
+  //  상대방과 나의 메세지 렌더 위치를 조절 (유저 이름을 통해 구별)
   return isSentByCurrentUser ? (
     <div className="messageContainer justifyEnd">
       <p className="sentText pr-10">{trimmedName}</p>

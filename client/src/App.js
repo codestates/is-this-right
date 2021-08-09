@@ -15,7 +15,7 @@ function App() {
   const [roomNum, setRoomNum] = useState(null);
   const [userInfo, setUserInfo] = useState({ id: 1, username: '상현' });
   const [coach, setCoach] = useState({ id: 2, username: '강사' });
-  const [currentSocket, setCurrentSocket] = useState(() => {});
+  const [currentSocket, setCurrentSocket] = useState(null);
 
   const handleClick = async () => {
     let result = await axios.get(`${url}/`);
@@ -34,17 +34,19 @@ function App() {
   };
 
   useEffect(() => {
+    //페이지 로드되었을때 소켓 접속.
+    //! 로그인되어있을때만 소켓에 접속하게 바꾸기.
     setCurrentSocket(io('http://localhost:80'));
   }, []);
 
   useEffect(() => {
     if (currentSocket) {
-      currentSocket.on('test', (result) => {
+      //연결된 소켓이 있다면 online 채널에 접속.
+      currentSocket.on('online', (result) => {
         console.log(result);
-        //방에 들어갔을때 쏘는코드
         console.log('연결좀되라 ㅡㅡ ');
       });
-      currentSocket.emit('test', { data: 'test' }, () => {});
+      currentSocket.emit('online', { data: 'test' });
     }
   }, [currentSocket]);
 
@@ -55,7 +57,7 @@ function App() {
       <div>테스트 </div>
       <button onClick={() => createRoom(userInfo, coach)}>트레이너랑 채팅하러 가기</button>
       {isChat ? (
-        <div key={3}>
+        <div>
           <ChatRoom chatClick={chatClick} userInfo={userInfo} changeRoom={changeRoom}></ChatRoom>
           {roomNum ? <Chat room={roomNum} name={userInfo.username} socket={currentSocket} /> : null}
         </div>
