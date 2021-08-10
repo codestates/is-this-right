@@ -1,6 +1,111 @@
+const { post, source, feedback, sequelize } = require('../../models');
+const { QueryTypes } = require('sequelize');
+const aws = require('aws-sdk');
+const feedbacks = require('../feedbacks');
+const s3Config = require(__dirname + '/../../config/s3');
+const s3 = new aws.S3(s3Config);
+require('dotenv').config();
+
 module.exports = {
-  get: (req, res) => {},
-  post: (req, res) => {},
-  put: (req, res) => {},
-  delete: (req, res) => {},
+  getAll: async (req, res) => {
+    // posts(id, title,category,ca,ua,IFNULL(selected,false)), users(username, profileImg), feedbacks(피드백의 갯수)
+    const postInfo = await sequelize.query(
+      `SELECT posts.id, posts.title, posts.category, posts.createdAt, posts.updatedAt, IFNULL(posts.selected, 0) as selected, users.username, users.profileImg, IFNULL(fbCount.count,0) as feedbackCount
+        FROM posts 
+        JOIN users ON posts.userId = users.id
+        LEFT JOIN (SELECT postId, COUNT(*) as count FROM feedbacks GROUP BY postId)fbCount ON posts.id = fbCount.postId
+        ORDER BY posts.updatedAt DESC
+        `,
+      { type: QueryTypes.SELECT },
+    );
+    res.status(200).json({ data: postInfo });
+  },
+
+  getDetail: async (req, res) => {
+    const id = Number(req.params.id);
+    const postInfo = await sequelize.query(
+      `SELECT posts.*, users.username, users.profileImg FROM posts JOIN users ON posts.userId = users.id WHERE posts.id = ${id}`,
+      { type: QueryTypes.SELECT },
+    );
+    const feedbackInfo = await sequelize.query(
+      `SELECT feedbacks.*, advisers.name, users.profileImg 
+        FROM feedbacks 
+        JOIN advisers ON feedbacks.adviserId = advisers.id 
+        JOIN users ON advisers.userId = users.id
+        WHERE feedbacks.postId = ${id}`,
+      { type: QueryTypes.SELECT },
+    );
+    res.status(200).json({ data: { ...postInfo, feedbacks: feedbackInfo } });
+  },
+
+  post: async (req, res) => {
+    //body title, category, content, userId
+    //files postId, url
+    const userId = { id: 1 }.id; //isAuthorized(req).id
+    const { title, category, content } = req.body;
+    const postCreated = await post.create({ userId, title, category, content });
+    const sourcesToInsert = req.files.map((file) => {
+      return { postId: postCreated.id, sourceUrl: file.location };
+    });
+
+    await source.bulkCreate(sourcesToInsert);
+    res.status(201).json({ message: 'created' });
+  },
+
+  put: async (req, res) => {
+    const postId = Number(req.params.id);
+    const { title, category, content } = req.body;
+
+    //update posts table
+    await post.update({ title, category, content }, { where: { id: postId } });
+
+    //delete old sources from s3
+    const sourcesInfo = await source.findAll({ where: { postId } });
+
+    sourcesInfo.forEach((source) => {
+      const params = {
+        Bucket: process.env.S3_BUCKET_NAME,
+        Key: source.sourceUrl.slice(source.sourceUrl.indexOf('uploads')),
+      };
+      s3.deleteObject(params, function (err, data) {
+        if (err) console.log(err, err.stack);
+        // an error occurred
+        else console.log(data); // successful response
+      });
+    });
+
+    //delete old sources from sources table
+    await source.destroy({ where: { postId } });
+
+    //insert new soures to sources table
+    const sourcesToInsert = req.files.map((file) => {
+      return { postId, sourceUrl: file.location };
+    });
+    await source.bulkCreate(sourcesToInsert);
+
+    res.status(200).json({ message: 'ok' });
+  },
+
+  delete: async (req, res) => {
+    const postId = Number(req.params.id);
+
+    //delete sources from s3
+    const sourcesInfo = await source.findAll({ where: { postId } });
+
+    sourcesInfo.forEach((source) => {
+      const params = {
+        Bucket: process.env.S3_BUCKET_NAME,
+        Key: source.sourceUrl.slice(source.sourceUrl.indexOf('uploads')),
+      };
+      s3.deleteObject(params, function (err, data) {
+        if (err) console.log(err, err.stack);
+        // an error occurred
+        else console.log(params.Key, 'deleted!'); // successful response
+      });
+    });
+    //delete post and sources from database
+    post.destroy({ where: { id: postId } });
+
+    res.status(200).json({ message: 'ok' });
+  },
 };
