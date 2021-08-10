@@ -1,7 +1,119 @@
+const { user, adviser } = require('../../models');
+const Sequelize = require('sequelize');
+const { generateAccessToken } = require('../tokenFunctions');
+// const {onlinelist} = require('../../users')
 module.exports = {
-  get: (req, res) => {
-    //isonline 가능하면 붙이기
+  get: async (req, res) => {
+    let list = await adviser
+      .findAll({
+        include: [
+          {
+            model: user,
+            attributes: ['email', 'username', 'profileImg'],
+            required: false,
+          },
+        ],
+        raw: true,
+        nest: true,
+        attributes: { exclude: ['createdAt', 'updatedAt'] },
+      })
+      .catch((err) => {
+        console.log(err);
+        return res.status(500).json({ message: 'database err' });
+      });
+    res.json(list);
+    // 이후 for문 돌려서 리스트 보내줄때 isonline 붙이기
   },
-  post: (req, res) => {},
-  put: (req, res) => {},
+  post: async (req, res) => {
+    let { username, email, password, profileImg, name, category, detail, url, gender, state } = req.body;
+
+    if (!username || !email || !password || !name || !category || !detail || !url || !gender || !state) {
+      return res.status(422).json({ message: 'insufficient parameters supplied' });
+    }
+    // 받은 정보로 중복된 유저 정보가 있는지 확인, 없다면 유저데이터베이스에 정보삽입
+
+    let [userinfo, created] = await user
+      .findOrCreate({
+        where: {
+          [Sequelize.Op.or]: [{ email }, { username }],
+        },
+        defaults: {
+          email,
+          password,
+          username,
+          profileImg: profileImg || 'https://is-this-right-sources.s3.ap-northeast-2.amazonaws.com/default_profile.png',
+        },
+      })
+      .catch((err) => {
+        console.log(err);
+        return res.status(500).json({ message: 'database err' });
+      });
+
+    if (!created) {
+      return res.status(409).json({ message: 'this email or username has already been registered' });
+    }
+    // 이후 어드바이저 데이터베이스 정보 삽입. 이후 유저 정보랑 합쳐서 클라에게 데이터 전송.
+    let adviserInfo = await adviser
+      .create({
+        userId: userinfo.dataValues.id,
+        name,
+        category,
+        url,
+        gender,
+        state,
+        detail,
+      })
+      .catch((err) => {
+        console.log(err);
+        return res.status(500).json({ message: 'database err' });
+      });
+    delete userinfo.dataValues.password;
+    adviserInfo = { ...userinfo.dataValues, ...adviserInfo.dataValues };
+    adviserInfo.role = 'adviser';
+
+    // --------------여기서 프로필 이미지 multer작업해야함 (상현)
+    let token = generateAccessToken(adviserInfo);
+    res.cookie('jwt', token, { httpOnly: true });
+    return res.status(201).json({ message: 'ok' });
+  },
+  put: async (req, res) => {
+    let userInfo = isAuthorized(req);
+    if (userInfo) {
+      let { username, password, profileImg, name, category, detail, url, gender, state } = req.body;
+      let userpayload = {};
+      let adviserpayload = {};
+      if (username) userpayload.username = username;
+      if (password) userpayload.password = password;
+      if (profileImg) userpayload.profileImg = profileImg;
+      if (name) adviserpayload.name = name;
+      if (category) adviserpayload.detail = detail;
+      if (url) adviserpayload.url = url;
+      if (gender) adviserpayload.gender = gender;
+      if (state) adviserpayload.state = state;
+      let userId = userInfo.userId;
+      let adviserId = userInfo.adviserId;
+      let updateUserInfo = await user.update(
+        { ...userpayload },
+        {
+          where: {
+            id: userId,
+          },
+        },
+      );
+      let updateAdviserInfo = await adviser.update(
+        { ...adviserpayload },
+        {
+          where: {
+            id: adviserId,
+          },
+        },
+      );
+      delete userInfo.iat, userInfo.password;
+      userInfo = { ...userInfo, ...userpayload, ...adviserpayload };
+      let token = generateAccessToken(userInfo);
+      sendAccessToken(res, token);
+    } else {
+      res.status(401).json({ message: 'Unauthorized request' });
+    }
+  },
 };

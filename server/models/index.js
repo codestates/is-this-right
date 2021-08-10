@@ -37,9 +37,7 @@ db.Sequelize = Sequelize;
 //Associations
 const { adviser, chat, chats_user, feedback, message, post, source, user } = sequelize.models;
 
-user.hasOne(adviser, {
-  foreignKey: 'userId',
-});
+user.hasOne(adviser, { foreignKey: 'userId' });
 adviser.belongsTo(user);
 
 feedback.belongsTo(adviser);
@@ -48,18 +46,14 @@ adviser.hasMany(feedback);
 feedback.belongsTo(post);
 post.hasMany(feedback);
 
-post.belongsTo(feedback);
-feedback.hasOne(post, {
-  foreignKey: 'selected',
-});
-
 post.belongsTo(user);
 user.hasMany(post);
 
 post.hasMany(source);
 source.belongsTo(post);
 
-// message.belongsTo(user);
+message.belongsTo(user, { foreignKey: 'sender' }); // cascade 안걸림 혹시나 문제있을경우 여기만져보기
+message.belongsTo(user, { foreignKey: 'receiver' });
 user.hasMany(message, { foreignKey: 'sender' });
 user.hasMany(message, { foreignKey: 'receiver' });
 
@@ -69,4 +63,8 @@ chat.hasMany(message);
 user.belongsToMany(chat, { through: chats_user });
 chat.belongsToMany(user, { through: chats_user });
 
+// post.belongsTo(feedback);
+// feedback.hasOne(post, {
+//   foreignKey: 'selected',
+// });
 module.exports = db;
