@@ -24,10 +24,11 @@ let upload = multer({
 //users routing
 router.get('/users', controllers.users.get);
 router.put('/users', controllers.users.put);
-router.post('/users/signin', controllers.signin);
-router.get('/users/signout', controllers.signout);
-router.post('/users/signup', controllers.signup);
-router.post('/users/auth', controllers.auth);
+router.get('/users/posts/:id', controllers.postlist);
+router.post('/signin', controllers.signin);
+router.get('/signout', controllers.signout);
+router.post('/signup', controllers.signup);
+router.post('/auth', controllers.auth);
 
 //advisers routing
 router.get('/advisers', controllers.advisers.get);
