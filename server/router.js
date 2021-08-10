@@ -23,11 +23,11 @@ let upload = multer({
 
 //users routing
 router.get('/users', controllers.users.get);
-router.put('/users', controllers.users.put);
+router.put('/users', upload.single('profileImg'), controllers.users.put);
 router.get('/users/posts/:id', controllers.postlist);
 router.post('/signin', controllers.signin);
 router.get('/signout', controllers.signout);
-router.post('/signup', controllers.signup);
+router.post('/signup', upload.single('profileImg'), controllers.signup);
 router.post('/auth', controllers.auth);
 
 //advisers routing
@@ -36,7 +36,6 @@ router.put('/advisers', controllers.advisers.put);
 router.post('/advisers', controllers.advisers.post);
 
 //feedbacks routing
-router.get('/feedbacks/:id', controllers.feedbacks.get);
 router.put('/feedbacks/:id', controllers.feedbacks.put);
 router.post('/feedbacks', controllers.feedbacks.post);
 router.delete('/feedbacks/:id', controllers.feedbacks.delete);
