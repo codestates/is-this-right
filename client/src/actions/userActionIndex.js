@@ -1,10 +1,11 @@
 // action types
-export const CHANGE_LOGIN_DATA = 'CHANGE_LOGIN_DATA';
+export const SUCCESS_LOGIN = 'SUCCESS_LOGIN';
 
 // actions creator functions
 
-export const changeLogIn = () => {
+export const successLogIn = () => {
+  console.log('액션');
   return {
-    type: CHANGE_LOGIN_DATA,
+    type: SUCCESS_LOGIN,
   };
 };
