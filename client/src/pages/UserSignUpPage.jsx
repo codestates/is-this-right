@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { InboxOutlined } from '@ant-design/icons';
@@ -63,26 +63,50 @@ const ButtonStyle = styled(Button)`
   height: 50px;
 `;
 
+const UploadImgTagStyle = styled.img`
+  width: 300px;
+  height: 150px;
+  object-fit: cover;
+  margin: 0px;
+  padding: 0px;
+`;
+
 function UserSignUpPage() {
-  const [profileImg, setProfileImg] = useState(null);
+  const [preview, setPreview] = useState(''); // 파일 base64
+  const [imgFile, setImgFile] = useState(null); //파일
+
+  const [usernameErr, setUsernameErr] = useState(null);
+  const [emailErr, setEmailErr] = useState(null);
+  const [passwordErr, setPasswordErr] = useState(null);
+  const [disable, setDisable] = useState(true);
+
+  const [confirmPasswordErr, setConfirmPasswordErr] = useState(null);
+
   const [signUpInfo, setSignUpInfo] = useState({
     username: '',
     email: '',
     password: '',
     confirmPassword: '',
-    profileImg: profileImg,
+    profileImg: imgFile,
   });
 
-  const onChangeUrl = (info) => {
-    console.log(info);
-    if (info.file.status === 'uploading') {
-      return;
-    }
-    if (info.file.status === 'done') {
-      console.log(info);
-      const response = info.file.response;
-      const imageUrl = response.img;
-      setProfileImg(imageUrl);
+  const uploadImage = () => {
+    console.log('제발');
+  };
+
+  const handleImageFile = (event) => {
+    let reader = new FileReader();
+
+    reader.onloadend = () => {
+      // 2. 읽기가 완료되면 아래코드가 실행됩니다.
+      const base64 = reader.result;
+      if (base64) {
+        setPreview(base64.toString()); // 파일 base64 상태 업데이트
+      }
+    };
+    if (event.file.originFileObj) {
+      reader.readAsDataURL(event.file.originFileObj); // 1. 파일을 읽어 버퍼에 저장합니다.
+      setImgFile(event.file.originFileObj); // 파일 상태 업데이트
     }
   };
 
@@ -93,9 +117,8 @@ function UserSignUpPage() {
 
   const handleSignUp = () => {
     const { username, email, password, confirmPassword, profileImg } = signUpInfo;
-    const validateErr = checkValidation();
     // && !validateErr 유효성검사 넣어야함
-    if (username && email && password && confirmPassword === password && !validateErr) {
+    if (username && email && password && confirmPassword === password) {
       // axios
       //   .post(`${url}users/signup`, signUpInfo)
       //   .then((result) => {
@@ -109,41 +132,70 @@ function UserSignUpPage() {
     // window.location.replace('SignIn'); // 삭제 해줘야함
   };
 
-  const checkValidation = () => {
+  const checkValidation = (name) => {
     const { email, password, username, confirmPassword } = signUpInfo;
 
     const emailRegularexpression = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
     const passwordStr = password.search(/(?=.*\d)/g);
     const passwordSpe = password.search(/(?=.*[!@#$%^&+=])/gi);
-    console.log(password);
-    if (email === '') {
-      message.error('이메일을 입력해주세요.');
-      return false;
-    } else if (!emailRegularexpression.test(email)) {
-      message.error('이메일 형식이 맞지 않습니다.');
-      return false;
-    } else if (username === '') {
-      message.error('닉네임을 입력해주세요.');
-      return false;
-    } else if (password === '') {
-      message.error('비밀번호를 입력해주세요.');
-      return false;
-    } else if (password.search(/\s/g) !== -1) {
-      message.error('공백이 포함되어있습니다.');
-      return false;
-    } else if (passwordStr < 0 || passwordSpe < 0) {
-      message.error('영문, 숫자, 특수문자를 포함시켜주세요.');
-      return false;
-    } else if (password.length < 8 || password.length > 20) {
-      message.error('비밀번호는 8자리 ~20자리입니다.');
-      return false;
-    } else if (password !== confirmPassword) {
-      message.error('비밀번호가 일치하지 않습니다.');
-      return false;
-    } else {
-      return true;
+    if (name === 'email') {
+      if (email === '') {
+        setEmailErr('이메일을 입력해주세요.');
+        return false;
+      } else if (!emailRegularexpression.test(email)) {
+        setEmailErr('이메일 형식이 맞지 않습니다.');
+        return false;
+      } else {
+        setEmailErr('');
+        return true;
+      }
     }
+    if (name === 'username') {
+      if (username === '') {
+        setUsernameErr('닉네임을 입력해주세요.');
+        return false;
+      } else {
+        setUsernameErr('');
+        return true;
+      }
+    }
+    if (name === 'password') {
+      if (password === '') {
+        setPasswordErr('비밀번호를 입력해주세요.');
+        return false;
+      } else if (password.search(/\s/g) !== -1) {
+        setPasswordErr('공백이 포함되어있습니다.');
+        return false;
+      } else if (passwordStr < 0 || passwordSpe < 0) {
+        setPasswordErr('영문, 숫자, 특수문자를 포함시켜주세요.');
+        return false;
+      } else if (password.length < 8 || password.length > 20) {
+        setPasswordErr('비밀번호는 8자리 ~20자리입니다.');
+        return false;
+      } else {
+        setPasswordErr('');
+        return true;
+      }
+    }
+    if (name === 'confirm') {
+      if (password !== confirmPassword) {
+        setConfirmPasswordErr('비밀번호가 일치하지 않습니다.');
+        return false;
+      } else {
+        setConfirmPasswordErr('');
+        return true;
+      }
+    }
+    console.log();
+    return true;
   };
+
+  useEffect(() => {
+    setDisable(true);
+    if (usernameErr === '' && emailErr === '' && passwordErr === '' && confirmPasswordErr === '') {
+      setDisable(false);
+    }
+  }, [usernameErr, emailErr, passwordErr, confirmPasswordErr]);
 
   return (
     <DividePage>
@@ -158,15 +210,15 @@ function UserSignUpPage() {
             <span>유저</span>
           </div>
           <div style={{ height: '150px', marginBottom: '32px' }}>
-            <LabelStyle htmlFor="image">Profile image</LabelStyle>
+            <LabelStyle htmlFor="file">Profile image</LabelStyle>
             <Dragger
               name="image"
-              // action={`${API_URL}/image`}
+              customRequest={uploadImage}
               listType="picture"
               showUploadList={false}
-              onChange={onChangeUrl}>
-              {profileImg ? (
-                <img id="upload-img" src={`${url}/${profileImg}`} alt="" />
+              onChange={handleImageFile}>
+              {preview ? (
+                <UploadImgTagStyle src={preview} alt="" />
               ) : (
                 <div>
                   <div>
@@ -182,40 +234,56 @@ function UserSignUpPage() {
             name="username"
             type="text"
             onChange={handleInputValue('username')}
+            onBlur={() => checkValidation('username')}
             size="large"
             style={{ margin: '12px 0 6px 0' }}
             placeholder="닉네임을 입력해주세요"
             required
           />
+          {usernameErr ? <div>{usernameErr}</div> : null}
           <LabelStyle htmlFor="user-email">Email</LabelStyle>
           <InputStyle
             name="user-email"
             type="email"
             onChange={handleInputValue('email')}
+            onBlur={() => checkValidation('email')}
             size="large"
             style={{ margin: '12px 0 6px 0' }}
             placeholder="이메일을 입력해주세요"
             required
           />
+          {emailErr ? <div>{emailErr}</div> : null}
           <LabelStyle htmlFor="password">Password</LabelStyle>
           <Input.Password
             name="password"
-            onChange={handleInputValue('password')}
+            onChange={
+              handleInputValue('password')
+              // checkValidation('password');
+            }
+            onBlur={() => checkValidation('password')}
             size="large"
             style={{ margin: '12px 0 6px 0' }}
             placeholder="비밀번호를 입력해주세요"
             required
           />
+          {passwordErr ? <div>{passwordErr}</div> : null}
+
           <LabelStyle htmlFor="confirmPassword">confirmPassword</LabelStyle>
           <Input.Password
             name="confirmPassword"
-            onChange={handleInputValue('confirmPassword')}
+            onChange={
+              handleInputValue('confirmPassword')
+              // checkValidation('confirm');
+            }
+            onBlur={() => checkValidation('confirm')}
             size="large"
             style={{ margin: '12px 0 6px 0' }}
             placeholder="입력했던 비밀번호를 다시 입력해주세요"
             required
           />
-          <ButtonStyle type="primary" onClick={handleSignUp}>
+          {confirmPasswordErr ? <div>{confirmPasswordErr}</div> : null}
+
+          <ButtonStyle type="primary" onClick={handleSignUp} disabled={disable}>
             회원가입
           </ButtonStyle>
         </LogInStyle>
