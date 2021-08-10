@@ -22,7 +22,7 @@ module.exports = async (req, res) => {
     if (userInfo.adviser) {
       let adviserInfo = userInfo.dataValues.adviser;
       delete userInfo.dataValues.adviser;
-      userInfo = { ...userInfo.dataValues, ...adviserInfo.dataValues };
+      userInfo = { ...adviserInfo.dataValues, ...userInfo.dataValues };
       userInfo.role = 'adviser';
     } else {
       // user일때

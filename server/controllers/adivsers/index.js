@@ -68,7 +68,7 @@ module.exports = {
         return res.status(500).json({ message: 'database err' });
       });
     delete userinfo.dataValues.password;
-    adviserInfo = { ...userinfo.dataValues, ...adviserInfo.dataValues };
+    adviserInfo = { ...adviserInfo.dataValues, ...userinfo.dataValues };
     adviserInfo.role = 'adviser';
 
     // --------------여기서 프로필 이미지 multer작업해야함 (상현)
