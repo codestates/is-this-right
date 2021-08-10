@@ -1,5 +1,6 @@
 const express = require('express');
-const router = express.Router();
+const asyncify = require('express-asyncify');
+const router = asyncify(express.Router());
 const controllers = require('./controllers');
 const aws = require('aws-sdk');
 const multer = require('multer');
@@ -7,6 +8,7 @@ const multerS3 = require('multer-s3');
 const s3Config = require(__dirname + '/config/s3');
 const s3 = new aws.S3(s3Config);
 const uuid = require('uuid');
+const { ConnectContactLens } = require('aws-sdk');
 require('dotenv').config();
 
 let upload = multer({
@@ -34,9 +36,9 @@ router.post('/auth', controllers.auth);
 router.get('/advisers', controllers.advisers.get);
 router.put('/advisers', controllers.advisers.put);
 router.post('/advisers', controllers.advisers.post);
-
+router.get('/advisers/:id', controllers.advisers.getDetail);
 //feedbacks routing
-router.get('/feedbacks/:id', controllers.feedbacks.get);
+
 router.put('/feedbacks/:id', controllers.feedbacks.put);
 router.post('/feedbacks', controllers.feedbacks.post);
 router.delete('/feedbacks/:id', controllers.feedbacks.delete);

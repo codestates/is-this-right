@@ -1,25 +1,35 @@
 const { user } = require('../../models');
 const Sequelize = require('sequelize');
 const { generateAccessToken, sendAccessToken } = require('../tokenFunctions');
-
+const bcrypt = require('bcrypt');
+require('dotenv').config();
 module.exports = async (req, res) => {
   // TODO: 회원가입 및 사용자 생성 로직을 작성하세요.
-  let { username, email, password, profileImg } = req.body;
-
+  let { username, email, password, profileImg, provider } = req.body;
   if (!username || !email || !password) {
-    res.status(422).json({ message: 'insufficient parameters supplied' });
+    return res.status(422).json({ message: 'insufficient parameters supplied' });
   }
 
+  let salt, hash;
+  try {
+    salt = await bcrypt.genSalt(Number(process.env.SALT_ROUNDS));
+    hash = await bcrypt.hash(password, salt);
+  } catch (err) {
+    console.log(err);
+    return res.json({ message: 'bcrypt create hash err' });
+  }
+  password = hash;
   let [userinfo, created] = await user
     .findOrCreate({
       where: {
-        [Sequelize.Op.or]: [{ email }, { username }],
+        [Sequelize.Op.or]: [{ email, provider }, { username }],
       },
       defaults: {
         email,
         password,
         username,
         profileImg: profileImg || 'https://is-this-right-sources.s3.ap-northeast-2.amazonaws.com/default_profile.png',
+        provider,
       },
     })
     .catch((err) => {

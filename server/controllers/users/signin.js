@@ -1,14 +1,15 @@
 const { user, adviser } = require('../../models');
 const { generateAccessToken, sendAccessToken } = require('../tokenFunctions');
-
+const bcrypt = require('bcrypt');
 module.exports = async (req, res) => {
-  let { email, password } = req.body;
+  let { email, password, provider } = req.body;
+  if (!provider) provider = 'origin';
 
   let userInfo = await user
     .findOne({
       where: {
         email,
-        password,
+        provider,
       },
       include: [{ model: adviser, required: false }],
     })
@@ -18,6 +19,10 @@ module.exports = async (req, res) => {
     });
 
   if (userInfo) {
+    let check = await bcrypt.compare(password, userInfo.dataValues.password);
+    if (!check) {
+      return res.status(404).json({ message: 'password err' });
+    }
     // adviser일때
     if (userInfo.adviser) {
       let adviserInfo = userInfo.dataValues.adviser;
@@ -34,6 +39,6 @@ module.exports = async (req, res) => {
     const accessToken = generateAccessToken(userInfo);
     sendAccessToken(res, accessToken);
   } else {
-    res.status(404).json({ message: { message: 'invalid user' } });
+    res.status(404).json({ message: 'invalid user' });
   }
 };

@@ -1,6 +1,6 @@
 const { user } = require('../../models');
 const { isAuthorized, generateAccessToken, sendAccessToken } = require('../tokenFunctions');
-
+require('dotenv').config();
 module.exports = {
   get: async (req, res) => {
     if (req.query.email || req.query.username) {
@@ -41,8 +41,18 @@ module.exports = {
       let { username, password, profileImg } = req.body;
       let payload = {};
       if (username) payload.username = username;
-      if (password) payload.password = password;
       if (profileImg) payload.profileImg = profileImg;
+      if (password) {
+        let salt, hash;
+        try {
+          salt = await bcrypt.genSalt(Number(process.env.SALT_ROUNDS));
+          hash = await bcrypt.hash(password, salt);
+        } catch (err) {
+          console.log(err);
+          return res.json({ message: 'bcrypt create hash err' });
+        }
+        payload.password = hash;
+      }
       let id = userInfo.id;
 
       let updateUserInfo = await user.update(

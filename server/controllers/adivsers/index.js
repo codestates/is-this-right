@@ -1,6 +1,9 @@
-const { user, adviser } = require('../../models');
+const { user, adviser, feedback } = require('../../models');
 const Sequelize = require('sequelize');
 const { generateAccessToken } = require('../tokenFunctions');
+const bcrypt = require('bcrypt');
+
+require('dotenv').config();
 // const {onlinelist} = require('../../users')
 module.exports = {
   get: async (req, res) => {
@@ -25,23 +28,32 @@ module.exports = {
     // 이후 for문 돌려서 리스트 보내줄때 isonline 붙이기
   },
   post: async (req, res) => {
-    let { username, email, password, profileImg, name, category, detail, url, gender, state } = req.body;
+    let { username, email, password, profileImg, name, category, detail, url, gender, state, provider } = req.body;
 
     if (!username || !email || !password || !name || !category || !detail || !url || !gender || !state) {
       return res.status(422).json({ message: 'insufficient parameters supplied' });
     }
     // 받은 정보로 중복된 유저 정보가 있는지 확인, 없다면 유저데이터베이스에 정보삽입
-
+    let salt, hash;
+    try {
+      salt = await bcrypt.genSalt(Number(process.env.SALT_ROUNDS));
+      hash = await bcrypt.hash(password, salt);
+    } catch (err) {
+      console.log(err);
+      return res.json({ message: 'bcrypt create hash err ' });
+    }
+    password = hash;
     let [userinfo, created] = await user
       .findOrCreate({
         where: {
-          [Sequelize.Op.or]: [{ email }, { username }],
+          [Sequelize.Op.or]: [{ email, provider }, { username }],
         },
         defaults: {
           email,
           password,
           username,
           profileImg: profileImg || 'https://is-this-right-sources.s3.ap-northeast-2.amazonaws.com/default_profile.png',
+          provider,
         },
       })
       .catch((err) => {
@@ -83,7 +95,17 @@ module.exports = {
       let userpayload = {};
       let adviserpayload = {};
       if (username) userpayload.username = username;
-      if (password) userpayload.password = password;
+      if (password) {
+        let salt, hash;
+        try {
+          salt = await bcrypt.genSalt(Number(process.env.SALT_ROUNDS));
+          hash = await bcrypt.hash(password, salt);
+        } catch (err) {
+          console.log(err);
+          return res.json({ message: 'bcrypt create hash err ' });
+        }
+        userpayload.password = hash;
+      }
       if (profileImg) userpayload.profileImg = profileImg;
       if (name) adviserpayload.name = name;
       if (category) adviserpayload.detail = detail;
@@ -100,6 +122,7 @@ module.exports = {
           },
         },
       );
+
       let updateAdviserInfo = await adviser.update(
         { ...adviserpayload },
         {
@@ -115,5 +138,25 @@ module.exports = {
     } else {
       res.status(401).json({ message: 'Unauthorized request' });
     }
+  },
+  getDetail: async (req, res) => {
+    let adviserDetail = await adviser
+      .findOne({
+        where: {
+          id: req.params.id,
+        },
+        include: [
+          { model: user, required: false, attributes: ['profileImg'] },
+          { model: feedback, required: false },
+        ],
+        attributes: { exclude: ['createdAt', 'updatedAt', 'userId'] },
+      })
+      .catch((err) => {
+        console.log(err);
+        return res.status(500).json({ message: 'database err' });
+      });
+    adviserDetail.dataValues.profileImg = adviserDetail.dataValues.user.profileImg;
+    delete adviserDetail.dataValues.user;
+    res.status(200).json(adviserDetail);
   },
 };

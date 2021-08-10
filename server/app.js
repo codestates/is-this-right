@@ -22,6 +22,7 @@ server.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
 //const { addUser, removeUser} = require('./users');
+
 const router = require('./router');
 app.use(router);
 
