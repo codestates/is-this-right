@@ -80,9 +80,12 @@ function UserSignUpPage() {
     profileImg: imgFile,
   });
 
-  const handleInputValue = (key) => (e) => {
+  const handleInputValue = (key, e) => {
+    console.log('핸들인풋');
     console.log(signUpInfo);
-    setSignUpInfo({ ...signUpInfo, [key]: e.target.value });
+    setSignUpInfo((signUpInfo) => ({ ...signUpInfo, [key]: e.target.value }));
+
+    checkValidation('password');
   };
 
   const handleSignUp = () => {
@@ -102,7 +105,7 @@ function UserSignUpPage() {
     // window.location.replace('SignIn'); // 삭제 해줘야함
   };
 
-  const checkValidation = (name) => {
+  const checkValidation = (name, e) => {
     const { email, password, username, confirmPassword } = signUpInfo;
 
     const emailRegularexpression = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
@@ -131,16 +134,16 @@ function UserSignUpPage() {
     }
     if (name === 'password') {
       if (password === '') {
-        setPasswordErr('비밀번호를 입력해주세요.');
+        setPasswordErr((passwordErr) => '비밀번호를 입력해주세요.');
         return false;
       } else if (password.search(/\s/g) !== -1) {
-        setPasswordErr('공백이 포함되어있습니다.');
+        setPasswordErr((passwordErr) => '공백이 포함되어있습니다.');
         return false;
       } else if (passwordStr < 0 || passwordSpe < 0) {
-        setPasswordErr('영문, 숫자, 특수문자를 포함시켜주세요.');
+        setPasswordErr((passwordErr) => '영문, 숫자, 특수문자를 포함시켜주세요.');
         return false;
       } else if (password.length < 8 || password.length > 20) {
-        setPasswordErr('비밀번호는 8자리 ~20자리입니다.');
+        setPasswordErr((passwordErr) => '비밀번호는 8자리 ~20자리입니다.');
         return false;
       } else {
         setPasswordErr('');
@@ -148,6 +151,7 @@ function UserSignUpPage() {
       }
     }
     if (name === 'confirm') {
+      console.log('assdf');
       if (password !== confirmPassword) {
         setConfirmPasswordErr('비밀번호가 일치하지 않습니다.');
         return false;
@@ -167,6 +171,9 @@ function UserSignUpPage() {
     }
   }, [usernameErr, emailErr, passwordErr, confirmPasswordErr]);
 
+  useEffect(() => {
+    checkValidation('password');
+  }, [signUpInfo]);
   return (
     <DividePage>
       <ImageStyle />
@@ -185,8 +192,8 @@ function UserSignUpPage() {
           <InputStyle
             name="username"
             type="text"
-            onChange={handleInputValue('username')}
-            onBlur={() => checkValidation('username')}
+            onChange={(e) => handleInputValue('username', e)}
+            // onBlur={() => checkValidation('username')}
             size="large"
             style={{ margin: '12px 0 6px 0' }}
             placeholder="닉네임을 입력해주세요"
@@ -197,7 +204,7 @@ function UserSignUpPage() {
           <InputStyle
             name="user-email"
             type="email"
-            onChange={handleInputValue('email')}
+            onChange={(e) => handleInputValue('email', e)}
             onBlur={() => checkValidation('email')}
             size="large"
             style={{ margin: '12px 0 6px 0' }}
@@ -208,11 +215,13 @@ function UserSignUpPage() {
           <LabelStyle htmlFor="password">Password</LabelStyle>
           <Input.Password
             name="password"
-            onChange={
-              handleInputValue('password')
-              // checkValidation('password');
-            }
-            onBlur={() => checkValidation('password')}
+            onChange={(e) => {
+              let promise = new Promise((res, rej) => {
+                handleInputValue('password', e);
+                res();
+              });
+              promise.then((el) => () => checkValidation('password'));
+            }}
             size="large"
             style={{ margin: '12px 0 6px 0' }}
             placeholder="비밀번호를 입력해주세요"
@@ -223,11 +232,10 @@ function UserSignUpPage() {
           <LabelStyle htmlFor="confirmPassword">confirmPassword</LabelStyle>
           <Input.Password
             name="confirmPassword"
-            onChange={
-              handleInputValue('confirmPassword')
-              // checkValidation('confirm');
-            }
-            onBlur={() => checkValidation('confirm')}
+            onChange={(e) => {
+              handleInputValue('confirmPassword', e);
+            }}
+            // onBlur={() => checkValidation('confirm')}
             size="large"
             style={{ margin: '12px 0 6px 0' }}
             placeholder="입력했던 비밀번호를 다시 입력해주세요"
