@@ -108,7 +108,7 @@ function SignInPage() {
       })
       .catch((err) => {
         //에러메세지 넣어주기
-        setErrMessage('가입하지 않은 아이디이거나, 잘못된 비밀번호입니다.');
+        message.error('가입하지 않은 아이디이거나, 잘못된 비밀번호입니다.');
       });
   };
 
