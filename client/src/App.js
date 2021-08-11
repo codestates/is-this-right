@@ -39,13 +39,13 @@ function App() {
   };
   const createRoom = async (userInfo, coach) => {
     let body = { user1: userInfo, user2: coach };
-    let room = await axios.post('http://localhost:80/chats', body);
+    let room = await axios.post('https://api.isthisright.ml/chats', body);
   };
 
   useEffect(() => {
     //페이지 로드되었을때 소켓 접속.
     //! 로그인되어있을때만 소켓에 접속하게 바꾸기.
-    setCurrentSocket(io('http://localhost:80'));
+    setCurrentSocket(io('https://api.isthisright.ml'));
   }, []);
 
   useEffect(() => {
