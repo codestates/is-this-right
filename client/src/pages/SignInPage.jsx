@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Form, Input, Button, message } from 'antd';
@@ -8,6 +8,7 @@ import { GoogleLogin } from 'react-google-login';
 
 import axios from 'axios';
 const url = process.env.REACT_APP_API_URL;
+axios.defaults.withCredentials = true;
 
 const DividePage = styled.div`
   width: 100vw;
@@ -131,9 +132,11 @@ function SignInPage() {
       })
       .catch((err) => console.log('소셜로그인에 실패했어요 ㅠㅠ'));
   };
+
   let handleFail = (res) => {
     alert('구글접속에 ㅠㅠ');
   };
+
   return (
     <DividePage>
       <LoginSectionStyle>
