@@ -63,6 +63,8 @@ chat.hasMany(message);
 user.belongsToMany(chat, { through: chats_user });
 chat.belongsToMany(user, { through: chats_user });
 
+adviser.belongsToMany(post, { through: feedback });
+post.belongsToMany(adviser, { through: feedback });
 // post.belongsTo(feedback);
 // feedback.hasOne(post, {
 //   foreignKey: 'selected',

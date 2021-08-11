@@ -1,4 +1,4 @@
-const { user, adviser, feedback } = require('../../models');
+const { user, adviser, feedback, post } = require('../../models');
 const Sequelize = require('sequelize');
 const { generateAccessToken } = require('../tokenFunctions');
 const bcrypt = require('bcrypt');
@@ -148,7 +148,12 @@ module.exports = {
         },
         include: [
           { model: user, required: false, attributes: ['profileImg'] },
-          { model: feedback, required: false },
+          {
+            model: feedback,
+            required: false,
+            attributes: ['id', 'content', 'postId'],
+            include: { model: post, attributes: ['title', 'selected'] },
+          },
         ],
         attributes: { exclude: ['createdAt', 'updatedAt', 'userId'] },
       })
