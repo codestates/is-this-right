@@ -14,6 +14,7 @@ import Nav from './components/Nav';
 import QuestionListPage from './pages/QuestionListPage';
 import SignInPage from './pages/SignInPage';
 import UserSignUpPage from './pages/UserSignUpPage';
+import AdvisorSignUpPage from './pages/AdvisorSignUpPage';
 
 const url = process.env.REACT_APP_API_URL;
 
@@ -83,6 +84,9 @@ function App() {
         </Route>
         <Route path="/UserSignUp">
           <UserSignUpPage />
+        </Route>
+        <Route path="/AdvisorSignUp">
+          <AdvisorSignUpPage />
         </Route>
       </Switch>
     </div>
