@@ -4,7 +4,6 @@ const aws = require('aws-sdk');
 const s3Config = require(__dirname + '/../../config/s3');
 const s3 = new aws.S3(s3Config);
 require('dotenv').config();
-
 module.exports = {
   get: async (req, res) => {
     if (req.query.email || req.query.username) {
@@ -45,7 +44,17 @@ module.exports = {
       let { username, password } = req.body;
       let payload = {};
       if (username) payload.username = username;
-      if (password) payload.password = password;
+      if (password) {
+        let salt, hash;
+        try {
+          salt = await bcrypt.genSalt(Number(process.env.SALT_ROUNDS));
+          hash = await bcrypt.hash(password, salt);
+        } catch (err) {
+          console.log(err);
+          return res.json({ message: 'bcrypt create hash err' });
+        }
+        payload.password = hash;
+      }
       //업로드 받은 이미지파일의 경로 req.file.location
       payload.profileImg = req.file.location;
       let id = userInfo.id;
