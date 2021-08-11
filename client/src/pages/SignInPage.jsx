@@ -99,22 +99,17 @@ function SignInPage() {
       return;
     }
 
-    //axios연결 전까지 사용부분 - 삭제
-    if (loginInfo.email === 'test' && loginInfo.password === 'test') {
-      dispatch(successLogIn());
-    } else {
-      message.error('가입하지 않은 아이디이거나, 잘못된 비밀번호입니다.');
-    }
-    //axios연결해서 수정하기
-    // axios.post(`${url}/signin`,{ email: loginInfo.email, password: loginInfo.password })
-    // .then(result=>{
-    //   dispatch(successLogIn());
-    //   window.location.replace('/');
-    // })
-    // .catch(err=>{
-    //   //에러메세지 넣어주기
-    // setErrMessage('가입하지 않은 아이디이거나, 잘못된 비밀번호입니다.');
-    // })
+    // axios연결해서 수정하기
+    axios
+      .post(`${url}/signin`, { email: loginInfo.email, password: loginInfo.password })
+      .then((result) => {
+        dispatch(successLogIn());
+        window.location.replace('/');
+      })
+      .catch((err) => {
+        //에러메세지 넣어주기
+        setErrMessage('가입하지 않은 아이디이거나, 잘못된 비밀번호입니다.');
+      });
   };
 
   let handleGoogleLogIn = (res) => {
