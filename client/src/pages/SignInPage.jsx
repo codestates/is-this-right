@@ -101,7 +101,7 @@ function SignInPage() {
 
     // axios연결해서 수정하기
     axios
-      .post(`${url}/signin`, { email: loginInfo.email, password: loginInfo.password })
+      .post(`${url}/signin`, loginInfo)
       .then((result) => {
         dispatch(successLogIn());
         window.location.replace('/');
