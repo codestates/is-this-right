@@ -151,7 +151,7 @@ module.exports = {
           {
             model: feedback,
             required: false,
-            attributes: ['id', 'content', 'postId'],
+            attributes: ['id', 'content', 'createdAt', 'postId'],
             include: { model: post, attributes: ['title', 'selected'] },
           },
         ],
