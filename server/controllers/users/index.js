@@ -1,5 +1,8 @@
 const { user } = require('../../models');
 const { isAuthorized, generateAccessToken, sendAccessToken } = require('../tokenFunctions');
+const aws = require('aws-sdk');
+const s3Config = require(__dirname + '/../../config/s3');
+const s3 = new aws.S3(s3Config);
 require('dotenv').config();
 module.exports = {
   get: async (req, res) => {
@@ -38,10 +41,9 @@ module.exports = {
   put: async (req, res) => {
     let userInfo = isAuthorized(req);
     if (userInfo) {
-      let { username, password, profileImg } = req.body;
+      let { username, password } = req.body;
       let payload = {};
       if (username) payload.username = username;
-      if (profileImg) payload.profileImg = profileImg;
       if (password) {
         let salt, hash;
         try {
@@ -53,7 +55,19 @@ module.exports = {
         }
         payload.password = hash;
       }
+      //업로드 받은 이미지파일의 경로 req.file.location
+      payload.profileImg = req.file.location;
       let id = userInfo.id;
+
+      const params = {
+        Bucket: process.env.S3_BUCKET_NAME,
+        Key: userInfo.profileImg.slice(userInfo.profileImg.indexOf('uploads')),
+      };
+      s3.deleteObject(params, function (err, data) {
+        if (err) console.log(err, err.stack);
+        // an error occurred
+        else console.log(params.Key, 'deleted!'); // successful response
+      });
 
       let updateUserInfo = await user.update(
         { ...payload },
