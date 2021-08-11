@@ -28,6 +28,7 @@ module.exports = {
     // 이후 for문 돌려서 리스트 보내줄때 isonline 붙이기
   },
   post: async (req, res) => {
+    console.log(req.body);
     let { username, email, password, profileImg, name, category, detail, url, gender, state, provider } = req.body;
 
     if (!username || !email || !name || !category || !detail || !url || !gender || !state) {
