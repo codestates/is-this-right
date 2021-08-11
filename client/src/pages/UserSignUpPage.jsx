@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { InboxOutlined } from '@ant-design/icons';
-import { Form, Input, Button, Upload, message } from 'antd';
-const { Dragger } = Upload;
+import { Form, Input, Button } from 'antd';
+import UploadCompo from '../components/UploadCompo';
 const url = process.env.REACT_APP_API_URL;
 
 const DividePage = styled.div`
@@ -63,16 +62,7 @@ const ButtonStyle = styled(Button)`
   height: 50px;
 `;
 
-const UploadImgTagStyle = styled.img`
-  width: 300px;
-  height: 150px;
-  object-fit: cover;
-  margin: 0px;
-  padding: 0px;
-`;
-
 function UserSignUpPage() {
-  const [preview, setPreview] = useState(''); // 파일 base64
   const [imgFile, setImgFile] = useState(null); //파일
 
   const [usernameErr, setUsernameErr] = useState(null);
@@ -89,26 +79,6 @@ function UserSignUpPage() {
     confirmPassword: '',
     profileImg: imgFile,
   });
-
-  const uploadImage = () => {
-    console.log('제발');
-  };
-
-  const handleImageFile = (event) => {
-    let reader = new FileReader();
-
-    reader.onloadend = () => {
-      // 2. 읽기가 완료되면 아래코드가 실행됩니다.
-      const base64 = reader.result;
-      if (base64) {
-        setPreview(base64.toString()); // 파일 base64 상태 업데이트
-      }
-    };
-    if (event.file.originFileObj) {
-      reader.readAsDataURL(event.file.originFileObj); // 1. 파일을 읽어 버퍼에 저장합니다.
-      setImgFile(event.file.originFileObj); // 파일 상태 업데이트
-    }
-  };
 
   const handleInputValue = (key) => (e) => {
     console.log(signUpInfo);
@@ -209,26 +179,8 @@ function UserSignUpPage() {
             회원가입
             <span>유저</span>
           </div>
-          <div style={{ height: '150px', marginBottom: '32px' }}>
-            <LabelStyle htmlFor="file">Profile image</LabelStyle>
-            <Dragger
-              name="image"
-              customRequest={uploadImage}
-              listType="picture"
-              showUploadList={false}
-              onChange={handleImageFile}>
-              {preview ? (
-                <UploadImgTagStyle src={preview} alt="" />
-              ) : (
-                <div>
-                  <div>
-                    <InboxOutlined />
-                  </div>
-                  <span>프로필 이미지를 업로드해주세요</span>
-                </div>
-              )}
-            </Dragger>
-          </div>
+          <UploadCompo where="user" setImgFile={setImgFile} />
+
           <LabelStyle htmlFor="username">username</LabelStyle>
           <InputStyle
             name="username"
