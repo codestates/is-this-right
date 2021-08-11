@@ -6,10 +6,11 @@ require('dotenv').config();
 module.exports = async (req, res) => {
   // TODO: 회원가입 및 사용자 생성 로직을 작성하세요.
   let { username, email, password, profileImg, provider } = req.body;
-  if (!username || !email || !password) {
+  if (!username || !email) {
     return res.status(422).json({ message: 'insufficient parameters supplied' });
   }
-
+  //소셜로그인용 비밀번호 설정
+  if (!password) password = process.env.SOCIAL_PASSWORD;
   let salt, hash;
   try {
     salt = await bcrypt.genSalt(Number(process.env.SALT_ROUNDS));

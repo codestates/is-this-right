@@ -30,10 +30,11 @@ module.exports = {
   post: async (req, res) => {
     let { username, email, password, profileImg, name, category, detail, url, gender, state, provider } = req.body;
 
-    if (!username || !email || !password || !name || !category || !detail || !url || !gender || !state) {
+    if (!username || !email || !name || !category || !detail || !url || !gender || !state) {
       return res.status(422).json({ message: 'insufficient parameters supplied' });
     }
     // 받은 정보로 중복된 유저 정보가 있는지 확인, 없다면 유저데이터베이스에 정보삽입
+    if (!password) password = process.env.SOCIAL_PASSWORD;
     let salt, hash;
     try {
       salt = await bcrypt.genSalt(Number(process.env.SALT_ROUNDS));

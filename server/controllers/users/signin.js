@@ -1,9 +1,10 @@
 const { user, adviser } = require('../../models');
 const { generateAccessToken, sendAccessToken } = require('../tokenFunctions');
 const bcrypt = require('bcrypt');
+require('dotenv').config();
 module.exports = async (req, res) => {
+  console.log(req.body);
   let { email, password, provider } = req.body;
-  if (!provider) provider = 'origin';
 
   let userInfo = await user
     .findOne({
@@ -19,10 +20,13 @@ module.exports = async (req, res) => {
     });
 
   if (userInfo) {
+    //소셜로그인용 비밀번호설정
+    if (!password) password = process.env.SOCIAL_PASSWORD;
     let check = await bcrypt.compare(password, userInfo.dataValues.password);
     if (!check) {
       return res.status(404).json({ message: 'password err' });
     }
+
     // adviser일때
     if (userInfo.adviser) {
       let adviserInfo = userInfo.dataValues.adviser;
@@ -39,6 +43,9 @@ module.exports = async (req, res) => {
     const accessToken = generateAccessToken(userInfo);
     sendAccessToken(res, accessToken);
   } else {
+    if (provider !== 'origin') {
+      return res.status(200).json({ message: 'signup plz' });
+    }
     res.status(404).json({ message: 'invalid user' });
   }
 };

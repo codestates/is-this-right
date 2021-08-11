@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Form, Input, Button, message } from 'antd';
 import { useDispatch } from 'react-redux';
 import { successLogIn } from '../actions/userActionIndex';
+import { GoogleLogin } from 'react-google-login';
 
 import axios from 'axios';
 const url = process.env.REACT_APP_API_URL;
@@ -81,6 +82,7 @@ function SignInPage() {
   const [loginInfo, setLoginInfo] = useState({
     email: '',
     password: '',
+    provider: 'origin',
   });
   const dispatch = useDispatch();
 
@@ -115,6 +117,23 @@ function SignInPage() {
     // })
   };
 
+  let handleGoogleLogIn = (res) => {
+    console.log(res);
+    setLoginInfo({ email: res.profileObj.email, provider: 'google' });
+
+    axios
+      .post('http://localhost:80/signin', loginInfo)
+      .then((data) => {
+        if (data.data.message === 'signup plz') {
+          console.log(data);
+          //소셜 회원가입창으로이동 !
+        } else window.location.replace('/');
+      })
+      .catch((err) => console.log('소셜로그인에 실패했어요 ㅠㅠ'));
+  };
+  let handleFail = (res) => {
+    alert('구글접속에 ㅠㅠ');
+  };
   return (
     <DividePage>
       <LoginSectionStyle>
@@ -156,6 +175,11 @@ function SignInPage() {
               </div>
             </SignUpStyle>
             <ButtonStyle onClick={handleLogIn}> 로그인</ButtonStyle>
+            <GoogleLogin
+              clientId={process.env.REACT_APP_GOOGLE_API_KEY}
+              buttonText="Google"
+              onSuccess={handleGoogleLogIn}
+              onFailure={handleFail}></GoogleLogin>
             <ButtonStyle> 로셜</ButtonStyle>
             <ButtonStyle> 로셜</ButtonStyle>
             <ButtonStyle> 로셜</ButtonStyle>
