@@ -166,7 +166,7 @@ function SignInPage() {
             <SignUpStyle>
               회원 가입이 필요하신가요?
               <div>
-                <Link to="/AdviserSignUp">
+                <Link to="/AdvisorSignUp">
                   <DivToSignUpStyle>강사</DivToSignUpStyle>
                 </Link>
                 <Link to="/UserSignUp">
