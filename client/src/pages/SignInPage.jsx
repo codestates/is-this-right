@@ -9,6 +9,7 @@ import NaverLogin from 'react-naver-login';
 import axios from 'axios';
 
 const url = process.env.REACT_APP_API_URL;
+axios.defaults.withCredentials = true;
 
 const DividePage = styled.div`
   width: 100vw;
@@ -144,8 +145,11 @@ function SignInPage() {
           window.location.replace('/');
         }
       })
+
       .catch((err) => console.log('우리 측 서버가 이상해요 ㅠㅠ '));
+
   };
+
   return (
     <DividePage>
       <LoginSectionStyle>
