@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+
 import axios from 'axios';
 import { Form, Input, Button } from 'antd';
 import UploadCompo from '../components/UploadCompo';
 const url = process.env.REACT_APP_API_URL;
+axios.defaults.withCredentials = true;
 
 const DividePage = styled.div`
   width: 100vw;
@@ -63,46 +66,56 @@ const ButtonStyle = styled(Button)`
 `;
 
 function UserSignUpPage() {
-  const [imgFile, setImgFile] = useState(null); //파일
-
   const [usernameErr, setUsernameErr] = useState(null);
   const [emailErr, setEmailErr] = useState(null);
   const [passwordErr, setPasswordErr] = useState(null);
-  const [disable, setDisable] = useState(true);
-
   const [confirmPasswordErr, setConfirmPasswordErr] = useState(null);
+  const [signupErr, setSignupErr] = useState(null);
+
+  const [disable, setDisable] = useState(true);
 
   const [signUpInfo, setSignUpInfo] = useState({
     username: '',
     email: '',
     password: '',
     confirmPassword: '',
-    profileImg: imgFile,
+    profileImg: '',
   });
 
-  const handleInputValue = (key) => (e) => {
+  const state = useSelector((state) => state.userReducer.userProfileImg);
+
+  const handleInputValue = (key, e) => {
     console.log(signUpInfo);
     setSignUpInfo({ ...signUpInfo, [key]: e.target.value });
   };
 
   const handleSignUp = () => {
-    const { username, email, password, confirmPassword, profileImg } = signUpInfo;
-    // && !validateErr 유효성검사 넣어야함
-    if (username && email && password && confirmPassword === password) {
-      // axios
-      //   .post(`${url}users/signup`, signUpInfo)
-      //   .then((result) => {
-      //     // setSuccessSignUp(true);
-      window.location.replace('SignIn');
-      // })
-      // .catch((err) => {
-      //   message.error('이미 가입된 중복된 정보가 있습니다. 확인 후 다시 시도 해주세요.');
-      // });
+    const { username, email, password, confirmPassword } = signUpInfo;
+    const profileImg = state.imaFile;
+    const formData = new FormData();
+    formData.append('profileImg', profileImg);
+    formData.append('provider', 'origin');
+    for (let key in signUpInfo) {
+      formData.append(key, signUpInfo[key]);
     }
-    // window.location.replace('SignIn'); // 삭제 해줘야함
+    if (username && email && password && confirmPassword === password) {
+      axios
+        .post(`${url}/signup`, formData, {
+          header: { 'Content-Type': 'multipart/form-data' },
+        })
+        .then((result) => {
+          // setSuccessSignUp(true);
+          console.log(result);
+          // window.location.replace('SignIn');
+        })
+        .catch((err) => {
+          console.log(err);
+          setEmailErr('이미 가입된 중복된 정보가 있습니다. 확인 후 다시 시도 해주세요.');
+        });
+    }
   };
 
-  const checkValidation = (name) => {
+  const checkValidation = (name, e) => {
     const { email, password, username, confirmPassword } = signUpInfo;
 
     const emailRegularexpression = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
@@ -131,7 +144,7 @@ function UserSignUpPage() {
     }
     if (name === 'password') {
       if (password === '') {
-        setPasswordErr('비밀번호를 입력해주세요.');
+        setPasswordErr('비밀번호를 입력해주세요.', e);
         return false;
       } else if (password.search(/\s/g) !== -1) {
         setPasswordErr('공백이 포함되어있습니다.');
@@ -148,6 +161,7 @@ function UserSignUpPage() {
       }
     }
     if (name === 'confirm') {
+      console.log('실행');
       if (password !== confirmPassword) {
         setConfirmPasswordErr('비밀번호가 일치하지 않습니다.');
         return false;
@@ -156,7 +170,6 @@ function UserSignUpPage() {
         return true;
       }
     }
-    console.log();
     return true;
   };
 
@@ -166,6 +179,10 @@ function UserSignUpPage() {
       setDisable(false);
     }
   }, [usernameErr, emailErr, passwordErr, confirmPasswordErr]);
+
+  useEffect(() => {
+    checkValidation('confirm');
+  }, [signUpInfo]);
 
   return (
     <DividePage>
@@ -179,13 +196,13 @@ function UserSignUpPage() {
             회원가입
             <span>유저</span>
           </div>
-          <UploadCompo where="user" setImgFile={setImgFile} />
+          <UploadCompo where="user" />
 
           <LabelStyle htmlFor="username">username</LabelStyle>
           <InputStyle
             name="username"
             type="text"
-            onChange={handleInputValue('username')}
+            onChange={(e) => handleInputValue('username', e)}
             onBlur={() => checkValidation('username')}
             size="large"
             style={{ margin: '12px 0 6px 0' }}
@@ -197,7 +214,7 @@ function UserSignUpPage() {
           <InputStyle
             name="user-email"
             type="email"
-            onChange={handleInputValue('email')}
+            onChange={(e) => handleInputValue('email', e)}
             onBlur={() => checkValidation('email')}
             size="large"
             style={{ margin: '12px 0 6px 0' }}
@@ -208,10 +225,7 @@ function UserSignUpPage() {
           <LabelStyle htmlFor="password">Password</LabelStyle>
           <Input.Password
             name="password"
-            onChange={
-              handleInputValue('password')
-              // checkValidation('password');
-            }
+            onChange={(e) => handleInputValue('password', e)}
             onBlur={() => checkValidation('password')}
             size="large"
             style={{ margin: '12px 0 6px 0' }}
@@ -223,18 +237,16 @@ function UserSignUpPage() {
           <LabelStyle htmlFor="confirmPassword">confirmPassword</LabelStyle>
           <Input.Password
             name="confirmPassword"
-            onChange={
-              handleInputValue('confirmPassword')
-              // checkValidation('confirm');
-            }
-            onBlur={() => checkValidation('confirm')}
+            onChange={(e) => {
+              handleInputValue('confirmPassword', e);
+            }}
             size="large"
             style={{ margin: '12px 0 6px 0' }}
             placeholder="입력했던 비밀번호를 다시 입력해주세요"
             required
           />
           {confirmPasswordErr ? <div>{confirmPasswordErr}</div> : null}
-
+          {signupErr ? <div>{signupErr}</div> : null}
           <ButtonStyle type="primary" onClick={handleSignUp} disabled={disable}>
             회원가입
           </ButtonStyle>

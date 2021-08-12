@@ -9,7 +9,6 @@ module.exports = async (req, res) => {
   const profileImg = req.file.location;
   if (!username || !email) {
     return res.status(422).json({ message: 'insufficient parameters supplied' });
-
   }
   //소셜로그인용 비밀번호 설정
   if (!password) password = process.env.SOCIAL_PASSWORD;
