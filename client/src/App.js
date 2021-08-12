@@ -11,6 +11,7 @@ import 'antd/dist/antd.css';
 import { Switch, Route } from 'react-router-dom';
 import Footer from './components/Footer';
 import Nav from './components/Nav';
+import MyPage from './pages/MyPage';
 import QuestionListPage from './pages/QuestionListPage';
 import SignInPage from './pages/SignInPage';
 import UserSignUpPage from './pages/UserSignUpPage';
@@ -87,6 +88,11 @@ function App() {
         </Route>
         <Route path="/AdvisorSignUp">
           <AdvisorSignUpPage />
+        </Route>
+        <Route path="/Mypage">
+          <Nav />
+          <MyPage />
+          <Footer />
         </Route>
       </Switch>
     </div>

@@ -1,7 +1,30 @@
 import React from 'react';
+import styled from 'styled-components';
+import { BodyAreaStyle, ContainerStlye } from '../style/pageStyle';
+import AvatarCompo from '../components/myPage/AvatarCompo';
+import UserPostListCompo from '../components/myPage/UserPostListCompo';
+import UserEditCompo from '../components/myPage/UserEditCompo';
+
+import { Switch, Route } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 
 function MyPage() {
-  return <div></div>;
+  return (
+    <BodyAreaStyle>
+      <ContainerStlye>
+        <AvatarCompo />
+        <Route exact path="/MyPage">
+          <UserPostListCompo />
+        </Route>
+        <Route exact path="/MyPage/MyPostPage">
+          <UserPostListCompo />
+        </Route>
+        <Route path="/MyPage/UserEditPage">
+          <UserEditCompo />
+        </Route>
+      </ContainerStlye>
+    </BodyAreaStyle>
+  );
 }
 
 export default MyPage;
