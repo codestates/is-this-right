@@ -5,8 +5,9 @@ import { Form, Input, Button, message } from 'antd';
 import { useDispatch } from 'react-redux';
 import { successLogIn } from '../actions/userActionIndex';
 import { GoogleLogin } from 'react-google-login';
-
+import NaverLogin from 'react-naver-login';
 import axios from 'axios';
+
 const url = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 
@@ -118,23 +119,35 @@ function SignInPage() {
     // })
   };
 
-  let handleGoogleLogIn = (res) => {
-    console.log(res);
-    setLoginInfo({ email: res.profileObj.email, provider: 'google' });
+  // const [mock, setMock] = useState('');
+  // useEffect(() => {
+  //   setLoginInfo(mock);
+  // }, [mock]);
 
+  let handleGoogleLogIn = (res) => {
+    successSocial({ email: res.profileObj.email, provider: 'google' });
+  };
+  let handleNaverLogin = (res) => {
+    successSocial({ email: res.email, provider: 'naver' });
+  };
+  let handleFail = (res) => {
+    alert('해당 소셜사이트 인증에 실패했어요 ㅠㅠ');
+  };
+  let successSocial = (body) => {
     axios
-      .post('http://localhost:80/signin', loginInfo)
+      .post('http://localhost:80/signin', body)
       .then((data) => {
         if (data.data.message === 'signup plz') {
-          console.log(data);
-          //소셜 회원가입창으로이동 !
-        } else window.location.replace('/');
+          console.log('회원가입을해야합니다. 강사,유저 선택 모달창 나타나야한다ㅏㅏㅏ ');
+          //소셜 회원가입 모달 선택창으로이동 !
+        } else {
+          console.log('로그인성공 ! ');
+          window.location.replace('/');
+        }
       })
-      .catch((err) => console.log('소셜로그인에 실패했어요 ㅠㅠ'));
-  };
 
-  let handleFail = (res) => {
-    alert('구글접속에 ㅠㅠ');
+      .catch((err) => console.log('우리 측 서버가 이상해요 ㅠㅠ '));
+
   };
 
   return (
@@ -180,10 +193,17 @@ function SignInPage() {
             <ButtonStyle onClick={handleLogIn}> 로그인</ButtonStyle>
             <GoogleLogin
               clientId={process.env.REACT_APP_GOOGLE_API_KEY}
-              buttonText="Google"
+              render={(props) => <ButtonStyle onClick={props.onClick}>google Login</ButtonStyle>}
               onSuccess={handleGoogleLogIn}
               onFailure={handleFail}></GoogleLogin>
-            <ButtonStyle> 로셜</ButtonStyle>
+            <NaverLogin
+              clientId={process.env.REACT_APP_NAVER_API_KEY}
+              callbackUrl="http://localhost:3000/SignIn"
+              render={(props) => <ButtonStyle onClick={props.onClick}>Naver Login</ButtonStyle>}
+              onSuccess={handleNaverLogin}
+              onFailure={handleFail}
+            />
+
             <ButtonStyle> 로셜</ButtonStyle>
             <ButtonStyle> 로셜</ButtonStyle>
           </div>

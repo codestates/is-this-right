@@ -82,11 +82,15 @@ function UserSignUpPage() {
     profileImg: '',
   });
 
+
   const state = useSelector((state) => state.userReducer.userProfileImg);
 
   const handleInputValue = (key, e) => {
+
     console.log(signUpInfo);
-    setSignUpInfo({ ...signUpInfo, [key]: e.target.value });
+    setSignUpInfo((signUpInfo) => ({ ...signUpInfo, [key]: e.target.value }));
+
+    checkValidation('password');
   };
 
   const handleSignUp = () => {
@@ -144,16 +148,18 @@ function UserSignUpPage() {
     }
     if (name === 'password') {
       if (password === '') {
+
         setPasswordErr('비밀번호를 입력해주세요.', e);
+
         return false;
       } else if (password.search(/\s/g) !== -1) {
-        setPasswordErr('공백이 포함되어있습니다.');
+        setPasswordErr((passwordErr) => '공백이 포함되어있습니다.');
         return false;
       } else if (passwordStr < 0 || passwordSpe < 0) {
-        setPasswordErr('영문, 숫자, 특수문자를 포함시켜주세요.');
+        setPasswordErr((passwordErr) => '영문, 숫자, 특수문자를 포함시켜주세요.');
         return false;
       } else if (password.length < 8 || password.length > 20) {
-        setPasswordErr('비밀번호는 8자리 ~20자리입니다.');
+        setPasswordErr((passwordErr) => '비밀번호는 8자리 ~20자리입니다.');
         return false;
       } else {
         setPasswordErr('');
@@ -161,7 +167,6 @@ function UserSignUpPage() {
       }
     }
     if (name === 'confirm') {
-      console.log('실행');
       if (password !== confirmPassword) {
         setConfirmPasswordErr('비밀번호가 일치하지 않습니다.');
         return false;
@@ -183,7 +188,6 @@ function UserSignUpPage() {
   useEffect(() => {
     checkValidation('confirm');
   }, [signUpInfo]);
-
   return (
     <DividePage>
       <ImageStyle />
@@ -203,7 +207,9 @@ function UserSignUpPage() {
             name="username"
             type="text"
             onChange={(e) => handleInputValue('username', e)}
+
             onBlur={() => checkValidation('username')}
+
             size="large"
             style={{ margin: '12px 0 6px 0' }}
             placeholder="닉네임을 입력해주세요"
