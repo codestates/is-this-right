@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'http://localhost:3001'],
+    origin: ['http://localhost:3000', 'http://localhost:3001', 'https://isthisright.ml'],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   }),
@@ -14,7 +14,7 @@ app.use(
 const server = require('http').createServer(app);
 const io = require('socket.io')(server, {
   cors: {
-    origin: ['http://localhost:3000', 'http://localhost:3001'],
+    origin: ['http://localhost:3000', 'http://localhost:3001', 'https://isthisright.ml'],
   },
 });
 const port = process.env.PORT || 80;

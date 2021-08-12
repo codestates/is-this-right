@@ -8,7 +8,6 @@ const multerS3 = require('multer-s3');
 const s3Config = require(__dirname + '/config/s3');
 const s3 = new aws.S3(s3Config);
 const uuid = require('uuid');
-const { ConnectContactLens } = require('aws-sdk');
 require('dotenv').config();
 
 let upload = multer({
@@ -57,6 +56,6 @@ router.get('/chats/messages/:id', controllers.messages.get);
 router.post('/chats/messages', controllers.messages.post);
 
 router.get('/', (req, res) => {
-  res.status(201).send('Welcome to 이거맞아? API Server!');
+  res.status(200).send('Welcome to 이거맞아? API Server!');
 });
 module.exports = router;
