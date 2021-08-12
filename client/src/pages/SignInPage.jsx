@@ -142,7 +142,6 @@ function SignInPage() {
       })
 
       .catch((err) => console.log('우리 측 서버가 이상해요 ㅠㅠ '));
-
   };
 
   return (
