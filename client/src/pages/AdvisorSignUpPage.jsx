@@ -79,7 +79,6 @@ function AdvisorSignUpPage() {
     console.log(key);
 
     console.log(e);
-    console.log(signUpInfo);
     if (key === 'state') {
       setSignUpInfo({ ...signUpInfo, [key]: e });
     } else if (key === 'category') {
@@ -118,11 +117,11 @@ function AdvisorSignUpPage() {
     // window.location.replace('SignIn'); // 삭제 해줘야함
   };
 
-  const checkValidation = (funcName, e) => {
+  const checkValidation = (funcName) => {
     const { email, password, username, confirmPassword, name, category, detail, url, gender, state } = signUpInfo;
 
     const emailRegularexpression = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-    const nameRegularexpression = /^[가-횧]+$/;
+    const nameRegularexpression = /^[가-힣]+$/;
     const urlRegularexpression = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
 
     const passwordStr = password.search(/(?=.*\d)/g);
@@ -150,7 +149,7 @@ function AdvisorSignUpPage() {
     }
     if (funcName === 'password') {
       if (password === '') {
-        setPasswordErr('비밀번호를 입력해주세요.', e);
+        setPasswordErr('비밀번호를 입력해주세요.');
         return false;
       } else if (password.search(/\s/g) !== -1) {
         setPasswordErr('공백이 포함되어있습니다.');
@@ -242,32 +241,22 @@ function AdvisorSignUpPage() {
   };
 
   useEffect(() => {
-    setDisable(true);
-    if (
-      usernameErr === '' &&
-      emailErr === '' &&
-      passwordErr === '' &&
-      confirmPasswordErr === '' &&
-      profileErr === '' &&
-      nameErr === '' &&
-      categoryErr === '' &&
-      detailErr === '' &&
-      urlErr === '' &&
-      genderErr === '' &&
-      stateErr === ''
-    ) {
-      setDisable(false);
+    console.log(signUpInfo);
+    let isDisabled = true;
+    for (let key in signUpInfo) {
+      isDisabled = isDisabled && signUpInfo[key] !== '';
     }
+    setDisable(!isDisabled);
   }, [signUpInfo]);
 
   useEffect(() => {
     checkValidation('confirm');
-
-    checkValidation('gender');
+    // checkValidation('gender');
   }, [signUpInfo]);
 
   return (
     <AdvisorSignupPageStyle>
+      {console.log('AdviserSignUp rendered!')}
       <ContainerStlye>
         <HeaderLogoStyle>
           <img src="../../imageFile/Logo2.png" alt="" />
@@ -282,7 +271,7 @@ function AdvisorSignUpPage() {
           <Input
             name="username"
             type="text"
-            onChange={(e) => handleInputValue('username', e)}
+            onKeyUp={(e) => handleInputValue('username', e)}
             onBlur={() => checkValidation('username')}
             size="large"
             style={{ margin: '0px 0 6px 0' }}
@@ -398,7 +387,7 @@ function AdvisorSignUpPage() {
 
           <LabelStyle>Url</LabelStyle>
           <div>
-            <Input onChange={(e) => handleInputValue('url', e)} onBlur={() => checkValidation('url')} />
+            <Input onChange={(e) => handleInputValue('url', e)} onKeyUp={() => checkValidation('url')} />
           </div>
           {urlErr ? <div>{urlErr}</div> : null}
           <ButtonStyle type="primary" onClick={handleSignUp} disabled={disable}>
