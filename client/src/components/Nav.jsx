@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
@@ -34,6 +35,8 @@ const LogoStyle = styled.img`
 `;
 
 function Nav() {
+  const state = useSelector((state) => state.userReducer);
+  console.log(state.logIn, '로그인 상태입니다.');
   return (
     <NavAreaStyle>
       <ContainerStlye>
@@ -44,7 +47,11 @@ function Nav() {
           <span style={{ marginLeft: '22%' }}>딴지꾼</span>
           <span style={{ marginLeft: '10%' }}>마자?</span>
           <Link to="/SignIn">
-            <span style={{ marginLeft: '10%' }}>로그인</span>
+            {state.logIn ? (
+              <span style={{ marginLeft: '10%' }}>마이페이지</span>
+            ) : (
+              <span style={{ marginLeft: '10%' }}>로그인</span>
+            )}
           </Link>
         </DivStyle>
       </ContainerStlye>

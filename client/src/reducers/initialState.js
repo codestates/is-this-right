@@ -8,7 +8,7 @@ export const initialState = {
     preview: '',
   },
   adviserProfileImg: {
-    imgFile: [],
+    imgFile: '',
     preview: '',
   },
 };
