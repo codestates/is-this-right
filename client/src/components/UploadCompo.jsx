@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { userProfileImg } from '../actions/userActionIndex';
 import { adviserProfileImg } from '../actions/adviserActionIndex';
+import { postImages } from '../actions/postActionIndex';
 import { InboxOutlined, PlusOutlined } from '@ant-design/icons';
 const { Dragger } = Upload;
 
@@ -20,7 +21,7 @@ const UploadImgTagStyle = styled.img`
 `;
 
 function UploadCompo({ where }) {
-  const [preview, setPreview] = useState(null);
+  const [preview, setPreview] = useState(false);
   const [adviserState, setAdviserState] = useState({
     previewVisible: false,
     previewImage: '',
@@ -32,26 +33,25 @@ function UploadCompo({ where }) {
   const state = useSelector((state) => state.userReducer.userProfileImg);
   const adviserPriviewState = useSelector((state) => state.adviserReducer.adviserProfileImg);
 
-  const uploadImage = () => {
-    console.log('제발');
-  };
+  const uploadImage = () => {};
 
   useEffect(() => {
-    setPreview(state.preview);
+    where === 'user' ? setPreview(state.preview) : setPreview(adviserPriviewState.preview);
   }, [preview]);
 
   const handleImageFile = (event) => {
     // console.log(event);
 
-    console.log('클라작동');
     let reader = new FileReader();
     reader.onloadend = () => {
       // 2. 읽기가 완료되면 아래코드가 실행됩니다.
       const base64 = reader.result;
       if (base64) {
         const pre = base64.toString();
-        dispatch(userProfileImg(event.file.originFileObj, pre));
-        setPreview('제발');
+        where === 'adviser'
+          ? dispatch(adviserProfileImg(event.file.originFileObj, pre))
+          : dispatch(userProfileImg(event.file.originFileObj, pre));
+        setPreview('true');
       }
     };
     if (event.file.originFileObj) {
@@ -60,43 +60,21 @@ function UploadCompo({ where }) {
     }
   };
 
-  const handleImageFileMulti = (event) => {
-    console.log(event);
-    // console.log('클라작동');
-    // let reader = new FileReader();
-    // reader.onloadend = () => {
-    //   // 2. 읽기가 완료되면 아래코드가 실행됩니다.
-    //   const base64 = reader.result;
-    //   if (base64) {
-    //     const pre = base64.toString();
-    //     dispatch(userProfileImg(event.file.originFileObj, pre));
-    //     setPreview('제발');
-    //   }
-    // };
-    // if (event.file.originFileObj) {
-    //   reader.readAsDataURL(event.file.originFileObj); // 1. 파일을 읽어 버퍼에 저장합니다.
-    //   // setImgFile(event.file.originFileObj); // 파일 상태 업데이트
-    // }
-  };
-  // setAdviserState({ ...adviserState, fileList }
-  // const handleChange = ({ fileList }) => setAdviserState({ fileList });
   const handleChange = ({ fileList }) => {
-    console.log(fileList);
     setAdviserState({ fileList });
     fileList.forEach((el) => {
-      testFunc(el);
+      handleUploadPostImg(el);
     });
-    console.log(adviserPriviewState);
   };
 
-  const testFunc = (file) => {
+  const handleUploadPostImg = (file) => {
     let reader = new FileReader();
     reader.onloadend = () => {
       // 2. 읽기가 완료되면 아래코드가 실행됩니다.
       const base64 = reader.result;
       if (base64) {
         const pre = base64.toString();
-        dispatch(adviserProfileImg(file.originFileObj, pre));
+        dispatch(postImages(file.originFileObj, pre));
       }
     };
     if (file.originFileObj) {
@@ -136,17 +114,6 @@ function UploadCompo({ where }) {
     });
   }
 
-  const wpqkf = async (event) => {
-    let base64 = await getBase64(event);
-    const pre = base64.toString();
-    const data = event.file;
-    console.log(event);
-    data.thumbUrl = pre;
-    // data.status = 'done';
-    // dispatch(adviserProfileImg(data, pre));
-    setAdviserState({ fileList: event.fileList });
-  };
-
   const uploadButton = (
     <div>
       <PlusOutlined />
@@ -157,16 +124,17 @@ function UploadCompo({ where }) {
   return (
     <div style={{ height: '150px', marginBottom: '32px' }}>
       <LabelStyle htmlFor="file">Profile image</LabelStyle>
-      {where === 'user' ? (
+      {where === 'user' || where === 'adviser' ? (
         <Dragger
           name="image"
           customRequest={uploadImage}
           listType="picture"
           multiple={false}
+          // fileList={adviserPriviewState.imgFile}
           showUploadList={false}
           onChange={handleImageFile}>
           {preview ? (
-            <UploadImgTagStyle src={state.preview} alt="" />
+            <UploadImgTagStyle src={where === 'user' ? state.preview : adviserPriviewState.preview} alt="" />
           ) : (
             <div>
               <div>

@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Search from '../Search';
 import PostCard from '../PostCard';
+import { Pagination, Button } from 'antd';
+import { Link } from 'react-router-dom';
 
 const QuestionContainerStyle = styled.div`
   width: 71%;
-  height: 100%;
   background-color: skyblue;
+  display: flex;
+  flex-direction: column;
 `;
 
 const SearchSection = styled.div`
@@ -19,11 +22,15 @@ const SearchSection = styled.div`
 
 const PostCardSectionStyle = styled.div`
   width: 100%;
-  height: 90%;
+
   background-color: orange;
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+const AnsweredSectionStyle = styled.div`
+  display: flex;
 `;
 
 function QuestionContainer() {
@@ -116,12 +123,30 @@ function QuestionContainer() {
       createdAt: '2021-08-04',
       updatedAt: '2021-08-04',
     },
+    {
+      id: 'PK',
+      username: '상현',
+      title: 'title',
+      img: 'img',
+      category: '헬스',
+      commentNum: 4,
+      isAnswered: false,
+      createdAt: '2021-08-04',
+      updatedAt: '2021-08-04',
+    },
   ];
 
   return (
     <QuestionContainerStyle>
       <SearchSection>
         <Search />
+        <AnsweredSectionStyle>
+          <Button>Answered</Button>
+          <Button>Unanswered</Button>
+        </AnsweredSectionStyle>
+        <Link to="/QuestionPost">
+          <Button>게시</Button>
+        </Link>
       </SearchSection>
       <PostCardSectionStyle>
         {mockData.map((el) => (
