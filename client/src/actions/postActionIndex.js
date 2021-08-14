@@ -1,11 +1,12 @@
 // action types
-export const ALL_POST_TEST = 'ALL_POST_TEST';
+export const UPLOAD_POST_IMGS = 'UPLOAD_POST_IMGS';
 
 // actions creator functions
 
-export const allPostTest = (a) => {
+export const postImages = (originFile, preview) => {
+  console.log('포스트 이미지-액션작동', originFile);
   return {
-    type: ALL_POST_TEST,
-    payload: a,
+    type: UPLOAD_POST_IMGS,
+    payload: { originFile, preview },
   };
 };

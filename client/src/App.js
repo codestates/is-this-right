@@ -16,6 +16,7 @@ import QuestionListPage from './pages/QuestionListPage';
 import SignInPage from './pages/SignInPage';
 import UserSignUpPage from './pages/UserSignUpPage';
 import AdvisorSignUpPage from './pages/AdvisorSignUpPage';
+import QuestionPostPage from './pages/QuestionPostPage';
 
 const url = process.env.REACT_APP_API_URL;
 
@@ -92,6 +93,11 @@ function App() {
         <Route path="/Mypage">
           <Nav />
           <MyPage />
+          <Footer />
+        </Route>
+        <Route path="/QuestionPost">
+          <Nav />
+          <QuestionPostPage />
           <Footer />
         </Route>
       </Switch>
