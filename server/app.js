@@ -31,7 +31,6 @@ io.on('connection', (socket) => {
   socket.on('online', (data) => {
     console.log('received: "' + data + '" from client' + socket.id);
     socket.emit('online', 'Ok, i got it, ' + socket.id);
-
     //여기서 addUser하기.
   });
 

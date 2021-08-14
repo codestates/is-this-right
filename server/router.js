@@ -53,6 +53,7 @@ router.delete('/posts/:id', controllers.posts.delete);
 //chats routing
 router.get('/chats', controllers.chats.get);
 router.post('/chats', controllers.chats.post);
+router.delete('/chats/:id', controllers.chats.delete);
 router.get('/chats/messages/:id', controllers.messages.get);
 router.post('/chats/messages', controllers.messages.post);
 
