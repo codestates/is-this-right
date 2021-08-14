@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 
@@ -79,18 +80,13 @@ function UserSignUpPage() {
     email: '',
     password: '',
     confirmPassword: '',
-    profileImg: '',
   });
 
-
   const state = useSelector((state) => state.userReducer.userProfileImg);
-
+  const history = useHistory();
   const handleInputValue = (key, e) => {
-
     console.log(signUpInfo);
     setSignUpInfo((signUpInfo) => ({ ...signUpInfo, [key]: e.target.value }));
-
-    checkValidation('password');
   };
 
   const handleSignUp = () => {
@@ -110,7 +106,8 @@ function UserSignUpPage() {
         .then((result) => {
           // setSuccessSignUp(true);
           console.log(result);
-          // window.location.replace('SignIn');
+          alert('회원가입이 완료되었습니다');
+          history.push('/SignIn');
         })
         .catch((err) => {
           console.log(err);
@@ -133,8 +130,16 @@ function UserSignUpPage() {
         setEmailErr('이메일 형식이 맞지 않습니다.');
         return false;
       } else {
-        setEmailErr('');
-        return true;
+        axios
+          .get(`${url}/users/?email=${email}`)
+          .then((ok) => {
+            setEmailErr('');
+            return true;
+          })
+          .catch((err) => {
+            setEmailErr('중복된 이메일이 있습니다.');
+            return false;
+          });
       }
     }
     if (name === 'username') {
@@ -142,14 +147,21 @@ function UserSignUpPage() {
         setUsernameErr('닉네임을 입력해주세요.');
         return false;
       } else {
-        setUsernameErr('');
-        return true;
+        axios
+          .get(`${url}/users/?username=${username}`)
+          .then((ok) => {
+            setUsernameErr('');
+            return true;
+          })
+          .catch((err) => {
+            setUsernameErr('중복된 닉네임이 있습니다.');
+            return false;
+          });
       }
     }
     if (name === 'password') {
       if (password === '') {
-
-        setPasswordErr('비밀번호를 입력해주세요.', e);
+        setPasswordErr('비밀번호를 입력해주세요.');
 
         return false;
       } else if (password.search(/\s/g) !== -1) {
@@ -166,8 +178,9 @@ function UserSignUpPage() {
         return true;
       }
     }
+
     if (name === 'confirm') {
-      if (password !== confirmPassword) {
+      if (password !== confirmPassword && confirmPassword !== '') {
         setConfirmPasswordErr('비밀번호가 일치하지 않습니다.');
         return false;
       } else {
@@ -179,12 +192,13 @@ function UserSignUpPage() {
   };
 
   useEffect(() => {
-    setDisable(true);
-    if (usernameErr === '' && emailErr === '' && passwordErr === '' && confirmPasswordErr === '') {
-      setDisable(false);
+    console.log(signUpInfo);
+    let isDisabled = true;
+    for (let key in signUpInfo) {
+      isDisabled = isDisabled && signUpInfo[key] !== '' && signUpInfo['password'] === signUpInfo['confirmPassword'];
     }
-  }, [usernameErr, emailErr, passwordErr, confirmPasswordErr]);
-
+    setDisable(!isDisabled);
+  }, [signUpInfo]);
   useEffect(() => {
     checkValidation('confirm');
   }, [signUpInfo]);
@@ -207,9 +221,7 @@ function UserSignUpPage() {
             name="username"
             type="text"
             onChange={(e) => handleInputValue('username', e)}
-
             onBlur={() => checkValidation('username')}
-
             size="large"
             style={{ margin: '12px 0 6px 0' }}
             placeholder="닉네임을 입력해주세요"

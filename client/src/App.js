@@ -27,7 +27,8 @@ function App() {
   const [userInfo, setUserInfo] = useState({ id: 1, username: '상현' });
   const [coach, setCoach] = useState({ id: 2, username: '강사' });
   const [currentSocket, setCurrentSocket] = useState(null);
-
+  const [isList, setIsList] = useState(false);
+  const [adviserList, setAdviserList] = useState([]);
   const handleClick = async () => {
     let result = await axios.get(`${url}/`);
     setText(result.data);
@@ -39,15 +40,14 @@ function App() {
   const changeRoom = (roomNum) => {
     setRoomNum(roomNum);
   };
-  const createRoom = async (userInfo, coach) => {
-    let body = { user1: userInfo, user2: coach };
-    let room = await axios.post('https://api.isthisright.ml/chats', body);
-  };
 
+  const createRoom = () => {
+    setIsList(!isList);
+  };
   useEffect(() => {
     //페이지 로드되었을때 소켓 접속.
     //! 로그인되어있을때만 소켓에 접속하게 바꾸기.
-    setCurrentSocket(io('https://api.isthisright.ml'));
+    setCurrentSocket(io(`${url}`));
   }, []);
 
   useEffect(() => {
@@ -61,6 +61,12 @@ function App() {
     }
   }, [currentSocket]);
 
+  useEffect(async () => {
+    let list = await axios.get(`${url}/advisers`);
+    console.log('얘는뜨니?', list);
+    setAdviserList(list.data);
+  }, []);
+
   return (
     <div className="App">
       <Switch>
@@ -68,7 +74,18 @@ function App() {
           <button onClick={handleClick}>Get API</button>
           <div>{text} </div>
           <div>테스트 </div>
-          <button onClick={() => createRoom(userInfo, coach)}>트레이너랑 채팅하러 가기</button>
+          <button onClick={() => createRoom()}>트레이너랑 채팅하러 가기</button>
+          {isList
+            ? adviserList.map((el) => {
+                return (
+                  <div key={el.id}>
+                    <div>{el.name}입니다.</div>
+                    <button onClick={() => changeRoom(el.id)}>클릭</button>
+                  </div>
+                );
+              })
+            : null}
+
           {isChat ? (
             <div>
               <ChatRoom chatClick={chatClick} userInfo={userInfo} changeRoom={changeRoom}></ChatRoom>

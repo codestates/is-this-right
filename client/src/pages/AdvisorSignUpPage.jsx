@@ -107,7 +107,6 @@ function AdvisorSignUpPage() {
           header: { 'Content-Type': 'multipart/form-data' },
         })
         .then((result) => {
-          //     // setSuccessSignUp(true);
           window.location.replace('SignIn');
         })
         .catch((err) => {
@@ -134,8 +133,16 @@ function AdvisorSignUpPage() {
         setEmailErr('이메일 형식이 맞지 않습니다.');
         return false;
       } else {
-        setEmailErr('');
-        return true;
+        axios
+          .get(`${process.env.REACT_APP_API_URL}/users/?email=${email}`)
+          .then((ok) => {
+            setEmailErr('');
+            return true;
+          })
+          .catch((err) => {
+            setEmailErr('중복된 이메일이 있습니다.');
+            return false;
+          });
       }
     }
     if (funcName === 'username') {
@@ -143,8 +150,16 @@ function AdvisorSignUpPage() {
         setUsernameErr('닉네임을 입력해주세요.');
         return false;
       } else {
-        setUsernameErr('');
-        return true;
+        axios
+          .get(`${process.env.REACT_APP_API_URL}/users/?username=${username}`)
+          .then((ok) => {
+            setUsernameErr('');
+            return true;
+          })
+          .catch((err) => {
+            setUsernameErr('중복된 닉네임이 있습니다.');
+            return false;
+          });
       }
     }
     if (funcName === 'password') {
@@ -166,8 +181,7 @@ function AdvisorSignUpPage() {
       }
     }
     if (funcName === 'confirm') {
-      console.log('실행');
-      if (password !== confirmPassword) {
+      if (password !== confirmPassword && confirmPassword !== '') {
         setConfirmPasswordErr('비밀번호가 일치하지 않습니다.');
         return false;
       } else {
@@ -244,14 +258,13 @@ function AdvisorSignUpPage() {
     console.log(signUpInfo);
     let isDisabled = true;
     for (let key in signUpInfo) {
-      isDisabled = isDisabled && signUpInfo[key] !== '';
+      isDisabled = isDisabled && signUpInfo[key] !== '' && signUpInfo['password'] === signUpInfo['confirmPassword'];
     }
     setDisable(!isDisabled);
   }, [signUpInfo]);
 
   useEffect(() => {
     checkValidation('confirm');
-    // checkValidation('gender');
   }, [signUpInfo]);
 
   return (
