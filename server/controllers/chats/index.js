@@ -1,5 +1,6 @@
 const { user, chat, chats_user, message, sequelize } = require('../../models');
 const { QueryTypes } = require('sequelize');
+const { isAuthorized } = require('../tokenFunctions');
 
 module.exports = {
   get: async (req, res) => {
@@ -29,36 +30,54 @@ module.exports = {
         `,
       { type: QueryTypes.SELECT },
     );
-    let list = await message.findAll({
-      include: { model: user },
-      raw: true,
-    });
 
     console.log('얘가리스트야', list);
-    res.send(list);
+    res.status(200).json({ data: chatRoomList });
   },
   post: async (req, res) => {
     //트레이너와 채팅하러 가기 버튼을 눌렀을때
     //채팅방을 하나 만들고 그방에 (이미 해당유저와 만들어진 방이있으면 클라에게 알려주기)
     //요청한 본인아이디와 초대한사람 아이디 추가.
+    //그상황에서 유저가 채팅하러가기를 누른다...
+    // sender, receiver <<
+    //chats_users
+    //SELECT COUNT(*) as exist FROM chats_users WHERE userId = 1 AND chatId in (SELECT chatId FROM chats_users WHERE userId=3)
+    //나간사람이. 채팅을 걸었을때.
     //
-
-    console.log(req.body);
-    let room = await chat.create({}, { fields: [] });
-
-    let roomlist = await chats_user.bulkCreate(
-      [
-        { chatId: room.id, userId: req.body.user1.id },
-        { chatId: room.id, userId: req.body.user2.id },
-      ],
-      { fields: ['chatId', 'userId'] },
+    //안나간 사람이 나간사람에게 채팅을 걸었을때.
+    const { sender, receiver } = req.body;
+    const isRoomExist = await sequelize.query(
+      `SELECT COUNT(*) as exist, chatId FROM chats_users WHERE userId = ${sender} AND chatId in (SELECT chatId FROM chats_users WHERE userId=${receiver})`,
+      { type: QueryTypes.SELECT },
     );
-    let createMessage = await message.create({
-      sender: 'admin',
-      receiver: req.body.user2.id,
-      chatId: room.id,
-      message: `${req.body.user1.username}님이 ${req.body.user2.username}님을 초대하셨습니다.`,
-    });
-    res.status(201).json({ message: 'create !' });
+    const isMessageExist = await sequelize.query(
+      `SELECT COUNT(*) as exist, chatId FROM messages WHERE (sender = ${sender} AND receiver = ${receiver}) OR (receiver = ${sender} AND sender = ${receiver})`,
+      { type: QueryTypes.SELECT },
+    );
+    if (!isRoomExist[0].exist && !isMessageExist[0].exist) {
+      let room = await chat.create({}, { fields: [] });
+
+      let roomlist = await chats_user.bulkCreate(
+        [
+          { chatId: room.id, userId: sender },
+          { chatId: room.id, userId: receiver },
+        ],
+        { fields: ['chatId', 'userId'] },
+      );
+      res.status(201).json({ data: { roomId: room.id }, message: 'created!' });
+    } else {
+      res.status(200).json({ data: { roomId: isRoomExist[0].chatId ?? isMessageExist[0].chatId }, message: 'ok' });
+    }
+  },
+  delete: async (req, res) => {
+    const userId = isAuthorized(req).id;
+    console.log(userId);
+    if (userId) {
+      const chatId = req.params.id;
+      await chats_user.destroy({ where: { userId, chatId } });
+      res.status(200).json({ message: 'ok' });
+    } else {
+      res.status(401).json({ message: 'Unauthorized request' });
+    }
   },
 };
