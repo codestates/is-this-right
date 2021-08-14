@@ -11,7 +11,7 @@ module.exports = {
     // 안읽은 메세지는 chats_users table의 updatedAt컬럼보다 늦은거 찾아서 카운트.< messages가 레프트조인할거라 ㄱㅊ
     // 마지막 메세지 null이면 빈문자열 넣어주기.
     // where messages.createdAt < chats_users.updatedAt
-    const userInfo = { id: 1 };
+    const userInfo = isAuthorized(req);
     const chatRoomList = await sequelize.query(
       `SELECT chats_users.chatId, IFNULL(advisers.name, users.username) as username, users.profileImg, lastMessages.message as lastMessage, IFNULL(unread.unreadMessageCount,0) as unreadMessageCount
         FROM (SELECT messages.chatId, messages.message 
@@ -30,8 +30,6 @@ module.exports = {
         `,
       { type: QueryTypes.SELECT },
     );
-
-    console.log('얘가리스트야', list);
     res.status(200).json({ data: chatRoomList });
   },
   post: async (req, res) => {
@@ -46,10 +44,14 @@ module.exports = {
     //
     //안나간 사람이 나간사람에게 채팅을 걸었을때.
     const { sender, receiver } = req.body;
+
+    console.log(req.body);
     const isRoomExist = await sequelize.query(
       `SELECT COUNT(*) as exist, chatId FROM chats_users WHERE userId = ${sender} AND chatId in (SELECT chatId FROM chats_users WHERE userId=${receiver})`,
       { type: QueryTypes.SELECT },
     );
+
+    console.log('1번째지나고');
     const isMessageExist = await sequelize.query(
       `SELECT COUNT(*) as exist, chatId FROM messages WHERE (sender = ${sender} AND receiver = ${receiver}) OR (receiver = ${sender} AND sender = ${receiver})`,
       { type: QueryTypes.SELECT },
