@@ -38,6 +38,7 @@ router.post('/advisers', upload.array('files'), controllers.advisers.post);
 router.get('/advisers/:id', controllers.advisers.getDetail);
 
 //feedbacks routing
+router.get('/top10', controllers.feedbacks.getTop10);
 router.put('/feedbacks/:id', controllers.feedbacks.put);
 router.post('/feedbacks', controllers.feedbacks.post);
 router.delete('/feedbacks/:id', controllers.feedbacks.delete);
