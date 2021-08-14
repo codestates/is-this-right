@@ -18,7 +18,7 @@ module.exports = {
         `,
       { type: QueryTypes.SELECT },
     );
-    res.status(200).json({ data: postInfo });
+    res.status(200).json({ data: postInfo, message: 'ok' });
   },
 
   getDetail: async (req, res) => {
@@ -35,7 +35,7 @@ module.exports = {
         WHERE feedbacks.postId = ${id}`,
       { type: QueryTypes.SELECT },
     );
-    res.status(200).json({ data: { ...postInfo, feedbacks: feedbackInfo } });
+    res.status(200).json({ data: { ...postInfo, feedbacks: feedbackInfo }, message: 'ok' });
   },
 
   post: async (req, res) => {

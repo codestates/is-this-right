@@ -1,6 +1,26 @@
 const { isAuthorized } = require('../tokenFunctions');
-const { adviser, feedback } = require('../../models');
+const { adviser, feedback, sequelize } = require('../../models');
+const { QueryTypes } = require('sequelize');
 module.exports = {
+  getTop10: async (req, res) => {
+    const category = req.query.category;
+    //Required column: adviser(id, name), user(profileImg), Count(selected feedback)
+    const top10Info = await sequelize.query(
+      `SELECT advisers.id, advisers.name, users.profileImg, IFNULL(selectedCount.count,0) as selectedCount
+        FROM advisers 
+        JOIN users ON advisers.userId = users.id
+        LEFT JOIN (SELECT advisers.id, COUNT(*) as count 
+          FROM posts 
+          JOIN feedbacks ON posts.selected = feedbacks.id 
+          JOIN advisers ON feedbacks.adviserId = advisers.id 
+          WHERE posts.category=${category}
+          GROUP BY advisers.id) selectedCount ON advisers.id = selectedCount.id
+        ORDER BY selectedCount DESC LIMIT 10;
+        `,
+      { type: QueryTypes.SELECT },
+    );
+    res.status(200).json({ data: top10Info, message: 'ok' });
+  },
   post: async (req, res) => {
     const userId = isAuthorized(req).id;
     const { postId, content } = req.body;
