@@ -14,12 +14,14 @@ const adviserReducer = (state = adviserInitialState, action) => {
     //     return (boolean = false);
     //   }
     // });
+
     // if (boolean) {
     //   newState.adviserProfileImg.imgFile = [...newState.adviserProfileImg.imgFile, action.payload.originFile];
     //   newState.adviserProfileImg.preview = action.payload.preview;
     // }
     newState.adviserProfileImg.imgFile = action.payload.originFile;
     newState.adviserProfileImg.preview = action.payload.preview;
+
     return newState;
   } else {
     return state;
