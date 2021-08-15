@@ -28,8 +28,8 @@ module.exports = {
             FROM messages 
             JOIN chats_users 
             ON chats_users.chatId = messages.chatId AND chats_users.userId = messages.receiver 
-            WHERE chats_users.updatedAt < messages.createdAt AND messages.receiver = 1 GROUP BY chatId) unread ON chats_users.chatId = unread.chatId
-          WHERE NOT chats_users.userId = 1
+            WHERE chats_users.updatedAt < messages.createdAt AND messages.receiver = ${userInfo.id} GROUP BY chatId) unread ON chats_users.chatId = unread.chatId
+          WHERE NOT chats_users.userId = ${userInfo.id}
           `,
         { type: QueryTypes.SELECT },
       );
