@@ -17,19 +17,20 @@ module.exports = {
     } else {
       const chatRoomList = await sequelize.query(
         `SELECT chats_users.chatId, IFNULL(advisers.name, users.username) as username, users.profileImg, users.id, lastMessages.message as lastMessage, IFNULL(unread.unreadMessageCount,0) as unreadMessageCount
-          FROM (SELECT messages.chatId, messages.message 
-            FROM messages 
-            JOIN (SELECT max(createdAt) as lastCreate,chatId from messages group by chatId) latest 
-            ON messages.createdAt = latest.lastCreate and messages.chatId = latest.chatId) lastMessages
-          JOIN chats_users ON lastMessages.chatId = chats_users.chatId
-          JOIN users ON users.id = chats_users.userId
-          LEFT JOIN advisers ON users.id = advisers.userId
-          JOIN (SELECT messages.chatId, COUNT(messages.message) as unreadMessageCount 
-            FROM messages 
-            JOIN chats_users 
-            ON chats_users.chatId = messages.chatId AND chats_users.userId = messages.receiver 
-            WHERE chats_users.updatedAt < messages.createdAt AND messages.receiver = ${userInfo.id} GROUP BY chatId) unread ON chats_users.chatId = unread.chatId
-          WHERE NOT chats_users.userId = ${userInfo.id}
+        FROM (SELECT messages.chatId, messages.message 
+          FROM messages 
+          JOIN (SELECT max(createdAt) as lastCreate,chatId from messages group by chatId) latest 
+          ON messages.createdAt = latest.lastCreate and messages.chatId = latest.chatId 
+          WHERE messages.sender = ${userInfo.id} OR messages.receiver = ${userInfo.id}) lastMessages
+        JOIN chats_users ON lastMessages.chatId = chats_users.chatId
+        JOIN users ON users.id = chats_users.userId
+        LEFT JOIN advisers ON users.id = advisers.userId
+        LEFT JOIN (SELECT messages.chatId, COUNT(messages.message) as unreadMessageCount 
+          FROM messages 
+          JOIN chats_users 
+          ON chats_users.chatId = messages.chatId AND chats_users.userId = messages.receiver 
+          WHERE chats_users.updatedAt < messages.createdAt AND messages.receiver = ${userInfo.id} GROUP BY chatId) unread ON chats_users.chatId = unread.chatId
+        WHERE NOT chats_users.userId = ${userInfo.id}
           `,
         { type: QueryTypes.SELECT },
       );

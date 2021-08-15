@@ -44,12 +44,10 @@ function Nav() {
   console.log(state.logIn, '로그인 상태입니다.');
 
   useEffect(async () => {
-    if (state.logIn) {
-      let userInfo = await axios.get(`${url}/users`);
-      if (userInfo) {
-        dispatch(successLogIn());
-        dispatch(addUserInfo(userInfo.data));
-      }
+    let userInfo = await axios.get(`${url}/users`);
+    if (userInfo) {
+      dispatch(successLogIn());
+      dispatch(addUserInfo(userInfo.data));
     }
   }, []);
 
