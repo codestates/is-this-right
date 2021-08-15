@@ -113,7 +113,7 @@ function UserSignUpPage() {
           // setSuccessSignUp(true);
           console.log(result);
           alert('회원가입이 완료되었습니다');
-          history.push('/SignIn');
+          history.push('/');
         })
         .catch((err) => {
           console.log(err);

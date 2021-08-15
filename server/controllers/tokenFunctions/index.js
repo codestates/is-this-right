@@ -31,8 +31,8 @@ module.exports = {
     console.log(req.body);
     let parameters = {
       grant_type: 'authorization_code',
-      client_id: process.env.CLIENT_ID, //***********************
-      redirect_uri: process.env.REDIRECT_URI, //여기  환경변수로 만들어줘야함
+      client_id: process.env.KAKAO_CLIENT_ID, //***********************
+      redirect_uri: process.env.KAKAO_REDIRECT_URI, //여기  환경변수로 만들어줘야함
       code: req.body.authorizationCode,
     };
     let body = `grant_type=authorization_code&client_id=${parameters.client_id}&redirect_uri=${parameters.redirect_uri}&code=${parameters.code}`;

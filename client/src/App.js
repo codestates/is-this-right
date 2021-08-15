@@ -21,8 +21,6 @@ function App() {
   const [text, setText] = useState('text');
   const [isChat, setIsChat] = useState(false);
   const [roomNum, setRoomNum] = useState(null);
-  const [userInfo, setUserInfo] = useState({ id: 1, username: '상현' });
-  const [coach, setCoach] = useState({ id: 2, username: '강사' });
   const [currentSocket, setCurrentSocket] = useState(null);
   const [isList, setIsList] = useState(false);
   const [adviserList, setAdviserList] = useState([]);
