@@ -1,6 +1,7 @@
 export const initialState = {
   logIn: false,
   userInfo: {},
+  signUpInfo: {},
   adviser: {},
   adviserData: [],
   userProfileImg: {

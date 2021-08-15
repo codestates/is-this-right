@@ -29,6 +29,8 @@ const Chat = ({ name, roomNum, socket }) => {
     if (roomNum) {
       let getChatdata = async () => {
         let list = await axios.get(`${url}/chats/messages/${roomNum}`);
+        console.log('왜안나오니채팅친구야', list);
+
         setMessages(list.data.data);
       };
       getChatdata();

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
 import UploadCompo from '../components/UploadCompo';
@@ -7,8 +7,8 @@ import SelectBox from '../components/adviser/SelectBox';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
-const url = process.env.REACT_APP_API_URL;
-
+const serverUrl = process.env.REACT_APP_API_URL;
+const socialPw = process.env.REACT_APP_SOCIAL_PW;
 const AdvisorSignupPageStyle = styled.div`
   height: 100%;
   width: 100vw;
@@ -47,6 +47,9 @@ const ButtonStyle = styled(Button)`
 const LabelStyle = styled.label`
   font-size: 20px;
 `;
+const HideInputStyle = styled.div`
+  margin: 0px;
+`;
 
 function AdvisorSignUpPage() {
   const [profileErr, setProfileErr] = useState('');
@@ -72,8 +75,12 @@ function AdvisorSignUpPage() {
     url: '',
     gender: '',
     state: '',
+    provider: 'origin',
   });
+  const [signupErr, setSignupErr] = useState(null);
   const adviserPriviewState = useSelector((state) => state.adviserReducer.adviserProfileImg);
+  const userState = useSelector((state) => state.userReducer);
+  const socialHide = useRef(null);
   const history = useHistory();
 
   const handleInputValue = (key, e) => {
@@ -94,7 +101,6 @@ function AdvisorSignUpPage() {
     const adviserImg = adviserPriviewState.imgFile;
     const formData = new FormData();
     formData.append('files', adviserImg);
-    formData.append('provider', 'origin');
     // for (let el of adviserImg) {
     //   formData.append('files', el);
     // }
@@ -102,17 +108,17 @@ function AdvisorSignUpPage() {
       formData.append(key, signUpInfo[key]);
     }
     console.log(signUpInfo);
-    if (Object.values(signUpInfo).length === 10) {
+    if (Object.values(signUpInfo).length === 11) {
       axios
-        .post(`${url}/advisers`, formData, {
+        .post(`${serverUrl}/advisers`, formData, {
           header: { 'Content-Type': 'multipart/form-data' },
         })
         .then((result) => {
           alert('회원가입이 완료되었습니다.');
-          window.location.replace('SignIn');
+          window.location.replace('/');
         })
         .catch((err) => {
-          setUsernameErr('이미 가입된 중복된 정보가 있습니다. 확인 후 다시 시도 해주세요.');
+          setSignupErr('잘못된 정보가 있습니다. 확인 후 다시 시도 해주세요.');
         });
     }
     // window.location.replace('SignIn'); // 삭제 해줘야함
@@ -136,7 +142,7 @@ function AdvisorSignUpPage() {
         return false;
       } else {
         axios
-          .get(`${process.env.REACT_APP_API_URL}/users/?email=${email}`)
+          .get(`${serverUrl}/users/?email=${email}`)
           .then((ok) => {
             setEmailErr('');
             return true;
@@ -153,7 +159,7 @@ function AdvisorSignUpPage() {
         return false;
       } else {
         axios
-          .get(`${process.env.REACT_APP_API_URL}/users/?username=${username}`)
+          .get(`${serverUrl}/users/?username=${username}`)
           .then((ok) => {
             setUsernameErr('');
             return true;
@@ -266,9 +272,17 @@ function AdvisorSignUpPage() {
   }, [signUpInfo]);
 
   useEffect(() => {
+    setSignupErr('');
     checkValidation('confirm');
   }, [signUpInfo]);
 
+  useEffect(() => {
+    let Url = new URL(window.location.href).pathname;
+    if (Url.includes('Social')) {
+      socialHide.current.style.display = 'none';
+      setSignUpInfo({ ...signUpInfo, ...userState.signUpInfo, password: socialPw, confirmPassword: socialPw });
+    }
+  }, []);
   return (
     <AdvisorSignupPageStyle>
       {console.log('AdviserSignUp rendered!')}
@@ -294,47 +308,47 @@ function AdvisorSignUpPage() {
             required
           />
           {usernameErr ? <div>{usernameErr}</div> : null}
+          <HideInputStyle ref={socialHide}>
+            <LabelStyle>이메일</LabelStyle>
+            <Input
+              name="email"
+              type="email"
+              onChange={(e) => handleInputValue('email', e)}
+              onBlur={() => checkValidation('email')}
+              size="large"
+              style={{ margin: '0px 0 6px 0' }}
+              placeholder="닉네임을 입력해주세요"
+              required
+            />
+            {emailErr ? <div>{emailErr}</div> : null}
 
-          <LabelStyle>이메일</LabelStyle>
-          <Input
-            name="email"
-            type="email"
-            onChange={(e) => handleInputValue('email', e)}
-            onBlur={() => checkValidation('email')}
-            size="large"
-            style={{ margin: '0px 0 6px 0' }}
-            placeholder="닉네임을 입력해주세요"
-            required
-          />
-          {emailErr ? <div>{emailErr}</div> : null}
+            <LabelStyle>비밀번호</LabelStyle>
+            <Input
+              name="password"
+              type="password"
+              onChange={(e) => handleInputValue('password', e)}
+              onBlur={() => checkValidation('password')}
+              size="large"
+              style={{ margin: '0px 0 6px 0' }}
+              placeholder="닉네임을 입력해주세요"
+              required
+            />
+            {passwordErr ? <div>{passwordErr}</div> : null}
 
-          <LabelStyle>비밀번호</LabelStyle>
-          <Input
-            name="password"
-            type="password"
-            onChange={(e) => handleInputValue('password', e)}
-            onBlur={() => checkValidation('password')}
-            size="large"
-            style={{ margin: '0px 0 6px 0' }}
-            placeholder="닉네임을 입력해주세요"
-            required
-          />
-          {passwordErr ? <div>{passwordErr}</div> : null}
-
-          <LabelStyle>비밀번호 확인</LabelStyle>
-          <Input
-            name="confirmPassword"
-            type="password"
-            onChange={(e) => {
-              handleInputValue('confirmPassword', e);
-            }}
-            size="large"
-            style={{ margin: '0px 0 6px 0' }}
-            placeholder="닉네임을 입력해주세요"
-            required
-          />
-          {confirmPasswordErr ? <div>{confirmPasswordErr}</div> : null}
-
+            <LabelStyle>비밀번호 확인</LabelStyle>
+            <Input
+              name="confirmPassword"
+              type="password"
+              onChange={(e) => {
+                handleInputValue('confirmPassword', e);
+              }}
+              size="large"
+              style={{ margin: '0px 0 6px 0' }}
+              placeholder="닉네임을 입력해주세요"
+              required
+            />
+            {confirmPasswordErr ? <div>{confirmPasswordErr}</div> : null}
+          </HideInputStyle>
           <LabelStyle>이름</LabelStyle>
           <Input
             name="name"
@@ -405,6 +419,7 @@ function AdvisorSignUpPage() {
             <Input onChange={(e) => handleInputValue('url', e)} onKeyUp={() => checkValidation('url')} />
           </div>
           {urlErr ? <div>{urlErr}</div> : null}
+          {signupErr ? <div>{signupErr}</div> : null}
           <ButtonStyle type="primary" onClick={handleSignUp} disabled={disable}>
             회원가입
           </ButtonStyle>

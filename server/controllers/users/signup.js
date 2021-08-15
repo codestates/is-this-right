@@ -14,7 +14,6 @@ module.exports = async (req, res) => {
     return res.status(422).json({ message: 'insufficient parameters supplied' });
   }
   //소셜로그인용 비밀번호 설정
-  if (!password) password = process.env.SOCIAL_PASSWORD;
   let salt, hash;
   try {
     salt = await bcrypt.genSalt(Number(process.env.SALT_ROUNDS));
