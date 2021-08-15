@@ -4,6 +4,7 @@ import Messages from './Messages/Messages';
 import Input from './Input/Input';
 import './Chat.css';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 const url = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 
@@ -11,12 +12,13 @@ const Chat = ({ name, roomNum, socket }) => {
   const [users, setUsers] = useState('');
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
+  const state = useSelector((state) => state.userReducer);
 
   const sendMessage = (event) => {
     event.preventDefault();
 
     if (message) {
-      socket.emit('sendMessage', { message, name, room: roomNum });
+      socket.emit('sendMessage', { message, name, sender: state.userInfo.data.id, room: roomNum });
       setMessage('');
 
       // socket.emit('online', { socketId })
