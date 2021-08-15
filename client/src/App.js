@@ -39,11 +39,14 @@ function App() {
       receiver: userId,
     };
     //방만들고 룸넘버 획득
-    axios.post(`${url}/chats`, payload).then((data) => {
-      console.log(data);
-      setRoomNum(data.data.data.roomId);
-      handleSetisChat();
-    });
+    if (state.logIn) {
+      console.log(state.logIn, '인데 왜 여기로 들어옴');
+      axios.post(`${url}/chats`, payload).then((data) => {
+        console.log(data);
+        setRoomNum(data.data.data.roomId);
+        handleSetisChat();
+      });
+    }
   };
   const handleSetisChat = () => {
     setIsChat(true);
@@ -94,7 +97,13 @@ function App() {
             : null}
           <div>
             <ChatRoom changeRoom={changeRoom} handleSetisChat={handleSetisChat}></ChatRoom>
-            {isChat ? <Chat roomNum={roomNum} name={state.userInfo.data.username} socket={currentSocket} /> : null}
+            {isChat ? (
+              <Chat
+                roomNum={roomNum}
+                name={state.userInfo.data.role === 'adviser' ? state.userInfo.data.name : state.userInfo.data.username}
+                socket={currentSocket}
+              />
+            ) : null}
           </div>
           <Nav />
           <QuestionListPage />

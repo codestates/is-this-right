@@ -19,15 +19,22 @@ module.exports = {
       );
 
       //이후 읽은 메세지 시간업데이트하기.
-      await chats_user.update(
-        { updatedAt: sequelize.fn('NOW') },
-        {
-          where: {
-            chatId,
-            userId: userInfo.id,
-          },
-        },
+      // await chats_user.update(
+      //   { updatedAt: sequelize.fn('NOW') },
+      //   {
+      //     where: {
+      //       chatId,
+      //       userId: userInfo.id,
+      //     },
+      //   },
+      // );
+      await sequelize.query(
+        `UPDATE chats_users SET updatedAt=CURRENT_TIMESTAMP
+          WHERE chatId=${chatId} AND userId=${userInfo.id}
+          `,
+        { type: QueryTypes.UPDATE },
       );
+
       console.log(messageList);
       res.status(200).json({ data: messageList, message: 'ok' });
     } else {
