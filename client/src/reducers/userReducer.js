@@ -1,5 +1,5 @@
 import { initialState } from './initialState';
-import { SUCCESS_LOGIN, HANDLE_PROFILE_IMG, ADD_USER_INFO } from '../actions/userActionIndex';
+import { SUCCESS_LOGIN, HANDLE_PROFILE_IMG, ADD_USER_INFO, ADD_SIGN_UP_INFO } from '../actions/userActionIndex';
 
 // initialState = {
 //   logIn: false,
@@ -39,6 +39,11 @@ const postReducer = (state = initialState, action) => {
       return {
         ...newState,
         userInfo: action.payload,
+      };
+    case ADD_SIGN_UP_INFO:
+      return {
+        ...newState,
+        signUpInfo: action.payload,
       };
     default:
       return newState;

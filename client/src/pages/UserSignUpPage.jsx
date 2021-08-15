@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
@@ -7,6 +7,7 @@ import axios from 'axios';
 import { Form, Input, Button } from 'antd';
 import UploadCompo from '../components/UploadCompo';
 const url = process.env.REACT_APP_API_URL;
+const socialPw = process.env.REACT_APP_SOCIAL_PW;
 axios.defaults.withCredentials = true;
 
 const DividePage = styled.div`
@@ -66,6 +67,10 @@ const ButtonStyle = styled(Button)`
   height: 50px;
 `;
 
+const HideInputStyle = styled.div`
+  margin: 0px;
+`;
+
 function UserSignUpPage() {
   const [usernameErr, setUsernameErr] = useState(null);
   const [emailErr, setEmailErr] = useState(null);
@@ -80,9 +85,11 @@ function UserSignUpPage() {
     email: '',
     password: '',
     confirmPassword: '',
+    provider: 'origin',
   });
 
-  const state = useSelector((state) => state.userReducer.userProfileImg);
+  const state = useSelector((state) => state.userReducer);
+  const socialHide = useRef(null);
   const history = useHistory();
   const handleInputValue = (key, e) => {
     console.log(signUpInfo);
@@ -90,11 +97,10 @@ function UserSignUpPage() {
   };
 
   const handleSignUp = () => {
-    const { username, email, password, confirmPassword } = signUpInfo;
-    const profileImg = state.imaFile;
+    const { username, email, password, confirmPassword, provider } = signUpInfo;
+    const profileImg = state.userProfileImg.imaFile;
     const formData = new FormData();
     formData.append('profileImg', profileImg);
-    formData.append('provider', 'origin');
     for (let key in signUpInfo) {
       formData.append(key, signUpInfo[key]);
     }
@@ -111,7 +117,7 @@ function UserSignUpPage() {
         })
         .catch((err) => {
           console.log(err);
-          setEmailErr('이미 가입된 중복된 정보가 있습니다. 확인 후 다시 시도 해주세요.');
+          setSignupErr('잘못된 정보가 있습니다. 확인 후 다시 시도 해주세요.');
         });
     }
   };
@@ -200,8 +206,18 @@ function UserSignUpPage() {
     setDisable(!isDisabled);
   }, [signUpInfo]);
   useEffect(() => {
+    setSignupErr('');
     checkValidation('confirm');
   }, [signUpInfo]);
+
+  useEffect(() => {
+    let Url = new URL(window.location.href).pathname;
+    if (Url.includes('Social')) {
+      socialHide.current.style.display = 'none';
+      setSignUpInfo({ ...signUpInfo, ...state.signUpInfo, password: socialPw, confirmPassword: socialPw });
+    }
+  }, []);
+
   return (
     <DividePage>
       <ImageStyle />
@@ -228,42 +244,44 @@ function UserSignUpPage() {
             required
           />
           {usernameErr ? <div>{usernameErr}</div> : null}
-          <LabelStyle htmlFor="user-email">Email</LabelStyle>
-          <InputStyle
-            name="user-email"
-            type="email"
-            onChange={(e) => handleInputValue('email', e)}
-            onBlur={() => checkValidation('email')}
-            size="large"
-            style={{ margin: '12px 0 6px 0' }}
-            placeholder="이메일을 입력해주세요"
-            required
-          />
-          {emailErr ? <div>{emailErr}</div> : null}
-          <LabelStyle htmlFor="password">Password</LabelStyle>
-          <Input.Password
-            name="password"
-            onChange={(e) => handleInputValue('password', e)}
-            onBlur={() => checkValidation('password')}
-            size="large"
-            style={{ margin: '12px 0 6px 0' }}
-            placeholder="비밀번호를 입력해주세요"
-            required
-          />
-          {passwordErr ? <div>{passwordErr}</div> : null}
+          <HideInputStyle ref={socialHide}>
+            <LabelStyle htmlFor="user-email">Email</LabelStyle>
+            <InputStyle
+              name="user-email"
+              type="email"
+              onChange={(e) => handleInputValue('email', e)}
+              onBlur={() => checkValidation('email')}
+              size="large"
+              style={{ margin: '12px 0 6px 0' }}
+              placeholder="이메일을 입력해주세요"
+              required
+            />
+            {emailErr ? <div>{emailErr}</div> : null}
+            <LabelStyle htmlFor="password">Password</LabelStyle>
+            <Input.Password
+              name="password"
+              onChange={(e) => handleInputValue('password', e)}
+              onBlur={() => checkValidation('password')}
+              size="large"
+              style={{ margin: '12px 0 6px 0' }}
+              placeholder="비밀번호를 입력해주세요"
+              required
+            />
+            {passwordErr ? <div>{passwordErr}</div> : null}
 
-          <LabelStyle htmlFor="confirmPassword">confirmPassword</LabelStyle>
-          <Input.Password
-            name="confirmPassword"
-            onChange={(e) => {
-              handleInputValue('confirmPassword', e);
-            }}
-            size="large"
-            style={{ margin: '12px 0 6px 0' }}
-            placeholder="입력했던 비밀번호를 다시 입력해주세요"
-            required
-          />
-          {confirmPasswordErr ? <div>{confirmPasswordErr}</div> : null}
+            <LabelStyle htmlFor="confirmPassword">confirmPassword</LabelStyle>
+            <Input.Password
+              name="confirmPassword"
+              onChange={(e) => {
+                handleInputValue('confirmPassword', e);
+              }}
+              size="large"
+              style={{ margin: '12px 0 6px 0' }}
+              placeholder="입력했던 비밀번호를 다시 입력해주세요"
+              required
+            />
+            {confirmPasswordErr ? <div>{confirmPasswordErr}</div> : null}
+          </HideInputStyle>
           {signupErr ? <div>{signupErr}</div> : null}
           <ButtonStyle type="primary" onClick={handleSignUp} disabled={disable}>
             회원가입

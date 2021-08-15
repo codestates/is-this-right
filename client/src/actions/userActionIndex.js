@@ -2,6 +2,7 @@
 export const SUCCESS_LOGIN = 'SUCCESS_LOGIN';
 export const HANDLE_PROFILE_IMG = 'HANDLE_PROFILE_IMG';
 export const ADD_USER_INFO = 'ADD_USER_INFO';
+export const ADD_SIGN_UP_INFO = 'ADD_SIGN_UP_INFO';
 // actions creator functions
 
 export const successLogIn = () => {
@@ -14,6 +15,13 @@ export const addUserInfo = (userInfo) => {
   return {
     type: ADD_USER_INFO,
     payload: userInfo,
+  };
+};
+
+export const addSignUpInfo = (signUpInfo) => {
+  return {
+    type: ADD_SIGN_UP_INFO,
+    payload: signUpInfo,
   };
 };
 

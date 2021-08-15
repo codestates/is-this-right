@@ -6,8 +6,10 @@ const s3 = new aws.S3(s3Config);
 require('dotenv').config();
 module.exports = {
   get: async (req, res) => {
+    console.log(req.query);
     if (req.query.email || req.query.username) {
       //파라미터가 있을때(회원가입 중복체크 용도)
+      console.log(req.query);
       let findKey, findname;
       if (req.query.email) {
         findkey = 'email';

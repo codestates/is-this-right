@@ -12,6 +12,7 @@ module.exports = {
     // 마지막 메세지 null이면 빈문자열 넣어주기.
     // where messages.createdAt < chats_users.updatedAt
     const userInfo = isAuthorized(req);
+    if (!userInfo) return res.status(401).json({ message: 'Unauthorized request' });
     const chatRoomList = await sequelize.query(
       `SELECT chats_users.chatId, IFNULL(advisers.name, users.username) as username, users.profileImg, lastMessages.message as lastMessage, IFNULL(unread.unreadMessageCount,0) as unreadMessageCount
         FROM (SELECT messages.chatId, messages.message 
