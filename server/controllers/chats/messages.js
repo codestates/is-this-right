@@ -28,7 +28,7 @@ module.exports = {
           },
         },
       );
-
+      console.log(messageList);
       res.status(200).json({ data: messageList, message: 'ok' });
     } else {
       res.status(401).json({ message: 'Unauthorized request' });
