@@ -1,8 +1,11 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-
+import { Link, useHistory } from 'react-router-dom';
+import axios from 'axios';
+import { successLogIn, addUserInfo } from '../actions/userActionIndex';
+const url = process.env.REACT_APP_API_URL;
+axios.defaults.withCredentials = true;
 const NavAreaStyle = styled.div`
   height: 100px;
   display: flex;
@@ -36,23 +39,49 @@ const LogoStyle = styled.img`
 
 function Nav() {
   const state = useSelector((state) => state.userReducer);
+  const dispatch = useDispatch();
+  const history = useHistory();
   console.log(state.logIn, '로그인 상태입니다.');
+
+  useEffect(async () => {
+    let userInfo = await axios.get(`${url}/users`);
+    if (userInfo) {
+      dispatch(successLogIn());
+      dispatch(addUserInfo(userInfo.data));
+    }
+  }, []);
+
+  let handleClickHome = () => {
+    history.push('/');
+  };
+
+  let handleLogOut = () => {
+    axios.get(`${url}/signout`).then((ok) => window.location.replace('/'));
+  };
   return (
     <NavAreaStyle>
       <ContainerStlye>
         <div>
-          <LogoStyle src="../../imageFile/Logo_black.png" alt="" />
+          <LogoStyle onClick={handleClickHome} src="../../imageFile/Logo_black.png" alt="" />
         </div>
         <DivStyle>
           <span style={{ marginLeft: '22%' }}>딴지꾼</span>
           <span style={{ marginLeft: '10%' }}>마자?</span>
-          <Link to="/SignIn">
-            {state.logIn ? (
-              <span style={{ marginLeft: '10%' }}>마이페이지</span>
-            ) : (
+
+          {state.logIn ? (
+            <>
+              <Link to="/MyPage">
+                <span style={{ marginLeft: '10%' }}>마이페이지</span>
+              </Link>
+              <span style={{ marginLeft: '10%' }} onClick={handleLogOut}>
+                로그아웃
+              </span>
+            </>
+          ) : (
+            <Link to="/SignIn">
               <span style={{ marginLeft: '10%' }}>로그인</span>
-            )}
-          </Link>
+            </Link>
+          )}
         </DivStyle>
       </ContainerStlye>
     </NavAreaStyle>

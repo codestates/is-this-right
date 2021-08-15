@@ -105,7 +105,6 @@ function SignInPage() {
     axios
       .post(`${url}/signin`, loginInfo)
       .then((result) => {
-        dispatch(successLogIn());
         window.location.replace('/');
       })
       .catch((err) => {
@@ -113,11 +112,9 @@ function SignInPage() {
         message.error('가입하지 않은 아이디이거나, 잘못된 비밀번호입니다.');
       });
   };
-
-  // const [mock, setMock] = useState('');
-  // useEffect(() => {
-  //   setLoginInfo(mock);
-  // }, [mock]);
+  const handleEnterLogin = (e) => {
+    if (e.keyCode === 13) handleLogIn();
+  };
 
   let handleGoogleLogIn = (res) => {
     successSocial({ email: res.profileObj.email, provider: 'google' });
@@ -130,10 +127,10 @@ function SignInPage() {
   };
   let successSocial = (body) => {
     axios
-      .post('http://localhost:80/signin', body)
+      .post(`${url}/signin`, body)
       .then((data) => {
         if (data.data.message === 'signup plz') {
-          console.log('회원가입을해야합니다. 강사,유저 선택 모달창 나타나야한다ㅏㅏㅏ ');
+          alert('회원가입을해야합니다. 강사,유저 선택 모달창 나타나야한다ㅏㅏㅏ ');
           //소셜 회원가입 모달 선택창으로이동 !
         } else {
           console.log('로그인성공 ! ');
@@ -157,6 +154,7 @@ function SignInPage() {
               name="user-email"
               type="email"
               onChange={handleInputValue('email')}
+              onKeyUp={handleEnterLogin}
               size="large"
               style={{ margin: '12px 0 6px 0' }}
               placeholder="이메일을 입력해주세요"
@@ -168,6 +166,7 @@ function SignInPage() {
               name="user-password"
               type="password"
               onChange={handleInputValue('password')}
+              onKeyUp={handleEnterLogin}
               size="large"
               style={{ margin: '6px 0 0 0' }}
               placeholder="비밀번호를 입력해주세요"
@@ -192,7 +191,7 @@ function SignInPage() {
               onFailure={handleFail}></GoogleLogin>
             <NaverLogin
               clientId={process.env.REACT_APP_NAVER_API_KEY}
-              callbackUrl="http://localhost:3000/SignIn"
+              callbackUrl={'http://localhost:3000/SignIn'}
               render={(props) => <ButtonStyle onClick={props.onClick}>Naver Login</ButtonStyle>}
               onSuccess={handleNaverLogin}
               onFailure={handleFail}

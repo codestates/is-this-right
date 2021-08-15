@@ -5,13 +5,6 @@ import io from 'socket.io-client';
 const ChatRoom = ({ chatClick, userInfo, changeRoom }) => {
   const [chatlist, SetChatList] = useState([]);
   const [currentRoom, SetcurrentRoom] = useState(null);
-  useEffect(() => {
-    let getChatlist = async () => {
-      let list = await axios.get('http://localhost:80/chats');
-      SetChatList(list.data);
-    };
-    getChatlist();
-  }, []);
 
   // useEffect(() => {
   //   socket.on('message', (message) => {

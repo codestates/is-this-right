@@ -6,7 +6,10 @@ require('dotenv').config();
 module.exports = async (req, res) => {
   // TODO: 회원가입 및 사용자 생성 로직을 작성하세요.
   let { username, email, password, provider } = req.body;
-  const profileImg = req.file.location;
+  console.log(req.file);
+  let profileImg;
+  if (req.file) profileImg = req.file.location;
+  else profileImg = 'https://is-this-right-sources.s3.ap-northeast-2.amazonaws.com/default_profile.png';
   if (!username || !email) {
     return res.status(422).json({ message: 'insufficient parameters supplied' });
   }
@@ -30,7 +33,7 @@ module.exports = async (req, res) => {
         email,
         password,
         username,
-        profileImg: profileImg || 'https://is-this-right-sources.s3.ap-northeast-2.amazonaws.com/default_profile.png',
+        profileImg,
         provider,
       },
     })
