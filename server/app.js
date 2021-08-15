@@ -21,7 +21,7 @@ const port = process.env.PORT || 80;
 server.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
-//const { addUser, removeUser} = require('./users');
+const { addUser, removeUser } = require('./users');
 
 const router = require('./router');
 app.use(router);
@@ -31,20 +31,26 @@ io.on('connection', (socket) => {
   socket.on('online', (data) => {
     console.log('received: "' + data + '" from client' + socket.id);
     socket.emit('online', 'Ok, i got it, ' + socket.id);
+
     //여기서 addUser하기.
+
+    // data.id = socket.id;
+    // let userinfo = addUser(data);
+    // console.log(userinfo);
   });
 
   socket.on('join', (data) => {
     // 방입장할때 기존에 있던 방에서 나옴
-    socket.leaveAll();
+    // socket.leaveAll();
     socket.join(data.room);
+    // console.log('socket', socket);
   });
 
   socket.on('sendMessage', (message) => {
     // 메세지 받는곳.
     // 받은메세지를 해당 룸에 보내줌.
     console.log('여기메세지떠야하는뎅', message);
-    io.to(message.room).emit('message', { user: '상현', text: message.message });
+    io.to(message.room).emit('message', { user: message.name, text: message.message, room: message.room });
 
     //callback(); 여기서 데이타베이스에 메세지 저장 / 마지막읽은시간 업데이트.
   });

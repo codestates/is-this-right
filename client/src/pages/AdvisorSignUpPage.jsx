@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router';
 import styled from 'styled-components';
 import UploadCompo from '../components/UploadCompo';
 import { Input, Button, Radio, Select } from 'antd';
@@ -59,9 +60,7 @@ function AdvisorSignUpPage() {
   const [categoryErr, setCategory] = useState(null);
   const [detailErr, setDetailErr] = useState(null);
   const [urlErr, setUrlErr] = useState(null);
-
   const [disable, setDisable] = useState(true);
-  const adviserPriviewState = useSelector((state) => state.adviserReducer.adviserProfileImg);
   const [signUpInfo, setSignUpInfo] = useState({
     username: '',
     email: '',
@@ -74,6 +73,8 @@ function AdvisorSignUpPage() {
     gender: '',
     state: '',
   });
+  const adviserPriviewState = useSelector((state) => state.adviserReducer.adviserProfileImg);
+  const history = useHistory();
 
   const handleInputValue = (key, e) => {
     console.log(key);
@@ -107,6 +108,7 @@ function AdvisorSignUpPage() {
           header: { 'Content-Type': 'multipart/form-data' },
         })
         .then((result) => {
+          alert('회원가입이 완료되었습니다.');
           window.location.replace('SignIn');
         })
         .catch((err) => {
