@@ -41,11 +41,17 @@ function Nav() {
     <NavAreaStyle>
       <ContainerStlye>
         <div>
-          <LogoStyle src="../../imageFile/Logo_black.png" alt="" />
+          <Link to="/">
+            <LogoStyle src="../../imageFile/Logo_black.png" alt="" />
+          </Link>
         </div>
         <DivStyle>
-          <span style={{ marginLeft: '22%' }}>딴지꾼</span>
-          <span style={{ marginLeft: '10%' }}>마자?</span>
+          <Link to="/AdviserList">
+            <span style={{ marginLeft: '22%' }}>딴지꾼</span>
+          </Link>
+          <Link to="/">
+            <span style={{ marginLeft: '10%' }}>마자?</span>
+          </Link>
           <Link to="/SignIn">
             {state.logIn ? (
               <span style={{ marginLeft: '10%' }}>마이페이지</span>
