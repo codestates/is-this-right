@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
-import { successLogIn, addUserInfo } from '../actions/userActionIndex';
+import { successLogIn, addUserInfo, successLogout } from '../actions/userActionIndex';
 const url = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 const NavAreaStyle = styled.div`
@@ -56,7 +56,10 @@ function Nav() {
   };
 
   let handleLogOut = () => {
-    axios.get(`${url}/signout`).then((ok) => window.location.replace('/'));
+    axios.get(`${url}/signout`).then((ok) => {
+      dispatch(successLogout());
+      window.location.replace('/');
+    });
   };
   return (
     <NavAreaStyle>

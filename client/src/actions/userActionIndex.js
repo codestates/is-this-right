@@ -3,6 +3,7 @@ export const SUCCESS_LOGIN = 'SUCCESS_LOGIN';
 export const HANDLE_PROFILE_IMG = 'HANDLE_PROFILE_IMG';
 export const ADD_USER_INFO = 'ADD_USER_INFO';
 export const ADD_SIGN_UP_INFO = 'ADD_SIGN_UP_INFO';
+export const SUCCESS_LOGOUT = 'SUCCESS_LOGOUT';
 // actions creator functions
 
 export const successLogIn = () => {
@@ -30,5 +31,11 @@ export const userProfileImg = (originFile, preview) => {
   return {
     type: HANDLE_PROFILE_IMG,
     payload: { originFile, preview },
+  };
+};
+
+export const successLogout = () => {
+  return {
+    type: SUCCESS_LOGOUT,
   };
 };
