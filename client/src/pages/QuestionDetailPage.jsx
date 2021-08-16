@@ -33,12 +33,12 @@ function QuestionDetailPage() {
     axios
       .get(`${url}/posts/${id}`)
       .then((data) => {
-        setPost(data.data);
-        return data.data;
+        setPost(data.data.data);
+        return data.data.data;
       })
       .then((result) =>
         axios
-          .get(`${url}/users/posts/${result.data['0'].userId}`)
+          .get(`${url}/users/posts/${result.userId}`)
           .then((data) => setUserPostsList(data.data.data))
           .catch((err) => console.log(err)),
       );

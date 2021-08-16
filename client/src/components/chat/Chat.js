@@ -30,7 +30,7 @@ const Chat = ({ name, roomNum, socket }) => {
   useEffect(() => {
     if (roomNum) {
       let getChatdata = async () => {
-        // let list = await axios.get(`${url}/chats/messages/${roomNum}`);
+        let list = await axios.get(`${url}/chats/messages/${roomNum}`);
         console.log('왜안나오니채팅친구야', list);
 
         setMessages(list.data.data);
@@ -45,7 +45,7 @@ const Chat = ({ name, roomNum, socket }) => {
   useEffect(async () => {
     if (socket) {
       socket.on('message', (message, af) => {
-        await axios.get(`${url}/chats`);
+        // await axios.get(`${url}/chats`);
         console.log('클라 메세지 받기', message);
         setMessages((messages) => [...messages, message]);
       });

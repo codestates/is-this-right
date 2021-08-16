@@ -73,12 +73,12 @@ module.exports = {
       );
       res.status(201).json({ data: { roomId: room.id }, message: 'created!' });
     } else {
-      res.status(200).json({ data: { roomId: isRoomExist[0].chatId ?? isMessageExist[0].chatId }, message: 'ok' });
+      res.status(200).json({ data: { roomId: isRoomExist[0].chatId || isMessageExist[0].chatId }, message: 'ok' });
     }
   },
   patch: async (req, res) => {
     const chatId = req.params.id;
-    const userId = isAuthorized(req).id ?? false;
+    const userId = isAuthorized(req).id || false;
     if (userId) {
       await sequelize.query(
         `UPDATE chats_users SET updatedAt=CURRENT_TIMESTAMP
