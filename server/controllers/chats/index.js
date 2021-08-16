@@ -87,6 +87,8 @@ module.exports = {
         { type: QueryTypes.UPDATE },
       );
       res.status(200).json({ message: 'ok' });
+    } else {
+      res.status(401).json({ message: 'Unauthorized Request' });
     }
   },
   delete: async (req, res) => {

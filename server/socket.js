@@ -13,6 +13,7 @@ module.exports = function (io) {
 
     socket.on('join', (data) => {
       // 방입장할때
+      console.log('방 입장됨', data.room);
       socket.join(data.room);
     });
 
@@ -39,7 +40,7 @@ module.exports = function (io) {
 
       const response = { ...createdMessage.dataValues, ...senderInfo[0] };
 
-      console.log('여기메세지떠야하는뎅', response);
+      console.log(messageInfo, '여기메세지떠야하는뎅', response);
       io.to(messageInfo.room).emit('message', response);
     });
     socket.on('disconnect', () => {

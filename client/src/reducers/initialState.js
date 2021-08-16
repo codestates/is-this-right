@@ -24,3 +24,9 @@ export const postInitialState = {
     preview: '',
   },
 };
+
+export const chatInitialState = {
+  currentRoom: '',
+  chatList: [],
+  socket: null,
+};

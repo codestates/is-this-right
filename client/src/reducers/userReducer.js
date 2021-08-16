@@ -12,7 +12,7 @@ import { SUCCESS_LOGIN, HANDLE_PROFILE_IMG, ADD_USER_INFO, ADD_SIGN_UP_INFO } fr
 //   },
 // };
 
-const postReducer = (state = initialState, action) => {
+const userReducer = (state = initialState, action) => {
   const newState = { ...state };
   // console.log(newState);
 
@@ -50,4 +50,4 @@ const postReducer = (state = initialState, action) => {
   }
 };
 
-export default postReducer;
+export default userReducer;

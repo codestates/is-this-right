@@ -14,6 +14,7 @@ module.exports = {
           JOIN users ON messages.sender = users.id
           LEFT JOIN advisers ON users.id = advisers.userId
           WHERE messages.chatId=${chatId}
+          ORDER BY createdAt
           `,
         { type: QueryTypes.SELECT },
       );
