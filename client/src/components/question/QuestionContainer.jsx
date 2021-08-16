@@ -20,9 +20,9 @@ const SearchSection = styled.div`
   padding: 0px 5% 0px 5%;
 `;
 
-const PostCardSectionStyle = styled.div`
+const PostCardSectionStyle = styled(Link)`
   width: 100%;
-
+  /* height: 350px; */
   background-color: orange;
   display: flex;
   flex-direction: column;
@@ -36,7 +36,7 @@ const AnsweredSectionStyle = styled.div`
 function QuestionContainer() {
   const mockData = [
     {
-      id: 'PK',
+      id: 1,
       username: '김',
       title: 'ㄱㄷㅎ',
       img: 'img',
@@ -47,7 +47,7 @@ function QuestionContainer() {
       updatedAt: '2021-08-04',
     },
     {
-      id: 'PK',
+      id: 2,
       username: '병민',
       title: 'title',
       img: 'img',
@@ -58,7 +58,7 @@ function QuestionContainer() {
       updatedAt: '2021-08-04',
     },
     {
-      id: 'PK',
+      id: 3,
       username: '상훈',
       title: 'title',
       img: 'img',
@@ -69,7 +69,7 @@ function QuestionContainer() {
       updatedAt: '2021-08-04',
     },
     {
-      id: 'PK',
+      id: 4,
       username: '상현',
       title: 'title',
       img: 'img',
@@ -80,7 +80,7 @@ function QuestionContainer() {
       updatedAt: '2021-08-04',
     },
     {
-      id: 'PK',
+      id: 5,
       username: '상현',
       title: 'title',
       img: 'img',
@@ -91,7 +91,7 @@ function QuestionContainer() {
       updatedAt: '2021-08-04',
     },
     {
-      id: 'PK',
+      id: 6,
       username: '상현',
       title: 'title',
       img: 'img',
@@ -102,7 +102,7 @@ function QuestionContainer() {
       updatedAt: '2021-08-04',
     },
     {
-      id: 'PK',
+      id: 7,
       username: '상현',
       title: 'title',
       img: 'img',
@@ -113,7 +113,7 @@ function QuestionContainer() {
       updatedAt: '2021-08-04',
     },
     {
-      id: 'PK',
+      id: 8,
       username: '상현',
       title: 'title',
       img: 'img',
@@ -124,7 +124,7 @@ function QuestionContainer() {
       updatedAt: '2021-08-04',
     },
     {
-      id: 'PK',
+      id: 9,
       username: '상현',
       title: 'title',
       img: 'img',
@@ -148,11 +148,13 @@ function QuestionContainer() {
           <Button>게시</Button>
         </Link>
       </SearchSection>
-      <PostCardSectionStyle>
-        {mockData.map((el) => (
+      {/* <PostCardSectionStyle> */}
+      {mockData.map((el) => (
+        <PostCardSectionStyle to={`/posts/${el.id}`}>
           <PostCard data={el} />
-        ))}
-      </PostCardSectionStyle>
+        </PostCardSectionStyle>
+      ))}
+      {/* </PostCardSectionStyle> */}
     </QuestionContainerStyle>
   );
 }
