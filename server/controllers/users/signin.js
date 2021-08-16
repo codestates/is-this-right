@@ -32,6 +32,7 @@ module.exports = async (req, res) => {
       delete userInfo.dataValues.adviser;
       userInfo = { ...adviserInfo.dataValues, ...userInfo.dataValues };
       userInfo.role = 'adviser';
+      userInfo.adviserId = adviserInfo.dataValues.id;
     } else {
       // user일때
       userInfo = userInfo.dataValues;
