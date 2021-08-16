@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link, useHistory } from 'react-router-dom';
 import { Form, Input, Button, message } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
-import { successLogIn, addSignUpInfo } from '../actions/userActionIndex';
+import { useDispatch } from 'react-redux';
+import { addSignUpInfo } from '../actions/userActionIndex';
 import { GoogleLogin } from 'react-google-login';
 import NaverLogin from 'react-naver-login';
 import axios from 'axios';
@@ -132,9 +132,9 @@ function SignInPage() {
     provider: 'origin',
   });
   const [isSocialSignUp, setIsSocialSignUp] = useState(false);
+  const [kakaoCode, setKakaoCode] = useState(null);
   const dispatch = useDispatch();
   const history = useHistory();
-  const state = useSelector((state) => state.useReducer);
   //로그인 요청을 보낼 데이터
   const handleInputValue = (key) => (e) => {
     console.log(loginInfo);
@@ -152,7 +152,7 @@ function SignInPage() {
     axios
       .post(`${url}/signin`, loginInfo)
       .then((result) => {
-        window.location.replace('/');
+        history.push('/');
       })
       .catch((err) => {
         //에러메세지 넣어주기
@@ -192,6 +192,32 @@ function SignInPage() {
       .catch((err) => console.log(err.response));
   };
 
+  const getKakaoToken = () => {
+    let clientId = process.env.REACT_APP_KAKAO_CLIENT_ID;
+    let redirectUri = process.env.REACT_APP_KAKAO_REDIRECT_URI;
+    window.location.assign(
+      `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}`,
+    );
+  };
+  const getKakaoInfo = async (kakaoCode) => {
+    let kakaoInfo = await axios.post(`${url}/auth`, { authorizationCode: kakaoCode }).catch((err) => console.log(err));
+    if (kakaoInfo) {
+      dispatch(addSignUpInfo(kakaoInfo.data.data));
+      successSocial({ ...kakaoInfo.data.data, password: socialPw });
+    }
+  };
+  useEffect(() => {
+    if (!kakaoCode) {
+      let Url = new URL(window.location.href);
+      let authorizationCode = Url.searchParams.get('code');
+      if (authorizationCode) {
+        setKakaoCode(authorizationCode);
+        history.push('/SignIn');
+      }
+    } else {
+      getKakaoInfo(kakaoCode);
+    }
+  }, [kakaoCode]);
   return (
     <DividePage>
       <LoginSectionStyle>
@@ -235,9 +261,10 @@ function SignInPage() {
               </div>
             </SignUpStyle>
             <ButtonStyle onClick={handleLogIn}> 로그인</ButtonStyle>
+            <ButtonStyle onClick={getKakaoToken}> Kakao Login</ButtonStyle>
             <GoogleLogin
               clientId={process.env.REACT_APP_GOOGLE_API_KEY}
-              render={(props) => <ButtonStyle onClick={props.onClick}>google Login</ButtonStyle>}
+              render={(props) => <ButtonStyle onClick={props.onClick}>Google Login</ButtonStyle>}
               onSuccess={handleGoogleLogIn}
               onFailure={handleFail}></GoogleLogin>
             <NaverLogin
@@ -247,9 +274,6 @@ function SignInPage() {
               onSuccess={handleNaverLogin}
               onFailure={handleFail}
             />
-
-            <ButtonStyle> 로셜</ButtonStyle>
-            <ButtonStyle> 로셜</ButtonStyle>
           </div>
         </LogInStyle>
       </LoginSectionStyle>

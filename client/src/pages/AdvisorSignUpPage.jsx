@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
 import UploadCompo from '../components/UploadCompo';
-import { Input, Button, Radio, Select } from 'antd';
+import { Input, Button, Radio } from 'antd';
 import SelectBox from '../components/adviser/SelectBox';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
@@ -115,7 +115,7 @@ function AdvisorSignUpPage() {
         })
         .then((result) => {
           alert('회원가입이 완료되었습니다.');
-          window.location.replace('/');
+          history.push('/');
         })
         .catch((err) => {
           setSignupErr('잘못된 정보가 있습니다. 확인 후 다시 시도 해주세요.');
