@@ -3,7 +3,6 @@ const { generateAccessToken, sendAccessToken } = require('../tokenFunctions');
 const bcrypt = require('bcrypt');
 require('dotenv').config();
 module.exports = async (req, res) => {
-  console.log(req.body);
   let { email, password, provider } = req.body;
 
   let userInfo = await user
@@ -21,8 +20,8 @@ module.exports = async (req, res) => {
 
   if (userInfo) {
     //소셜로그인용 비밀번호설정
-    if (!password) password = process.env.SOCIAL_PASSWORD;
     let check = await bcrypt.compare(password, userInfo.dataValues.password);
+    console.log(check);
     if (!check) {
       return res.status(404).json({ message: 'password err' });
     }

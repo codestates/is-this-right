@@ -1,17 +1,12 @@
 const users = [];
 
 const addUser = ({ name }) => {
-  name = name.trim().toLowerCase();
-
-  const existingUser = users.find((user) => user.name === name);
-
-  if (existingUser) return;
-
-  const user = { name };
-
-  users.push(user);
-
-  return { user };
+  // name = name.trim().toLowerCase();
+  // const existingUser = users.find((user) => user.name === name);
+  // if (existingUser) return;
+  // const user = { name };
+  // users.push(user);
+  // return { user };
 };
 
 const removeUser = (id) => {

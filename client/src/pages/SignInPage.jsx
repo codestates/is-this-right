@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Form, Input, Button, message } from 'antd';
-import { useDispatch } from 'react-redux';
-import { successLogIn } from '../actions/userActionIndex';
+import { useDispatch, useSelector } from 'react-redux';
+import { successLogIn, addSignUpInfo } from '../actions/userActionIndex';
 import { GoogleLogin } from 'react-google-login';
 import NaverLogin from 'react-naver-login';
 import axios from 'axios';
 
 const url = process.env.REACT_APP_API_URL;
+const socialPw = process.env.REACT_APP_SOCIAL_PW;
 axios.defaults.withCredentials = true;
 
 const DividePage = styled.div`
@@ -80,14 +81,60 @@ const DivToSignUpStyle = styled.span`
   }
 `;
 
+const ModalwindowStyle = styled.div`
+  position: fixed;
+  background-color: rgba(255, 255, 255, 0.25);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+  transition: all 0.3s;
+  opacity: 1;
+  pointer-events: auto;
+
+  & > div {
+    width: 400px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-60%, -50%);
+    padding: 2em;
+    background: white;
+    border: 1px solid black;
+    text-align: center;
+  }
+  h1 {
+    font-size: 130%;
+    margin: 0 0 15px;
+  }
+`;
+
+const ModalCloseStyle = styled.div`
+  color: #aaa;
+  line-height: 50px;
+  font-size: 80%;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 0;
+  width: 70px;
+  text-decoration: none;
+  &:hover {
+    color: black;
+  }
+`;
+
 function SignInPage() {
   const [loginInfo, setLoginInfo] = useState({
     email: '',
     password: '',
     provider: 'origin',
   });
+  const [isSocialSignUp, setIsSocialSignUp] = useState(false);
   const dispatch = useDispatch();
-
+  const history = useHistory();
+  const state = useSelector((state) => state.useReducer);
   //로그인 요청을 보낼 데이터
   const handleInputValue = (key) => (e) => {
     console.log(loginInfo);
@@ -105,7 +152,6 @@ function SignInPage() {
     axios
       .post(`${url}/signin`, loginInfo)
       .then((result) => {
-        dispatch(successLogIn());
         window.location.replace('/');
       })
       .catch((err) => {
@@ -113,35 +159,37 @@ function SignInPage() {
         message.error('가입하지 않은 아이디이거나, 잘못된 비밀번호입니다.');
       });
   };
-
-  // const [mock, setMock] = useState('');
-  // useEffect(() => {
-  //   setLoginInfo(mock);
-  // }, [mock]);
+  const handleEnterLogin = (e) => {
+    if (e.keyCode === 13) handleLogIn();
+  };
 
   let handleGoogleLogIn = (res) => {
-    successSocial({ email: res.profileObj.email, provider: 'google' });
+    dispatch(addSignUpInfo({ email: res.profileObj.email, provider: 'google' }));
+    successSocial({ email: res.profileObj.email, password: socialPw, provider: 'google' });
   };
   let handleNaverLogin = (res) => {
-    successSocial({ email: res.email, provider: 'naver' });
+    dispatch(addSignUpInfo({ email: res.email, provider: 'naver' }));
+    successSocial({ email: res.email, password: socialPw, provider: 'naver' });
   };
   let handleFail = (res) => {
     alert('해당 소셜사이트 인증에 실패했어요 ㅠㅠ');
   };
+  let handleSocialSignup = () => {
+    setIsSocialSignUp(!isSocialSignUp);
+  };
   let successSocial = (body) => {
     axios
-      .post('http://localhost:80/signin', body)
+      .post(`${url}/signin`, body)
       .then((data) => {
         if (data.data.message === 'signup plz') {
-          console.log('회원가입을해야합니다. 강사,유저 선택 모달창 나타나야한다ㅏㅏㅏ ');
+          handleSocialSignup();
           //소셜 회원가입 모달 선택창으로이동 !
         } else {
           console.log('로그인성공 ! ');
           window.location.replace('/');
         }
       })
-
-      .catch((err) => console.log('우리 측 서버가 이상해요 ㅠㅠ '));
+      .catch((err) => console.log(err.response));
   };
 
   return (
@@ -157,6 +205,7 @@ function SignInPage() {
               name="user-email"
               type="email"
               onChange={handleInputValue('email')}
+              onKeyUp={handleEnterLogin}
               size="large"
               style={{ margin: '12px 0 6px 0' }}
               placeholder="이메일을 입력해주세요"
@@ -168,6 +217,7 @@ function SignInPage() {
               name="user-password"
               type="password"
               onChange={handleInputValue('password')}
+              onKeyUp={handleEnterLogin}
               size="large"
               style={{ margin: '6px 0 0 0' }}
               placeholder="비밀번호를 입력해주세요"
@@ -192,7 +242,7 @@ function SignInPage() {
               onFailure={handleFail}></GoogleLogin>
             <NaverLogin
               clientId={process.env.REACT_APP_NAVER_API_KEY}
-              callbackUrl="http://localhost:3000/SignIn"
+              callbackUrl={'http://localhost:3000/SignIn'}
               render={(props) => <ButtonStyle onClick={props.onClick}>Naver Login</ButtonStyle>}
               onSuccess={handleNaverLogin}
               onFailure={handleFail}
@@ -204,6 +254,20 @@ function SignInPage() {
         </LogInStyle>
       </LoginSectionStyle>
       <ImageStyle />
+      {isSocialSignUp ? (
+        <ModalwindowStyle>
+          <div>
+            <ModalCloseStyle onClick={handleSocialSignup}>close</ModalCloseStyle>
+            <h1>회원가입 종류를 선택해주세요</h1>
+            <Link to="/AdvisorSignUp/Social">
+              <button>강사</button>
+            </Link>
+            <Link to="/UserSignUp/Social">
+              <button style={{ marginLeft: '40px' }}>유저</button>
+            </Link>
+          </div>
+        </ModalwindowStyle>
+      ) : null}
     </DividePage>
   );
 }

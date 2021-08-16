@@ -1,35 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import io from 'socket.io-client';
+const url = process.env.REACT_APP_API_URL;
+axios.defaults.withCredentials = true;
 
-const ChatRoom = ({ chatClick, userInfo, changeRoom }) => {
-  const [chatlist, SetChatList] = useState([]);
-  const [currentRoom, SetcurrentRoom] = useState(null);
+const ChatRoom = ({ changeRoom, handleSetisChat }) => {
+  const [chatlist, setChatList] = useState([]);
+  const [viewChatist, setViewChatlist] = useState(false);
+
   useEffect(() => {
-    let getChatlist = async () => {
-      let list = await axios.get('http://localhost:80/chats');
-      SetChatList(list.data);
-    };
-    getChatlist();
+    axios.get(`${url}/chats`).then((data) => {
+      console.log('쳇데이터', data);
+      setChatList(data.data.data);
+      setViewChatlist();
+    });
   }, []);
 
-  // useEffect(() => {
-  //   socket.on('message', (message) => {
-  //     console.log('클라 메세지 받기', console.log(message));
-
-  //     setMessages((messages) => [...messages, message]);
-  //   });
-  // }, []);
+  const handleViewChatList = () => {
+    setViewChatlist(!viewChatist);
+  };
+  const handleChatRoom = (chatId) => {
+    changeRoom(chatId);
+    handleSetisChat();
+  };
 
   return (
     <>
-      <div onClick={chatClick}>채팅룸입니다</div>
-      {chatlist
-        ? chatlist.map((list2) => {
+      <button onClick={handleViewChatList}>채팅 목록보기</button>
+      {viewChatist
+        ? chatlist.map((chat) => {
             return (
-              <div key={list2.chatId}>
-                <div>{list2.chatId}번 방입니다.</div>
-                <button onClick={() => changeRoom(list2.chatId)}>클릭</button>
+              <div key={chat.chatId}>
+                <span>{chat.chatId}번 방.</span>
+                <span>{chat.username}</span>
+                <span>{chat.lastMessage}</span>
+                <span>{chat.unreadMessageCount}</span>
+                <button onClick={() => handleChatRoom(chat.chatId)}>클릭</button>
               </div>
             );
           })
