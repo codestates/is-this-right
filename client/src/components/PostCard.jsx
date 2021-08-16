@@ -9,7 +9,7 @@ const PostCardStyle = styled.div`
   background-color: white;
   border: 1px solid black;
   width: 95%;
-  height: 20%;
+  height: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;

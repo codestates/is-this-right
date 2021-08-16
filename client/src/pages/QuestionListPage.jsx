@@ -4,6 +4,7 @@ import CategoryButton from '../components/question/CategoryButton';
 import Top10List from '../components/question/Top10List';
 import QuestionContainer from '../components/question/QuestionContainer';
 import { BodyAreaStyle, ContainerStlye } from '../style/pageStyle';
+import { Link } from 'react-router-dom';
 
 // const BodyAreaStyle = styled.div`
 //   height: 80vh;
