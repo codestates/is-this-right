@@ -15,7 +15,7 @@ export const adviserProfileImg = (originFile, preview) => {
 export const getTopAdvisers =
   (category = '헬스') =>
   async (dispatch) => {
-    const data = await axios.get(`${url}/top10?category=${category}`).then((result) => result);
+    const data = await axios.get(`${url}/top10?category='${category}'`).then((result) => result);
     dispatch(sendTopAdviserS(data));
   };
 
