@@ -11,7 +11,6 @@ const CategoryStyle = styled.div`
 `;
 
 function CategoryButton({ props }) {
-  console.log(props.color);
   return (
     <CategoryStyle prop={props.color}>
       <div>{props.name}</div>
