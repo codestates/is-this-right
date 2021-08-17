@@ -48,6 +48,8 @@ router.get('/posts', controllers.posts.getAll);
 router.get('/posts/:id', controllers.posts.getDetail);
 router.put('/posts/:id', upload.array('files'), controllers.posts.put);
 router.post('/posts', upload.array('files'), controllers.posts.post);
+router.post('/posts/select', controllers.selectFeedback.post);
+router.delete('/posts/select', controllers.selectFeedback.delete);
 router.delete('/posts/:id', controllers.posts.delete);
 
 //chats routing

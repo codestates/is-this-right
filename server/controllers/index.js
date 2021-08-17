@@ -2,6 +2,8 @@ module.exports = {
   users: require('./users'),
   advisers: require('./adivsers'),
   posts: require('./posts'),
+  selectFeedback: require('./posts/select'),
+  cancelSelectFeedback: require('./posts/select'),
   feedbacks: require('./feedbacks'),
   chats: require('./chats'),
   messages: require('./chats/messages'),
