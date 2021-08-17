@@ -73,7 +73,7 @@ module.exports = {
       );
       res.status(201).json({ data: { roomId: room.id }, message: 'created!' });
     } else {
-      res.status(200).json({ data: { roomId: isRoomExist[0].chatId ?? isMessageExist[0].chatId }, message: 'ok' });
+      res.status(200).json({ data: { roomId: isRoomExist[0].chatId || isMessageExist[0].chatId }, message: 'ok' });
     }
   },
   delete: async (req, res) => {

@@ -8,8 +8,8 @@ import { CheckCircleTwoTone, CheckCircleOutlined } from '@ant-design/icons';
 const PostCardStyle = styled.div`
   background-color: white;
   border: 1px solid black;
-  width: 95%;
-  height: 100%;
+  width: 100%;
+  height: 20%;
   display: flex;
   justify-content: space-between;
   align-items: center;
