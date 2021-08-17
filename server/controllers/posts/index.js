@@ -36,7 +36,7 @@ module.exports = {
       { type: QueryTypes.SELECT },
     );
     const sourceInfo = await source.findAll({ where: { postId: id } });
-    res.status(200).json({ data: { ...postInfo, feedbacks: feedbackInfo, sources: sourceInfo }, message: 'ok' });
+    res.status(200).json({ data: { post: postInfo, feedbacks: feedbackInfo, sources: sourceInfo }, message: 'ok' });
   },
 
   post: async (req, res) => {
