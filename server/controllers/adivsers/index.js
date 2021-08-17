@@ -2,6 +2,7 @@ const { user, adviser, feedback, post } = require('../../models');
 const Sequelize = require('sequelize');
 const { generateAccessToken, isAuthorized, sendAccessToken } = require('../tokenFunctions');
 const bcrypt = require('bcrypt');
+const { users } = require('../users');
 
 require('dotenv').config();
 // const {onlinelist} = require('../../users')
@@ -24,7 +25,17 @@ module.exports = {
         console.log(err);
         return res.status(500).json({ message: 'database err' });
       });
-    res.json(list);
+    users.forEach((online, index) => {
+      list.forEach((el) => {
+        if (online.userId === el.userId) {
+          el3.isonline = true;
+          users.splice(index, 1);
+        } else {
+          el.isonline = false;
+        }
+      });
+    });
+    res.status(200).json(list);
     // 이후 for문 돌려서 리스트 보내줄때 isonline 붙이기
   },
   post: async (req, res) => {
