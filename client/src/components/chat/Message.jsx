@@ -7,8 +7,7 @@ import { useSelector } from 'react-redux';
 const Message = ({ message }) => {
   const userState = useSelector((state) => state.userReducer);
   let isSentByCurrentUser = false;
-  const name =
-    userState.userInfo.data.role === 'adviser' ? userState.userInfo.data.name : userState.userInfo.data.username;
+  const name = userState.userInfo.role === 'adviser' ? userState.userInfo.name : userState.userInfo.username;
   const trimmedName = name.trim().toLowerCase();
   if (message.username === trimmedName) {
     isSentByCurrentUser = true;

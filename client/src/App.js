@@ -40,7 +40,7 @@ function App() {
     //방만들고 룸넘버 획득
     if (state.logIn) {
       let payload = {
-        sender: state.userInfo.data.id,
+        sender: state.userInfo.id,
         receiver: userId,
       };
       axios.post(`${url}/chats`, payload).then((data) => {
@@ -71,7 +71,7 @@ function App() {
         let chatlist = await axios.get(`${url}/chats`);
         dispatch(updateChatList(chatlist.data.data));
       });
-      chatState.socket.emit('online', state.userInfo.data);
+      chatState.socket.emit('online', state.userInfo);
     }
   }, [chatState.socket]);
 
