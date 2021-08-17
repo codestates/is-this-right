@@ -15,6 +15,7 @@ export const adviserInitialState = {
     imgFile: '',
     preview: '',
   },
+  topAdvisers: [],
 };
 
 export const postInitialState = {
