@@ -14,7 +14,7 @@ import SignInPage from './pages/SignInPage';
 import UserSignUpPage from './pages/UserSignUpPage';
 import AdvisorSignUpPage from './pages/AdvisorSignUpPage';
 import QuestionPostPage from './pages/QuestionPostPage';
-
+import UserQuestionPage from './pages/UserQuestionPage';
 import QuestionDetailPage from './pages/QuestionDetailPage';
 import AdvisorListPage from './pages/AdvisorListPage';
 import AdvisorDetailPage from './pages/AdvisorDetailPage';
@@ -35,7 +35,6 @@ function App() {
     setText(result.data);
   };
   const state = useSelector((state) => state.userReducer);
-  console.log(state);
 
   const createChatRoom = (userId) => {
     let payload = {
@@ -145,6 +144,11 @@ function App() {
         <Route path="/advisers/:id">
           <Nav />
           <AdvisorDetailPage />
+          <Footer />
+        </Route>
+        <Route path="/users/posts/:id">
+          <Nav />
+          <UserQuestionPage />
           <Footer />
         </Route>
       </Switch>
