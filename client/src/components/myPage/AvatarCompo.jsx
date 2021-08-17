@@ -15,7 +15,7 @@ const ContainerStyle = styled.div`
 `;
 
 function AvatarCompo() {
-  const userInfo = useSelector((state) => state.userReducer.userInfo.data);
+  const userInfo = useSelector((state) => state.userReducer.userInfo);
   let { username, profileImg } = userInfo;
   return (
     <ContainerStyle>

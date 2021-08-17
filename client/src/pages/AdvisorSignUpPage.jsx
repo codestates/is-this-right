@@ -78,7 +78,7 @@ function AdvisorSignUpPage() {
     provider: 'origin',
   });
   const [signupErr, setSignupErr] = useState(null);
-  const adviserPriviewState = useSelector((state) => state.adviserReducer.adviserProfileImg);
+  const adviserPriviewState = useSelector((state) => state.userReducer.userProfileImg);
   const userState = useSelector((state) => state.userReducer);
   const socialHide = useRef(null);
   const history = useHistory();
@@ -98,7 +98,8 @@ function AdvisorSignUpPage() {
 
   const handleSignUp = () => {
     // && !validateErr 유효성검사 넣어야함
-    const adviserImg = adviserPriviewState.imgFile;
+    console.log('얘는잘뜨고있니', adviserPriviewState);
+    const adviserImg = adviserPriviewState.imaFile;
     console.log(adviserImg);
     const formData = new FormData();
     formData.append('profileImg', adviserImg);

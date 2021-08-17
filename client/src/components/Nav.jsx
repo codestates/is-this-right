@@ -47,7 +47,7 @@ function Nav() {
     let userInfo = await axios.get(`${url}/users`);
     if (userInfo) {
       dispatch(successLogIn());
-      dispatch(addUserInfo(userInfo.data));
+      dispatch(addUserInfo(userInfo.data.data));
     }
   }, []);
 
@@ -68,12 +68,12 @@ function Nav() {
           <LogoStyle onClick={handleClickHome} src="../../imageFile/Logo_black.png" alt="" />
         </div>
         <DivStyle>
-               <Link to="/AdviserList">
-          <span style={{ marginLeft: '22%' }}>딴지꾼</span>
-     </Link>
-<Link to="/">
-          <span style={{ marginLeft: '10%' }}>마자?</span>
-   </Link>
+          <Link to="/AdviserList">
+            <span style={{ marginLeft: '22%' }}>딴지꾼</span>
+          </Link>
+          <Link to="/">
+            <span style={{ marginLeft: '10%' }}>마자?</span>
+          </Link>
           {state.logIn ? (
             <>
               <Link to="/MyPage">

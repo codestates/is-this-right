@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { Upload, Modal } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Upload } from 'antd';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { userProfileImg } from '../actions/userActionIndex';
-import { adviserProfileImg } from '../actions/adviserActionIndex';
 import { postImages } from '../actions/postActionIndex';
 import { InboxOutlined, PlusOutlined } from '@ant-design/icons';
 const { Dragger } = Upload;
@@ -30,14 +29,20 @@ function UploadCompo({ where }) {
   });
 
   const dispatch = useDispatch();
-  const state = useSelector((state) => state.userReducer.userProfileImg);
-  const adviserPriviewState = useSelector((state) => state.adviserReducer.adviserProfileImg);
+  const state = useSelector((state) => state.userReducer);
 
   const uploadImage = () => {};
 
   useEffect(() => {
-    where === 'user' ? setPreview(state.preview) : setPreview(adviserPriviewState.preview);
-  }, [preview]);
+    console.log(state);
+    if (state.userInfo.profileImg) {
+      dispatch(userProfileImg(state.userInfo.profileImg, state.userInfo.profileImg));
+      setPreview(true);
+    }
+    return () => {
+      dispatch(userProfileImg('', ''));
+    };
+  }, []);
 
   const handleImageFile = (event) => {
     // console.log(event);
@@ -48,10 +53,9 @@ function UploadCompo({ where }) {
       const base64 = reader.result;
       if (base64) {
         const pre = base64.toString();
-        where === 'adviser'
-          ? dispatch(adviserProfileImg(event.file.originFileObj, pre))
-          : dispatch(userProfileImg(event.file.originFileObj, pre));
-        setPreview('true');
+
+        dispatch(userProfileImg(event.file.originFileObj, pre));
+        setPreview(true);
       }
     };
     if (event.file.originFileObj) {
@@ -134,7 +138,7 @@ function UploadCompo({ where }) {
           showUploadList={false}
           onChange={handleImageFile}>
           {preview ? (
-            <UploadImgTagStyle src={where === 'user' ? state.preview : adviserPriviewState.preview} alt="" />
+            <UploadImgTagStyle src={state.userProfileImg.preview} alt="" />
           ) : (
             <div>
               <div>
