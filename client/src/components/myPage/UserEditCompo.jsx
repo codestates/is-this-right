@@ -16,6 +16,7 @@ const UserPostListCompoStyle = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  /* overflow: auto; */
 `;
 
 const LabelStyle = styled.label`
@@ -72,13 +73,14 @@ function UserEditCompo() {
     if (!usernameErr && !nameErr && !detailErr && !urlErr) {
       const formData = new FormData();
       // const adviserImg = adviserPriviewState.imgFile;
-      // formData.append('files', adviserImg);
+      // formData.append('profileImg', adviserImg);
 
       for (let key in editInfo) {
         formData.append(key, editInfo[key]);
       }
+      let role = userInfo.role;
       axios
-        .put(`${serverUrl}/advisers`, formData, {
+        .put(`${serverUrl}/${role}s`, formData, {
           header: { 'Content-Type': 'multipart/form-data' },
         })
         .then((result) => {
