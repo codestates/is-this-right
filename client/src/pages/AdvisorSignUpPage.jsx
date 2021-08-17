@@ -99,8 +99,9 @@ function AdvisorSignUpPage() {
   const handleSignUp = () => {
     // && !validateErr 유효성검사 넣어야함
     const adviserImg = adviserPriviewState.imgFile;
+    console.log(adviserImg);
     const formData = new FormData();
-    formData.append('files', adviserImg);
+    formData.append('profileImg', adviserImg);
     // for (let el of adviserImg) {
     //   formData.append('files', el);
     // }
@@ -266,10 +267,16 @@ function AdvisorSignUpPage() {
     console.log(signUpInfo);
     let isDisabled = true;
     for (let key in signUpInfo) {
-      isDisabled = isDisabled && signUpInfo[key] !== '' && signUpInfo['password'] === signUpInfo['confirmPassword'];
+      isDisabled =
+        isDisabled &&
+        signUpInfo[key] !== '' &&
+        signUpInfo['password'] === signUpInfo['confirmPassword'] &&
+        !urlErr &&
+        !usernameErr &&
+        !nameErr;
     }
     setDisable(!isDisabled);
-  }, [signUpInfo]);
+  }, [signUpInfo, urlErr, usernameErr, nameErr]);
 
   useEffect(() => {
     setSignupErr('');

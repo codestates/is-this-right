@@ -2,10 +2,10 @@ const { user, adviser, feedback, post } = require('../../models');
 const Sequelize = require('sequelize');
 const { generateAccessToken, isAuthorized, sendAccessToken } = require('../tokenFunctions');
 const bcrypt = require('bcrypt');
-const { users } = require('../users');
+const { users } = require('../../users');
 
 require('dotenv').config();
-// const {onlinelist} = require('../../users')
+
 module.exports = {
   get: async (req, res) => {
     let list = await adviser

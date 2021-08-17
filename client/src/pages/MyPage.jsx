@@ -11,11 +11,7 @@ import { useSelector } from 'react-redux';
 
 function MyPage() {
   const state = useSelector((state) => state.userReducer);
-  useEffect(() => {
-    if (!state.logIn) {
-      window.location.replace('/');
-    }
-  }, []);
+
   return (
     <BodyAreaStyle>
       <ContainerStlye>
