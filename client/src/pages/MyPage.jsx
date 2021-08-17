@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { BodyAreaStyle, ContainerStlye } from '../style/pageStyle';
 import AvatarCompo from '../components/myPage/AvatarCompo';
@@ -7,8 +7,11 @@ import UserEditCompo from '../components/myPage/UserEditCompo';
 
 import { Switch, Route } from 'react-router-dom';
 import { BrowserRouter } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 function MyPage() {
+  const state = useSelector((state) => state.userReducer);
+
   return (
     <BodyAreaStyle>
       <ContainerStlye>

@@ -42,6 +42,7 @@ module.exports = {
 
   put: async (req, res) => {
     let userInfo = isAuthorized(req);
+    console.log(userInfo);
     if (userInfo) {
       let { username, password } = req.body;
       let payload = {};
@@ -58,19 +59,20 @@ module.exports = {
         payload.password = hash;
       }
       //업로드 받은 이미지파일의 경로 req.file.location
-      payload.profileImg = req.file.location;
+      if (req.file) {
+        payload.profileImg = req.file.location;
+
+        const params = {
+          Bucket: process.env.S3_BUCKET_NAME,
+          Key: userInfo.profileImg.slice(userInfo.profileImg.indexOf('uploads')),
+        };
+        s3.deleteObject(params, function (err, data) {
+          if (err) console.log(err, err.stack);
+          // an error occurred
+          else console.log(params.Key, 'deleted!'); // successful response
+        });
+      }
       let id = userInfo.id;
-
-      const params = {
-        Bucket: process.env.S3_BUCKET_NAME,
-        Key: userInfo.profileImg.slice(userInfo.profileImg.indexOf('uploads')),
-      };
-      s3.deleteObject(params, function (err, data) {
-        if (err) console.log(err, err.stack);
-        // an error occurred
-        else console.log(params.Key, 'deleted!'); // successful response
-      });
-
       let updateUserInfo = await user.update(
         { ...payload },
         {

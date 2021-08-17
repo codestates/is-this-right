@@ -18,7 +18,7 @@ module.exports = async (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-      res.status(500).json({ message: '카카오 서버 이상' });
+      res.status(500).json({ message: 'kakao server err' });
     });
   if (userdata) {
     if (userdata.data.kakao_account.email) {

@@ -33,8 +33,8 @@ router.post('/auth', controllers.auth);
 
 //advisers routing
 router.get('/advisers', controllers.advisers.get);
-router.put('/advisers', controllers.advisers.put);
-router.post('/advisers', upload.array('files'), controllers.advisers.post);
+router.put('/advisers', upload.single('profileImg'), controllers.advisers.put);
+router.post('/advisers', upload.single('profileImg'), controllers.advisers.post);
 router.get('/advisers/:id', controllers.advisers.getDetail);
 
 //feedbacks routing

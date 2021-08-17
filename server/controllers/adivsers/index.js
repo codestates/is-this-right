@@ -1,10 +1,11 @@
 const { user, adviser, feedback, post } = require('../../models');
 const Sequelize = require('sequelize');
-const { generateAccessToken } = require('../tokenFunctions');
+const { generateAccessToken, isAuthorized, sendAccessToken } = require('../tokenFunctions');
 const bcrypt = require('bcrypt');
+const { users } = require('../../users');
 
 require('dotenv').config();
-// const {onlinelist} = require('../../users')
+
 module.exports = {
   get: async (req, res) => {
     let list = await adviser
@@ -24,11 +25,20 @@ module.exports = {
         console.log(err);
         return res.status(500).json({ message: 'database err' });
       });
-    res.json(list);
+    users.forEach((online, index) => {
+      list.forEach((el) => {
+        if (online.userId === el.userId) {
+          el3.isonline = true;
+          users.splice(index, 1);
+        } else {
+          el.isonline = false;
+        }
+      });
+    });
+    res.status(200).json(list);
     // 이후 for문 돌려서 리스트 보내줄때 isonline 붙이기
   },
   post: async (req, res) => {
-    console.log(req.body);
     let { username, email, password, name, category, detail, url, gender, state, provider } = req.body;
 
     if (!username || !email || !name || !category || !detail || !url || !gender || !state) {
@@ -85,18 +95,21 @@ module.exports = {
         return res.status(500).json({ message: 'database err' });
       });
     delete userinfo.dataValues.password;
+    adviserInfo.dataValues.adviserId = adviserInfo.dataValues.id;
     adviserInfo = { ...adviserInfo.dataValues, ...userinfo.dataValues };
     adviserInfo.role = 'adviser';
 
-    // --------------여기서 프로필 이미지 multer작업해야함 (상현)
     let token = generateAccessToken(adviserInfo);
     res.cookie('jwt', token, { httpOnly: true });
     return res.status(201).json({ message: 'ok' });
   },
   put: async (req, res) => {
+    console.log(req.body);
     let userInfo = isAuthorized(req);
     if (userInfo) {
-      let { username, password, profileImg, name, category, detail, url, gender, state } = req.body;
+      let profileImg;
+      if (req.file) profileImg = req.file.location;
+      let { username, password, name, category, detail, url, gender, state } = req.body;
       let userpayload = {};
       let adviserpayload = {};
       if (username) userpayload.username = username;
@@ -121,6 +134,7 @@ module.exports = {
       let adviserId = userInfo.adviserId;
       let updateUserInfo = await user.update(
         { ...userpayload },
+        // { username: '테스트' },
         {
           where: {
             id: userId,

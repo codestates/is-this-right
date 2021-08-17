@@ -1,5 +1,11 @@
 import { initialState } from './initialState';
-import { SUCCESS_LOGIN, HANDLE_PROFILE_IMG, ADD_USER_INFO, ADD_SIGN_UP_INFO } from '../actions/userActionIndex';
+import {
+  SUCCESS_LOGIN,
+  HANDLE_PROFILE_IMG,
+  ADD_USER_INFO,
+  ADD_SIGN_UP_INFO,
+  SUCCESS_LOGOUT,
+} from '../actions/userActionIndex';
 
 // initialState = {
 //   logIn: false,
@@ -45,6 +51,8 @@ const userReducer = (state = initialState, action) => {
         ...newState,
         signUpInfo: action.payload,
       };
+    case SUCCESS_LOGOUT:
+      return { ...newState, logIn: false };
     default:
       return newState;
   }
