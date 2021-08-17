@@ -70,9 +70,11 @@ function App() {
     if (currentSocket) {
       //연결된 소켓이 있다면 online 채널에 접속.
       currentSocket.on('online', (result) => {
+        console.log(result);
         console.log('연결성공');
       });
-      currentSocket.emit('online', { data: 'test' });
+
+      currentSocket.emit('online', state.userInfo.data);
     }
   }, [currentSocket]);
 

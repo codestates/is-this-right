@@ -5,10 +5,11 @@ module.exports = function (io) {
 
   io.on('connection', (socket) => {
     socket.on('online', (data) => {
-      console.log('received: "' + data + '" from client' + socket.id);
-      socket.emit('online', 'Ok, i got it, ' + socket.id);
-
-      //여기서 addUser하기.
+      let { username, name, email, userId } = data;
+      let user = { username, name, email, userId, socketId: socket.id };
+      socket.emit('online', `${username}님이 입장하셨습니다. 소켓아이디 :  ${socket.id}`);
+      console.log(username + '님이 입장하셨습니다. 소켓아이디 :' + socket.id);
+      addUser(user);
     });
 
     socket.on('join', (data) => {
@@ -43,8 +44,10 @@ module.exports = function (io) {
       io.to(messageInfo.room).emit('message', response);
     });
     socket.on('disconnect', () => {
-      console.log('disconnected from ', socket.id);
-      //여기서 removeUser하기
+      let data = removeUser(socket.id);
+      if (data) {
+        console.log(data.username + '님이 퇴장하셨습니다. 소켓아이디 :' + socket.id);
+      }
     });
   });
 };
