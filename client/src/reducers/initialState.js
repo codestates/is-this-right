@@ -29,4 +29,5 @@ export const chatInitialState = {
   currentRoom: '',
   chatList: [],
   socket: null,
+  messages: [],
 };

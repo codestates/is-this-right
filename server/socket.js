@@ -1,19 +1,22 @@
 module.exports = function (io) {
   const { message, sequelize } = require('./models');
   const { QueryTypes } = require('sequelize');
-  const { addUser, removeUser } = require('./users');
+  const { addUser, removeUser, users, getUser } = require('./users');
 
   io.on('connection', (socket) => {
-    socket.on('online', (data) => {
-      console.log('received: "' + data + '" from client' + socket.id);
+    socket.on('online', (userInfo) => {
+      console.dir(userInfo);
+      console.log('received: "' + userInfo + '" from client' + socket.id);
       socket.emit('online', 'Ok, i got it, ' + socket.id);
 
-      //여기서 addUser하기.
+      addUser({ ...userInfo, socketId: socket.id });
     });
 
     socket.on('join', (data) => {
       // 방입장할때
       console.log('방 입장됨', data.room);
+      socket.leaveAll();
+      socket.join(socket.id);
       socket.join(data.room);
     });
 
@@ -42,10 +45,18 @@ module.exports = function (io) {
 
       console.log(messageInfo, '여기메세지떠야하는뎅', response);
       io.to(messageInfo.room).emit('message', response);
+      console.log('current users: ', users);
+      let receiverOnline = getUser(receiver);
+      if (receiverOnline) {
+        console.log('sending online event to ', receiverOnline.socketId);
+        io.to(receiverOnline.socketId).emit('online', 'update chat list');
+      }
     });
     socket.on('disconnect', () => {
       console.log('disconnected from ', socket.id);
       //여기서 removeUser하기
+
+      // removeUser(socket.id);
     });
   });
 };

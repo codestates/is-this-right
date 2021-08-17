@@ -19,7 +19,7 @@ import QuestionDetailPage from './pages/QuestionDetailPage';
 import AdvisorListPage from './pages/AdvisorListPage';
 import AdvisorDetailPage from './pages/AdvisorDetailPage';
 import { useSelector, useDispatch } from 'react-redux';
-import { changeRoom, setSocket } from './actions/chatAction';
+import { changeRoom, setSocket, updateChatList } from './actions/chatAction';
 
 const url = process.env.REACT_APP_API_URL;
 
@@ -35,7 +35,6 @@ function App() {
   const state = useSelector((state) => state.userReducer);
   const chatState = useSelector((state) => state.chatReducer);
   const dispatch = useDispatch();
-  console.log(state);
 
   const createChatRoom = (userId) => {
     //방만들고 룸넘버 획득
@@ -45,8 +44,8 @@ function App() {
         receiver: userId,
       };
       axios.post(`${url}/chats`, payload).then((data) => {
-        console.log(data);
         dispatch(changeRoom(data.data.data.roomId));
+        chatState.socket.emit('join', { room: data.data.data.roomId });
         handleSetisChat();
       });
     } else {
@@ -67,10 +66,12 @@ function App() {
   useEffect(() => {
     if (chatState.socket) {
       //연결된 소켓이 있다면 online 채널에 접속.
-      chatState.socket.on('online', (result) => {
-        console.log('연결성공');
+      chatState.socket.on('online', async (message) => {
+        console.log(message);
+        let chatlist = await axios.get(`${url}/chats`);
+        dispatch(updateChatList(chatlist.data.data));
       });
-      chatState.socket.emit('online', { data: 'test' });
+      chatState.socket.emit('online', state.userInfo.data);
     }
   }, [chatState.socket]);
 
