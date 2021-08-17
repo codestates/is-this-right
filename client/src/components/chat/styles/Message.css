@@ -24,6 +24,7 @@
   justify-content: flex-end;
   padding: 0 5%;
   margin-top: 3px;
+  overflow-y: auto;
 }
 
 .sentText {
@@ -48,6 +49,7 @@
 
 .justifyEnd {
   justify-content: flex-end;
+  overflow-y: auto;
 }
 
 .colorWhite {

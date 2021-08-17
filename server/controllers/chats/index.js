@@ -76,6 +76,21 @@ module.exports = {
       res.status(200).json({ data: { roomId: isRoomExist[0].chatId || isMessageExist[0].chatId }, message: 'ok' });
     }
   },
+  patch: async (req, res) => {
+    const chatId = req.params.id;
+    const userId = isAuthorized(req).id || false;
+    if (userId) {
+      await sequelize.query(
+        `UPDATE chats_users SET updatedAt=CURRENT_TIMESTAMP
+          WHERE chatId=${chatId} AND userId=${userId}
+          `,
+        { type: QueryTypes.UPDATE },
+      );
+      res.status(200).json({ message: 'ok' });
+    } else {
+      res.status(401).json({ message: 'Unauthorized Request' });
+    }
+  },
   delete: async (req, res) => {
     const userId = isAuthorized(req).id;
     console.log(userId);

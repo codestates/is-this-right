@@ -10,4 +10,5 @@ module.exports = {
   signin: require('./users/signin'),
   signout: require('./users/signout'),
   postlist: require('./users/postlist'),
+  uploads: require('./uploads'),
 };

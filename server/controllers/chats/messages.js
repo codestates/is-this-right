@@ -8,26 +8,6 @@ module.exports = {
     const userInfo = isAuthorized(req);
     const chatId = req.params.id;
     if (userInfo) {
-      const messageList = await sequelize.query(
-        `SELECT messages.*, IFNULL(advisers.name, users.username) as username, users.profileImg
-          FROM messages
-          JOIN users ON messages.sender = users.id
-          LEFT JOIN advisers ON users.id = advisers.userId
-          WHERE messages.chatId=${chatId}
-          `,
-        { type: QueryTypes.SELECT },
-      );
-
-      //이후 읽은 메세지 시간업데이트하기.
-      // await chats_user.update(
-      //   { updatedAt: sequelize.fn('NOW') },
-      //   {
-      //     where: {
-      //       chatId,
-      //       userId: userInfo.id,
-      //     },
-      //   },
-      // );
       await sequelize.query(
         `UPDATE chats_users SET updatedAt=CURRENT_TIMESTAMP
           WHERE chatId=${chatId} AND userId=${userInfo.id}
@@ -35,7 +15,17 @@ module.exports = {
         { type: QueryTypes.UPDATE },
       );
 
-      console.log(messageList);
+      const messageList = await sequelize.query(
+        `SELECT messages.*, IFNULL(advisers.name, users.username) as username, users.profileImg
+          FROM messages
+          JOIN users ON messages.sender = users.id
+          LEFT JOIN advisers ON users.id = advisers.userId
+          WHERE messages.chatId=${chatId}
+          ORDER BY createdAt
+          `,
+        { type: QueryTypes.SELECT },
+      );
+
       res.status(200).json({ data: messageList, message: 'ok' });
     } else {
       res.status(401).json({ message: 'Unauthorized request' });

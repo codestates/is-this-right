@@ -17,7 +17,7 @@ app.use(
   cors({
     origin: ['http://localhost:3000', 'http://localhost:3001', 'https://isthisright.ml'],
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   }),
 );
 app.use(router);

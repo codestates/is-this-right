@@ -53,9 +53,13 @@ router.delete('/posts/:id', controllers.posts.delete);
 //chats routing
 router.get('/chats', controllers.chats.get);
 router.post('/chats', controllers.chats.post);
+router.patch('/chats/:id', controllers.chats.patch);
 router.delete('/chats/:id', controllers.chats.delete);
 router.get('/chats/messages/:id', controllers.messages.get);
 router.post('/chats/messages', controllers.messages.post);
+
+//uploads routing
+router.post('/uploads', upload.array('files'), controllers.uploads);
 
 router.get('/', (req, res) => {
   res.status(200).send('Welcome to 이거맞아? API Server!');

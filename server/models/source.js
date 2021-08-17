@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
   source.init(
     {
       sourceUrl: DataTypes.STRING,
+      type: DataTypes.STRING,
     },
     {
       sequelize,

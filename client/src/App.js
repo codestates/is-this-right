@@ -1,7 +1,7 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import ChatRoom from './components/chat/ChatRoom';
+import ChatList from './components/chat/ChatList';
 import Chat from './components/chat/Chat';
 import io from 'socket.io-client';
 import 'antd/dist/antd.css';
@@ -18,16 +18,14 @@ import UserQuestionPage from './pages/UserQuestionPage';
 import QuestionDetailPage from './pages/QuestionDetailPage';
 import AdvisorListPage from './pages/AdvisorListPage';
 import AdvisorDetailPage from './pages/AdvisorDetailPage';
-
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { changeRoom, setSocket, updateChatList } from './actions/chatAction';
 
 const url = process.env.REACT_APP_API_URL;
 
 function App() {
   const [text, setText] = useState('text');
   const [isChat, setIsChat] = useState(false);
-  const [roomNum, setRoomNum] = useState(null);
-  const [currentSocket, setCurrentSocket] = useState(null);
   const [isList, setIsList] = useState(false);
   const [adviserList, setAdviserList] = useState([]);
   const handleClick = async () => {
@@ -35,47 +33,47 @@ function App() {
     setText(result.data);
   };
   const state = useSelector((state) => state.userReducer);
+  const chatState = useSelector((state) => state.chatReducer);
+  const dispatch = useDispatch();
 
   const createChatRoom = (userId) => {
-    let payload = {
-      sender: state.userInfo.data.id,
-      receiver: userId,
-    };
     //방만들고 룸넘버 획득
     if (state.logIn) {
-      console.log(state.logIn, '인데 왜 여기로 들어옴');
+      let payload = {
+        sender: state.userInfo.data.id,
+        receiver: userId,
+      };
       axios.post(`${url}/chats`, payload).then((data) => {
-        console.log(data);
-        setRoomNum(data.data.data.roomId);
+        dispatch(changeRoom(data.data.data.roomId));
+        chatState.socket.emit('join', { room: data.data.data.roomId });
         handleSetisChat();
       });
+    } else {
+      alert('로그인이 필요한 서비스입니다.');
     }
   };
   const handleSetisChat = () => {
     setIsChat(true);
-  };
-  const changeRoom = (roomNum) => {
-    setRoomNum(roomNum);
   };
 
   const showAdviserList = () => {
     setIsList(!isList);
   };
   useEffect(() => {
-    if (state.logIn) setCurrentSocket(io(`${url}`));
+    if (state.logIn) dispatch(setSocket(io(`${url}`)));
   }, [state.logIn]);
 
   useEffect(() => {
-    if (currentSocket) {
+    if (chatState.socket) {
       //연결된 소켓이 있다면 online 채널에 접속.
-      currentSocket.on('online', (result) => {
-        console.log(result);
-        console.log('연결성공');
+      chatState.socket.on('online', async (message) => {
+        console.log(message);
+        let chatlist = await axios.get(`${url}/chats`);
+        dispatch(updateChatList(chatlist.data.data));
       });
-
-      currentSocket.emit('online', state.userInfo.data);
+      chatState.socket.emit('online', state.userInfo.data);
     }
-  }, [currentSocket]);
+  }, [chatState.socket]);
 
   useEffect(async () => {
     let list = await axios.get(`${url}/advisers`);
@@ -101,14 +99,8 @@ function App() {
               })
             : null}
           <div>
-            <ChatRoom changeRoom={changeRoom} handleSetisChat={handleSetisChat}></ChatRoom>
-            {isChat ? (
-              <Chat
-                roomNum={roomNum}
-                name={state.userInfo.data.role === 'adviser' ? state.userInfo.data.name : state.userInfo.data.username}
-                socket={currentSocket}
-              />
-            ) : null}
+            <ChatList handleSetisChat={handleSetisChat} />
+            {isChat ? <Chat /> : null}
           </div>
           <Nav />
           <QuestionListPage />

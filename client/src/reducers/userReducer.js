@@ -18,7 +18,7 @@ import {
 //   },
 // };
 
-const postReducer = (state = initialState, action) => {
+const userReducer = (state = initialState, action) => {
   const newState = { ...state };
   // console.log(newState);
 
@@ -58,4 +58,4 @@ const postReducer = (state = initialState, action) => {
   }
 };
 
-export default postReducer;
+export default userReducer;
