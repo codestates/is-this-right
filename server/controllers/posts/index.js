@@ -27,8 +27,6 @@ module.exports = {
       `SELECT posts.*, users.username, users.profileImg FROM posts JOIN users ON posts.userId = users.id WHERE posts.id = ${id}`,
       { type: QueryTypes.SELECT },
     );
-    const sourceInfo = await source.findAll({ where: { postId: id }, attributes: ['sourceUrl', 'type'] });
-
     const feedbackInfo = await sequelize.query(
       `SELECT feedbacks.*, advisers.name, users.profileImg 
         FROM feedbacks 
@@ -37,7 +35,8 @@ module.exports = {
         WHERE feedbacks.postId = ${id}`,
       { type: QueryTypes.SELECT },
     );
-    res.status(200).json({ data: { ...postInfo, sources: sourceInfo, feedbacks: feedbackInfo }, message: 'ok' });
+    const sourceInfo = await source.findAll({ where: { postId: id } });
+    res.status(200).json({ data: { ...postInfo, feedbacks: feedbackInfo, sources: sourceInfo }, message: 'ok' });
   },
 
   post: async (req, res) => {
@@ -49,9 +48,8 @@ module.exports = {
 
     if (!!req.files.length) {
       const sourcesToInsert = req.files.map((file) => {
-        return { postId: postCreated.id, sourceUrl: file.location, type: file.contentType.split('/')[0] };
+        return { postId: postCreated.id, sourceUrl: file.location };
       });
-      console.log(sourcesToInsert);
       await source.bulkCreate(sourcesToInsert);
     }
 
@@ -88,7 +86,7 @@ module.exports = {
 
         //insert new soures to sources table
         const sourcesToInsert = req.files.map((file) => {
-          return { postId, sourceUrl: file.location, type: file.contentType.split('/')[0] };
+          return { postId, sourceUrl: file.location };
         });
         await source.bulkCreate(sourcesToInsert);
       }
