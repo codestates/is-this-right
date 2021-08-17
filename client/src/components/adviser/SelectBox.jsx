@@ -1,12 +1,13 @@
 import React from 'react';
 import { Select } from 'antd';
 
-function SelectBox({ func, data, keyData, name, validation }) {
+function SelectBox({ func, data, keyData, name, validation, value }) {
   console.log(keyData);
   return (
     <Select
       name="state"
       style={{ width: '100%' }}
+      value={value}
       onChange={(e) => func(keyData, e)}
       onBlur={() => {
         validation(name);

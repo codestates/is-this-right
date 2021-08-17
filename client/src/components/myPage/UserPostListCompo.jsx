@@ -1,7 +1,10 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import PostCard from '../PostCard';
 
+const url = process.env.REACT_APP_API_URL;
 const UserPostListCompoStyle = styled.div`
   width: 100%;
   height: 85%;
@@ -13,6 +16,8 @@ const UserPostListCompoStyle = styled.div`
 `;
 
 function UserPostListCompo() {
+  const [myPostList, setMyPostList] = useState([]);
+  const userInfo = useSelector((state) => state.userReducer.userInfo);
   const mockData = [
     {
       id: 'PK',
@@ -92,11 +97,17 @@ function UserPostListCompo() {
       updatedAt: '2021-08-04',
     },
   ];
+
+  useEffect(() => {
+    axios.get(`${url}/users/posts/${userInfo.data.id}`).then((list) => {
+      setMyPostList(list.data.data);
+    });
+  }, []);
   return (
     <UserPostListCompoStyle>
       <div>내가 올린 게시물</div>
       <hr></hr>
-      {mockData.map((el) => (
+      {myPostList.map((el) => (
         <PostCard data={el} />
       ))}
     </UserPostListCompoStyle>
