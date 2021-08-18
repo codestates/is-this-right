@@ -61,9 +61,10 @@ router.get('/chats/messages/:id', controllers.messages.get);
 router.post('/chats/messages', controllers.messages.post);
 
 //uploads routing
-router.post('/uploads', upload.array('files'), controllers.uploads);
+router.post('/uploads', upload.single('upload'), controllers.uploads);
 
 router.get('/', (req, res) => {
   res.status(200).send('Welcome to 이거맞아? API Server!');
 });
+
 module.exports = router;
