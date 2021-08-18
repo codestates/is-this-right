@@ -18,7 +18,7 @@ const Chat = () => {
     if (message) {
       chatState.socket.emit('sendMessage', {
         message,
-        sender: state.userInfo.data.id,
+        sender: state.userInfo.id,
         room: chatState.currentRoom,
       });
       setMessage('');
