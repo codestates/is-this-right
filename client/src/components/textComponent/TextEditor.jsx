@@ -109,7 +109,7 @@ function TextEditor() {
           ],
           ckfinder: {
             // Upload the images to the server using the CKFinder QuickUpload command.
-            uploadUrl: `/uploads`,
+            uploadUrl: `${url}/uploads`,
           },
         }}
         onChange={(event, editor) => {
