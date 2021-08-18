@@ -51,7 +51,8 @@ function UserEditCompo() {
   const [detailErr, setDetailErr] = useState(null);
   const [urlErr, setUrlErr] = useState(null);
   const [editErr, setEditErr] = useState(null);
-  const userInfo = useSelector((state) => state.userReducer.userInfo.data);
+  const userInfo = useSelector((state) => state.userReducer.userInfo);
+  const preview = useSelector((state) => state.userReducer.userProfileImg);
   const userHide = useRef(null);
 
   const handleInputValue = (key, e) => {
@@ -71,9 +72,11 @@ function UserEditCompo() {
     checkValidation('url');
 
     if (!usernameErr && !nameErr && !detailErr && !urlErr) {
+      console.log(preview);
       const formData = new FormData();
-      // const adviserImg = adviserPriviewState.imgFile;
-      // formData.append('profileImg', adviserImg);
+      const img = preview.imaFile;
+
+      formData.append('profileImg', img);
 
       for (let key in editInfo) {
         formData.append(key, editInfo[key]);
@@ -157,7 +160,7 @@ function UserEditCompo() {
 
   return (
     <UserPostListCompoStyle>
-      <UploadCompo where="user" />
+      <UploadCompo where={userInfo.role} />
       <LabelStyle htmlFor="user-email">Email</LabelStyle>
       <InputStyle
         name="user-email"

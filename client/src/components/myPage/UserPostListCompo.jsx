@@ -99,7 +99,7 @@ function UserPostListCompo() {
   ];
 
   useEffect(() => {
-    axios.get(`${url}/users/posts/${userInfo.data.id}`).then((list) => {
+    axios.get(`${url}/users/posts/${userInfo.id}`).then((list) => {
       setMyPostList(list.data.data);
     });
   }, []);
