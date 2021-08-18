@@ -32,6 +32,10 @@ import PasteFromOffice from '@ckeditor/ckeditor5-paste-from-office/src/pastefrom
 import Table from '@ckeditor/ckeditor5-table/src/table.js';
 import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar.js';
 import TextTransformation from '@ckeditor/ckeditor5-typing/src/texttransformation.js';
+import axios from 'axios';
+
+const url = process.env.REACT_APP_API_URL;
+axios.defaults.withCredentials = true;
 
 const installedPlugins = [
   // Alignment,
@@ -77,10 +81,40 @@ function TextEditor() {
         editor={ClassicEditor}
         config={{
           plugins: [...installedPlugins],
-          toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList'],
+          toolbar: [
+            '|',
+            'heading',
+            '|',
+            '|',
+            'bold',
+            'italic',
+            'bulletedList',
+            'numberedList',
+            '|',
+            '|',
+            'link',
+            'blockQuote',
+            // 'CKFinder',
+            'imageUpload',
+            'insertTable',
+            'mediaEmbed',
+            'Image',
+            'ImageCaption',
+            'ImageInsert',
+            'ImageStyle',
+            'ImageToolbar',
+            '|',
+            'undo',
+            'redo',
+          ],
+          ckfinder: {
+            // Upload the images to the server using the CKFinder QuickUpload command.
+            uploadUrl: `/uploads`,
+          },
         }}
         onChange={(event, editor) => {
           const data = editor.getData();
+          console.log(editor, data);
           setBody(data);
         }}
       />
