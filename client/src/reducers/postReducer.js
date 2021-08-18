@@ -1,5 +1,5 @@
 import { postInitialState } from './initialState';
-import { GET_ALL_POSTS, UPLOAD_POST_IMGS } from '../actions/postActionIndex';
+import { GET_ALL_POSTS, UPLOAD_POST_IMGS, FILLTER_POSTS, SEARCH_POSTS } from '../actions/postActionIndex';
 
 const postReducer = (state = postInitialState, action) => {
   const newState = { ...state };
@@ -15,6 +15,18 @@ const postReducer = (state = postInitialState, action) => {
       return {
         ...newState,
         posts: [...action.payload],
+        filterPosts: [...action.payload],
+        searchPosts: [...action.payload],
+      };
+    case FILLTER_POSTS:
+      return {
+        ...newState,
+        filterPosts: [...action.payload],
+      };
+    case SEARCH_POSTS:
+      return {
+        ...newState,
+        searchPosts: [...action.payload],
       };
     default:
       return state;

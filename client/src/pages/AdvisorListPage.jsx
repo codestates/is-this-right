@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { BodyAreaStyle, ContainerStlye } from '../style/pageStyle';
 import AdviserCard from '../components/adviser/AdviserCard';
@@ -93,7 +93,7 @@ function AdvisorListPage() {
           ))}
         </AdviserCardListStyle>
         <SearchAndFilterStyle>
-          <Search originalList={originalList} setAdviserDetail={setAdviserDetail} />
+          <Search originalList={originalList} setAdviserDetail={setAdviserDetail} type={'adviserList'} />
           <FilterStyle>
             <div>종목</div>
             <Radio.Group
