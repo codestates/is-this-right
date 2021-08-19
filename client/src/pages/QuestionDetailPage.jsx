@@ -3,11 +3,10 @@ import styled from 'styled-components';
 import { useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Carousel from 'react-bootstrap/Carousel';
-import { Avatar, Popover, Button } from 'antd';
+import { Avatar, Popover, Button, Pagination } from 'antd';
 import axios from 'axios';
 import { BodyAreaStyle, ContainerStlye } from '../style/pageStyle';
 import ReactPlayer from 'react-player';
-
 import TextEditor from '../components/textComponent/TextEditor';
 import FeedbackContainer from '../components/question/FeedbackContainer';
 const url = process.env.REACT_APP_API_URL;
@@ -19,6 +18,22 @@ function QuestionDetailPage() {
   const [post, setPost] = useState(null);
   const [feedback, setFeedback] = useState('');
   const [newFeed, setNewFeed] = useState('');
+  //pagination states
+  const PAGE_SIZE = 5;
+  const [currentPageList, setCurrentPageList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const handlePageChange = (page) => {
+    if (post) {
+      setCurrentPage(page);
+      setCurrentPageList(post.data.feedbacks.slice(PAGE_SIZE * (page - 1), PAGE_SIZE * page));
+    }
+  };
+  useEffect(() => {
+    if (post) {
+      setCurrentPage(1);
+      setCurrentPageList(post.data.feedbacks.slice(PAGE_SIZE * (currentPage - 1), PAGE_SIZE * currentPage));
+    }
+  }, [post]);
 
   const history = useHistory();
 
@@ -81,10 +96,18 @@ function QuestionDetailPage() {
           {post.data.feedbacks.length === 0 ? (
             <img src="../../imageFile/pngegg.png" style={{ width: '50%', height: '50%' }} />
           ) : (
-            post.data.feedbacks.map((el) => {
+            currentPageList.map((el) => {
               return <FeedbackContainer adviser={el} key={el.id} />;
             })
           )}
+          <Pagination
+            simple
+            defaultCurrent={1}
+            current={currentPage}
+            pageSize={PAGE_SIZE}
+            onChange={handlePageChange}
+            total={post.data.feedbacks.length}
+          />
         </div>
         <div>{state.userInfo.role === 'adviser' ? <TextEditor text={setFeedback} /> : null}</div>
         <Button onClick={answerFeedback}>Answer</Button>
