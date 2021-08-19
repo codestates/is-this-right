@@ -277,6 +277,7 @@ function AdvisorSignUpPage() {
         !nameErr;
     }
     setDisable(!isDisabled);
+    console.log(disable);
   }, [signUpInfo, urlErr, usernameErr, nameErr]);
 
   useEffect(() => {

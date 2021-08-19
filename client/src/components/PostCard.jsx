@@ -7,14 +7,16 @@ import { CheckCircleTwoTone, CheckCircleOutlined } from '@ant-design/icons';
 
 const PostCardStyle = styled.div`
   background-color: white;
-  border: 1px solid black;
+  border-top: 1px solid #ebedef;
   width: 100%;
-  height: 20%;
+  height: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px;
   margin: 2px 0px 2px 0px;
+  @media ${(props) => props.theme.mobile} {
+  }
 `;
 
 function PostCard({ data }) {
@@ -40,15 +42,23 @@ function PostCard({ data }) {
           icon={<img src="../../imageFile/avatar.png" />} // img데이터 넣기
         />
         <div style={{ marginLeft: '30px' }}>
-          <div>{data.title}</div>
+          <div style={{ fontSize: '1.3rem', color: 'black' }}>{data.title}</div>
           <div>
-            <span>{data.username}</span>
-            <Moment fromNow>{startTime}</Moment>
+            <span style={{ fontSize: '0.8rem', color: '#686868' }}>{data.username}</span>
+            <Moment fromNow style={{ fontSize: '0.8rem', color: '#686868' }}>
+              {startTime}
+            </Moment>
           </div>
         </div>
       </div>
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <div>{data.isAnswered ? <CheckCircleTwoTone style={{ color: 'green' }} /> : <CheckCircleOutlined />}</div>
+        <div>
+          {data.isAnswered ? (
+            <CheckCircleTwoTone style={{ color: 'green' }} />
+          ) : (
+            <CheckCircleOutlined style={{ color: '#686868' }} />
+          )}
+        </div>
         <div style={{ marginLeft: '30px' }}>{data.commentNum}</div>
       </div>
     </PostCardStyle>

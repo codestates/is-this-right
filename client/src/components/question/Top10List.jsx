@@ -5,10 +5,10 @@ import { UserOutlined } from '@ant-design/icons';
 import { CheckCircleTwoTone } from '@ant-design/icons';
 
 const Top10Styled = styled.div`
-  width: 25%;
-  height: 55%;
+  width: 300px;
+  height: 400px;
   margin: 10px;
-  border: 1px solid black;
+  border: 1px solid #d3d3d3;
   border-radius: 3px;
   padding: 10px;
 `;
@@ -18,6 +18,14 @@ const TopAdviserDataStyle = styled.div`
   align-items: center;
   justify-content: space-between;
   margin: 3px;
+  width: 100%;
+  padding: 0px 10px 0px 10px;
+`;
+
+const TextStyle = styled.span`
+  font-size: 1em;
+  text-overflow: ellipsis;
+  width: 100%;
 `;
 
 function Top10List() {
@@ -75,18 +83,18 @@ function Top10List() {
   ];
   return (
     <Top10Styled>
-      <div>Most Helpful</div>
+      <TextStyle>Most Helpful</TextStyle>
       {mockAdviser.map((el) => (
         <div>
-          <hr></hr>
+          <hr style={{ margin: '5px' }}></hr>
           <TopAdviserDataStyle>
-            <div>
-              <Avatar icon={el.proFileImg} />
-              <span style={{ marginLeft: '5px' }}>{el.name}</span>
+            <div style={{ display: 'flex', alignItems: 'center', width: '50%' }}>
+              <Avatar size="small" icon={el.proFileImg} />
+              <TextStyle style={{ marginLeft: '5px' }}>{el.name}</TextStyle>
             </div>
-            <div>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
               <CheckCircleTwoTone />
-              <span>{el.numOfFeedback}</span>
+              <TextStyle>{el.numOfFeedback}</TextStyle>
             </div>
           </TopAdviserDataStyle>
         </div>

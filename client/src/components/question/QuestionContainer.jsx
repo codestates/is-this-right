@@ -9,23 +9,15 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 
 const QuestionContainerStyle = styled.div`
-  width: 71%;
-  height: 100%;
-  background-color: skyblue;
+  margin: 10px;
+  width: 100%;
   display: flex;
   flex-direction: column;
-`;
-
-const SearchSection = styled.div`
-  height: 10%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0px 5% 0px 5%;
-`;
-
-const AnsweredSectionStyle = styled.div`
-  display: flex;
+  height: 100%;
+  min-height: 100%;
+  @media ${(props) => props.theme.mobile} {
+    min-height: auto;
+  }
 `;
 
 function QuestionContainer() {
@@ -34,19 +26,8 @@ function QuestionContainer() {
 
   return (
     <QuestionContainerStyle>
-      <SearchSection>
-        <Search />
-        <AnsweredSectionStyle>
-          <Button>Answered</Button>
-          <Button>Unanswered</Button>
-        </AnsweredSectionStyle>
-        <Link to="/QuestionPost">
-          <Button>게시</Button>
-        </Link>
-      </SearchSection>
-
       {state.postReducer.posts.map((el) => (
-        <Link to={`/posts/${el.id}`}>
+        <Link to={`/posts/${el.id}`} style={{ margin: '5px 0px 5px 0px', textDecorationLine: 'none' }}>
           <PostCard data={el} />
         </Link>
       ))}

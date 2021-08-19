@@ -10,8 +10,9 @@ const url = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 
 const AdviserCardListStyle = styled.div`
+  width: 80%;
   flex: 3 1 auto;
-  background-color: green;
+  /* background-color: green; */
   margin: 20px;
   display: flex;
   flex-direction: column;
@@ -19,12 +20,13 @@ const AdviserCardListStyle = styled.div`
 `;
 
 const AdviserCardSectionStyle = styled(Link)`
-  width: 90%;
+  width: 100%;
   /* height: 350px; */
-  background-color: orange;
+  /* background-color: orange; */
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-decoration-line: none;
 `;
 
 const SearchAndFilterStyle = styled.div`
@@ -32,7 +34,7 @@ const SearchAndFilterStyle = styled.div`
   background-color: blue;
   margin: 20px;
   display: flex;
-  width: 10%;
+  width: 20%;
   flex-direction: column;
   /* flex-wrap: wrap; */
 `;
@@ -64,6 +66,11 @@ function AdvisorListPage() {
               <AdviserCard data={el} key="" />
             </AdviserCardSectionStyle>
           ))}
+          <img src="../../imageFile/pngegg.png" style={{ width: '50%', height: '50%' }} />
+          <img src="../../imageFile/pngegg.png" style={{ width: '50%', height: '50%' }} />
+          <img src="../../imageFile/pngegg.png" style={{ width: '50%', height: '50%' }} />
+          <img src="../../imageFile/pngegg.png" style={{ width: '50%', height: '50%' }} />
+          <img src="../../imageFile/pngegg.png" style={{ width: '50%', height: '50%' }} />
         </AdviserCardListStyle>
         <SearchAndFilterStyle>
           <Search />

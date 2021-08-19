@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useParams, useHistory } from 'react-router-dom';
-
-import { Carousel, Avatar, Popover, Button } from 'antd';
+import { useSelector, useDispatch } from 'react-redux';
+import Carousel from 'react-bootstrap/Carousel';
+import { Avatar, Popover, Button } from 'antd';
 import axios from 'axios';
 import { BodyAreaStyle, ContainerStlye } from '../style/pageStyle';
 import ReactPlayer from 'react-player';
@@ -13,24 +14,32 @@ const url = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 
 function QuestionDetailPage() {
+  const state = useSelector((state) => state.userReducer);
   const { id } = useParams();
   const [post, setPost] = useState(null);
+  const [feedback, setFeedback] = useState('');
+  const [newFeed, setNewFeed] = useState('');
 
-  const [text, setText] = useState('');
   const history = useHistory();
 
   useEffect(() => {
-    axios.get(`${url}/posts/${id}`).then((data) => {
-      return setPost(data.data);
-    });
-  }, []);
+    axios.get(`${url}/posts/${id}`).then((data) => setPost(data.data));
+  }, [newFeed]);
 
   if (post === null) {
     return <h1>정보를 받고 있습니다...</h1>;
+  } else {
+    console.log(post.data);
   }
 
   const sendUserPosts = () => {
     history.push(`/users/posts/${post.data[0].userId}`);
+  };
+
+  const answerFeedback = () => {
+    axios.post(`${url}/feedbacks`, { postId: id, content: feedback }).then((result) => {
+      return setNewFeed(result.data.data);
+    });
   };
 
   return (
@@ -41,7 +50,6 @@ function QuestionDetailPage() {
           <div>{post.data[0].username}</div>
           <Popover
             placement="bottom"
-            title={text}
             content={<Button onClick={sendUserPosts}>{post.data[0].username}님이 올린 게시물 보기</Button>}
             trigger="click">
             <Avatar
@@ -51,26 +59,35 @@ function QuestionDetailPage() {
           </Popover>
         </div>
         <div>
-          <Carousel>
-            {/* 이미지가 안옴 !!  소스가 안옴 프로필 이미지만 옴 */}
-            {/* {post.data[0].sources.map((el) => {
-              el.type === 'video' ? <ReactPlayer url={el.url} /> : <img src={el.url} />;
-            })} */}
+          <Carousel variant="dark" interval={null}>
+            {post.data.sources.length === 0
+              ? null
+              : post.data.sources.map((el, idx) =>
+                  el.type === 'video' ? (
+                    <Carousel.Item>
+                      <ReactPlayer className="d-block w-100" src={el.sourceUrl} alt="" key={idx} />
+                    </Carousel.Item>
+                  ) : (
+                    <Carousel.Item>
+                      <img className="d-block w-100" src={el.sourceUrl} alt="" key={idx} />
+                    </Carousel.Item>
+                  ),
+                )}
           </Carousel>
+          {/* </Carousel> */}
           <div>{post.data[0].content}</div>
         </div>
         <div>
-          <div>Adviser Profile</div>
-          <div>Feedback contents</div>
-          {/* 마크다운 */}
-          <TextEditor />
-          {/* 마크다운 */}
+          {post.data.feedbacks.length === 0 ? (
+            <img src="../../imageFile/pngegg.png" style={{ width: '50%', height: '50%' }} />
+          ) : (
+            post.data.feedbacks.map((el) => {
+              return <FeedbackContainer adviser={el} key={el.id} />;
+            })
+          )}
         </div>
-        <div>
-          {post.data.feedbacks.map((el) => {
-            return <FeedbackContainer adviser={el} />;
-          })}
-        </div>
+        <div>{state.userInfo.role === 'adviser' ? <TextEditor text={setFeedback} /> : null}</div>
+        <Button onClick={answerFeedback}>Answer</Button>
       </ContainerStlye>
     </BodyAreaStyle>
   );
