@@ -1,5 +1,5 @@
 const size = {
-  mobile: '600px',
+  mobile: '800px',
 };
 
 const theme = {

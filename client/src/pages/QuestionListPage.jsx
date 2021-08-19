@@ -5,6 +5,9 @@ import Top10List from '../components/question/Top10List';
 import QuestionContainer from '../components/question/QuestionContainer';
 import { BodyAreaStyle, ContainerStlye } from '../style/pageStyle';
 import { useSelector, useDispatch } from 'react-redux';
+import Search from '../components/Search';
+import { Button, Radio } from 'antd';
+import { Link } from 'react-router-dom';
 
 import { getAllPosts } from '../actions/postActionIndex';
 import { StarTwoTone } from '@ant-design/icons';
@@ -25,33 +28,95 @@ const url = process.env.REACT_APP_API_URL;
 const CategorySection = styled.div`
   display: flex;
   width: 100%;
-  height: 25%;
-  background-color: green;
+  height: 20%;
+  /* min-height: 170px;
+  min-width: 200px; */
 `;
 
 const ContainerSection = styled.div`
   display: flex;
+  height: 100%;
+  @media ${(props) => props.theme.mobile} {
+    flex-direction: column-reverse;
+    /* justify-content: center; */
+    margin-bottom: 300px;
+    align-items: center;
+  }
+`;
+
+const SearchSection = styled.div`
+  /* height: 10%; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0px 10px 0px;
+  > div {
+    width: 60%;
+  }
+
+  > Radio.Group {
+  }
+
+  @media ${(props) => props.theme.mobile} {
+    flex-wrap: wrap;
+    > div {
+      width: 100vw;
+    }
+  }
+`;
+
+const AnsweredSectionStyle = styled.div`
+  display: flex;
+`;
+
+const RadioGroup = styled(Radio.Group)`
+  width: 30% !important;
+
+  @media ${(props) => props.theme.mobile} {
+    width: 100% !important;
+  }
+`;
+
+const RadioButton = styled(Radio.Button)`
+  width: 50%;
+  font-size: 1rem;
+  text-align: center;
+`;
+
+const LinkButtonStyle = styled(Link)`
+  @media ${(props) => props.theme.mobile} {
+    width: 100%;
+    > Button {
+      width: 100%;
+      border-radius: 10px 10px 10px 10px;
+    }
+  }
 `;
 
 function QuestionListPage() {
   const dispatch = useDispatch();
+  const state = useSelector((state) => state.userReducer);
   const [isLoading, setIsLoading] = useState(true);
   const category = [
     {
-      name: '헬스',
-      color: 'white', //배경컬러를 바꿔야함
+      name: 'Personal Training',
+      color: 'red', //배경컬러를 바꿔야함
+      icon: '../../imageFile/fitness.png',
     },
     {
-      name: '골프',
+      name: 'Golf',
       color: 'pink',
+      icon: '../../imageFile/golf.png',
     },
     {
-      name: '클라이밍',
+      name: 'Climbing',
       color: 'black',
+      icon: '../../imageFile/climbing.png',
     },
     {
-      name: '기타',
+      name: 'E.T.C',
       color: 'blue',
+      icon: '../../imageFile/etc.png',
     },
   ];
 
@@ -66,14 +131,40 @@ function QuestionListPage() {
     return '데이터를 가져오고있습니다.';
   }
 
+  if (state.logIn) {
+    console.log(state);
+  }
+
   return (
     <BodyAreaStyle>
-      <ContainerStlye style={{ overflow: 'auto', height: 'auto' }}>
+      <ContainerStlye style={{ display: 'flex', flexDirection: 'column' }}>
         <CategorySection>
           {category.map((el) => (
             <CategoryButton props={el} />
           ))}
         </CategorySection>
+
+        <SearchSection>
+          <div>
+            <Search />
+          </div>
+          {/* <span> */}
+          <RadioGroup buttonStyle="solid">
+            <AnsweredSectionStyle>
+              <RadioButton value="Answered" style={{ borderRadius: '10px 0px 0px 10px', borderRight: '0px' }}>
+                Answered
+              </RadioButton>
+              <RadioButton value="Unanswered" style={{ borderRadius: '0 10px 10px 0', borderLeft: '0px' }}>
+                Unanswered
+              </RadioButton>
+            </AnsweredSectionStyle>
+          </RadioGroup>
+          {/* </span> */}
+          <LinkButtonStyle to="/QuestionPost">
+            <Button>게시</Button>
+          </LinkButtonStyle>
+        </SearchSection>
+
         <ContainerSection>
           <Top10List />
           <QuestionContainer />
