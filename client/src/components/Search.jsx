@@ -7,14 +7,21 @@ const SearchStyle = styled.div`
   width: 100%;
 `;
 
-function Search({ originalList, setAdviserDetail, type, setOnUnanswer, setOnAnswer }) {
+function Search({ originalList, setAdviserDetail, type, setOnUnanswer, setOnAnswer, setOnSerach, setSearchList }) {
   const state = useSelector((state) => state.postReducer);
   const dispatch = useDispatch();
   const getAdviserSearch = (value, e) => {
     console.log(originalList);
-    if (!value) return setAdviserDetail(originalList);
+    if (!value) {
+      setOnSerach(false);
+      setAdviserDetail(originalList);
+      setSearchList(originalList);
+      return;
+    }
     let data = originalList.filter((el) => el.name.includes(value) || el.category === value || el.state === value);
+    setOnSerach(true);
     setAdviserDetail(data);
+    setSearchList(data);
   };
 
   const getQuestionSearch = (value, e) => {

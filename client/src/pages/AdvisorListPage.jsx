@@ -46,7 +46,10 @@ const FilterStyle = styled.div`
 function AdvisorListPage() {
   const [adviserDetail, setAdviserDetail] = useState(null);
   const [originalList, setOriginalList] = useState([]);
+  const [searchList, setSearchList] = useState([]);
   const filterOption = { category: '전체', gender: '남+여', state: '전국' };
+  const [onSerach, setOnSerach] = useState(false);
+
   useEffect(() => {
     axios.get(`${url}/advisers`).then((result) => {
       let list = result.data.slice();
@@ -61,14 +64,12 @@ function AdvisorListPage() {
     });
   }, []);
 
-  if (adviserDetail === null) {
-    return '데이터를 받아오고있습니다.';
-  }
   const getOption = (e, key) => {
     filterOption[key] = e.target.value;
   };
   const getfilterData = () => {
     let data = originalList.slice();
+    if (onSerach) data = searchList.slice();
     if (filterOption.category !== '전체') {
       data = data.filter((el) => el.category === filterOption.category);
     }
@@ -78,8 +79,17 @@ function AdvisorListPage() {
     if (filterOption.state !== '전국') {
       data = data.filter((el) => el.state === filterOption.state);
     }
+    // handleFilter();
     setAdviserDetail(data);
   };
+
+  useEffect(() => {
+    getfilterData();
+  }, [onSerach]);
+
+  if (adviserDetail === null) {
+    return '데이터를 받아오고있습니다.';
+  }
   return (
     <BodyAreaStyle>
       <ContainerStlye style={{ display: 'flex' }}>
@@ -93,7 +103,13 @@ function AdvisorListPage() {
           ))}
         </AdviserCardListStyle>
         <SearchAndFilterStyle>
-          <Search originalList={originalList} setAdviserDetail={setAdviserDetail} type={'adviserList'} />
+          <Search
+            originalList={originalList}
+            setAdviserDetail={setAdviserDetail}
+            type={'adviserList'}
+            setOnSerach={setOnSerach}
+            setSearchList={setSearchList}
+          />
           <FilterStyle>
             <div>종목</div>
             <Radio.Group
