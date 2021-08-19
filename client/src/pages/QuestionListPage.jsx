@@ -9,7 +9,7 @@ import Search from '../components/Search';
 import { Button, Radio } from 'antd';
 import { Link } from 'react-router-dom';
 
-import { getAllPosts } from '../actions/postActionIndex';
+import { getAllPosts, searchPosts } from '../actions/postActionIndex';
 import { StarTwoTone } from '@ant-design/icons';
 import { getTopAdvisers } from '../actions/adviserActionIndex';
 const url = process.env.REACT_APP_API_URL;
@@ -97,6 +97,10 @@ function QuestionListPage() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state.userReducer);
   const [isLoading, setIsLoading] = useState(true);
+  const postState = useSelector((state) => state.postReducer);
+  const [onAnswer, setOnAnswer] = useState(false);
+  const [onUnanswer, setOnUnanswer] = useState(false);
+
   const category = [
     {
       name: 'Personal Training',
@@ -135,6 +139,41 @@ function QuestionListPage() {
     console.log(state);
   }
 
+  //state => adviserReducer , postReducer / userReducertest
+
+  const handleAnswerButton = () => {
+    if (!onAnswer) {
+      let filterdata;
+      if (onUnanswer) {
+        filterdata = postState.filterPosts.filter((el) => el.selected);
+      } else {
+        filterdata = postState.searchPosts.filter((el) => el.selected);
+      }
+      dispatch(searchPosts(filterdata));
+      setOnAnswer(true);
+    } else {
+      dispatch(searchPosts(postState.filterPosts));
+      setOnAnswer(false);
+    }
+    setOnUnanswer(false);
+  };
+  const handleUnAnswerButton = () => {
+    if (!onUnanswer) {
+      let filterdata;
+      if (onAnswer) {
+        filterdata = postState.filterPosts.filter((el) => !el.selected);
+      } else {
+        filterdata = postState.searchPosts.filter((el) => !el.selected);
+      }
+      dispatch(searchPosts(filterdata));
+      setOnUnanswer(true);
+    } else {
+      dispatch(searchPosts(postState.filterPosts));
+      setOnUnanswer(false);
+    }
+    setOnAnswer(false);
+  };
+
   return (
     <BodyAreaStyle>
       <ContainerStlye style={{ display: 'flex', flexDirection: 'column' }}>
@@ -146,15 +185,21 @@ function QuestionListPage() {
 
         <SearchSection>
           <div>
-            <Search />
+            <Search setOnUnanswer={setOnUnanswer} setOnAnswer={setOnAnswer} />
           </div>
           {/* <span> */}
           <RadioGroup buttonStyle="solid">
             <AnsweredSectionStyle>
-              <RadioButton value="Answered" style={{ borderRadius: '10px 0px 0px 10px', borderRight: '0px' }}>
+              <RadioButton
+                value="Answered"
+                onClick={handleAnswerButton}
+                style={{ borderRadius: '10px 0px 0px 10px', borderRight: '0px' }}>
                 Answered
               </RadioButton>
-              <RadioButton value="Unanswered" style={{ borderRadius: '0 10px 10px 0', borderLeft: '0px' }}>
+              <RadioButton
+                value="Unanswered"
+                onClick={handleUnAnswerButton}
+                style={{ borderRadius: '0 10px 10px 0', borderLeft: '0px' }}>
                 Unanswered
               </RadioButton>
             </AnsweredSectionStyle>
