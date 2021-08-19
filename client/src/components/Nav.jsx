@@ -116,12 +116,12 @@ function Nav() {
       <DivStyle>
         <li>
           <LinkStyle to="/AdviserList">
-            <SpanStyle>딴지꾼</SpanStyle>
+            <SpanStyle>Mentors</SpanStyle>
           </LinkStyle>
         </li>
         <li>
           <LinkStyle to="/">
-            <SpanStyle>마자?</SpanStyle>
+            <SpanStyle>Question</SpanStyle>
           </LinkStyle>
         </li>
 
@@ -129,17 +129,17 @@ function Nav() {
           <>
             <li>
               <LinkStyle to="/MyPage">
-                <SpanStyle>마이페이지</SpanStyle>
+                <SpanStyle>Mypage</SpanStyle>
               </LinkStyle>
             </li>
             <li>
-              <SpanStyle onClick={handleLogOut}>로그아웃</SpanStyle>
+              <SpanStyle onClick={handleLogOut}>Logout</SpanStyle>
             </li>
           </>
         ) : (
           <li>
             <LinkStyle to="/SignIn">
-              <SpanStyle>로그인</SpanStyle>
+              <SpanStyle>Login</SpanStyle>
             </LinkStyle>
           </li>
         )}

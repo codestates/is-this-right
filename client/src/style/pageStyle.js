@@ -11,4 +11,7 @@ export const ContainerStlye = styled.div`
   width: 60vw;
   height: auto;
   /* background-color: red; */
+  @media ${(props) => props.theme.mobile} {
+    width: 100vw;
+  }
 `;

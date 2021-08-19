@@ -62,9 +62,9 @@ function AdvisorListPage() {
           {/* <AdviserCard />
           <AdviserCard /> */}
           {adviserDetail.map((el) => (
-            <AdviserCardSectionStyle to={`/advisers/${el.id}`}>
-              <AdviserCard data={el} key="" />
-            </AdviserCardSectionStyle>
+            // <AdviserCardSectionStyle to={`/advisers/${el.id}`}>
+            <AdviserCard data={el} key="" />
+            // </AdviserCardSectionStyle>
           ))}
           <img src="../../imageFile/pngegg.png" style={{ width: '50%', height: '50%' }} />
           <img src="../../imageFile/pngegg.png" style={{ width: '50%', height: '50%' }} />

@@ -16,6 +16,7 @@ const PostCardStyle = styled.div`
   padding: 10px;
   margin: 2px 0px 2px 0px;
   @media ${(props) => props.theme.mobile} {
+    padding-left: 30px;
   }
 `;
 
@@ -38,14 +39,14 @@ function PostCard({ data }) {
     <PostCardStyle>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <Avatar
-          size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }}
+          size={100}
           icon={<img src="../../imageFile/avatar.png" />} // img데이터 넣기
         />
         <div style={{ marginLeft: '30px' }}>
           <div style={{ fontSize: '1.3rem', color: 'black' }}>{data.title}</div>
           <div>
             <span style={{ fontSize: '0.8rem', color: '#686868' }}>{data.username}</span>
-            <Moment fromNow style={{ fontSize: '0.8rem', color: '#686868' }}>
+            <Moment fromNow style={{ fontSize: '0.8rem', color: '#686868', marginLeft: '5px' }}>
               {startTime}
             </Moment>
           </div>
@@ -54,9 +55,9 @@ function PostCard({ data }) {
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <div>
           {data.isAnswered ? (
-            <CheckCircleTwoTone style={{ color: 'green' }} />
+            <CheckCircleTwoTone style={{ color: 'green', fontSize: '25px' }} />
           ) : (
-            <CheckCircleOutlined style={{ color: '#686868' }} />
+            <CheckCircleOutlined style={{ color: '#686868', fontSize: '25px' }} />
           )}
         </div>
         <div style={{ marginLeft: '30px' }}>{data.commentNum}</div>
