@@ -2,7 +2,7 @@ const { user, adviser, feedback, post } = require('../../models');
 const Sequelize = require('sequelize');
 const { generateAccessToken, isAuthorized, sendAccessToken } = require('../tokenFunctions');
 const bcrypt = require('bcrypt');
-const { exportUser } = require('../../users');
+const { getUsers } = require('../../users');
 
 require('dotenv').config();
 
@@ -25,7 +25,7 @@ module.exports = {
         console.log(err);
         return res.status(500).json({ message: 'database err' });
       });
-    let online = exportUser();
+    let online = getUsers();
 
     for (let i = 0; i < list.length; i++) {
       for (let j = 0; j < online.length; j++) {
