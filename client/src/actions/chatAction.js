@@ -3,7 +3,8 @@ export const UPDATE_CHAT_LIST = 'UPDATE_CHAT_LIST';
 export const SET_SOCKET = 'SET_SOCKET';
 export const SET_MESSAGES = 'SET_MESSAGES';
 export const ADD_MESSAGE = 'ADD_MESSAGE';
-
+export const SET_ISCHAT = 'SET_ISCHAT';
+export const SET_VIEWCHATLIST = 'SET_VIEWCHATLIST';
 export const changeRoom = (chatId) => {
   return {
     type: CHANGE_ROOM,
@@ -36,5 +37,19 @@ export const addMessage = (message) => {
   return {
     type: ADD_MESSAGE,
     payload: message,
+  };
+};
+
+export const setIsChat = (boolean) => {
+  return {
+    type: SET_ISCHAT,
+    payload: boolean,
+  };
+};
+
+export const setViewChatlist = (boolean) => {
+  return {
+    type: SET_VIEWCHATLIST,
+    payload: boolean,
   };
 };

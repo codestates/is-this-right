@@ -33,4 +33,6 @@ export const chatInitialState = {
   chatList: [],
   socket: null,
   messages: [],
+  isChat: false,
+  viewChatlist: true,
 };

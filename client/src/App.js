@@ -1,8 +1,8 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import ChatList from './components/chat/ChatList';
 import Chat from './components/chat/Chat';
+import Chatbutton from './components/chat/Chatbutton';
 import io from 'socket.io-client';
 import 'antd/dist/antd.css';
 import { Switch, Route } from 'react-router-dom';
@@ -19,13 +19,12 @@ import QuestionDetailPage from './pages/QuestionDetailPage';
 import AdvisorListPage from './pages/AdvisorListPage';
 import AdvisorDetailPage from './pages/AdvisorDetailPage';
 import { useSelector, useDispatch } from 'react-redux';
-import { changeRoom, setSocket, updateChatList } from './actions/chatAction';
+import { changeRoom, setSocket, updateChatList, setIsChat, setViewChatlist, addMessage } from './actions/chatAction';
 
 const url = process.env.REACT_APP_API_URL;
 
 function App() {
   const [text, setText] = useState('text');
-  const [isChat, setIsChat] = useState(false);
   const [isList, setIsList] = useState(false);
   const [adviserList, setAdviserList] = useState([]);
   const handleClick = async () => {
@@ -46,14 +45,12 @@ function App() {
       axios.post(`${url}/chats`, payload).then((data) => {
         dispatch(changeRoom(data.data.data.roomId));
         chatState.socket.emit('join', { room: data.data.data.roomId });
-        handleSetisChat();
+        dispatch(setIsChat(true));
+        dispatch(setViewChatlist(false));
       });
     } else {
       alert('로그인이 필요한 서비스입니다.');
     }
-  };
-  const handleSetisChat = () => {
-    setIsChat(true);
   };
 
   const showAdviserList = () => {
@@ -71,7 +68,28 @@ function App() {
         let chatlist = await axios.get(`${url}/chats`);
         dispatch(updateChatList(chatlist.data.data));
       });
-      chatState.socket.emit('online', state.userInfo.data);
+      chatState.socket.emit('online', state.userInfo);
+    }
+  }, [chatState.socket]);
+
+  const markAsRead = async (chatId) => {
+    return axios.patch(`${url}/chats/${chatId}`);
+  };
+  let count = 0;
+  useEffect(() => {
+    if (chatState.socket) {
+      chatState.socket.on('message', async (message) => {
+        console.log(message, '여기가 여러번 불러지고있거든?');
+        console.log(++count);
+        if (!chatState.messages.filter((msg) => msg.id === message.id).length) {
+          markAsRead(message.chatId).then(async () => {
+            dispatch(addMessage(message));
+            let chatlist = await axios.get(`${url}/chats`);
+            dispatch(updateChatList(chatlist.data.data));
+          });
+        }
+      });
+      console.log('여기는 chatList.jsx, socket이 바뀌나?', chatState.socket.id);
     }
   }, [chatState.socket]);
 
@@ -98,10 +116,8 @@ function App() {
                 );
               })
             : null}
-          <div>
-            <ChatList handleSetisChat={handleSetisChat} />
-            {isChat ? <Chat /> : null}
-          </div>
+          <div></div>
+          {chatState.isChat ? <Chat /> : <Chatbutton />}
           <Nav />
           <QuestionListPage />
           <Footer />
