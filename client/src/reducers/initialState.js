@@ -20,6 +20,8 @@ export const adviserInitialState = {
 
 export const postInitialState = {
   posts: [],
+  filterPosts: [],
+  searchPosts: [],
   postImgs: {
     imgFile: [],
     preview: '',
