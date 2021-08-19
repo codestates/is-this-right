@@ -8,6 +8,9 @@ const addUser = (userInfo) => {
   console.log(users, ' added');
 };
 
+const exportUser = () => {
+  return users;
+};
 const removeUser = (socketId) => {
   const index = users.findIndex((user) => user.socketId === socketId);
   let deleted = users.splice(index, 1)[0];
@@ -18,4 +21,4 @@ const getUser = (id) => users.find((user) => user.id === id);
 
 const getUsersInRoom = (room) => users.filter((user) => user.room === room);
 
-module.exports = { addUser, removeUser, users, getUser };
+module.exports = { addUser, removeUser, exportUser, getUser };

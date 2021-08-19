@@ -250,7 +250,7 @@ function UserEditCompo() {
         <div>
           <SelectBox
             func={handleInputValue}
-            data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]}
+            data={['서울', '경기/인천', '강원도', '충청도', '경상도', '전라도', '제주도']}
             keyData={'state'}
             name="state"
             value={editInfo.state}
