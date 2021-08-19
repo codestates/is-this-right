@@ -1,5 +1,13 @@
 import { chatInitialState } from './initialState';
-import { UPDATE_CHAT_LIST, CHANGE_ROOM, SET_SOCKET, SET_MESSAGES, ADD_MESSAGE } from '../actions/chatAction';
+import {
+  UPDATE_CHAT_LIST,
+  CHANGE_ROOM,
+  SET_SOCKET,
+  SET_MESSAGES,
+  ADD_MESSAGE,
+  SET_ISCHAT,
+  SET_VIEWCHATLIST,
+} from '../actions/chatAction';
 
 const userReducer = (state = chatInitialState, action) => {
   switch (action.type) {
@@ -22,6 +30,14 @@ const userReducer = (state = chatInitialState, action) => {
     case ADD_MESSAGE:
       return Object.assign({}, state, {
         messages: [...state.messages, action.payload],
+      });
+    case SET_ISCHAT:
+      return Object.assign({}, state, {
+        isChat: action.payload,
+      });
+    case SET_VIEWCHATLIST:
+      return Object.assign({}, state, {
+        viewChatlist: action.payload,
       });
     default:
       return state;

@@ -15,7 +15,6 @@ const removeUser = (socketId) => {
 };
 
 const getUser = (id) => users.find((user) => user.id === id);
+const getUsers = () => users;
 
-const getUsersInRoom = (room) => users.filter((user) => user.room === room);
-
-module.exports = { addUser, removeUser, users, getUser };
+module.exports = { addUser, removeUser, getUsers, getUser };

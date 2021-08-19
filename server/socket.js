@@ -1,7 +1,7 @@
 module.exports = function (io) {
   const { message, sequelize } = require('./models');
   const { QueryTypes } = require('sequelize');
-  const { addUser, removeUser, users, getUser } = require('./users');
+  const { addUser, getUser, getUsers } = require('./users');
 
   io.on('connection', (socket) => {
     socket.on('online', (userInfo) => {
@@ -10,17 +10,24 @@ module.exports = function (io) {
       socket.emit('online', 'Ok, i got it, ' + socket.id);
 
       addUser({ ...userInfo, socketId: socket.id });
+      console.log('추가를 했는데 이게 들어왔을까? current user:', getUsers);
     });
-
+    socket.on('quitRoom', (data) => {
+      socket.leaveAll();
+      socket.join(socket.id);
+    });
     socket.on('join', (data) => {
       // 방입장할때
       console.log('방 입장됨', data.room);
       socket.leaveAll();
       socket.join(socket.id);
       socket.join(data.room);
+
+      console.log('현재 참여중인 채널 목록:', socket.rooms);
     });
 
     socket.on('sendMessage', async (messageInfo) => {
+      console.log('여기는 SendMessage On, 방금 메세지 받았어', messageInfo);
       const receiverInfo = await sequelize.query(
         `SELECT userId FROM chats_users WHERE chatId = ${messageInfo.room} AND NOT userId = ${messageInfo.sender}`,
         { type: QueryTypes.SELECT },
@@ -43,10 +50,12 @@ module.exports = function (io) {
 
       const response = { ...createdMessage.dataValues, ...senderInfo[0] };
 
-      console.log(messageInfo, '여기메세지떠야하는뎅', response);
+      console.log(messageInfo, '여기메세지떠야하는뎅', response, ' receiver 는 >', receiver);
+      console.log('sendMessage On 인데, emit message 받을 채널은?:', socket.rooms);
       io.to(messageInfo.room).emit('message', response);
-      console.log('current users: ', users);
+      console.log('current users: ', getUsers);
       let receiverOnline = getUser(receiver);
+      console.log('Online Receiver Info', receiverOnline);
       if (receiverOnline) {
         console.log('sending online event to ', receiverOnline.socketId);
         io.to(receiverOnline.socketId).emit('online', 'update chat list');
