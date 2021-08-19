@@ -1,14 +1,17 @@
 import styled from 'styled-components';
 
 export const BodyAreaStyle = styled.div`
-  height: 100vh;
-  width: 100vw;
+  min-height: 100vh;
+  width: 100%;
   display: flex;
   justify-content: center;
 `;
 
 export const ContainerStlye = styled.div`
   width: 60vw;
-  height: 100vh;
-  background-color: red;
+  height: auto;
+  /* background-color: red; */
+  @media ${(props) => props.theme.mobile} {
+    width: 100vw;
+  }
 `;

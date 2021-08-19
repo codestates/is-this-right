@@ -8,6 +8,7 @@ import { ThemeProvider } from 'styled-components';
 import theme from './style/them';
 import GlobalStyle from './style/global';
 import { BrowserRouter } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 ReactDOM.render(
   <BrowserRouter>

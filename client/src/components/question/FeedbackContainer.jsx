@@ -1,6 +1,7 @@
 import React from 'react';
 import { Avatar } from 'antd';
 import styled from 'styled-components';
+import parse from 'html-react-parser';
 
 const FeedbackContainerStyle = styled.div`
   width: 100%;
@@ -13,6 +14,10 @@ const ContentStyle = styled.div`
   width: 80%;
   min-height: 30%;
   background-color: blue;
+  /* 이미지 크기 수정  */
+  > p > img {
+    width: 200px;
+  }
 `;
 
 function FeedbackContainer({ adviser }) {
@@ -30,8 +35,8 @@ function FeedbackContainer({ adviser }) {
         <Avatar size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }} icon={<img src={adviser.profileImg} />} />
         <div>{adviser.name}</div>
       </div>
-      <ContentStyle>{adviser.content}</ContentStyle>
-      <div>check</div>
+      <ContentStyle>{parse(adviser.content)}</ContentStyle>
+      {/* <div>{data.isAnswered ? <CheckCircleTwoTone style={{ color: 'green' }} /> : <CheckCircleOutlined />}</div> */}
     </FeedbackContainerStyle>
   );
 }

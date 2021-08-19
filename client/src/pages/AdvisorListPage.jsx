@@ -10,8 +10,9 @@ const url = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 
 const AdviserCardListStyle = styled.div`
+  width: 80%;
   flex: 3 1 auto;
-  background-color: green;
+  /* background-color: green; */
   margin: 20px;
   display: flex;
   flex-direction: column;
@@ -19,12 +20,13 @@ const AdviserCardListStyle = styled.div`
 `;
 
 const AdviserCardSectionStyle = styled(Link)`
-  width: 90%;
+  width: 100%;
   /* height: 350px; */
-  background-color: orange;
+  /* background-color: orange; */
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-decoration-line: none;
 `;
 
 const SearchAndFilterStyle = styled.div`
@@ -32,7 +34,7 @@ const SearchAndFilterStyle = styled.div`
   background-color: blue;
   margin: 20px;
   display: flex;
-  width: 10%;
+  width: 20%;
   flex-direction: column;
   /* flex-wrap: wrap; */
 `;
@@ -45,14 +47,51 @@ const FilterStyle = styled.div`
 
 function AdvisorListPage() {
   const [adviserDetail, setAdviserDetail] = useState(null);
+  const [originalList, setOriginalList] = useState([]);
+  const [searchList, setSearchList] = useState([]);
+  const filterOption = { category: '전체', gender: '남+여', state: '전국' };
+  const [onSerach, setOnSerach] = useState(false);
+
   useEffect(() => {
-    axios.get(`${url}/advisers`).then((result) => setAdviserDetail(result.data));
+    axios.get(`${url}/advisers`).then((result) => {
+      let list = result.data.slice();
+      let onlineList = result.data.filter((el, index) => {
+        if (el.isonline) {
+          list.splice(index, 1);
+          return true;
+        }
+      });
+      setOriginalList([...onlineList, ...list]);
+      setAdviserDetail([...onlineList, ...list]);
+    });
   }, []);
+
+  const getOption = (e, key) => {
+    filterOption[key] = e.target.value;
+  };
+  const getfilterData = () => {
+    let data = originalList.slice();
+    if (onSerach) data = searchList.slice();
+    if (filterOption.category !== '전체') {
+      data = data.filter((el) => el.category === filterOption.category);
+    }
+    if (filterOption.gender !== '남+여') {
+      data = data.filter((el) => el.gender === filterOption.gender);
+    }
+    if (filterOption.state !== '전국') {
+      data = data.filter((el) => el.state === filterOption.state);
+    }
+    // handleFilter();
+    setAdviserDetail(data);
+  };
+
+  useEffect(() => {
+    getfilterData();
+  }, [onSerach]);
 
   if (adviserDetail === null) {
     return '데이터를 받아오고있습니다.';
   }
-
   return (
     <BodyAreaStyle>
       <ContainerStlye style={{ display: 'flex' }}>
@@ -60,41 +99,66 @@ function AdvisorListPage() {
           {/* <AdviserCard />
           <AdviserCard /> */}
           {adviserDetail.map((el) => (
-            <AdviserCardSectionStyle to={`/advisers/${el.id}`}>
-              <AdviserCard data={el} key="" />
+            <AdviserCardSectionStyle key={el.id} to={`/advisers/${el.id}`}>
+              <AdviserCard data={el} />
             </AdviserCardSectionStyle>
           ))}
+          <img src="../../imageFile/pngegg.png" style={{ width: '50%', height: '50%' }} />
+          <img src="../../imageFile/pngegg.png" style={{ width: '50%', height: '50%' }} />
+          <img src="../../imageFile/pngegg.png" style={{ width: '50%', height: '50%' }} />
+          <img src="../../imageFile/pngegg.png" style={{ width: '50%', height: '50%' }} />
+          <img src="../../imageFile/pngegg.png" style={{ width: '50%', height: '50%' }} />
         </AdviserCardListStyle>
         <SearchAndFilterStyle>
-          <Search />
+          <Search
+            originalList={originalList}
+            setAdviserDetail={setAdviserDetail}
+            type={'adviserList'}
+            setOnSerach={setOnSerach}
+            setSearchList={setSearchList}
+          />
           <FilterStyle>
-            <Radio.Group size="large">
+            <div>종목</div>
+            <Radio.Group
+              size="large"
+              defaultValue="전체"
+              onChange={(e) => {
+                getOption(e, 'category');
+                getfilterData();
+              }}>
+              <Radio.Button value="전체">전체</Radio.Button>
               <Radio.Button value="헬스">헬스</Radio.Button>
               <Radio.Button value="골프">골프</Radio.Button>
               <Radio.Button value="클라이밍">클라이밍</Radio.Button>
               <Radio.Button value="기타">기타</Radio.Button>
             </Radio.Group>
-            <Radio.Group size="large">
+            <div>성별</div>
+            <Radio.Group
+              size="large"
+              defaultValue="남+여"
+              onChange={(e) => {
+                getOption(e, 'gender');
+                getfilterData();
+              }}>
+              <Radio.Button value="남+여">남+여</Radio.Button>
               <Radio.Button value="남자">남자</Radio.Button>
               <Radio.Button value="여자">여자</Radio.Button>
             </Radio.Group>
-            <Radio.Group size="large">
+            <div>지역</div>
+            <Radio.Group
+              size="large"
+              defaultValue="전국"
+              onChange={(e) => {
+                getOption(e, 'state');
+                getfilterData();
+              }}>
+              <Radio.Button value="전국">전국</Radio.Button>
               <Radio.Button value="서울">서울</Radio.Button>
-              <Radio.Button value="경기">경기</Radio.Button>
-              <Radio.Button value="인천">인천</Radio.Button>
-              <Radio.Button value="강원">강원</Radio.Button>
-              <Radio.Button value="충청남도">충청남도</Radio.Button>
-              <Radio.Button value="충청북도">충청북도</Radio.Button>
-              <Radio.Button value="대전">대전</Radio.Button>
-              <Radio.Button value="세종">세종</Radio.Button>
-              <Radio.Button value="경상남도">경상남도</Radio.Button>
-              <Radio.Button value="경상북도">경상북도</Radio.Button>
-              <Radio.Button value="울산">울산</Radio.Button>
-              <Radio.Button value="부산">부산</Radio.Button>
-              <Radio.Button value="대구">대구</Radio.Button>
-              <Radio.Button value="전라북도">전라북도</Radio.Button>
-              <Radio.Button value="전라남도">전라남도</Radio.Button>
-              <Radio.Button value="광주">광주</Radio.Button>
+              <Radio.Button value="경기/인천">경기/인천</Radio.Button>
+              <Radio.Button value="강원도">강원도</Radio.Button>
+              <Radio.Button value="충청">충청도</Radio.Button>
+              <Radio.Button value="경상도">경상도</Radio.Button>
+              <Radio.Button value="전라도">전라도</Radio.Button>
               <Radio.Button value="제주도">제주도</Radio.Button>
             </Radio.Group>
           </FilterStyle>

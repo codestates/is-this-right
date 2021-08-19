@@ -39,7 +39,7 @@ function App() {
     //방만들고 룸넘버 획득
     if (state.logIn) {
       let payload = {
-        sender: state.userInfo.id,
+        sender: state.userInfo.data.id,
         receiver: userId,
       };
       axios.post(`${url}/chats`, payload).then((data) => {
@@ -69,7 +69,6 @@ function App() {
         dispatch(updateChatList(chatlist.data.data));
       });
       chatState.socket.emit('online', state.userInfo);
-      console.log('소켓아이디가 변하고있니?', chatState.socket);
     }
   }, [chatState.socket]);
 

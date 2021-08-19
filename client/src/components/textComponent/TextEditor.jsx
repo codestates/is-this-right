@@ -1,5 +1,4 @@
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import parse from 'html-react-parser';
 import { config } from './EditorConfig';
 import React, { useState } from 'react';
 import styled from 'styled-components';
@@ -67,7 +66,7 @@ const installedPlugins = [
   TextTransformation,
 ];
 
-function TextEditor() {
+function TextEditor({ text }) {
   const [body, setBody] = useState('');
   ClassicEditor.defaultConfig = config;
   const handleSubmit = (e) => {
@@ -109,16 +108,14 @@ function TextEditor() {
           ],
           ckfinder: {
             // Upload the images to the server using the CKFinder QuickUpload command.
-            uploadUrl: `/uploads`,
+            uploadUrl: `${url}/uploads`,
           },
         }}
         onChange={(event, editor) => {
           const data = editor.getData();
-          console.log(editor, data);
-          setBody(data);
+          text(data);
         }}
       />
-      <button type="submit">Submit</button>
     </form>
   );
 }

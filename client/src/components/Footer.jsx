@@ -12,6 +12,7 @@ const FooterAreaStyle = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
+  align-self: center;
   /* height: ; */
   & hr {
     width: 80vw;
