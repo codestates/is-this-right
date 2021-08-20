@@ -214,7 +214,7 @@ function QuestionListPage() {
           </RadioGroup>
           {/* </span> */}
           <LinkButtonStyle to="/QuestionPost">
-            <Button>게시</Button>
+            <Button>New Question</Button>
           </LinkButtonStyle>
         </SearchSection>
 

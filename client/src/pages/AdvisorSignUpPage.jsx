@@ -6,6 +6,7 @@ import { Input, Button, Radio } from 'antd';
 import SelectBox from '../components/adviser/SelectBox';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import TextEditor from '../components/textComponent/TextEditor';
 axios.defaults.withCredentials = true;
 const serverUrl = process.env.REACT_APP_API_URL;
 const socialPw = process.env.REACT_APP_SOCIAL_PW;
@@ -64,6 +65,8 @@ function AdvisorSignUpPage() {
   const [detailErr, setDetailErr] = useState(null);
   const [urlErr, setUrlErr] = useState(null);
   const [disable, setDisable] = useState(true);
+  const [text, setText] = useState('');
+
   const [signUpInfo, setSignUpInfo] = useState({
     username: '',
     email: '',
@@ -82,6 +85,10 @@ function AdvisorSignUpPage() {
   const userState = useSelector((state) => state.userReducer);
   const socialHide = useRef(null);
   const history = useHistory();
+
+  useEffect(() => {
+    setSignUpInfo({ ...signUpInfo, detail: text });
+  }, [text]);
 
   const handleInputValue = (key, e) => {
     console.log(key);
@@ -227,7 +234,7 @@ function AdvisorSignUpPage() {
       }
     }
     if (funcName === 'detail') {
-      if (detail === '') {
+      if (text === '') {
         setDetailErr('자기 소개를 작성해주세요');
         return false;
       } else {
@@ -414,12 +421,13 @@ function AdvisorSignUpPage() {
 
           <LabelStyle>디테일</LabelStyle>
           <div>
-            <Input.TextArea
+            {/* <Input.TextArea
               name="detail"
               maxLength={300}
               onChange={(e) => handleInputValue('detail', e)}
               onBlur={() => checkValidation('detail')}
-            />
+            /> */}
+            <TextEditor text={setText} checkValidation={checkValidation} />
           </div>
           {detailErr ? <div>{detailErr}</div> : null}
 

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Avatar } from 'antd';
 import { CheckCircleTwoTone, CheckCircleOutlined } from '@ant-design/icons';
+import parse from 'html-react-parser';
 
 const AdviserCardStyle = styled.div`
   background-color: white;
@@ -18,7 +19,9 @@ const AdviserCardStyle = styled.div`
 function AdviserFeedbackDetail({ data }) {
   return (
     <AdviserCardStyle>
-      <div>{data.content}</div>
+      <div style={{ width: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+        {data.content}
+      </div>
       <div>{data.createdAt}</div>
       <div>{data.post.title}</div>
       <div>{data.post.selected ? <CheckCircleTwoTone /> : <CheckCircleOutlined />}</div>

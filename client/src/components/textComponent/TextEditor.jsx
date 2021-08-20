@@ -1,8 +1,8 @@
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { config } from './EditorConfig';
-import React, { useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
-
+import './TextEditor.css';
 import ClassicEditor from '@ckeditor/ckeditor5-editor-classic/src/classiceditor.js';
 // import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment.js';
 import Autoformat from '@ckeditor/ckeditor5-autoformat/src/autoformat.js';
@@ -66,57 +66,54 @@ const installedPlugins = [
   TextTransformation,
 ];
 
-function TextEditor({ text }) {
-  const [body, setBody] = useState('');
-  ClassicEditor.defaultConfig = config;
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // onSubmit({ body });
-  };
-
+function TextEditor({ text, data = '', checkValidation = () => {}, handleSetData = () => {} }) {
   return (
-    <form onSubmit={handleSubmit}>
-      <CKEditor
-        editor={ClassicEditor}
-        config={{
-          plugins: [...installedPlugins],
-          toolbar: [
-            '|',
-            'heading',
-            '|',
-            '|',
-            'bold',
-            'italic',
-            'bulletedList',
-            'numberedList',
-            '|',
-            '|',
-            'link',
-            'blockQuote',
-            // 'CKFinder',
-            'imageUpload',
-            'insertTable',
-            'mediaEmbed',
-            'Image',
-            'ImageCaption',
-            'ImageInsert',
-            'ImageStyle',
-            'ImageToolbar',
-            '|',
-            'undo',
-            'redo',
-          ],
-          ckfinder: {
-            // Upload the images to the server using the CKFinder QuickUpload command.
-            uploadUrl: `${url}/uploads`,
-          },
-        }}
-        onChange={(event, editor) => {
-          const data = editor.getData();
-          text(data);
-        }}
-      />
-    </form>
+    <CKEditor
+      editor={ClassicEditor}
+      config={{
+        // default: 'My default value',
+        plugins: [...installedPlugins],
+        toolbar: [
+          '|',
+          'heading',
+          '|',
+          '|',
+          'bold',
+          'italic',
+          'bulletedList',
+          'numberedList',
+          '|',
+          '|',
+          'link',
+          'blockQuote',
+          // 'CKFinder',
+          'imageUpload',
+          'insertTable',
+          'mediaEmbed',
+          'Image',
+          'ImageCaption',
+          'ImageInsert',
+          'ImageStyle',
+          'ImageToolbar',
+          '|',
+          'undo',
+          'redo',
+        ],
+        ckfinder: {
+          // Upload the images to the server using the CKFinder QuickUpload command.
+          uploadUrl: `${url}/uploads`,
+        },
+      }}
+      onChange={(event, editor) => {
+        handleSetData(editor);
+        const data = editor.getData();
+        text(data);
+      }}
+      data={data}
+      onBlur={(event, editor) => {
+        checkValidation('detail');
+      }}
+    />
   );
 }
 
