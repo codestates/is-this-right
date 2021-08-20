@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Input, Button } from 'antd';
 import styled from 'styled-components';
@@ -18,16 +18,42 @@ const InputStyle = styled(Input)`
   margin-top: 6px;
   margin-bottom: 12px;
 `;
+const ImgTest = styled.div`
+  position: relative;
+  width: auto;
 
-function QuestionPostPage() {
+  > :nth-child(2) {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 999;
+    color: white;
+    transform: translate(-50%, -50%);
+  }
+  :hover {
+    > :nth-child(2) {
+      display: inline;
+      :hover {
+        cursor: pointer;
+      }
+    }
+  }
+`;
+function QuestionPostPage({ post, setPost, setIsEdit }) {
   const state = useSelector((state) => state.postReducer.postImgs);
-  console.log(state);
   const [postInfo, setPostInfo] = useState({
     title: '',
     category: '',
     content: '',
   });
 
+  useEffect(() => {
+    if (post) {
+      let info = post.data[0];
+      setPostInfo({ title: info.title, category: info.category, content: info.content });
+    }
+  }, []);
   const handleInputValue = (key, e) => {
     console.log(key);
 
@@ -75,6 +101,7 @@ function QuestionPostPage() {
           name="title"
           type="text"
           size="large"
+          value={postInfo.title}
           onChange={(e) => handleInputValue('title', e)}
           style={{ margin: '12px 0 6px 0' }}
           placeholder="제목을 입력해주세요"
@@ -86,18 +113,49 @@ function QuestionPostPage() {
           data={['헬스', '골프', '클라이밍', '기타-추가예정']}
           keyData={'category'}
           name="category"
+          value={postInfo.category}
           validation={() => {}}
           required
         />
-        <UploadCompo where="postImg" />
+        <div style={{ display: 'flex' }}>
+          {post
+            ? post.data.sources.map((item) => {
+                if (item.type === 'image') {
+                  return (
+                    <ImgTest>
+                      <img key={item.id} src={item.sourceUrl} style={{ width: '200px', margin: '10px' }} />
+                      <div>테스트입니다</div>
+                    </ImgTest>
+                  );
+                } else
+                  return (
+                    <ImgTest>
+                      <video key={item.id} src={item.sourceUrl} style={{ width: '200px', margin: '10px' }}></video>
+                      <div>테스트입니다</div>
+                    </ImgTest>
+                  );
+              })
+            : null}
+        </div>
+        <UploadCompo where="postImg" post={post} />
         <LabelStyle htmlFor="content">Content</LabelStyle>
         <Input.TextArea
           name="content"
           onChange={(e) => handleInputValue('content', e)}
           placeholder="내용을 입력해주세요"
+          value={postInfo.content}
           required
         />
-        <Button onClick={handlePost}>포스트</Button>
+        <Button onClick={handlePost}>Submit</Button>
+        {post ? (
+          <Button
+            style={{ background: 'red' }}
+            onClick={() => {
+              setIsEdit(false);
+            }}>
+            Cancel
+          </Button>
+        ) : null}
       </ContainerStlye>
     </BodyAreaStyle>
   );

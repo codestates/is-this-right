@@ -7,8 +7,7 @@ const adviserReducer = (state = adviserInitialState, action) => {
 
   switch (action.type) {
     case GET_TOP_ADVISERS:
-      console.log(action.payload);
-      return newState;
+      return { ...newState, topAdvisers: action.payload };
 
     case HANDLE_ADVISERPROFILE_IMG:
       newState.adviserProfileImg.imgFile = action.payload.originFile;

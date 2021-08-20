@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Upload } from 'antd';
+import { Upload, Form } from 'antd';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { userProfileImg } from '../actions/userActionIndex';
-import { postImages } from '../actions/postActionIndex';
+import { postImages, removeImages } from '../actions/postActionIndex';
 import { InboxOutlined, PlusOutlined } from '@ant-design/icons';
 const { Dragger } = Upload;
 
@@ -19,7 +19,7 @@ const UploadImgTagStyle = styled.img`
   padding: 0px;
 `;
 
-function UploadCompo({ where }) {
+function UploadCompo({ where, post }) {
   const [preview, setPreview] = useState(false);
   const [adviserState, setAdviserState] = useState({
     previewVisible: false,
@@ -43,6 +43,13 @@ function UploadCompo({ where }) {
       dispatch(userProfileImg('', ''));
     };
   }, []);
+
+  //! useEffect(() => {
+  //!   if (post) {
+  //!     let source = post.data.source;
+
+  //!   }
+  //! }, [post]);
 
   const handleImageFile = (event) => {
     // console.log(event);
@@ -149,20 +156,23 @@ function UploadCompo({ where }) {
           )}
         </Dragger>
       ) : (
-        <div>
-          <Upload
-            // customRequest={uploadImage}
-            action=""
-            listType="picture-card"
-            multiple={true}
-            fileList={adviserState.fileList}
-            // adviserPriviewState.imgFile
-            // onPreview={handlePreview}
-            onChange={handleChange}>
-            {/* getBase64 */}
-            {uploadButton}
-          </Upload>
-        </div>
+        <Upload
+          // customRequest={uploadImage}
+          name="file"
+          action=""
+          listType="picture-card"
+          multiple={true}
+          fileList={adviserState.fileList}
+          // adviserPriviewState.imgFile
+          // onPreview={handlePreview}
+          onChange={handleChange}
+          onRemove={(e) => {
+            console.log('eeeeeeeeeeeee', e);
+            dispatch(removeImages());
+          }}>
+          {/* getBase64 */}
+          {uploadButton}
+        </Upload>
       )}
     </div>
   );

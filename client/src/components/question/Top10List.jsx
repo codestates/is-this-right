@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
+import { getTopAdvisers } from '../../actions/adviserActionIndex';
 import { CheckCircleTwoTone } from '@ant-design/icons';
+import { useSelector } from 'react-redux';
 
 const Top10Styled = styled.div`
   width: 300px;
-  height: 400px;
+  height: 600px;
   margin: 10px;
   border: 1px solid #d3d3d3;
   border-radius: 3px;
@@ -29,72 +31,28 @@ const TextStyle = styled.span`
 `;
 
 function Top10List() {
-  const mockAdviser = [
-    {
-      proFileImg: <UserOutlined />,
-      name: '김',
-      numOfFeedback: 10,
-    },
-    {
-      proFileImg: <UserOutlined />,
-      name: '병',
-      numOfFeedback: 9,
-    },
-    {
-      proFileImg: <UserOutlined />,
-      name: '민',
-      numOfFeedback: 8,
-    },
-    {
-      proFileImg: <UserOutlined />,
-      name: '박',
-      numOfFeedback: 7,
-    },
-    {
-      proFileImg: <UserOutlined />,
-      name: '상',
-      numOfFeedback: 6,
-    },
-    {
-      proFileImg: <UserOutlined />,
-      name: '현',
-      numOfFeedback: 5,
-    },
-    {
-      proFileImg: <UserOutlined />,
-      name: '김',
-      numOfFeedback: 4,
-    },
-    {
-      proFileImg: <UserOutlined />,
-      name: '성',
-      numOfFeedback: 3,
-    },
-    {
-      proFileImg: <UserOutlined />,
-      name: '훈',
-      numOfFeedback: 2,
-    },
-    {
-      proFileImg: <UserOutlined />,
-      name: '정',
-      numOfFeedback: 1,
-    },
-  ];
+  const top10List = useSelector((state) => state.adviserReducer.topAdvisers);
+
+  console.log('나오냐??', top10List);
+
+  useEffect(() => {
+    console.log(top10List);
+  }, [top10List]);
+
   return (
     <Top10Styled>
       <TextStyle>Most Helpful</TextStyle>
-      {mockAdviser.map((el) => (
-        <div>
+      {top10List.map((el) => (
+        <div style={{ height: '50px' }}>
           <hr style={{ margin: '5px' }}></hr>
           <TopAdviserDataStyle>
             <div style={{ display: 'flex', alignItems: 'center', width: '50%' }}>
-              <Avatar size="small" icon={el.proFileImg} />
+              <Avatar src={el.profileImg} />
               <TextStyle style={{ marginLeft: '5px' }}>{el.name}</TextStyle>
             </div>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <CheckCircleTwoTone />
-              <TextStyle>{el.numOfFeedback}</TextStyle>
+              <TextStyle>{el.selectedCount}</TextStyle>
             </div>
           </TopAdviserDataStyle>
         </div>

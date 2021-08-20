@@ -9,7 +9,7 @@ import Search from '../components/Search';
 import { Button, Radio } from 'antd';
 import { Link } from 'react-router-dom';
 
-import { getAllPosts, searchPosts } from '../actions/postActionIndex';
+import { getAllPosts, searchPosts, getCategoryPosts } from '../actions/postActionIndex';
 import { StarTwoTone } from '@ant-design/icons';
 import { getTopAdvisers } from '../actions/adviserActionIndex';
 const url = process.env.REACT_APP_API_URL;
@@ -104,21 +104,25 @@ function QuestionListPage() {
   const category = [
     {
       name: 'Personal Training',
+      search: '헬스',
       color: 'red', //배경컬러를 바꿔야함
       icon: '../../imageFile/fitness.png',
     },
     {
       name: 'Golf',
+      search: '골프',
       color: 'pink',
       icon: '../../imageFile/golf.png',
     },
     {
       name: 'Climbing',
+      search: '클라이밍',
       color: 'black',
       icon: '../../imageFile/climbing.png',
     },
     {
       name: 'E.T.C',
+      search: '기타',
       color: 'blue',
       icon: '../../imageFile/etc.png',
     },
@@ -128,7 +132,11 @@ function QuestionListPage() {
     setIsLoading(true);
     dispatch(getAllPosts());
     dispatch(getTopAdvisers());
+    let filter = postState.posts.filter((el) => el.category === '헬스');
+    console.log(filter);
+    dispatch(getCategoryPosts(filter));
     setIsLoading(false);
+    console.log('포스트', postState);
   }, []);
 
   if (isLoading === true) {
@@ -179,7 +187,7 @@ function QuestionListPage() {
       <ContainerStlye style={{ display: 'flex', flexDirection: 'column' }}>
         <CategorySection>
           {category.map((el) => (
-            <CategoryButton props={el} />
+            <CategoryButton setOnAnswer={setOnAnswer} setOnUnanswer={setOnUnanswer} props={el} />
           ))}
         </CategorySection>
 

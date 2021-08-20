@@ -7,6 +7,8 @@ export const UPLOAD_POST_IMGS = 'UPLOAD_POST_IMGS';
 export const GET_ALL_POSTS = 'GET_ALL_POSTS';
 export const FILLTER_POSTS = 'FILLTER_POSTS';
 export const SEARCH_POSTS = 'SEARCH_POSTS';
+export const REMOVE_POST_IMG = 'REMOVE_POST_IMG';
+export const CATEGORY_POSTS = 'CATEGORY_POSTS';
 // actions creator functions
 
 export const postImages = (originFile, preview) => {
@@ -16,10 +18,17 @@ export const postImages = (originFile, preview) => {
     payload: { originFile, preview },
   };
 };
+export const removeImages = () => {
+  return {
+    type: REMOVE_POST_IMG,
+  };
+};
 
 export const getAllPosts = () => async (dispatch) => {
   const data = await axios.get(`${url}/posts`).then((result) => result.data.data);
   dispatch(sendData(data));
+  let filter = data.filter((el) => el.category === '헬스');
+  dispatch(getCategoryPosts(filter));
 };
 export const sendData = (data) => {
   return {
@@ -36,6 +45,13 @@ export const filterPosts = (data) => {
 export const searchPosts = (data) => {
   return {
     type: SEARCH_POSTS,
+    payload: data,
+  };
+};
+
+export const getCategoryPosts = (data) => {
+  return {
+    type: CATEGORY_POSTS,
     payload: data,
   };
 };
