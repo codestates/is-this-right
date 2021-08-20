@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Avatar } from 'antd';
+import { Avatar, Result } from 'antd';
 import { BodyAreaStyle, ContainerStlye } from '../style/pageStyle';
+import parse from 'html-react-parser';
+
 import { Link, useParams } from 'react-router-dom';
+import { SmileOutlined } from '@ant-design/icons';
 import axios from 'axios';
 
 import AdviserFeedbackDetail from '../components/adviser/AdviserFeedbackDetail';
@@ -14,7 +17,6 @@ const UserInfoStyle = styled.div`
   /* flex: 0.5 1 auto; */
   width: 100%;
   height: 20%;
-  background-color: red;
   display: flex;
   /* justify-content: space-around; */
   align-items: center;
@@ -23,15 +25,11 @@ const DetailStyle = styled.div`
   width: 100%;
   /* flex: 1 1 auto; */
   height: 30%;
-
-  background-color: orange;
 `;
 const FeedbacksStyle = styled.div`
   width: 100%;
   /* flex: 2 1 auto; */
   height: 100%;
-
-  background-color: yellow;
 `;
 
 const AvatarStyle = styled.div`
@@ -62,6 +60,8 @@ function AdvisorDetailPage() {
 
   if (adviserDetailInfo === null) {
     return '정보를 받아오고 있습니다.';
+  } else {
+    console.log(adviserDetailInfo.feedbacks);
   }
 
   return (
@@ -83,13 +83,13 @@ function AdvisorDetailPage() {
         </UserInfoStyle>
         <DetailStyle>
           디테일
-          <div>{adviserDetailInfo.detail}</div>
+          <div>{parse(adviserDetailInfo.detail)}</div>
         </DetailStyle>
         <FeedbacksStyle>
           <div>피드백들</div>
           {adviserDetailInfo.feedbacks.length === 0 ? (
             <FeedbackStyle>
-              <img src="../../imageFile/pngegg.png" style={{ width: '50%', height: '50%' }} />
+              <Result icon={<SmileOutlined />} title="등록된 답변이 없습니다." />
             </FeedbackStyle>
           ) : (
             adviserDetailInfo.feedbacks.map((el) => (
