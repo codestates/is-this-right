@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import PostCard from '../PostCard';
 import { Pagination } from 'antd';
@@ -12,19 +13,32 @@ const UserPostListCompoStyle = styled.div`
   height: 85%;
   background-color: white;
   border: 1px solid black;
-  display: flex;
+  padding: 20px;
+  /* display: flex;
   flex-direction: column;
+  align-items: center; */
+`;
+
+const MypostSectionStyle = styled.div`
+  width: 100%;
+  min-height: 300px;
 `;
 
 function UserPostListCompo() {
-  const [myPostList, setMyPostList] = useState([]);
+  const [myPostList, setMyPostList] = useState(null);
+  const [adviserDetailInfo, setAdviserDetailInfo] = useState(null);
+
   const userInfo = useSelector((state) => state.userReducer.userInfo);
 
   useEffect(() => {
     axios.get(`${url}/users/posts/${userInfo.id}`).then((list) => {
       setMyPostList(list.data.data);
     });
+    // if (userInfo.role === 'adviser') {
+    //   axios.get(`${url}/advisers/${userInfo.userId}`).then((data) => setAdviserDetailInfo(data.data));
+    // }
   }, []);
+
 
   //pagination states
   const PAGE_SIZE = 3;

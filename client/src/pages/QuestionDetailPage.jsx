@@ -3,14 +3,24 @@ import styled from 'styled-components';
 import { useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Carousel from 'react-bootstrap/Carousel';
-import { Avatar, Popover, Button, Pagination } from 'antd';
+import { Avatar, Popover, Button, Result,Pagination } from 'antd';
+import { SmileOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { BodyAreaStyle, ContainerStlye } from '../style/pageStyle';
 import ReactPlayer from 'react-player';
+import Moment from 'react-moment';
+import 'moment/locale/ko';
 import TextEditor from '../components/textComponent/TextEditor';
 import FeedbackContainer from '../components/question/FeedbackContainer';
 const url = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
+
+const ContentStyle = styled.div`
+  border: 1px solid #e1e4e8;
+  border-radius: 6px;
+  padding: 10px;
+  padding-bottom: 30px;
+`;
 
 function QuestionDetailPage() {
   const state = useSelector((state) => state.userReducer);
@@ -18,6 +28,7 @@ function QuestionDetailPage() {
   const [post, setPost] = useState(null);
   const [feedback, setFeedback] = useState('');
   const [newFeed, setNewFeed] = useState('');
+  const [editorFunction, setEditorFunction] = useState({ setData: () => {} });
   //pagination states
   const PAGE_SIZE = 5;
   const [currentPageList, setCurrentPageList] = useState([]);
@@ -36,15 +47,22 @@ function QuestionDetailPage() {
   }, [post]);
 
   const history = useHistory();
+  const nowTime = Date.now();
+  let startTime;
 
   useEffect(() => {
-    axios.get(`${url}/posts/${id}`).then((data) => setPost(data.data));
+    getDetailData();
   }, [newFeed]);
+
+  const getDetailData = () => {
+    axios.get(`${url}/posts/${id}`).then((data) => setPost(data.data));
+  };
 
   if (post === null) {
     return <h1>정보를 받고 있습니다...</h1>;
   } else {
     console.log(post.data);
+    startTime = new Date(post.data[0].createdAt);
   }
 
   const sendUserPosts = () => {
@@ -53,52 +71,84 @@ function QuestionDetailPage() {
 
   const answerFeedback = () => {
     axios.post(`${url}/feedbacks`, { postId: id, content: feedback }).then((result) => {
+      editorFunction.setData('<p></p>');
       return setNewFeed(result.data.data);
     });
+  };
+
+  const handleSetData = (event, editor) => {
+    editor.setData('');
   };
 
   return (
     <BodyAreaStyle>
       <ContainerStlye>
-        <div>
-          <div>{post.data[0].title}</div>
-          <div>{post.data[0].username}</div>
-          <Popover
-            placement="bottom"
-            content={<Button onClick={sendUserPosts}>{post.data[0].username}님이 올린 게시물 보기</Button>}
-            trigger="click">
-            <Avatar
-              size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }}
-              src={<img src={post.data[0].profileImg} />}
-            />
-          </Popover>
-        </div>
-        <div>
-          <Carousel variant="dark" interval={null}>
-            {post.data.sources.length === 0
-              ? null
-              : post.data.sources.map((el, idx) =>
-                  el.type === 'video' ? (
-                    <Carousel.Item>
-                      <ReactPlayer className="d-block w-100" src={el.sourceUrl} alt="" key={idx} />
-                    </Carousel.Item>
-                  ) : (
-                    <Carousel.Item>
-                      <img className="d-block w-100" src={el.sourceUrl} alt="" key={idx} />
-                    </Carousel.Item>
-                  ),
-                )}
-          </Carousel>
+        <h1 style={{ marginTop: '5%' }}>{post.data[0].title}</h1>
+
+        <ContentStyle>
+          <div>
+            <Popover
+              placement="bottom"
+              content={<Button onClick={sendUserPosts}>{post.data[0].username}님이 올린 게시물 보기</Button>}
+              trigger="click">
+              <Avatar size="large" src={<img src={post.data[0].profileImg} />} />
+            </Popover>
+            <span style={{ margin: '0 5px 0 5px' }}>{post.data[0].username}</span>
+            <Moment fromNow style={{ fontSize: '0.8rem', color: '#686868' }}>
+              {startTime}
+            </Moment>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <Carousel variant="dark" interval={null} style={{ width: '400px' }}>
+              {post.data.sources.length === 0
+                ? null
+                : post.data.sources.map((el, idx) =>
+                    el.type === 'video' ? (
+                      <Carousel.Item style={{ height: '400px', width: '400px' }}>
+                        <ReactPlayer
+                          className="d-block w-100"
+                          src={el.sourceUrl}
+                          alt=""
+                          key={idx}
+                          style={{ height: '400px', width: '400px' }}
+                        />
+                      </Carousel.Item>
+                    ) : (
+                      <Carousel.Item style={{ height: '400px', width: '400px' }}>
+                        <img
+                          className="d-block w-100"
+                          src={el.sourceUrl}
+                          alt=""
+                          key={idx}
+                          style={{ height: '400px', width: '400px' }}
+                        />
+                      </Carousel.Item>
+                    ),
+                  )}
+            </Carousel>
+          </div>
+
           {/* </Carousel> */}
           <div>{post.data[0].content}</div>
-        </div>
+        </ContentStyle>
         <div>
           {post.data.feedbacks.length === 0 ? (
-            <img src="../../imageFile/pngegg.png" style={{ width: '50%', height: '50%' }} />
+            <Result icon={<SmileOutlined />} title="아직 등록된 답변이 없습니다." />
           ) : (
-            currentPageList.map((el) => {
-              return <FeedbackContainer adviser={el} key={el.id} />;
-            })
+            <>
+              <h2 style={{ margin: '5% 0px 5% 0px' }}>{post.data.feedbacks.length} suggested feedbacks</h2>
+              {currentPageList.map((el) => {
+                  return (
+                    <FeedbackContainer
+                      adviser={el}
+                      postUserId={post.data[0].userId}
+                      isSelected={post.data[0].selected === el.id}
+                      key={el.id}
+                      getDetailData={getDetailData}
+                    />
+                  );
+              })}
+            </>
           )}
           <Pagination
             simple
@@ -109,8 +159,12 @@ function QuestionDetailPage() {
             total={post.data.feedbacks.length}
           />
         </div>
-        <div>{state.userInfo.role === 'adviser' ? <TextEditor text={setFeedback} /> : null}</div>
-        <Button onClick={answerFeedback}>Answer</Button>
+        <div>
+          {state.userInfo.role === 'adviser' ? (
+            <TextEditor text={setFeedback} handleSetData={setEditorFunction} />
+          ) : null}
+        </div>
+        {state.userInfo.role === 'adviser' ? <Button onClick={answerFeedback}>Answer</Button> : null}
       </ContainerStlye>
     </BodyAreaStyle>
   );
