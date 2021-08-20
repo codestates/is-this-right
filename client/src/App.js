@@ -39,7 +39,7 @@ function App() {
     //방만들고 룸넘버 획득
     if (state.logIn) {
       let payload = {
-        sender: state.userInfo.data.id,
+        sender: state.userInfo.id,
         receiver: userId,
       };
       axios.post(`${url}/chats`, payload).then((data) => {
@@ -102,7 +102,7 @@ function App() {
     <div className="App">
       <Switch>
         <Route exact={true} path="/">
-          <button onClick={handleClick}>Get API</button>
+          {/* <button onClick={handleClick}>Get API</button>
           <div>{text} </div>
           <button onClick={() => showAdviserList()}>트레이너목록들</button>
           {isList
@@ -116,7 +116,7 @@ function App() {
                 );
               })
             : null}
-          <div></div>
+          <div></div> */}
           {chatState.isChat ? <Chat /> : <Chatbutton />}
           <Nav />
           <QuestionListPage />

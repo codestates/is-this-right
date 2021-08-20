@@ -3,14 +3,13 @@ import styled from 'styled-components';
 import { useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Carousel from 'react-bootstrap/Carousel';
-import { Avatar, Popover, Button, Result } from 'antd';
+import { Avatar, Popover, Button, Result,Pagination } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { BodyAreaStyle, ContainerStlye } from '../style/pageStyle';
 import ReactPlayer from 'react-player';
 import Moment from 'react-moment';
 import 'moment/locale/ko';
-
 import TextEditor from '../components/textComponent/TextEditor';
 import FeedbackContainer from '../components/question/FeedbackContainer';
 const url = process.env.REACT_APP_API_URL;
@@ -30,6 +29,22 @@ function QuestionDetailPage() {
   const [feedback, setFeedback] = useState('');
   const [newFeed, setNewFeed] = useState('');
   const [editorFunction, setEditorFunction] = useState({ setData: () => {} });
+  //pagination states
+  const PAGE_SIZE = 5;
+  const [currentPageList, setCurrentPageList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const handlePageChange = (page) => {
+    if (post) {
+      setCurrentPage(page);
+      setCurrentPageList(post.data.feedbacks.slice(PAGE_SIZE * (page - 1), PAGE_SIZE * page));
+    }
+  };
+  useEffect(() => {
+    if (post) {
+      setCurrentPage(1);
+      setCurrentPageList(post.data.feedbacks.slice(PAGE_SIZE * (currentPage - 1), PAGE_SIZE * currentPage));
+    }
+  }, [post]);
 
   const history = useHistory();
   const nowTime = Date.now();
@@ -121,31 +136,28 @@ function QuestionDetailPage() {
             <Result icon={<SmileOutlined />} title="아직 등록된 답변이 없습니다." />
           ) : (
             <>
-              <h2 style={{ margin: '5% 0px 5% 0px' }}>{post.data.feedbacks.length}suggested answers</h2>
-              {post.data.feedbacks.map((el) => {
-                if (post.data[0].selected === el.id) {
+              <h2 style={{ margin: '5% 0px 5% 0px' }}>{post.data.feedbacks.length} suggested feedbacks</h2>
+              {currentPageList.map((el) => {
                   return (
                     <FeedbackContainer
                       adviser={el}
                       postUserId={post.data[0].userId}
-                      isSelected={true}
+                      isSelected={post.data[0].selected === el.id}
                       key={el.id}
                       getDetailData={getDetailData}
                     />
                   );
-                }
-                return (
-                  <FeedbackContainer
-                    adviser={el}
-                    postUserId={post.data[0].userId}
-                    isSelected={false}
-                    key={el.id}
-                    getDetailData={getDetailData}
-                  />
-                );
               })}
             </>
           )}
+          <Pagination
+            simple
+            defaultCurrent={1}
+            current={currentPage}
+            pageSize={PAGE_SIZE}
+            onChange={handlePageChange}
+            total={post.data.feedbacks.length}
+          />
         </div>
         <div>
           {state.userInfo.role === 'adviser' ? (

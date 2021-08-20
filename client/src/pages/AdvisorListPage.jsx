@@ -4,7 +4,7 @@ import { BodyAreaStyle, ContainerStlye } from '../style/pageStyle';
 import AdviserCard from '../components/adviser/AdviserCard';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { Radio } from 'antd';
+import { Radio, Pagination } from 'antd';
 import Search from '../components/Search';
 const url = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
@@ -52,6 +52,23 @@ function AdvisorListPage() {
   const filterOption = { category: '전체', gender: '남+여', state: '전국' };
   const [onSerach, setOnSerach] = useState(false);
 
+  //pagination states
+  const PAGE_SIZE = 5;
+  const [currentPageList, setCurrentPageList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const handlePageChange = (page) => {
+    if (adviserDetail) {
+      setCurrentPage(page);
+      setCurrentPageList(adviserDetail.slice(PAGE_SIZE * (page - 1), PAGE_SIZE * page));
+    }
+  };
+  useEffect(() => {
+    if (adviserDetail) {
+      setCurrentPage(1);
+      setCurrentPageList(adviserDetail.slice(PAGE_SIZE * (currentPage - 1), PAGE_SIZE * currentPage));
+    }
+  }, [adviserDetail]);
+
   useEffect(() => {
     axios.get(`${url}/advisers`).then((result) => {
       let list = result.data.slice();
@@ -98,16 +115,19 @@ function AdvisorListPage() {
         <AdviserCardListStyle>
           {/* <AdviserCard />
           <AdviserCard /> */}
-          {adviserDetail.map((el) => (
+          {currentPageList.map((el) => (
             <AdviserCardSectionStyle key={el.id} to={`/advisers/${el.id}`}>
               <AdviserCard data={el} />
             </AdviserCardSectionStyle>
           ))}
-          <img src="../../imageFile/pngegg.png" style={{ width: '50%', height: '50%' }} />
-          <img src="../../imageFile/pngegg.png" style={{ width: '50%', height: '50%' }} />
-          <img src="../../imageFile/pngegg.png" style={{ width: '50%', height: '50%' }} />
-          <img src="../../imageFile/pngegg.png" style={{ width: '50%', height: '50%' }} />
-          <img src="../../imageFile/pngegg.png" style={{ width: '50%', height: '50%' }} />
+          <Pagination
+            simple
+            defaultCurrent={1}
+            current={currentPage}
+            pageSize={PAGE_SIZE}
+            onChange={handlePageChange}
+            total={adviserDetail.length}
+          />
         </AdviserCardListStyle>
         <SearchAndFilterStyle>
           <Search

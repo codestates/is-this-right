@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import PostCard from '../PostCard';
+import { Pagination } from 'antd';
+import { Link } from 'react-router-dom';
 
 const url = process.env.REACT_APP_API_URL;
 const UserPostListCompoStyle = styled.div`
@@ -37,32 +39,42 @@ function UserPostListCompo() {
     // }
   }, []);
 
-  if (myPostList === null) {
-    return '데이터를 받아오고 있습니다.';
-  } else {
-    console.log('유저정보', userInfo);
-    // console.log('게시글', adviserDetailInfo);
-  }
+
+  //pagination states
+  const PAGE_SIZE = 3;
+  const [currentPageList, setCurrentPageList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const handlePageChange = (page) => {
+    if (myPostList) {
+      setCurrentPage(page);
+      setCurrentPageList(myPostList.slice(PAGE_SIZE * (page - 1), PAGE_SIZE * page));
+    }
+  };
+  useEffect(() => {
+    if (myPostList) {
+      setCurrentPage(1);
+      setCurrentPageList(myPostList.slice(PAGE_SIZE * (currentPage - 1), PAGE_SIZE * currentPage));
+    }
+  }, [myPostList]);
+
   return (
     <UserPostListCompoStyle>
-      <MypostSectionStyle>
-        <h2>내가 올린 게시물</h2>
-        {myPostList.map((el) => (
-          <Link to={`/posts/${el.id}`} style={{ textDecorationLine: 'none' }}>
-            <PostCard data={el} />
-          </Link>
-        ))}
-      </MypostSectionStyle>
-      {userInfo.role === 'adviser' ? (
-        <div>
-          <h2>내가 답변한 게시글</h2>
-          {myPostList.map((el) => (
-            <Link to={`/posts/${el.id}`}>
-              <PostCard data={el} />
-            </Link>
-          ))}
-        </div>
-      ) : null}
+      <div>내가 올린 게시물</div>
+      <hr></hr>
+      {currentPageList.map((el) => (
+        <Link to={`/posts/${el.id}`} style={{ margin: '5px 0px 5px 0px', textDecorationLine: 'none' }}>
+          <PostCard data={el} />
+        </Link>
+      ))}
+
+      <Pagination
+        simple
+        defaultCurrent={1}
+        current={currentPage}
+        pageSize={PAGE_SIZE}
+        onChange={handlePageChange}
+        total={myPostList.length}
+      />
     </UserPostListCompoStyle>
   );
 }

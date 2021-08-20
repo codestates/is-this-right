@@ -40,7 +40,7 @@ function PostCard({ data }) {
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <Avatar
           size={100}
-          icon={<img src="../../imageFile/avatar.png" />} // img데이터 넣기
+          icon={<img src={data.profileImg} />} // img데이터 넣기
         />
         <div style={{ marginLeft: '30px' }}>
           <div style={{ fontSize: '1.3rem', color: 'black' }}>{data.title}</div>
@@ -54,7 +54,7 @@ function PostCard({ data }) {
       </div>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <div>
-          {data.isAnswered ? (
+          {data.selected ? (
             <CheckCircleTwoTone style={{ color: 'green', fontSize: '25px' }} />
           ) : (
             <CheckCircleOutlined style={{ color: '#686868', fontSize: '25px' }} />
