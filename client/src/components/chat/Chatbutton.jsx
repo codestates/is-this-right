@@ -5,22 +5,16 @@ import { setIsChat } from '../../actions/chatAction';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import { MessageFilled } from '@ant-design/icons';
 const url = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 
 const FixDivStyle = styled.div`
   position: fixed;
   left: 85vw;
-  top: 45vw;
+  top: 75vh;
 `;
-const ButtonStyle = styled.div`
-  width: 8vh;
-  height: 8vh;
-  background-color: brown;
-  font-size: 20px;
-  text-align: center;
-  border-radius: 50%;
-`;
+
 const Chatbutton = () => {
   const dispatch = useDispatch();
   const handleIsChat = () => {
@@ -28,7 +22,7 @@ const Chatbutton = () => {
   };
   return (
     <FixDivStyle>
-      <ButtonStyle onClick={handleIsChat}> 채팅</ButtonStyle>
+      <MessageFilled onClick={handleIsChat} style={{ fontSize: '80px', color: '#00BAEF' }} />
     </FixDivStyle>
   );
 };

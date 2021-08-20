@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Avatar } from 'antd';
+import { Avatar, Pagination } from 'antd';
 import { BodyAreaStyle, ContainerStlye } from '../style/pageStyle';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -60,10 +60,27 @@ function AdvisorDetailPage() {
     axios.get(`${url}/advisers/${id}`).then((data) => setAdviserDetailInfo(data.data));
   }, []);
 
+  //pagination states
+  const PAGE_SIZE = 3;
+  const [currentPageList, setCurrentPageList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const handlePageChange = (page) => {
+    if (adviserDetailInfo) {
+      setCurrentPage(page);
+      setCurrentPageList(adviserDetailInfo.feedbacks.slice(PAGE_SIZE * (page - 1), PAGE_SIZE * page));
+    }
+  };
+  useEffect(() => {
+    if (adviserDetailInfo) {
+      setCurrentPage(1);
+      setCurrentPageList(adviserDetailInfo.feedbacks.slice(PAGE_SIZE * (currentPage - 1), PAGE_SIZE * currentPage));
+    }
+  }, [adviserDetailInfo]);
+
   if (adviserDetailInfo === null) {
     return '정보를 받아오고 있습니다.';
   }
-
+  console.log(adviserDetailInfo);
   return (
     <BodyAreaStyle>
       <ContainerStlye style={{ display: 'flex', flexDirection: 'column' }}>
@@ -78,7 +95,9 @@ function AdvisorDetailPage() {
             <div>이름 : {adviserDetailInfo.name}</div>
             <div>종목 : {adviserDetailInfo.category}</div>
             <div>지역 : {adviserDetailInfo.state}</div>
-            <div>URL : {adviserDetailInfo.url}</div>
+            <div>
+              URL : <a href={adviserDetailInfo.url}>{adviserDetailInfo.url}</a>
+            </div>
           </UserStyle>
         </UserInfoStyle>
         <DetailStyle>
@@ -92,12 +111,21 @@ function AdvisorDetailPage() {
               <img src="../../imageFile/pngegg.png" style={{ width: '50%', height: '50%' }} />
             </FeedbackStyle>
           ) : (
-            adviserDetailInfo.feedbacks.map((el) => (
+            currentPageList.map((el) => (
               <Link to={`/posts/${el.postId}`}>
                 <AdviserFeedbackDetail data={el} />
               </Link>
             ))
           )}
+
+          <Pagination
+            simple
+            defaultCurrent={1}
+            current={currentPage}
+            pageSize={PAGE_SIZE}
+            onChange={handlePageChange}
+            total={adviserDetailInfo.feedbacks.length}
+          />
         </FeedbacksStyle>
       </ContainerStlye>
     </BodyAreaStyle>
