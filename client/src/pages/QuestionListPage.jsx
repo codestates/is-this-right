@@ -187,7 +187,7 @@ function QuestionListPage() {
       <ContainerStlye style={{ display: 'flex', flexDirection: 'column' }}>
         <CategorySection>
           {category.map((el) => (
-            <CategoryButton setOnAnswer={setOnAnswer} setOnUnanswer={setOnUnanswer} props={el} />
+            <CategoryButton key={el.name} setOnAnswer={setOnAnswer} setOnUnanswer={setOnUnanswer} props={el} />
           ))}
         </CategorySection>
 

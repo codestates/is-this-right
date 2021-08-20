@@ -12,6 +12,7 @@ const removeUser = (socketId) => {
   const index = users.findIndex((user) => user.socketId === socketId);
   let deleted = users.splice(index, 1)[0];
   console.log(deleted, ' deleted');
+  console.log(users);
 };
 
 const getUser = (id) => users.find((user) => user.id === id);
