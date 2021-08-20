@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   feedback.init(
     {
-      content: DataTypes.STRING,
+      content: DataTypes.TEXT,
     },
     {
       sequelize,
