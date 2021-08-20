@@ -5,7 +5,6 @@ import PostCard from '../PostCard';
 import { Pagination, Button } from 'antd';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { searchPosts } from '../../actions/postActionIndex';
 
 const QuestionContainerStyle = styled.div`
   margin: 10px;

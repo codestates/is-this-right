@@ -1,5 +1,12 @@
 import { postInitialState } from './initialState';
-import { GET_ALL_POSTS, UPLOAD_POST_IMGS, FILLTER_POSTS, SEARCH_POSTS } from '../actions/postActionIndex';
+import {
+  GET_ALL_POSTS,
+  UPLOAD_POST_IMGS,
+  FILLTER_POSTS,
+  SEARCH_POSTS,
+  REMOVE_POST_IMG,
+  CATEGORY_POSTS,
+} from '../actions/postActionIndex';
 
 const postReducer = (state = postInitialState, action) => {
   const newState = { ...state };
@@ -15,8 +22,6 @@ const postReducer = (state = postInitialState, action) => {
       return {
         ...newState,
         posts: [...action.payload],
-        filterPosts: [...action.payload],
-        searchPosts: [...action.payload],
       };
     case FILLTER_POSTS:
       return {
@@ -28,6 +33,19 @@ const postReducer = (state = postInitialState, action) => {
         ...newState,
         searchPosts: [...action.payload],
       };
+    case CATEGORY_POSTS:
+      return {
+        ...newState,
+        categoryPosts: [...action.payload],
+        filterPosts: [...action.payload],
+        searchPosts: [...action.payload],
+      };
+    case REMOVE_POST_IMG:
+      return {
+        ...newState,
+        postImgs: { ...newState.postImgs, imgFile: [] },
+      };
+
     default:
       return state;
   }

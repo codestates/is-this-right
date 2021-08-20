@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 const url = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 
@@ -16,7 +17,8 @@ export const getTopAdvisers =
   (category = '헬스') =>
   async (dispatch) => {
     const data = await axios.get(`${url}/top10?category='${category}'`).then((result) => result);
-    dispatch(sendTopAdviserS(data));
+    console.log('데이타야', data);
+    dispatch(sendTopAdviserS(data.data.data));
   };
 
 export const sendTopAdviserS = (data) => {

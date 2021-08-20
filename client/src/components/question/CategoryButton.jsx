@@ -1,4 +1,7 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getTopAdvisers } from '../../actions/adviserActionIndex';
+import { searchPosts, filterPosts, getCategoryPosts } from '../../actions/postActionIndex';
 import styled from 'styled-components';
 
 const CategoryStyle = styled.div`
@@ -19,10 +22,22 @@ const CategoryStyle = styled.div`
   }
 `;
 
-function CategoryButton({ props }) {
-  console.log(props.icon);
+function CategoryButton({ props, setOnUnanswer, setOnAnswer }) {
+  const dispatch = useDispatch();
+  const postState = useSelector((state) => state.postReducer);
+  const handleCategory = () => {
+    console.log('포스트친구들', postState);
+    dispatch(getTopAdvisers(props.search));
+
+    let data = postState.posts.filter((el) => el.category === props.search);
+    dispatch(getCategoryPosts(data));
+    dispatch(searchPosts(data));
+    setOnUnanswer(false);
+    setOnAnswer(false);
+  };
+
   return (
-    <CategoryStyle prop={props.color}>
+    <CategoryStyle onClick={handleCategory} prop={props.color}>
       <img src={props.icon} alt="" />
       <div>{props.name}</div>
     </CategoryStyle>

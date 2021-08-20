@@ -22,6 +22,7 @@ export const postInitialState = {
   posts: [],
   filterPosts: [],
   searchPosts: [],
+  categoryPosts: [],
   postImgs: {
     imgFile: [],
     preview: '',
