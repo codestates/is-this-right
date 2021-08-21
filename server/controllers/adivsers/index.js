@@ -1,5 +1,5 @@
-const { user, adviser, feedback, post } = require('../../models');
-const Sequelize = require('sequelize');
+const { user, adviser, feedback, post, sequelize } = require('../../models');
+const { QueryTypes } = require('sequelize');
 const { generateAccessToken, isAuthorized, sendAccessToken } = require('../tokenFunctions');
 const bcrypt = require('bcrypt');
 const { getUsers } = require('../../users');
@@ -161,28 +161,56 @@ module.exports = {
     }
   },
   getDetail: async (req, res) => {
-    let adviserDetail = await adviser
-      .findOne({
-        where: {
-          id: req.params.id,
-        },
-        include: [
-          { model: user, required: false, attributes: ['profileImg'] },
-          {
-            model: feedback,
-            required: false,
-            attributes: ['id', 'content', 'createdAt', 'postId'],
-            include: { model: post, attributes: ['title', 'selected'] },
-          },
-        ],
-        attributes: { exclude: ['createdAt', 'updatedAt', 'userId'] },
-      })
+    // let adviserDetail = await adviser
+    //   .findOne({
+    //     where: {
+    //       id: req.params.id,
+    //     },
+    //     include: [
+    //       { model: user, required: false, attributes: ['profileImg'] },
+    //       {
+    //         model: feedback,
+    //         required: false,
+    //         attributes: ['id', 'content', 'createdAt', 'postId'],
+    //         include: { model: post, attributes: ['title', 'selected'] },
+    //       },
+    //     ],
+    //     attributes: { exclude: ['createdAt', 'updatedAt', 'userId'] },
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     return res.status(500).json({ message: 'database err' });
+    //   });
+
+    // adviserDetail.dataValues.profileImg = adviserDetail.dataValues.user.profileImg;
+    // delete adviserDetail.dataValues.user;
+    const adviserId = req.params.id;
+
+    const adviserDetail = await sequelize.query(
+      `SELECT advisers.*, users.profileImg
+      FROM advisers
+      JOIN users ON users.id = advisers.userId
+      WHERE advisers.id = ${adviserId}
+  `,
+      { type: QueryTypes.SELECT },
+    );
+    const feedbackInfo = await sequelize
+      .query(
+        `SELECT feedbacks.postId, feedbacks.content, feedbacks.createdAt, posts.title, posts.category, IFNULL(posts.selected, 0) as selected, users.username, users.profileImg
+    FROM advisers
+    JOIN feedbacks ON advisers.id = feedbacks.adviserId
+    JOIN posts ON posts.id = feedbacks.postId
+    JOIN users ON posts.userId = users.id
+    WHERE advisers.id=${adviserId}
+    ORDER BY feedbacks.createdAt DESC
+    `,
+        { type: QueryTypes.SELECT },
+      )
       .catch((err) => {
         console.log(err);
-        return res.status(500).json({ message: 'database err' });
+        res.status(500).json({ message: 'database err' });
       });
-    adviserDetail.dataValues.profileImg = adviserDetail.dataValues.user.profileImg;
-    delete adviserDetail.dataValues.user;
-    res.status(200).json(adviserDetail);
+
+    res.status(200).json({ data: { ...adviserDetail[0], feedbacks: feedbackInfo }, message: 'ok' });
   },
 };

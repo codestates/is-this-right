@@ -116,7 +116,7 @@ function QuestionDetailPage() {
                     ? null
                     : post.data.sources.map((el, idx) =>
                         el.type === 'video' ? (
-                          <Carousel.Item style={{ height: '400px', width: '400px' }}>
+                          <Carousel.Item key={el.id} style={{ height: '400px', width: '400px' }}>
                             <ReactPlayer
                               className="d-block w-100"
                               url={el.sourceUrl}
@@ -127,7 +127,7 @@ function QuestionDetailPage() {
                             />
                           </Carousel.Item>
                         ) : (
-                          <Carousel.Item style={{ height: '400px', width: '400px' }}>
+                          <Carousel.Item key={el.id} style={{ height: '400px', width: '400px' }}>
                             <img
                               className="d-block w-100"
                               src={el.sourceUrl}

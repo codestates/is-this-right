@@ -37,7 +37,7 @@ function Top10List() {
     <Top10Styled>
       <TextStyle>Most Helpful</TextStyle>
       {top10List.map((el) => (
-        <div style={{ height: '50px' }}>
+        <div key={el.id} style={{ height: '50px' }}>
           <hr style={{ margin: '5px' }}></hr>
           <TopAdviserDataStyle>
             <div style={{ display: 'flex', alignItems: 'center', width: '50%' }}>

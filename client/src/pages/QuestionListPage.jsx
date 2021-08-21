@@ -191,6 +191,7 @@ function QuestionListPage() {
         <CategorySection>
           {category.map((el) => (
             <CategoryButton viewRadio={viewRadio} setOnAnswer={setOnAnswer} setOnUnanswer={setOnUnanswer} props={el} />
+
           ))}
         </CategorySection>
 

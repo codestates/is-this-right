@@ -19,22 +19,25 @@ import QuestionDetailPage from './pages/QuestionDetailPage';
 import AdvisorListPage from './pages/AdvisorListPage';
 import AdvisorDetailPage from './pages/AdvisorDetailPage';
 import { useSelector, useDispatch } from 'react-redux';
-import { changeRoom, setSocket, updateChatList, setIsChat, setViewChatlist, addMessage } from './actions/chatAction';
+import {
+  changeRoom,
+  setSocket,
+  updateChatList,
+  setIsChat,
+  setViewChatlist,
+  addMessage,
+  setNewMessages,
+} from './actions/chatAction';
 
 const url = process.env.REACT_APP_API_URL;
 
 function App() {
-  const [text, setText] = useState('text');
   const [isList, setIsList] = useState(false);
-  const [adviserList, setAdviserList] = useState([]);
-  const handleClick = async () => {
-    let result = await axios.get(`${url}/`);
-    setText(result.data);
-  };
   const state = useSelector((state) => state.userReducer);
   const chatState = useSelector((state) => state.chatReducer);
   const dispatch = useDispatch();
 
+  //멘토페이지에서 채팅하기 눌렀을때 필요한 친구.
   const createChatRoom = (userId) => {
     //방만들고 룸넘버 획득
     if (state.logIn) {
@@ -53,9 +56,6 @@ function App() {
     }
   };
 
-  const showAdviserList = () => {
-    setIsList(!isList);
-  };
   useEffect(() => {
     if (state.logIn) dispatch(setSocket(io(`${url}`)));
   }, [state.logIn]);
@@ -66,7 +66,10 @@ function App() {
       chatState.socket.on('online', async (message) => {
         console.log(message);
         let chatlist = await axios.get(`${url}/chats`);
-        dispatch(updateChatList(chatlist.data.data));
+        chatlist = chatlist.data.data;
+        console.log('채팅', chatlist);
+        dispatch(updateChatList(chatlist));
+        dispatch(setNewMessages(chatlist.reduce((acc, cur) => acc + cur.unreadMessageCount, 0)));
       });
       chatState.socket.emit('online', state.userInfo);
     }
@@ -75,48 +78,27 @@ function App() {
   const markAsRead = async (chatId) => {
     return axios.patch(`${url}/chats/${chatId}`);
   };
-  let count = 0;
+
   useEffect(() => {
     if (chatState.socket) {
       chatState.socket.on('message', async (message) => {
-        console.log(message, '여기가 여러번 불러지고있거든?');
-        console.log(++count);
         if (!chatState.messages.filter((msg) => msg.id === message.id).length) {
           markAsRead(message.chatId).then(async () => {
             dispatch(addMessage(message));
             let chatlist = await axios.get(`${url}/chats`);
-            dispatch(updateChatList(chatlist.data.data));
+            chatlist = chatlist.data.data;
+            dispatch(updateChatList(chatlist));
+            dispatch(setNewMessages(chatlist.reduce((acc, cur) => acc + cur.unreadMessageCount, 0)));
           });
         }
       });
-      console.log('여기는 chatList.jsx, socket이 바뀌나?', chatState.socket.id);
     }
   }, [chatState.socket]);
-
-  useEffect(async () => {
-    let list = await axios.get(`${url}/advisers`);
-    setAdviserList(list.data);
-  }, []);
 
   return (
     <div className="App">
       <Switch>
         <Route exact={true} path="/">
-          {/* <button onClick={handleClick}>Get API</button>
-          <div>{text} </div>
-          <button onClick={() => showAdviserList()}>트레이너목록들</button>
-          {isList
-            ? adviserList.map((adviser) => {
-                console.log(adviser);
-                return (
-                  <div key={adviser.id}>
-                    <div>{adviser.name}입니다.</div>
-                    <button onClick={() => createChatRoom(adviser.userId)}>채팅하러가기</button>
-                  </div>
-                );
-              })
-            : null}
-          <div></div> */}
           {chatState.isChat ? <Chat /> : <Chatbutton />}
           <Nav />
           <QuestionListPage />

@@ -34,7 +34,7 @@ function QuestionContainer() {
   return (
     <QuestionContainerStyle>
       {currentPageList.map((el) => (
-        <Link to={`/posts/${el.id}`} style={{ margin: '5px 0px 5px 0px', textDecorationLine: 'none' }}>
+        <Link key={el.id} to={`/posts/${el.id}`} style={{ margin: '5px 0px 5px 0px', textDecorationLine: 'none' }}>
           <PostCard data={el} />
         </Link>
       ))}
