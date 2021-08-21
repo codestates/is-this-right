@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Avatar } from 'antd';
+import { Avatar, Button } from 'antd';
 import { Link, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { changeRoom, setIsChat, setViewChatlist } from '../../actions/chatAction';
+import { MessageOutlined } from '@ant-design/icons';
+import { changeRoom, setIsChat, setViewChatlist, setRoomName } from '../../actions/chatAction';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 
@@ -11,38 +12,70 @@ const url = process.env.REACT_APP_API_URL;
 
 const AdviserCardStyle = styled.div`
   background-color: white;
-  border-bottom: 1px solid black;
-
-  width: 95%;
-  height: 100%;
+  border-bottom: 1px solid #dddddd;
+  width: 100%;
+  min-width: 430px;
+  height: 200px;
+  flex-direction: column;
+  flex-wrap: wrap;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: flex-end;
+  align-items: flex-start;
   padding: 10px;
-  margin: 2px 0px 2px 0px;
-`;
+  margin: 2px 0px 10px 0px;
+  .adviserInfo {
+    display: flex;
+    width: 25%;
+    min-width: 50px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-around;
+    height: 100%;
+    :hover {
+      cursor: pointer;
+    }
+    .name {
+      height: 20%;
+    }
+    .name > span:first-child {
+      font-weight: bold;
+      font-size: 1.5rem;
+      margin-right: 3px;
+    }
+    .text {
+      color: #777777;
+      font-size: 0.9rem;
 
-const AvatarStyle = styled(Avatar)`
-  :hover {
-    cursor: pointer;
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      height: 30%;
+      > div {
+        margin-top: 5px;
+      }
+    }
+  }
+  .chat {
+    display: flex;
+    width: 30%;
+    min-width: 50px;
+    justify-content: flex-end;
+    height: 30%;
+  }
+  .avatar {
+    height: 100%;
+    min-height: 180px;
+    min-width: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    :hover {
+      cursor: pointer;
+    }
   }
 `;
-
-const NameStyle = styled.div`
-  font-size: 1.3em;
-  font-weight: bold;
-  color: black;
-  :hover {
-    cursor: pointer;
-  }
-`;
-
-const TextStyle = styled.div`
-  color: #555555;
-  :hover {
-    cursor: pointer;
-  }
-`;
+const StyledAvatar = styled(Avatar)``;
 
 function AdviserCard({ data }) {
   const state = useSelector((state) => state.userReducer);
@@ -67,20 +100,35 @@ function AdviserCard({ data }) {
         dispatch(setIsChat(true));
         dispatch(setViewChatlist(false));
       });
+      dispatch(setRoomName(data.name));
     } else {
       alert('로그인이 필요한 서비스입니다.');
     }
   };
   return (
     <AdviserCardStyle>
-      <div>
-        <NameStyle onClick={sendDataToDetailPage}>{data.name}님</NameStyle>
-        {/* <TextStyle onClick={sendDataToDetailPage}>닉 네 임: {data.user.username}</TextStyle> */}
-        <TextStyle onClick={sendDataToDetailPage}>카테고리: {data.category}</TextStyle>
-        <TextStyle onClick={sendDataToDetailPage}>지 역: {data.state}</TextStyle>
-        <button onClick={() => createChatRoom(data.userId)}>채팅하러가기</button>
+      <div className="avatar" onClick={sendDataToDetailPage}>
+        <StyledAvatar shape="square" size={150} icon={<img src={data.user.profileImg} />} />
       </div>
-      <AvatarStyle onClick={sendDataToDetailPage} shape="square" size={150} icon={<img src={data.user.profileImg} />} />
+      <div className="adviserInfo" onClick={sendDataToDetailPage}>
+        <div className="name">
+          <span>{data.name}</span>
+          <span>님</span>
+        </div>
+        <div class="text">
+          <div>{data.category}</div>
+          <div>{data.state}</div>
+        </div>
+      </div>
+      <div className="chat">
+        <Button
+          type={'primary'}
+          size={'large'}
+          onClick={() => createChatRoom(data.userId)}
+          style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          채팅하러가기 <MessageOutlined />
+        </Button>
+      </div>
     </AdviserCardStyle>
   );
 }

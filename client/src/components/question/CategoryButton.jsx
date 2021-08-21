@@ -16,7 +16,7 @@ const CategoryStyle = styled.div`
   align-items: center;
   text-align: center;
   &.currentCategory {
-    border: 1px solid red;
+    border: 1px solid #1890ff;
   }
   > img {
     @media ${(props) => props.theme.mobile} {

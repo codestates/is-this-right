@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { changeRoom, setViewChatlist } from '../../actions/chatAction';
+import { changeRoom, setViewChatlist, setRoomName } from '../../actions/chatAction';
 import { Avatar, Image, Badge } from 'antd';
 import Moment from 'react-moment';
 import styled from 'styled-components';
@@ -43,7 +43,7 @@ const BorderedAvatar = styled(Avatar)`
   background-size: cover;
 `;
 
-const ChatList = ({ setUsername }) => {
+const ChatList = () => {
   const chatState = useSelector((state) => state.chatReducer);
   const dispatch = useDispatch();
 
@@ -51,7 +51,7 @@ const ChatList = ({ setUsername }) => {
 
   const handleChatRoom = (chatId, username) => {
     dispatch(changeRoom(chatId));
-    setUsername(username);
+    dispatch(setRoomName(username));
     chatState.socket.emit('join', { room: chatId });
     dispatch(setViewChatlist(false));
   };

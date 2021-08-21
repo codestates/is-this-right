@@ -24,7 +24,7 @@ const OuterContainer = styled.div`
   border-radius: 10px;
 
   @media ${(props) => props.theme.mobile} {
-    height: 100vh;
+    height: 85vh;
     width: 100vw;
     position: fixed;
     top: 0;
@@ -32,6 +32,7 @@ const OuterContainer = styled.div`
     z-index: 999;
     border-radius: 0 0 0 0;
   }
+
   .chatContainer {
     display: flex;
     flex-direction: column;

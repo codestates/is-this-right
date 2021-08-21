@@ -12,20 +12,29 @@ const FixDivStyle = styled.div`
   position: fixed;
   left: 85vw;
   top: 75vh;
+  z-index: 999;
+  @media ${(props) => props.theme.mobile} {
+    display: none;
+  }
 `;
 
 const Chatbutton = () => {
   const chatState = useSelector((state) => state.chatReducer);
+  const userState = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
   const handleIsChat = () => {
     dispatch(setIsChat(true));
   };
   return (
-    <FixDivStyle>
-      <Badge count={chatState.newMessages}>
-        <MessageFilled onClick={handleIsChat} style={{ fontSize: '80px', color: '#00BAEF' }} />
-      </Badge>
-    </FixDivStyle>
+    <>
+      {userState.logIn ? (
+        <FixDivStyle>
+          <Badge count={chatState.newMessages}>
+            <MessageFilled onClick={handleIsChat} style={{ fontSize: '80px', color: '#00BAEF' }} />
+          </Badge>
+        </FixDivStyle>
+      ) : null}
+    </>
   );
 };
 

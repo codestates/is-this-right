@@ -31,19 +31,19 @@ const StyledForm = styled.form`
   .sendButton {
     color: #fff !important;
     text-transform: uppercase;
-    text-decoration: none;
     background: #2979ff;
     padding: 20px;
-    display: inline-block;
-    border: none;
+    display: flex;
     min-width: 100px;
     border-radius: 0 0 10px 0;
     transition: 0.5s;
+    justify-content: center;
+    align-items: center;
     @media ${(props) => props.theme.mobile} {
       border-radius: 0 0 0 0;
     }
     :hover {
-      background: #156afd;
+      background: #0859e6;
     }
   }
 `;
@@ -57,9 +57,10 @@ const Input = ({ setMessage, sendMessage, message }) => (
       onChange={({ target: { value } }) => setMessage(value)}
       onKeyPress={(event) => (event.key === 'Enter' ? sendMessage(event) : null)}
     />
-    <button className="sendButton" onClick={(e) => sendMessage(e)}>
-      Send
-    </button>
+    <div className="sendButton" onClick={(e) => sendMessage(e)}>
+      <span>Send</span>
+    </div>
+    <div className="blank"></div>
   </StyledForm>
 );
 

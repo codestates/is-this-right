@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 import { getAllPosts, searchPosts, getCategoryPosts } from '../actions/postActionIndex';
 import { StarTwoTone } from '@ant-design/icons';
 import { getTopAdvisers } from '../actions/adviserActionIndex';
+import { setIsChat } from '../actions/chatAction';
 const url = process.env.REACT_APP_API_URL;
 
 // const BodyAreaStyle = styled.div`
@@ -134,6 +135,7 @@ function QuestionListPage() {
     dispatch(getAllPosts(postState.currentCategory));
     dispatch(getTopAdvisers(postState.currentCategory));
     setIsLoading(false);
+    dispatch(setIsChat(false));
   }, []);
 
   if (isLoading === true) {
@@ -191,7 +193,6 @@ function QuestionListPage() {
         <CategorySection>
           {category.map((el) => (
             <CategoryButton viewRadio={viewRadio} setOnAnswer={setOnAnswer} setOnUnanswer={setOnUnanswer} props={el} />
-
           ))}
         </CategorySection>
 

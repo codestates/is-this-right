@@ -100,12 +100,12 @@ function UserPostListCompo() {
         current={currentPostPage}
         pageSize={POST_PAGE_SIZE}
         onChange={handlePostPageChange}
-        total={myPostList.length}
+        total={myPostList.length || 1}
       />
       <div>내가 답변한 게시물</div>
       <hr></hr>
       {currentFeedbackPageList.map((el) => (
-        <Link to={`/posts/${el.id}`} style={{ margin: '5px 0px 5px 0px', textDecorationLine: 'none' }}>
+        <Link to={`/posts/${el.postId}`} style={{ margin: '5px 0px 5px 0px', textDecorationLine: 'none' }}>
           <PostCard data={el} />
         </Link>
       ))}
@@ -115,7 +115,7 @@ function UserPostListCompo() {
         current={currentFeedbackPage}
         pageSize={FEEDBACK_PAGE_SIZE}
         onChange={handleFeedbackPageChange}
-        total={myFeedbackList.length}
+        total={myFeedbackList.length || 1}
       />
     </UserPostListCompoStyle>
   );

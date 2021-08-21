@@ -61,6 +61,16 @@ const PaginationStyle = styled(Pagination)`
   transform: translate(-50%, -50%);
 `;
 
+const AdviserDetailContainer = styled(ContainerStlye)`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  @media ${(props) => props.theme.mobile} {
+    width: 100vw;
+    padding: 20px;
+  }
+`;
+
 function AdvisorDetailPage() {
   const [adviserDetailInfo, setAdviserDetailInfo] = useState(null);
   const { id } = useParams();
@@ -93,10 +103,10 @@ function AdvisorDetailPage() {
   console.log(adviserDetailInfo);
   return (
     <BodyAreaStyle>
-      <ContainerStlye style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+      <AdviserDetailContainer>
         <UserInfoStyle>
           <AvatarStyle>
-            <Avatar shape="square" size={150} src={<Image src={adviserDetailInfo.profileImg} />} />
+            <Avatar shape="square" size={200} src={<Image src={adviserDetailInfo.profileImg} />} />
           </AvatarStyle>
           <UserStyle>
             <div>이름 : {adviserDetailInfo.name}</div>
@@ -125,69 +135,6 @@ function AdvisorDetailPage() {
               </Link>
             ))
           )}
-          <div>
-            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
-          </div>
-          <div>
-            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
-          </div>
-          <div>
-            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
-          </div>
-          <div>
-            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
-          </div>
-          <div>
-            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
-          </div>
-          <div>
-            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
-          </div>
-          <div>
-            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
-          </div>
-          <div>
-            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
-          </div>
-          <div>
-            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
-          </div>
-          <div>
-            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
-          </div>
-          <div>
-            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
-          </div>
-          <div>
-            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
-          </div>
-          <div>
-            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
-          </div>
-          <div>
-            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
-          </div>
-          <div>
-            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
-          </div>
-          <div>
-            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
-          </div>
-          <div>
-            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
-          </div>
-          <div>
-            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
-          </div>
-          <div>
-            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
-          </div>
-          <div>
-            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
-          </div>
-          <div>
-            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
-          </div>
         </FeedbacksStyle>
 
         <PaginationStyle
@@ -198,7 +145,7 @@ function AdvisorDetailPage() {
           onChange={handlePageChange}
           total={adviserDetailInfo.feedbacks.length}
         />
-      </ContainerStlye>
+      </AdviserDetailContainer>
     </BodyAreaStyle>
   );
 }

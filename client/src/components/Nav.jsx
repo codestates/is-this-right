@@ -2,8 +2,17 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Link, useHistory } from 'react-router-dom';
+import {
+  TeamOutlined,
+  MessageOutlined,
+  QuestionOutlined,
+  QuestionCircleOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
+import { Avatar } from 'antd';
 import axios from 'axios';
 import { successLogIn, addUserInfo, successLogout } from '../actions/userActionIndex';
+import { setViewChatlist, setIsChat, setMessages, changeRoom } from '../actions/chatAction';
 const url = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 
@@ -29,7 +38,7 @@ const ContainerStlye = styled.div`
   justify-content: space-between;
 `;
 
-const DivStyle = styled.ul`
+const DivStyle = styled.div`
   color: black;
   font-size: 15px;
   width: 30%;
@@ -37,36 +46,68 @@ const DivStyle = styled.ul`
   justify-content: flex-end;
   list-style: none;
   padding: 0;
-
-  > li {
+  height: 100%;
+  > div {
+    display: flex;
+    align-items: center;
     padding: 8px 12px;
+    min-height: 100%;
+    & > :hover {
+      transition: 0.5s;
+      color: #ffffff;
+    }
   }
-
   @media ${(props) => props.theme.mobile} {
-    background-color: #c2c2c2;
-    opacity: 0.5;
-    border-radius: 20px;
-    height: 100px;
+    display: none;
+  }
+`;
+
+const MobileDivStyle = styled.div`
+  display: none;
+  @media ${(props) => props.theme.mobile} {
+    font-size: 2rem;
+    background-color: #00baef;
+    height: 15vh;
     position: fixed;
     bottom: 0;
     width: 100%;
     display: flex;
     justify-content: space-around;
     align-items: center;
+    z-index: 999;
+    margin-bottom: 0;
+    list-style: none;
+    & > :hover {
+      transition: 0.5s;
+      color: #ffffff;
+    }
+    > div {
+      width: 100%;
+      height: 100%;
+    }
   }
 `;
 const SpanStyle = styled.span`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
   :hover {
     cursor: pointer;
   }
 `;
 
 const LinkStyle = styled(Link)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
   text-decoration-line: none;
   color: black;
-
-  :hover {
-    color: black;
+  &:hover {
+    color: #ffffff;
   }
 `;
 
@@ -111,42 +152,90 @@ function Nav() {
       window.location.replace('/');
     });
   };
+
+  const handleChat = () => {
+    dispatch(setIsChat(true));
+    dispatch(setViewChatlist(true));
+    chatState.socket.emit('quitRoom');
+    dispatch(setMessages([]));
+    dispatch(changeRoom(null));
+  };
   return (
     <NavAreaStyle>
       {/* <ContainerStlye> */}
       <img onClick={handleClickHome} src="../../imageFile/Logo_black.png" alt="" />
       <DivStyle>
-        <li>
+        <div>
           <LinkStyle to="/AdviserList">
             <SpanStyle>Mentors</SpanStyle>
           </LinkStyle>
-        </li>
-        <li>
+        </div>
+        <div>
           <LinkStyle to="/">
             <SpanStyle>Question</SpanStyle>
           </LinkStyle>
-        </li>
+        </div>
 
         {state.logIn ? (
           <>
-            <li>
+            <div>
               <LinkStyle to="/MyPage">
                 <SpanStyle>Mypage</SpanStyle>
               </LinkStyle>
-            </li>
-            <li>
+            </div>
+            <div>
               <SpanStyle onClick={handleLogOut}>Logout</SpanStyle>
-            </li>
+            </div>
           </>
         ) : (
-          <li>
+          <div>
             <LinkStyle to="/SignIn">
               <SpanStyle>Login</SpanStyle>
             </LinkStyle>
-          </li>
+          </div>
         )}
       </DivStyle>
       {/* </ContainerStlye> */}
+      <MobileDivStyle>
+        <div>
+          <LinkStyle to="/AdviserList">
+            <SpanStyle>
+              <TeamOutlined />
+            </SpanStyle>
+          </LinkStyle>
+        </div>
+        <div>
+          <LinkStyle to="/">
+            <SpanStyle>
+              <QuestionOutlined />
+            </SpanStyle>
+          </LinkStyle>
+        </div>
+
+        {state.logIn ? (
+          <>
+            <div>
+              <LinkStyle to="/MyPage">
+                <SpanStyle>
+                  {/* <Avatar size={32} src={<img src={state.userInfo.profileImg} />} /> */}
+                  <UserOutlined />
+                </SpanStyle>
+              </LinkStyle>
+            </div>
+            <div>
+              <SpanStyle onClick={handleChat}>
+                <MessageOutlined />
+              </SpanStyle>
+            </div>
+          </>
+        ) : (
+          <div>
+            <LinkStyle to="/SignIn">
+              <SpanStyle>Login</SpanStyle>
+            </LinkStyle>
+          </div>
+        )}
+      </MobileDivStyle>
     </NavAreaStyle>
   );
 }

@@ -52,7 +52,7 @@ const InfoBarContainer = styled.div`
     }
   }
 `;
-const InfoBar = ({ isChatList, username }) => {
+const InfoBar = ({ isChatList }) => {
   const dispatch = useDispatch();
   const chatState = useSelector((state) => state.chatReducer);
   const handleIsChat = () => {
@@ -77,7 +77,7 @@ const InfoBar = ({ isChatList, username }) => {
           <LeftOutlined />
         </div>
       )}
-      <div className="title">{isChatList ? '채팅' : username}</div>
+      <div className="title">{isChatList ? '채팅' : chatState.roomName}</div>
       <div className="rightInnerContainer" onClick={handleIsChat}>
         <CloseOutlined />
       </div>
