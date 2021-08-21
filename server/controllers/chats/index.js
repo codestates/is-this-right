@@ -16,8 +16,8 @@ module.exports = {
       res.status(401).json({ message: 'Unauthorized request' });
     } else {
       const chatRoomList = await sequelize.query(
-        `SELECT chats_users.chatId, IFNULL(advisers.name, users.username) as username, users.profileImg, users.id, lastMessages.message as lastMessage, IFNULL(unread.unreadMessageCount,0) as unreadMessageCount
-        FROM (SELECT messages.chatId, messages.message 
+        `SELECT chats_users.chatId, IFNULL(advisers.name, users.username) as username, lastMessages.lastCreate ,users.profileImg, users.id, lastMessages.message as lastMessage, IFNULL(unread.unreadMessageCount,0) as unreadMessageCount
+        FROM (SELECT messages.chatId, messages.message, latest.lastCreate 
           FROM messages 
           JOIN (SELECT max(createdAt) as lastCreate,chatId from messages group by chatId) latest 
           ON messages.createdAt = latest.lastCreate and messages.chatId = latest.chatId 

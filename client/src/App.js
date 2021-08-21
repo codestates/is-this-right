@@ -67,6 +67,7 @@ function App() {
         console.log(message);
         let chatlist = await axios.get(`${url}/chats`);
         chatlist = chatlist.data.data;
+        console.log('채팅', chatlist);
         dispatch(updateChatList(chatlist));
         dispatch(setNewMessages(chatlist.reduce((acc, cur) => acc + cur.unreadMessageCount, 0)));
       });
