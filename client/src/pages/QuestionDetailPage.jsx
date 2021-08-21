@@ -67,7 +67,7 @@ function QuestionDetailPage() {
     return <h1>정보를 받고 있습니다...</h1>;
   } else {
     console.log(post.data);
-    startTime = new Date(post.data[0].createdAt);
+    startTime = new Date(post.data[0].updateAt);
   }
 
   const sendUserPosts = () => {
@@ -130,7 +130,7 @@ function QuestionDetailPage() {
                     ? null
                     : post.data.sources.map((el, idx) =>
                         el.type === 'video' ? (
-                          <Carousel.Item style={{ height: '400px', width: '400px' }}>
+                          <Carousel.Item key={el.id} style={{ height: '400px', width: '400px' }}>
                             <ReactPlayer
                               className="d-block w-100"
                               url={el.sourceUrl}
@@ -141,7 +141,7 @@ function QuestionDetailPage() {
                             />
                           </Carousel.Item>
                         ) : (
-                          <Carousel.Item style={{ height: '400px', width: '400px' }}>
+                          <Carousel.Item key={el.id} style={{ height: '400px', width: '400px' }}>
                             <img
                               className="d-block w-100"
                               src={el.sourceUrl}

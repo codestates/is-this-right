@@ -9,6 +9,7 @@ export const FILLTER_POSTS = 'FILLTER_POSTS';
 export const SEARCH_POSTS = 'SEARCH_POSTS';
 export const REMOVE_POST_IMG = 'REMOVE_POST_IMG';
 export const CATEGORY_POSTS = 'CATEGORY_POSTS';
+export const SAVE_CATEGORY = 'SAVE_CATEGORY';
 // actions creator functions
 
 export const postImages = (originFile, preview) => {
@@ -24,12 +25,14 @@ export const removeImages = () => {
   };
 };
 
-export const getAllPosts = () => async (dispatch) => {
-  const data = await axios.get(`${url}/posts`).then((result) => result.data.data);
-  dispatch(sendData(data));
-  let filter = data.filter((el) => el.category === '헬스');
-  dispatch(getCategoryPosts(filter));
-};
+export const getAllPosts =
+  (category = '헬스') =>
+  async (dispatch) => {
+    const data = await axios.get(`${url}/posts`).then((result) => result.data.data);
+    dispatch(sendData(data));
+    let filter = data.filter((el) => el.category === category);
+    dispatch(getCategoryPosts(filter));
+  };
 export const sendData = (data) => {
   return {
     type: GET_ALL_POSTS,
@@ -52,6 +55,13 @@ export const searchPosts = (data) => {
 export const getCategoryPosts = (data) => {
   return {
     type: CATEGORY_POSTS,
+    payload: data,
+  };
+};
+
+export const saveCategory = (data) => {
+  return {
+    type: SAVE_CATEGORY,
     payload: data,
   };
 };

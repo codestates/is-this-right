@@ -33,17 +33,11 @@ const TextStyle = styled.span`
 function Top10List() {
   const top10List = useSelector((state) => state.adviserReducer.topAdvisers);
 
-  console.log('나오냐??', top10List);
-
-  useEffect(() => {
-    console.log(top10List);
-  }, [top10List]);
-
   return (
     <Top10Styled>
       <TextStyle>Most Helpful</TextStyle>
       {top10List.map((el) => (
-        <div style={{ height: '50px' }}>
+        <div key={el.id} style={{ height: '50px' }}>
           <hr style={{ margin: '5px' }}></hr>
           <TopAdviserDataStyle>
             <div style={{ display: 'flex', alignItems: 'center', width: '50%' }}>

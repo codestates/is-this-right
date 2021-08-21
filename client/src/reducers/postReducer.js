@@ -6,6 +6,7 @@ import {
   SEARCH_POSTS,
   REMOVE_POST_IMG,
   CATEGORY_POSTS,
+  SAVE_CATEGORY,
 } from '../actions/postActionIndex';
 
 const postReducer = (state = postInitialState, action) => {
@@ -44,6 +45,11 @@ const postReducer = (state = postInitialState, action) => {
       return {
         ...newState,
         postImgs: { ...newState.postImgs, imgFile: [] },
+      };
+    case SAVE_CATEGORY:
+      return {
+        ...newState,
+        currentCategory: action.payload,
       };
 
     default:

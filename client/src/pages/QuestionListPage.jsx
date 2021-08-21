@@ -100,6 +100,7 @@ function QuestionListPage() {
   const postState = useSelector((state) => state.postReducer);
   const [onAnswer, setOnAnswer] = useState(false);
   const [onUnanswer, setOnUnanswer] = useState(false);
+  const [radioValue, setRadioValue] = useState(null);
 
   const category = [
     {
@@ -130,13 +131,9 @@ function QuestionListPage() {
 
   useEffect(() => {
     setIsLoading(true);
-    dispatch(getAllPosts());
-    dispatch(getTopAdvisers());
-    let filter = postState.posts.filter((el) => el.category === '헬스');
-    console.log(filter);
-    dispatch(getCategoryPosts(filter));
+    dispatch(getAllPosts(postState.currentCategory));
+    dispatch(getTopAdvisers(postState.currentCategory));
     setIsLoading(false);
-    console.log('포스트', postState);
   }, []);
 
   if (isLoading === true) {
@@ -152,6 +149,7 @@ function QuestionListPage() {
   const handleAnswerButton = () => {
     if (!onAnswer) {
       let filterdata;
+      viewRadio('Answered');
       if (onUnanswer) {
         filterdata = postState.filterPosts.filter((el) => el.selected);
       } else {
@@ -160,6 +158,7 @@ function QuestionListPage() {
       dispatch(searchPosts(filterdata));
       setOnAnswer(true);
     } else {
+      viewRadio();
       dispatch(searchPosts(postState.filterPosts));
       setOnAnswer(false);
     }
@@ -168,6 +167,7 @@ function QuestionListPage() {
   const handleUnAnswerButton = () => {
     if (!onUnanswer) {
       let filterdata;
+      viewRadio('Unanswered');
       if (onAnswer) {
         filterdata = postState.filterPosts.filter((el) => !el.selected);
       } else {
@@ -176,27 +176,32 @@ function QuestionListPage() {
       dispatch(searchPosts(filterdata));
       setOnUnanswer(true);
     } else {
+      viewRadio();
       dispatch(searchPosts(postState.filterPosts));
       setOnUnanswer(false);
     }
     setOnAnswer(false);
   };
-
+  const viewRadio = (value = '') => {
+    setRadioValue(value);
+  };
   return (
     <BodyAreaStyle>
       <ContainerStlye style={{ display: 'flex', flexDirection: 'column' }}>
         <CategorySection>
           {category.map((el) => (
-            <CategoryButton setOnAnswer={setOnAnswer} setOnUnanswer={setOnUnanswer} props={el} />
+            <CategoryButton viewRadio={viewRadio} setOnAnswer={setOnAnswer} setOnUnanswer={setOnUnanswer} props={el} />
+
           ))}
         </CategorySection>
 
         <SearchSection>
           <div>
-            <Search setOnUnanswer={setOnUnanswer} setOnAnswer={setOnAnswer} />
+            <Search setOnUnanswer={setOnUnanswer} setOnAnswer={setOnAnswer} viewRadio={viewRadio} />
           </div>
           {/* <span> */}
-          <RadioGroup buttonStyle="solid">
+
+          <RadioGroup buttonStyle="solid" value={radioValue}>
             <AnsweredSectionStyle>
               <RadioButton
                 value="Answered"

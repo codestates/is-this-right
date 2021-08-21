@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import SelectBox from '../components/adviser/SelectBox';
 import { BodyAreaStyle, ContainerStlye } from '../style/pageStyle';
 import UploadCompo from '../components/UploadCompo';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 const url = process.env.REACT_APP_API_URL;
@@ -18,7 +19,7 @@ const InputStyle = styled(Input)`
   margin-top: 6px;
   margin-bottom: 12px;
 `;
-const ImgTest = styled.div`
+const ImgPreview = styled.div`
   position: relative;
   width: auto;
 
@@ -42,6 +43,9 @@ const ImgTest = styled.div`
 `;
 function QuestionPostPage({ post, setPost, setIsEdit }) {
   const state = useSelector((state) => state.postReducer.postImgs);
+  const [previewList, setPreviewList] = useState([]);
+  const [sourcesToDelete, setSourcesToDelete] = useState([]);
+  const history = useHistory();
   const [postInfo, setPostInfo] = useState({
     title: '',
     category: '',
@@ -51,7 +55,9 @@ function QuestionPostPage({ post, setPost, setIsEdit }) {
   useEffect(() => {
     if (post) {
       let info = post.data[0];
+      console.log('포스트 내용', post);
       setPostInfo({ title: info.title, category: info.category, content: info.content });
+      setPreviewList(post.data.sources.slice());
     }
   }, []);
   const handleInputValue = (key, e) => {
@@ -77,21 +83,35 @@ function QuestionPostPage({ post, setPost, setIsEdit }) {
       formData.append(key, postInfo[key]);
     }
     console.log(postInfo);
-    if (Object.values(postInfo).length === 3) {
+    if (post) {
+      formData.append('toDelete', sourcesToDelete);
       axios
-        .post(`${url}/posts`, formData, {
+        .put(`${url}/posts/${post.data[0].id}`, formData, {
           header: { 'Content-Type': 'multipart/form-data' },
         })
         .then((result) => {
-          // setSuccessSignUp(true);
-          window.location.replace('/');
-          // alert('게시성공');
-        })
-        .catch((err) => {
-          // setUsernameErr('모든 정보 입력 후 다시 시도 해주세요.');
+          setIsEdit(false);
+          history.go(0);
         });
+    } else {
+      if (Object.values(postInfo).length === 3) {
+        axios
+          .post(`${url}/posts`, formData, {
+            header: { 'Content-Type': 'multipart/form-data' },
+          })
+          .then((result) => {
+            window.location.replace('/');
+          })
+          .catch((err) => {
+            // setUsernameErr('모든 정보 입력 후 다시 시도 해주세요.');
+          });
+      }
     }
-    // window.location.replace('SignIn'); // 삭제 해줘야함
+  };
+
+  const handleDeletePreview = (id) => {
+    setPreviewList(previewList.filter((source) => source.id !== id));
+    setSourcesToDelete([...sourcesToDelete, id]);
   };
   return (
     <BodyAreaStyle>
@@ -119,20 +139,30 @@ function QuestionPostPage({ post, setPost, setIsEdit }) {
         />
         <div style={{ display: 'flex' }}>
           {post
-            ? post.data.sources.map((item) => {
+            ? previewList.map((item) => {
                 if (item.type === 'image') {
                   return (
-                    <ImgTest>
-                      <img key={item.id} src={item.sourceUrl} style={{ width: '200px', margin: '10px' }} />
-                      <div>테스트입니다</div>
-                    </ImgTest>
+                    <ImgPreview key={item.id}>
+                      <img src={item.sourceUrl} style={{ width: '200px', margin: '10px' }} />
+                      <div
+                        onClick={() => {
+                          handleDeletePreview(item.id);
+                        }}>
+                        삭제
+                      </div>
+                    </ImgPreview>
                   );
                 } else
                   return (
-                    <ImgTest>
-                      <video key={item.id} src={item.sourceUrl} style={{ width: '200px', margin: '10px' }}></video>
-                      <div>테스트입니다</div>
-                    </ImgTest>
+                    <ImgPreview key={item.id}>
+                      <video src={item.sourceUrl} style={{ width: '200px', margin: '10px' }}></video>
+                      <div
+                        onClick={() => {
+                          handleDeletePreview(item.id);
+                        }}>
+                        삭제
+                      </div>
+                    </ImgPreview>
                   );
               })
             : null}

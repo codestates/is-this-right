@@ -65,7 +65,7 @@ function AdvisorDetailPage() {
   const [adviserDetailInfo, setAdviserDetailInfo] = useState(null);
   const { id } = useParams();
   useEffect(() => {
-    axios.get(`${url}/advisers/${id}`).then((data) => setAdviserDetailInfo(data.data));
+    axios.get(`${url}/advisers/${id}`).then((data) => setAdviserDetailInfo(data.data.data));
   }, []);
 
   //pagination states

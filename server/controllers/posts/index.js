@@ -27,7 +27,7 @@ module.exports = {
       `SELECT posts.*, users.username, users.profileImg FROM posts JOIN users ON posts.userId = users.id WHERE posts.id = ${id}`,
       { type: QueryTypes.SELECT },
     );
-    const sourceInfo = await source.findAll({ where: { postId: id }, attributes: ['sourceUrl', 'type'] });
+    const sourceInfo = await source.findAll({ where: { postId: id }, attributes: ['id', 'sourceUrl', 'type'] });
 
     const feedbackInfo = await sequelize.query(
       `SELECT feedbacks.*, advisers.name, users.profileImg 
@@ -60,16 +60,16 @@ module.exports = {
 
   put: async (req, res) => {
     const userId = isAuthorized(req).id;
-    const postId = Number(req.params.id);
-    const { title, category, content } = req.body;
+    const postId = req.params.id;
+    const { title, category, content, toDelete } = req.body;
     const postInfo = await post.findOne({ where: { id: postId } });
     if (userId === postInfo.userId) {
-      //update posts table
-      await post.update({ title, category, content }, { where: { id: postId } });
-      //only if there's files to update
-      if (!!req.files.length) {
+      console.log(req.body);
+      console.log(toDelete);
+      if (toDelete) {
+        const idListToDelete = toDelete.split(',');
         //delete old sources from s3
-        const sourcesInfo = await source.findAll({ where: { postId } });
+        const sourcesInfo = await source.findAll({ where: { id: idListToDelete } });
 
         sourcesInfo.forEach((source) => {
           const params = {
@@ -82,10 +82,13 @@ module.exports = {
             else console.log(params.Key, 'deleted!'); // successful response
           });
         });
-
-        //delete old sources from sources table
-        await source.destroy({ where: { postId } });
-
+        // delete old sources from sources table
+        await source.destroy({ where: { id: idListToDelete } });
+      }
+      //update posts table
+      await post.update({ title, category, content }, { where: { id: postId } });
+      //only if there's files to update
+      if (!!req.files.length) {
         //insert new soures to sources table
         const sourcesToInsert = req.files.map((file) => {
           return { postId, sourceUrl: file.location, type: file.contentType.split('/')[0] };

@@ -34,7 +34,7 @@ function PostCard({ data }) {
   // },
   //  ...]
   const nowTime = Date.now(),
-    startTime = new Date(data.createdAt);
+    startTime = new Date(data.updatedAt);
   return (
     <PostCardStyle>
       <div style={{ display: 'flex', alignItems: 'center' }}>

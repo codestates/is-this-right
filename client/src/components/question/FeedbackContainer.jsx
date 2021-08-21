@@ -46,9 +46,8 @@ const AdviserInfoStyle = styled.div`
 
 const ButtonSectionStyle = styled.div`
   margin-top: 20px;
-
   display: inline-block;
-  float: right;
+  /* float: right; */
 `;
 
 const ButtonStyle = styled(Button)`

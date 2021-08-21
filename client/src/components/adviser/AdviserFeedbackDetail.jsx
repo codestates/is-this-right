@@ -23,8 +23,8 @@ function AdviserFeedbackDetail({ data }) {
         {data.content}
       </div>
       <div>{data.createdAt}</div>
-      <div>{data.post.title}</div>
-      <div>{data.post.selected ? <CheckCircleTwoTone /> : <CheckCircleOutlined />}</div>
+      <div>{data.title}</div>
+      <div>{data.selected ? <CheckCircleTwoTone /> : <CheckCircleOutlined />}</div>
     </AdviserCardStyle>
   );
 }
