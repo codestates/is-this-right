@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Avatar, Pagination, Result } from 'antd';
+import { Avatar, Pagination, Result, Image } from 'antd';
 import { BodyAreaStyle, ContainerStlye } from '../style/pageStyle';
 import parse from 'html-react-parser';
 
@@ -14,6 +14,8 @@ const url = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 
 const UserInfoStyle = styled.div`
+  margin-top: 50px;
+  margin-bottom: 50px;
   /* flex: 0.5 1 auto; */
   width: 100%;
   height: 20%;
@@ -29,7 +31,8 @@ const DetailStyle = styled.div`
 const FeedbacksStyle = styled.div`
   width: 100%;
   /* flex: 2 1 auto; */
-  height: 100%;
+
+  height: auto;
 `;
 
 const AvatarStyle = styled.div`
@@ -49,6 +52,13 @@ const FeedbackStyle = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+`;
+
+const PaginationStyle = styled(Pagination)`
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 function AdvisorDetailPage() {
@@ -83,13 +93,10 @@ function AdvisorDetailPage() {
   console.log(adviserDetailInfo);
   return (
     <BodyAreaStyle>
-      <ContainerStlye style={{ display: 'flex', flexDirection: 'column' }}>
+      <ContainerStlye style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
         <UserInfoStyle>
           <AvatarStyle>
-            <Avatar
-              size={{ xs: 124, sm: 132, md: 140, lg: 164, xl: 180, xxl: 200 }}
-              src={adviserDetailInfo.profileImg}
-            />
+            <Avatar shape="square" size={150} src={<Image src={adviserDetailInfo.profileImg} />} />
           </AvatarStyle>
           <UserStyle>
             <div>이름 : {adviserDetailInfo.name}</div>
@@ -101,11 +108,12 @@ function AdvisorDetailPage() {
           </UserStyle>
         </UserInfoStyle>
         <DetailStyle>
-          디테일
+          <h2 style={{ backgroundColor: '#f3f3f3' }}>Detail</h2>
           <div>{parse(adviserDetailInfo.detail)}</div>
         </DetailStyle>
         <FeedbacksStyle>
-          <div>피드백들</div>
+          <h2 style={{ backgroundColor: '#f3f3f3' }}>Feedbacks</h2>
+
           {adviserDetailInfo.feedbacks.length === 0 ? (
             <FeedbackStyle>
               <Result icon={<SmileOutlined />} title="등록된 답변이 없습니다." />
@@ -117,16 +125,79 @@ function AdvisorDetailPage() {
               </Link>
             ))
           )}
-
-          <Pagination
-            simple
-            defaultCurrent={1}
-            current={currentPage}
-            pageSize={PAGE_SIZE}
-            onChange={handlePageChange}
-            total={adviserDetailInfo.feedbacks.length}
-          />
+          <div>
+            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
+          </div>
+          <div>
+            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
+          </div>
+          <div>
+            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
+          </div>
+          <div>
+            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
+          </div>
+          <div>
+            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
+          </div>
+          <div>
+            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
+          </div>
+          <div>
+            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
+          </div>
+          <div>
+            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
+          </div>
+          <div>
+            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
+          </div>
+          <div>
+            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
+          </div>
+          <div>
+            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
+          </div>
+          <div>
+            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
+          </div>
+          <div>
+            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
+          </div>
+          <div>
+            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
+          </div>
+          <div>
+            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
+          </div>
+          <div>
+            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
+          </div>
+          <div>
+            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
+          </div>
+          <div>
+            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
+          </div>
+          <div>
+            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
+          </div>
+          <div>
+            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
+          </div>
+          <div>
+            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
+          </div>
         </FeedbacksStyle>
+
+        <PaginationStyle
+          simple
+          defaultCurrent={1}
+          current={currentPage}
+          pageSize={PAGE_SIZE}
+          onChange={handlePageChange}
+          total={adviserDetailInfo.feedbacks.length}
+        />
       </ContainerStlye>
     </BodyAreaStyle>
   );

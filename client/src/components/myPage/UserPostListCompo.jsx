@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import PostCard from '../PostCard';
 import { Pagination } from 'antd';
-import { Link } from 'react-router-dom';
 
 const url = process.env.REACT_APP_API_URL;
 const UserPostListCompoStyle = styled.div`
@@ -38,7 +37,6 @@ function UserPostListCompo() {
     //   axios.get(`${url}/advisers/${userInfo.userId}`).then((data) => setAdviserDetailInfo(data.data));
     // }
   }, []);
-
 
   //pagination states
   const PAGE_SIZE = 3;
