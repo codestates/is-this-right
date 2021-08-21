@@ -23,6 +23,7 @@ export const postInitialState = {
   filterPosts: [],
   searchPosts: [],
   categoryPosts: [],
+  currentCategory: '헬스',
   postImgs: {
     imgFile: [],
     preview: '',

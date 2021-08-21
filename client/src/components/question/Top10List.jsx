@@ -33,12 +33,6 @@ const TextStyle = styled.span`
 function Top10List() {
   const top10List = useSelector((state) => state.adviserReducer.topAdvisers);
 
-  console.log('나오냐??', top10List);
-
-  useEffect(() => {
-    console.log(top10List);
-  }, [top10List]);
-
   return (
     <Top10Styled>
       <TextStyle>Most Helpful</TextStyle>

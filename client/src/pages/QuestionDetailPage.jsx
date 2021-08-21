@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Carousel from 'react-bootstrap/Carousel';
-import { Avatar, Popover, Button, Result,Pagination } from 'antd';
+import { Avatar, Popover, Button, Result, Pagination } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { BodyAreaStyle, ContainerStlye } from '../style/pageStyle';
@@ -65,7 +65,7 @@ function QuestionDetailPage() {
     return <h1>정보를 받고 있습니다...</h1>;
   } else {
     console.log(post.data);
-    startTime = new Date(post.data[0].createdAt);
+    startTime = new Date(post.data[0].updateAt);
   }
 
   const sendUserPosts = () => {
@@ -78,7 +78,7 @@ function QuestionDetailPage() {
       return setNewFeed(result.data.data);
     });
   };
-  
+
   const handleEdit = () => {
     setIsEdit(!isEdit);
   };
@@ -108,7 +108,7 @@ function QuestionDetailPage() {
                 <Moment fromNow style={{ fontSize: '0.8rem', color: '#686868' }}>
                   {startTime}
                 </Moment>
-              </div>              
+              </div>
               {state.userInfo.id === post.data[0].userId ? <button onClick={handleEdit}>수정하기</button> : null}
               <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <Carousel variant="dark" interval={null} style={{ width: '400px' }}>
@@ -119,10 +119,11 @@ function QuestionDetailPage() {
                           <Carousel.Item style={{ height: '400px', width: '400px' }}>
                             <ReactPlayer
                               className="d-block w-100"
-                              src={el.sourceUrl}
+                              url={el.sourceUrl}
                               alt=""
                               key={idx}
                               style={{ height: '400px', width: '400px' }}
+                              controls={true}
                             />
                           </Carousel.Item>
                         ) : (
@@ -152,15 +153,15 @@ function QuestionDetailPage() {
             <>
               <h2 style={{ margin: '5% 0px 5% 0px' }}>{post.data.feedbacks.length} suggested feedbacks</h2>
               {currentPageList.map((el) => {
-                  return (
-                    <FeedbackContainer
-                      adviser={el}
-                      postUserId={post.data[0].userId}
-                      isSelected={post.data[0].selected === el.id}
-                      key={el.id}
-                      getDetailData={getDetailData}
-                    />
-                  );
+                return (
+                  <FeedbackContainer
+                    adviser={el}
+                    postUserId={post.data[0].userId}
+                    isSelected={post.data[0].selected === el.id}
+                    key={el.id}
+                    getDetailData={getDetailData}
+                  />
+                );
               })}
             </>
           )}

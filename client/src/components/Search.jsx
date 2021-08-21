@@ -7,38 +7,30 @@ const SearchStyle = styled.div`
   width: 100%;
 `;
 
-function Search({ originalList, setAdviserDetail, type, setOnUnanswer, setOnAnswer, setOnSerach, setSearchList }) {
+function Search({ type, setOnUnanswer, setOnAnswer, getfilterData, inputRef, viewRadio }) {
   const state = useSelector((state) => state.postReducer);
   const dispatch = useDispatch();
   const getAdviserSearch = (value, e) => {
-    console.log(originalList);
-    if (!value) {
-      setOnSerach(false);
-      setAdviserDetail(originalList);
-      setSearchList(originalList);
-      return;
-    }
-    let data = originalList.filter((el) => el.name.includes(value) || el.category === value || el.state === value);
-    setOnSerach(true);
-    setAdviserDetail(data);
-    setSearchList(data);
+    getfilterData();
   };
 
   const getQuestionSearch = (value, e) => {
+    viewRadio();
     setOnUnanswer(false);
     setOnAnswer(false);
     if (value) {
-      let filterData = state.posts.filter((el) => el.title.includes(value) || el.username.includes(value));
+      let filterData = state.filterPosts.filter((el) => el.title.includes(value) || el.username.includes(value));
       dispatch(searchPosts(filterData));
       dispatch(filterPosts(filterData));
     } else {
-      dispatch(searchPosts(state.posts));
-      dispatch(filterPosts(state.posts));
+      dispatch(searchPosts(state.categoryPosts));
+      dispatch(filterPosts(state.categoryPosts));
     }
   };
   return (
     <>
       <Input.Search
+        ref={inputRef}
         size="large"
         placeholder="input here"
         enterButton
