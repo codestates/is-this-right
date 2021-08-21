@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Input, Button } from 'antd';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import SelectBox from '../components/adviser/SelectBox';
 import { BodyAreaStyle, ContainerStlye } from '../style/pageStyle';
 import UploadCompo from '../components/UploadCompo';
@@ -41,6 +41,17 @@ const ImgPreview = styled.div`
     }
   }
 `;
+
+const textFade = keyframes`
+0% { color:white;}
+50% { color:red;}
+        100% {color:white; }
+`;
+const AlertMessageStyle = styled.div`
+  color: red;
+  animation: ${textFade} 0.5s linear infinite;
+`;
+
 function QuestionPostPage({ post, setPost, setIsEdit }) {
   const state = useSelector((state) => state.postReducer.postImgs);
   const [previewList, setPreviewList] = useState([]);
@@ -51,20 +62,20 @@ function QuestionPostPage({ post, setPost, setIsEdit }) {
     category: '',
     content: '',
   });
+  const [validation, setValidation] = useState({
+    title: '',
+    category: '',
+    content: '',
+  });
 
   useEffect(() => {
     if (post) {
       let info = post.data[0];
-      console.log('포스트 내용', post);
       setPostInfo({ title: info.title, category: info.category, content: info.content });
       setPreviewList(post.data.sources.slice());
     }
   }, []);
   const handleInputValue = (key, e) => {
-    console.log(key);
-
-    console.log(e);
-    console.log(postInfo);
     if (key === 'category') {
       setPostInfo({ ...postInfo, [key]: e });
     } else {
@@ -82,7 +93,6 @@ function QuestionPostPage({ post, setPost, setIsEdit }) {
     for (let key in postInfo) {
       formData.append(key, postInfo[key]);
     }
-    console.log(postInfo);
     if (post) {
       formData.append('toDelete', sourcesToDelete);
       axios
@@ -113,6 +123,30 @@ function QuestionPostPage({ post, setPost, setIsEdit }) {
     setPreviewList(previewList.filter((source) => source.id !== id));
     setSourcesToDelete([...sourcesToDelete, id]);
   };
+
+  const checkValidation = (name) => {
+    if (name === 'title') {
+      if (postInfo.title === '') {
+        setValidation({ ...validation, [name]: '타이틀을 입력해주세요.' });
+      } else {
+        setValidation({ ...validation, [name]: '' });
+      }
+    }
+    if (name === 'category') {
+      if (postInfo.category === '') {
+        setValidation({ ...validation, [name]: '카테고리를 선택해주세요.' });
+      } else {
+        setValidation({ ...validation, [name]: '' });
+      }
+    }
+    if (name === 'content') {
+      if (postInfo.content === '') {
+        setValidation({ ...validation, [name]: '내용을 입력해주세요.' });
+      } else {
+        setValidation({ ...validation, [name]: '' });
+      }
+    }
+  };
   return (
     <BodyAreaStyle>
       <ContainerStlye style={{ padding: '50px' }}>
@@ -123,10 +157,12 @@ function QuestionPostPage({ post, setPost, setIsEdit }) {
           size="large"
           value={postInfo.title}
           onChange={(e) => handleInputValue('title', e)}
+          onBlur={() => checkValidation('title')}
           style={{ margin: '12px 0 6px 0' }}
           placeholder="제목을 입력해주세요"
           required
         />
+        {validation.title ? <AlertMessageStyle>{validation.title}</AlertMessageStyle> : null}
         <LabelStyle htmlFor="username">Category</LabelStyle>
         <SelectBox
           func={handleInputValue}
@@ -134,9 +170,10 @@ function QuestionPostPage({ post, setPost, setIsEdit }) {
           keyData={'category'}
           name="category"
           value={postInfo.category}
-          validation={() => {}}
+          validation={checkValidation}
           required
         />
+        {validation.category ? <AlertMessageStyle>{validation.category}</AlertMessageStyle> : null}
         <div style={{ display: 'flex' }}>
           {post
             ? previewList.map((item) => {
@@ -172,11 +209,22 @@ function QuestionPostPage({ post, setPost, setIsEdit }) {
         <Input.TextArea
           name="content"
           onChange={(e) => handleInputValue('content', e)}
+          onBlur={() => checkValidation('content')}
           placeholder="내용을 입력해주세요"
           value={postInfo.content}
           required
         />
-        <Button onClick={handlePost}>Submit</Button>
+        {validation.content ? <AlertMessageStyle>{validation.content}</AlertMessageStyle> : null}
+        <Button
+          onClick={() => {
+            if (postInfo.category) {
+              handlePost();
+            } else {
+              setValidation({ ...validation, category: '카테고리를 선택해주세요.' });
+            }
+          }}>
+          Submit
+        </Button>
         {post ? (
           <Button
             style={{ background: 'red' }}
