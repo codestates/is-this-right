@@ -26,8 +26,9 @@ const InfoBarContainer = styled.div`
     height: 100%;
     width: 70px;
     border-radius: 10px 0 0 0;
+    transition: 0.5s;
     :hover {
-      background: #156afd;
+      background: #0859e6;
     }
     @media ${(props) => props.theme.mobile} {
       border-radius: 0 0 0 0;
@@ -41,10 +42,10 @@ const InfoBarContainer = styled.div`
     width: 70px;
     height: 100%;
     justify-content: center;
-
     border-radius: 0 10px 0 0;
+    transition: 0.5s;
     :hover {
-      background: #156afd;
+      background: #0859e6;
     }
     @media ${(props) => props.theme.mobile} {
       border-radius: 0 0 0 0;

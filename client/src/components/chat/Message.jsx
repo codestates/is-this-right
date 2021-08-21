@@ -19,6 +19,7 @@ const MessageDiv = styled.div`
   .messageInfo {
     width: 100%;
   }
+
   .moment {
     display: flex;
     align-items: flex-end;

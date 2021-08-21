@@ -38,9 +38,12 @@ const StyledForm = styled.form`
     border: none;
     min-width: 100px;
     border-radius: 0 0 10px 0;
-
+    transition: 0.5s;
     @media ${(props) => props.theme.mobile} {
       border-radius: 0 0 0 0;
+    }
+    :hover {
+      background: #156afd;
     }
   }
 `;
