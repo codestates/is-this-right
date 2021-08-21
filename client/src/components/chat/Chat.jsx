@@ -14,7 +14,7 @@ const StyledInfoBar = styled(InfoBar)`
   height: 60px;
 `;
 const OuterContainer = styled.div`
-  height: 500px;
+  height: 600px;
   width: 400px;
   position: fixed;
   bottom: 5vh;
