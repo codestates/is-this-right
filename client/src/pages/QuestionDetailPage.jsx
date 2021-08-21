@@ -31,6 +31,8 @@ function QuestionDetailPage() {
   const [feedback, setFeedback] = useState('');
   const [newFeed, setNewFeed] = useState('');
   const [isEdit, setIsEdit] = useState(false);
+  const [checkSelect, setCheckSelect] = useState(false);
+
   const [editorFunction, setEditorFunction] = useState({ setData: () => {} });
   //pagination states
   const PAGE_SIZE = 5;
@@ -85,6 +87,18 @@ function QuestionDetailPage() {
 
   const handleSetData = (event, editor) => {
     editor.setData('');
+  };
+
+  const handleSelection = (feedbackId) => {
+    axios.post(`${url}/posts/select`, { postId: id, feedbackId: feedbackId }).then((result) => {
+      axios.get(`${url}/posts/${id}`).then((data) => setPost(data.data));
+    });
+  };
+
+  const handleSelectionCancel = (feedbackId) => {
+    axios.delete(`${url}/posts/select/${id}`).then((result) => {
+      axios.get(`${url}/posts/${id}`).then((data) => setPost(data.data));
+    });
   };
 
   return (
@@ -160,6 +174,9 @@ function QuestionDetailPage() {
                     isSelected={post.data[0].selected === el.id}
                     key={el.id}
                     getDetailData={getDetailData}
+                    checkSelect={setCheckSelect}
+                    handleSelection={() => handleSelection(el.id)}
+                    handleSelectionCancel={() => handleSelectionCancel(el.id)}
                   />
                 );
               })}
