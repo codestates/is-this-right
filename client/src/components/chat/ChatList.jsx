@@ -1,22 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { changeRoom, updateChatList, setViewChatlist } from '../../actions/chatAction';
-import { message } from 'antd';
+import { changeRoom, setViewChatlist } from '../../actions/chatAction';
 const url = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 
 const ChatList = () => {
   const chatState = useSelector((state) => state.chatReducer);
   const dispatch = useDispatch();
-
-  useEffect(async () => {
-    if (chatState.socket) {
-      let chatList = await axios.get(`${url}/chats`);
-      chatList = chatList.data.data;
-      dispatch(updateChatList(chatList));
-    }
-  }, [chatState.socket]);
 
   //방 번호가 바뀔때마다 해당 방 메세지 받아오기
 

@@ -74,6 +74,7 @@ function Nav() {
   // const [scroll, setScroll] = useState('');
   // const scrollRef = useRef()
   const state = useSelector((state) => state.userReducer);
+  const chatState = useSelector((state) => state.chatReducer);
   const dispatch = useDispatch();
   const history = useHistory();
   console.log(state.logIn, '로그인 상태입니다.');
@@ -106,6 +107,7 @@ function Nav() {
   let handleLogOut = () => {
     axios.get(`${url}/signout`).then((ok) => {
       dispatch(successLogout());
+      chatState.socket.emit('logout');
       window.location.replace('/');
     });
   };

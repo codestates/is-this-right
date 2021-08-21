@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import ChatList from './ChatList';
 import InfoBar from './InfoBar';
-import { updateChatList, setMessages } from '../../actions/chatAction';
+import { updateChatList, setMessages, setNewMessages } from '../../actions/chatAction';
 const url = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 const Chat = () => {
@@ -35,7 +35,9 @@ const Chat = () => {
       let list = await axios.get(`${url}/chats/messages/${chatState.currentRoom}`);
       dispatch(setMessages(list.data.data));
       let chatlist = await axios.get(`${url}/chats`);
-      dispatch(updateChatList(chatlist.data.data));
+      chatlist = chatlist.data.data;
+      dispatch(updateChatList(chatlist));
+      dispatch(setNewMessages(chatlist.reduce((acc, cur) => acc + cur.unreadMessageCount, 0)));
     }
   }, [chatState.currentRoom]);
   return (

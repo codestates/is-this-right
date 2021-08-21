@@ -14,7 +14,9 @@ function SelectBox({ func, data, keyData, name, validation, value }) {
       }}
       placeholder="데이터를 선택해주세요.">
       {data.map((el) => (
-        <Select.Option value={el}>{el}</Select.Option>
+        <Select.Option key={el} value={el}>
+          {el}
+        </Select.Option>
       ))}
     </Select>
   );

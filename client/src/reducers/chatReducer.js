@@ -7,9 +7,10 @@ import {
   ADD_MESSAGE,
   SET_ISCHAT,
   SET_VIEWCHATLIST,
+  SET_NEWMESSAGES,
 } from '../actions/chatAction';
 
-const userReducer = (state = chatInitialState, action) => {
+const chatReducer = (state = chatInitialState, action) => {
   switch (action.type) {
     case UPDATE_CHAT_LIST:
       return Object.assign({}, state, {
@@ -39,9 +40,13 @@ const userReducer = (state = chatInitialState, action) => {
       return Object.assign({}, state, {
         viewChatlist: action.payload,
       });
+    case SET_NEWMESSAGES:
+      return Object.assign({}, state, {
+        newMessages: action.payload,
+      });
     default:
       return state;
   }
 };
 
-export default userReducer;
+export default chatReducer;

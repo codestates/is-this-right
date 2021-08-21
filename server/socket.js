@@ -1,7 +1,7 @@
 module.exports = function (io) {
   const { message, sequelize } = require('./models');
   const { QueryTypes } = require('sequelize');
-  const { addUser, getUser, getUsers } = require('./users');
+  const { addUser, getUser, getUsers, removeUser } = require('./users');
 
   io.on('connection', (socket) => {
     socket.on('online', (userInfo) => {
@@ -10,7 +10,7 @@ module.exports = function (io) {
       socket.emit('online', 'Ok, i got it, ' + socket.id);
 
       addUser({ ...userInfo, socketId: socket.id });
-      console.log('추가를 했는데 이게 들어왔을까? current user:', getUsers);
+      console.log('추가를 했는데 이게 들어왔을까? current user:', getUsers());
     });
     socket.on('quitRoom', (data) => {
       socket.leaveAll();
@@ -53,7 +53,7 @@ module.exports = function (io) {
       console.log(messageInfo, '여기메세지떠야하는뎅', response, ' receiver 는 >', receiver);
       console.log('sendMessage On 인데, emit message 받을 채널은?:', socket.rooms);
       io.to(messageInfo.room).emit('message', response);
-      console.log('current users: ', getUsers);
+      console.log('current users: ', getUsers());
       let receiverOnline = getUser(receiver);
       console.log('Online Receiver Info', receiverOnline);
       if (receiverOnline) {
@@ -61,11 +61,12 @@ module.exports = function (io) {
         io.to(receiverOnline.socketId).emit('online', 'update chat list');
       }
     });
+    socket.on('logout', () => {
+      removeUser(socket.id);
+      console.log('current users: ', getUsers());
+    });
     socket.on('disconnect', () => {
       console.log('disconnected from ', socket.id);
-      //여기서 removeUser하기
-
-      // removeUser(socket.id);
     });
   });
 };
