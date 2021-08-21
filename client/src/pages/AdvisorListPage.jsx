@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import { BodyAreaStyle, ContainerStlye } from '../style/pageStyle';
 import AdviserCard from '../components/adviser/AdviserCard';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { Radio, Pagination } from 'antd';
+import { Radio, Pagination, Button } from 'antd';
 import Search from '../components/Search';
 const url = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
@@ -19,7 +19,7 @@ const AdviserCardListStyle = styled.div`
   align-items: center;
 `;
 
-const AdviserCardSectionStyle = styled(Link)`
+const AdviserCardSectionStyle = styled.div`
   width: 100%;
   /* height: 350px; */
   /* background-color: orange; */
@@ -48,10 +48,8 @@ const FilterStyle = styled.div`
 function AdvisorListPage() {
   const [adviserDetail, setAdviserDetail] = useState(null);
   const [originalList, setOriginalList] = useState([]);
-  const [searchList, setSearchList] = useState([]);
-  const filterOption = { category: '전체', gender: '남+여', state: '전국' };
-  const [onSerach, setOnSerach] = useState(false);
-
+  const [filterOption, setFilterOption] = useState({ category: '전체', gender: '남+여', state: '전국' });
+  const inputRef = useRef(null);
   //pagination states
   const PAGE_SIZE = 5;
   const [currentPageList, setCurrentPageList] = useState([]);
@@ -84,11 +82,14 @@ function AdvisorListPage() {
   }, []);
 
   const getOption = (e, key) => {
-    filterOption[key] = e.target.value;
+    setFilterOption({ ...filterOption, [key]: e.target.value });
   };
   const getfilterData = () => {
     let data = originalList.slice();
-    if (onSerach) data = searchList.slice();
+    if (inputRef.current) {
+      let value = inputRef.current.input.value;
+      data = data.filter((el) => el.name.includes(value) || el.category === value || el.state === value);
+    }
     if (filterOption.category !== '전체') {
       data = data.filter((el) => el.category === filterOption.category);
     }
@@ -98,17 +99,21 @@ function AdvisorListPage() {
     if (filterOption.state !== '전국') {
       data = data.filter((el) => el.state === filterOption.state);
     }
-    // handleFilter();
     setAdviserDetail(data);
   };
 
   useEffect(() => {
     getfilterData();
-  }, [onSerach]);
+  }, [filterOption]);
 
+  const setClear = () => {
+    inputRef.current.state.value = '';
+    setFilterOption({ category: '전체', gender: '남+여', state: '전국' });
+  };
   if (adviserDetail === null) {
     return '데이터를 받아오고있습니다.';
   }
+
   return (
     <BodyAreaStyle>
       <ContainerStlye style={{ display: 'flex' }}>
@@ -116,7 +121,7 @@ function AdvisorListPage() {
           {/* <AdviserCard />
           <AdviserCard /> */}
           {currentPageList.map((el) => (
-            <AdviserCardSectionStyle key={el.id} to={`/advisers/${el.id}`}>
+            <AdviserCardSectionStyle key={el.id}>
               <AdviserCard data={el} />
             </AdviserCardSectionStyle>
           ))}
@@ -132,19 +137,19 @@ function AdvisorListPage() {
         <SearchAndFilterStyle>
           <Search
             originalList={originalList}
-            setAdviserDetail={setAdviserDetail}
             type={'adviserList'}
-            setOnSerach={setOnSerach}
-            setSearchList={setSearchList}
+            filterOption={filterOption}
+            getfilterData={getfilterData}
+            inputRef={inputRef}
           />
           <FilterStyle>
+            <Button onClick={setClear}>초기화하기</Button>
             <div>종목</div>
             <Radio.Group
               size="large"
               defaultValue="전체"
               onChange={(e) => {
                 getOption(e, 'category');
-                getfilterData();
               }}>
               <Radio.Button value="전체">전체</Radio.Button>
               <Radio.Button value="헬스">헬스</Radio.Button>
@@ -158,7 +163,6 @@ function AdvisorListPage() {
               defaultValue="남+여"
               onChange={(e) => {
                 getOption(e, 'gender');
-                getfilterData();
               }}>
               <Radio.Button value="남+여">남+여</Radio.Button>
               <Radio.Button value="남자">남자</Radio.Button>
@@ -170,7 +174,6 @@ function AdvisorListPage() {
               defaultValue="전국"
               onChange={(e) => {
                 getOption(e, 'state');
-                getfilterData();
               }}>
               <Radio.Button value="전국">전국</Radio.Button>
               <Radio.Button value="서울">서울</Radio.Button>

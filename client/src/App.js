@@ -129,6 +129,7 @@ function App() {
           <Footer />
         </Route>
         <Route path="/AdviserList">
+          {chatState.isChat ? <Chat /> : <Chatbutton />}
           <Nav />
           <AdvisorListPage />
           <Footer />

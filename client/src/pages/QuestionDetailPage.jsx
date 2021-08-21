@@ -65,7 +65,7 @@ function QuestionDetailPage() {
     return <h1>정보를 받고 있습니다...</h1>;
   } else {
     console.log(post.data);
-    startTime = new Date(post.data[0].createdAt);
+    startTime = new Date(post.data[0].updateAt);
   }
 
   const sendUserPosts = () => {
