@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Carousel from 'react-bootstrap/Carousel';
-import { Avatar, Popover, Button, Result,Pagination } from 'antd';
+import { Avatar, Popover, Button, Result, Pagination } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { BodyAreaStyle, ContainerStlye } from '../style/pageStyle';
@@ -31,6 +31,8 @@ function QuestionDetailPage() {
   const [feedback, setFeedback] = useState('');
   const [newFeed, setNewFeed] = useState('');
   const [isEdit, setIsEdit] = useState(false);
+  const [checkSelect, setCheckSelect] = useState(false);
+
   const [editorFunction, setEditorFunction] = useState({ setData: () => {} });
   //pagination states
   const PAGE_SIZE = 5;
@@ -78,13 +80,25 @@ function QuestionDetailPage() {
       return setNewFeed(result.data.data);
     });
   };
-  
+
   const handleEdit = () => {
     setIsEdit(!isEdit);
   };
 
   const handleSetData = (event, editor) => {
     editor.setData('');
+  };
+
+  const handleSelection = (feedbackId) => {
+    axios.post(`${url}/posts/select`, { postId: id, feedbackId: feedbackId }).then((result) => {
+      axios.get(`${url}/posts/${id}`).then((data) => setPost(data.data));
+    });
+  };
+
+  const handleSelectionCancel = (feedbackId) => {
+    axios.delete(`${url}/posts/select/${id}`).then((result) => {
+      axios.get(`${url}/posts/${id}`).then((data) => setPost(data.data));
+    });
   };
 
   return (
@@ -108,7 +122,7 @@ function QuestionDetailPage() {
                 <Moment fromNow style={{ fontSize: '0.8rem', color: '#686868' }}>
                   {startTime}
                 </Moment>
-              </div>              
+              </div>
               {state.userInfo.id === post.data[0].userId ? <button onClick={handleEdit}>수정하기</button> : null}
               <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <Carousel variant="dark" interval={null} style={{ width: '400px' }}>
@@ -119,10 +133,11 @@ function QuestionDetailPage() {
                           <Carousel.Item style={{ height: '400px', width: '400px' }}>
                             <ReactPlayer
                               className="d-block w-100"
-                              src={el.sourceUrl}
+                              url={el.sourceUrl}
                               alt=""
                               key={idx}
                               style={{ height: '400px', width: '400px' }}
+                              controls={true}
                             />
                           </Carousel.Item>
                         ) : (
@@ -152,15 +167,18 @@ function QuestionDetailPage() {
             <>
               <h2 style={{ margin: '5% 0px 5% 0px' }}>{post.data.feedbacks.length} suggested feedbacks</h2>
               {currentPageList.map((el) => {
-                  return (
-                    <FeedbackContainer
-                      adviser={el}
-                      postUserId={post.data[0].userId}
-                      isSelected={post.data[0].selected === el.id}
-                      key={el.id}
-                      getDetailData={getDetailData}
-                    />
-                  );
+                return (
+                  <FeedbackContainer
+                    adviser={el}
+                    postUserId={post.data[0].userId}
+                    isSelected={post.data[0].selected === el.id}
+                    key={el.id}
+                    getDetailData={getDetailData}
+                    checkSelect={setCheckSelect}
+                    handleSelection={() => handleSelection(el.id)}
+                    handleSelectionCancel={() => handleSelectionCancel(el.id)}
+                  />
+                );
               })}
             </>
           )}

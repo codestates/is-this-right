@@ -57,15 +57,28 @@ const ButtonStyle = styled(Button)`
   background-color: #00baef;
 `;
 
-function FeedbackContainer({ adviser, postUserId, isSelected, getDetailData }) {
-  console.log(adviser);
+function FeedbackContainer({
+  adviser,
+  postUserId,
+  isSelected,
+  getDetailData,
+  checkSelect,
+  handleSelection,
+  handleSelectionCancel,
+}) {
   const state = useSelector((state) => state.userReducer);
+  console.log(adviser);
   const [isEdit, setIsEdit] = useState(false);
   const [testT, setTestT] = useState('');
+  const [selected, setSelected] = useState(isSelected);
+  console.log(selected, isSelected);
   // console.log(parse(adviser.content));
   const nowTime = Date.now();
   const startTime = new Date(adviser.createdAt);
-
+  const history = useHistory();
+  useEffect(() => {
+    checkSelect(!selected);
+  }, [selected]);
   const handlePutFeedback = () => {
     axios.put(`${url}/feedbacks/${adviser.id}`, { content: testT }).then((result) => {
       handleIsEdit();
@@ -89,6 +102,7 @@ function FeedbackContainer({ adviser, postUserId, isSelected, getDetailData }) {
   const handleIsEdit = () => {
     setIsEdit(!isEdit);
   };
+
   return (
     <FeedbackContainerStyle isSelected={isSelected}>
       <AdviserInfoStyle>
@@ -101,11 +115,11 @@ function FeedbackContainer({ adviser, postUserId, isSelected, getDetailData }) {
         </span>
         {state.userInfo.adviserId === adviser.adviserId ? (
           <Button onClick={handleIsEdit}>Edit</Button>
-        ) : postUserId === state.userInfo.userId ? (
+        ) : postUserId === state.userInfo.id ? (
           isSelected ? (
-            <CheckCircleTwoTone style={{ color: 'green', fontSize: '25px' }} />
+            <CheckCircleTwoTone style={{ color: 'green', fontSize: '25px' }} onClick={handleSelectionCancel} />
           ) : (
-            <CheckCircleOutlined style={{ color: '#686868', fontSize: '25px' }} />
+            <CheckCircleOutlined style={{ color: '#686868', fontSize: '25px' }} onClick={handleSelection} />
           )
         ) : null}
       </AdviserInfoStyle>
