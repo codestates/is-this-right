@@ -74,7 +74,7 @@ const MobileDivStyle = styled.div`
     display: flex;
     justify-content: space-around;
     align-items: center;
-    z-index: 999;
+    z-index: 998;
     margin-bottom: 0;
     list-style: none;
     & > :hover {

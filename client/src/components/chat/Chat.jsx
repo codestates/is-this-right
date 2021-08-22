@@ -24,11 +24,11 @@ const OuterContainer = styled.div`
   border-radius: 10px;
 
   @media ${(props) => props.theme.mobile} {
-    height: 85vh;
+    height: 100vh;
     width: 100vw;
     position: fixed;
-    top: 0;
     left: 0;
+    bottom: 0;
     z-index: 999;
     border-radius: 0 0 0 0;
   }
