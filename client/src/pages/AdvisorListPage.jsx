@@ -108,7 +108,7 @@ const AdviserSection = styled.div`
   @media ${(props) => props.theme.mobile} {
     padding-left: 0;
     padding-right: 0;
-    overflow-y: hidden;
+    overflow-x: hidden;
   }
 `;
 const FilterSection = styled.div`
@@ -120,14 +120,14 @@ const AdviserBodyAreaStyle = styled(BodyAreaStyle)`
   @media ${(props) => props.theme.mobile} {
     display: flex;
     flex-direction: column-reverse;
-    overflow-y: hidden;
+    overflow-x: hidden;
   }
 `;
 const AdviserContainerStyle = styled(ContainerStlye)`
   @media ${(props) => props.theme.mobile} {
     margin-bottom: 15vh;
     width: 100vw;
-    overflow-y: hidden;
+    overflow-x: hidden;
   }
 `;
 

@@ -12,8 +12,8 @@ const InfoBarContainer = styled.div`
   width: 100%;
   border-radius: 10px 10px 0 0;
   @media ${(props) => props.theme.mobile} {
+    z-index: 999;
     border-radius: 0 0 0 0;
-    position: fixed;
     top: 0;
   }
   .title {
