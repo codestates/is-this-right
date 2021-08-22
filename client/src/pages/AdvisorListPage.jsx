@@ -108,6 +108,7 @@ const AdviserSection = styled.div`
   @media ${(props) => props.theme.mobile} {
     padding-left: 0;
     padding-right: 0;
+    overflow-y: hidden;
   }
 `;
 const FilterSection = styled.div`

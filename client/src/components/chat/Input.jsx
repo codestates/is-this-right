@@ -9,6 +9,8 @@ const StyledForm = styled.form`
 
   @media ${(props) => props.theme.mobile} {
     border-radius: 0 0 0 0;
+    position: fixed;
+    bottom: 0;
   }
   .input {
     border: none;

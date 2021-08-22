@@ -13,6 +13,8 @@ const InfoBarContainer = styled.div`
   border-radius: 10px 10px 0 0;
   @media ${(props) => props.theme.mobile} {
     border-radius: 0 0 0 0;
+    position: fixed;
+    top: 0;
   }
   .title {
     color: white;
