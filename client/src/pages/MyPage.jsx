@@ -6,7 +6,6 @@ import UserPostListCompo from '../components/myPage/UserPostListCompo';
 import UserEditCompo from '../components/myPage/UserEditCompo';
 import { setViewChatlist, setIsChat, setMessages, changeRoom } from '../actions/chatAction';
 import { Switch, Route } from 'react-router-dom';
-import { BrowserRouter } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 function MyPage() {

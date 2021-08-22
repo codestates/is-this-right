@@ -97,9 +97,9 @@ function App() {
 
   return (
     <div className="App">
+      {chatState.isChat ? <Chat /> : <Chatbutton />}
       <Switch>
         <Route exact={true} path="/">
-          {chatState.isChat ? <Chat /> : <Chatbutton />}
           <Nav />
           <QuestionListPage />
           <Footer />
@@ -129,7 +129,6 @@ function App() {
           <Footer />
         </Route>
         <Route path="/AdviserList">
-          {chatState.isChat ? <Chat /> : <Chatbutton />}
           <Nav />
           <AdvisorListPage />
           <Footer />

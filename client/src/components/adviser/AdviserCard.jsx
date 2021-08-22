@@ -14,7 +14,6 @@ const AdviserCardStyle = styled.div`
   background-color: white;
   border-bottom: 1px solid #dddddd;
   width: 100%;
-  min-width: 430px;
   height: 200px;
   flex-direction: column;
   flex-wrap: wrap;
@@ -26,7 +25,6 @@ const AdviserCardStyle = styled.div`
   .adviserInfo {
     display: flex;
     width: 25%;
-    min-width: 50px;
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-around;
@@ -59,14 +57,11 @@ const AdviserCardStyle = styled.div`
   .chat {
     display: flex;
     width: 30%;
-    min-width: 50px;
     justify-content: flex-end;
     height: 30%;
   }
   .avatar {
     height: 100%;
-    min-height: 180px;
-    min-width: 180px;
     display: flex;
     justify-content: center;
     align-items: center;

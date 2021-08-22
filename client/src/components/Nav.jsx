@@ -67,7 +67,7 @@ const MobileDivStyle = styled.div`
   @media ${(props) => props.theme.mobile} {
     font-size: 2rem;
     background-color: #00baef;
-    height: 15vh;
+    height: 12vh;
     position: fixed;
     bottom: 0;
     width: 100%;

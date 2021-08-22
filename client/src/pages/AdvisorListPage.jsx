@@ -16,7 +16,6 @@ const SearchAndFilterStyle = styled.div`
   margin: 20px;
   margin-top: 30px;
   display: flex;
-  min-width: 200px;
   width: 300px;
   flex-direction: column;
   padding: 10px;
@@ -25,7 +24,7 @@ const SearchAndFilterStyle = styled.div`
     margin-top: 10px;
   }
   @media ${(props) => props.theme.mobile} {
-    width: 100vw;
+    width: 100%;
     flex-direction: row;
     flex-wrap: wrap;
 
@@ -120,11 +119,14 @@ const AdviserBodyAreaStyle = styled(BodyAreaStyle)`
   @media ${(props) => props.theme.mobile} {
     display: flex;
     flex-direction: column-reverse;
+    overflow-y: hidden;
   }
 `;
 const AdviserContainerStyle = styled(ContainerStlye)`
   @media ${(props) => props.theme.mobile} {
     margin-bottom: 15vh;
+    width: 100vw;
+    overflow-y: hidden;
   }
 `;
 
