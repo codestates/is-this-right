@@ -6,8 +6,8 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Radio, Pagination, Button } from 'antd';
 import Search from '../components/Search';
-import { setIsChat } from '../actions/chatAction';
-import { useDispatch } from 'react-redux';
+import { setIsChat, setMessages, setViewChatlist, changeRoom } from '../actions/chatAction';
+import { useDispatch, useSelector } from 'react-redux';
 const url = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 
@@ -134,6 +134,7 @@ function AdvisorListPage() {
   const [filterOption, setFilterOption] = useState({ category: '전체', gender: '남+여', state: '전국' });
   const inputRef = useRef(null);
   const dispatch = useDispatch();
+  const chatState = useSelector((state) => state.chatReducer);
   //pagination states
   const PAGE_SIZE = 5;
   const [currentPageList, setCurrentPageList] = useState([]);
@@ -162,8 +163,16 @@ function AdvisorListPage() {
       });
       setOriginalList([...onlineList, ...list]);
       setAdviserDetail([...onlineList, ...list]);
-      dispatch(setIsChat(false));
     });
+
+    //챗 초기화
+    dispatch(setViewChatlist(true));
+    dispatch(setIsChat(false));
+    if (chatState.socket) {
+      chatState.socket.emit('quitRoom');
+    }
+    dispatch(setMessages([]));
+    dispatch(changeRoom(null));
   }, []);
 
   const getOption = (e, key) => {

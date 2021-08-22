@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 import { getAllPosts, searchPosts, getCategoryPosts } from '../actions/postActionIndex';
 import { StarTwoTone } from '@ant-design/icons';
 import { getTopAdvisers } from '../actions/adviserActionIndex';
-import { setIsChat } from '../actions/chatAction';
+import { setIsChat, setViewChatlist, changeRoom, setMessages } from '../actions/chatAction';
 const url = process.env.REACT_APP_API_URL;
 
 // const BodyAreaStyle = styled.div`
@@ -99,6 +99,7 @@ function QuestionListPage() {
   const state = useSelector((state) => state.userReducer);
   const [isLoading, setIsLoading] = useState(true);
   const postState = useSelector((state) => state.postReducer);
+  const chatState = useSelector((state) => state.chatReducer);
   const [onAnswer, setOnAnswer] = useState(false);
   const [onUnanswer, setOnUnanswer] = useState(false);
   const [radioValue, setRadioValue] = useState(null);
@@ -135,7 +136,14 @@ function QuestionListPage() {
     dispatch(getAllPosts(postState.currentCategory));
     dispatch(getTopAdvisers(postState.currentCategory));
     setIsLoading(false);
+    //챗 초기화
+    dispatch(setViewChatlist(true));
     dispatch(setIsChat(false));
+    if (chatState.socket) {
+      chatState.socket.emit('quitRoom');
+    }
+    dispatch(setMessages([]));
+    dispatch(changeRoom(null));
   }, []);
 
   if (isLoading === true) {
