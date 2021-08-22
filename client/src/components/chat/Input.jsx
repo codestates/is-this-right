@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { SendOutlined } from '@ant-design/icons';
 
 const StyledForm = styled.form`
   display: flex;
@@ -31,21 +32,25 @@ const StyledForm = styled.form`
   }
 
   .sendButton {
-    color: #fff !important;
+    color: #fff;
     text-transform: uppercase;
-    background: #2979ff;
+    background: linear-gradient(60deg, #023e8a, #0077b6);
     padding: 20px;
     display: flex;
     min-width: 100px;
     border-radius: 0 0 10px 0;
-    transition: 0.5s;
     justify-content: center;
     align-items: center;
+    font-size: 1.6rem;
+    span {
+      display: flex;
+      align-items: center;
+    }
     @media ${(props) => props.theme.mobile} {
       border-radius: 0 0 0 0;
     }
     :hover {
-      background: #0859e6;
+      background: #023e8a;
     }
   }
 `;
@@ -60,7 +65,9 @@ const Input = ({ setMessage, sendMessage, message }) => (
       onKeyPress={(event) => (event.key === 'Enter' ? sendMessage(event) : null)}
     />
     <div className="sendButton" onClick={(e) => sendMessage(e)}>
-      <span>Send</span>
+      <span>
+        <SendOutlined />
+      </span>
     </div>
     <div className="blank"></div>
   </StyledForm>

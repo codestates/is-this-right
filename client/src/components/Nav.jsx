@@ -2,14 +2,8 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Link, useHistory } from 'react-router-dom';
-import {
-  TeamOutlined,
-  MessageOutlined,
-  QuestionOutlined,
-  QuestionCircleOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
-import { Avatar } from 'antd';
+import { TeamOutlined, MessageOutlined, QuestionOutlined, UserOutlined, LoginOutlined } from '@ant-design/icons';
+import { Avatar, Badge } from 'antd';
 import axios from 'axios';
 import { successLogIn, addUserInfo, successLogout } from '../actions/userActionIndex';
 import { setViewChatlist, setIsChat, setMessages, changeRoom } from '../actions/chatAction';
@@ -22,11 +16,21 @@ const NavAreaStyle = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  background: #00baef;
+  /* background: linear-gradient(70deg, #6366f1, #1d4ed8, #2563eb); */
+  background: linear-gradient(70deg, #00b4d8, #0096c7);
   box-shadow: rgba(163, 163, 163, 0.62) 0px 5px 5px 0px;
+  > .logo {
+    width: 180px;
+    height: 40px;
+    background-size: cover;
+    background-image: url('../../imageFile/Logo2.png');
+    :hover {
+      cursor: pointer;
+      background-image: url('../../imageFile/Logo3.png');
+      transition: 0.5s ease-in-out;
+    }
+  }
   > img {
-    width: 150px;
-
     @media ${(props) => props.theme.mobile} {
       margin: 0 auto;
     }
@@ -39,8 +43,8 @@ const ContainerStlye = styled.div`
 `;
 
 const DivStyle = styled.div`
-  color: black;
-  font-size: 15px;
+  color: #fff;
+  font-size: 1.1rem;
   width: 30%;
   display: flex;
   justify-content: flex-end;
@@ -53,8 +57,8 @@ const DivStyle = styled.div`
     padding: 8px 12px;
     min-height: 100%;
     & > :hover {
-      transition: 0.5s;
-      color: #ffffff;
+      transition: 0.5s ease-in-out;
+      color: #0077b6;
     }
   }
   @media ${(props) => props.theme.mobile} {
@@ -66,7 +70,8 @@ const MobileDivStyle = styled.div`
   display: none;
   @media ${(props) => props.theme.mobile} {
     font-size: 2rem;
-    background-color: #00baef;
+    background: linear-gradient(70deg, #023e8a, #0077b6 90%);
+
     height: 12vh;
     position: fixed;
     bottom: 0;
@@ -77,10 +82,6 @@ const MobileDivStyle = styled.div`
     z-index: 899;
     margin-bottom: 0;
     list-style: none;
-    & > :hover {
-      transition: 0.5s;
-      color: #ffffff;
-    }
     > div {
       width: 100%;
       height: 100%;
@@ -93,8 +94,12 @@ const SpanStyle = styled.span`
   align-items: center;
   width: 100%;
   height: 100%;
-  :hover {
+  &:hover {
     cursor: pointer;
+  }
+  &:hover .messageIcon > svg {
+    color: #023e8a;
+    transition: 0.5s;
   }
 `;
 
@@ -105,9 +110,9 @@ const LinkStyle = styled(Link)`
   width: 100%;
   height: 100%;
   text-decoration-line: none;
-  color: black;
+  color: #fff;
   &:hover {
-    color: #ffffff;
+    color: #023e8a;
   }
 `;
 
@@ -163,7 +168,8 @@ function Nav() {
   return (
     <NavAreaStyle>
       {/* <ContainerStlye> */}
-      <img onClick={handleClickHome} src="../../imageFile/Logo_black.png" alt="" />
+      {/* <img onClick={handleClickHome} src="../../imageFile/Logo2.png" alt="" /> */}
+      <div onClick={handleClickHome} className="logo" />
       <DivStyle>
         <div>
           <LinkStyle to="/AdviserList">
@@ -224,14 +230,18 @@ function Nav() {
             </div>
             <div>
               <SpanStyle onClick={handleChat}>
-                <MessageOutlined />
+                <Badge count={chatState.newMessages}>
+                  <MessageOutlined className="messageIcon" style={{ fontSize: '2rem', color: '#fff' }} />
+                </Badge>
               </SpanStyle>
             </div>
           </>
         ) : (
           <div>
             <LinkStyle to="/SignIn">
-              <SpanStyle>Login</SpanStyle>
+              <SpanStyle>
+                <LoginOutlined />
+              </SpanStyle>
             </LinkStyle>
           </div>
         )}

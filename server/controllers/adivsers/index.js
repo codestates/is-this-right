@@ -189,7 +189,7 @@ module.exports = {
     const adviserId = req.params.id;
 
     const adviserDetail = await sequelize.query(
-      `SELECT advisers.*, users.profileImg
+      `SELECT advisers.*, users.profileImg, users.email
       FROM advisers
       JOIN users ON users.id = advisers.userId
       WHERE advisers.id = ${adviserId}

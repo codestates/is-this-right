@@ -12,7 +12,7 @@ const url = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 
 const SearchAndFilterStyle = styled.div`
-  border: 1px solid #dddddd;
+  border: 1px solid rgba(222, 222, 222, 0.5);
   margin: 20px;
   margin-top: 30px;
   display: flex;
@@ -90,24 +90,29 @@ const FilterStyle = styled.div`
   }
 `;
 const AdviserSection = styled.div`
+  position: relative;
+  border-left: 1px solid rgba(222, 222, 222, 0.5);
+  border-right: 1px solid rgba(222, 222, 222, 0.5);
   width: 100%;
   display: flex;
   justify-content: center;
-  padding-left: 150px;
+  margin-left: 100px;
+  padding-left: 50px;
   padding-right: 50px;
+  padding-top: 20px;
   .adviserListContainer {
     width: 100%;
     min-width: 400px;
     /* background-color: green; */
-    margin-top: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     height: 100%;
+    gap: 20px;
   }
   @media ${(props) => props.theme.mobile} {
-    padding-left: 0;
-    padding-right: 0;
+    padding: 0;
+    margin: 0;
     overflow-x: hidden;
   }
 `;

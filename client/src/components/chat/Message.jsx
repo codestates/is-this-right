@@ -82,11 +82,11 @@ const MessageDiv = styled.div`
   }
 
   .backgroundBlue {
-    background: #2979ff;
+    background: rgb(2, 62, 138, 0.9);
   }
 
   .backgroundLight {
-    background: #f3f3f3;
+    background: rgba(202, 240, 248, 0.5);
   }
 `;
 
