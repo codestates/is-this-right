@@ -12,14 +12,13 @@ function MyPage() {
   const chatState = useSelector((state) => state.chatReducer);
   const dispatch = useDispatch();
   useEffect(() => {
-    //챗 초기화
-    dispatch(setViewChatlist(true));
-    dispatch(setIsChat(false));
-    if (chatState.socket) {
-      chatState.socket.emit('quitRoom');
-    }
-    dispatch(setMessages([]));
-    dispatch(changeRoom(null));
+    // //챗 초기화
+    // dispatch(setViewChatlist(true));
+    // dispatch(setIsChat(false));
+    // if (chatState.socket) {
+    //   chatState.socket.emit('quitRoom');
+    // }
+    // dispatch(setMessages([]));
   }, []);
   return (
     <BodyAreaStyle>

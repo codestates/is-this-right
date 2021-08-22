@@ -136,14 +136,14 @@ function QuestionListPage() {
     dispatch(getAllPosts(postState.currentCategory));
     dispatch(getTopAdvisers(postState.currentCategory));
     setIsLoading(false);
-    //챗 초기화
-    dispatch(setViewChatlist(true));
-    dispatch(setIsChat(false));
-    if (chatState.socket) {
-      chatState.socket.emit('quitRoom');
-    }
-    dispatch(setMessages([]));
-    dispatch(changeRoom(null));
+    // //챗 초기화
+    // dispatch(setViewChatlist(true));
+    // dispatch(setIsChat(false));
+    // if (chatState.socket) {
+    //   chatState.socket.emit('quitRoom');
+    // }
+    // dispatch(setMessages([]));
+    // dispatch(changeRoom(null));
   }, []);
 
   if (isLoading === true) {

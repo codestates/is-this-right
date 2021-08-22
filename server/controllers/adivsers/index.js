@@ -1,5 +1,7 @@
 const { user, adviser, feedback, post, sequelize } = require('../../models');
+
 const { QueryTypes } = require('sequelize');
+const Sequelize = require('sequelize');
 const { generateAccessToken, isAuthorized, sendAccessToken } = require('../tokenFunctions');
 const bcrypt = require('bcrypt');
 const { getUsers } = require('../../users');

@@ -73,7 +73,7 @@ function App() {
       });
       chatState.socket.emit('online', state.userInfo);
     }
-  }, [chatState.socket]);
+  }, [state.userInfo]);
 
   const markAsRead = async (chatId) => {
     return axios.patch(`${url}/chats/${chatId}`);
