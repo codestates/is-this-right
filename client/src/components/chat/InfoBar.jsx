@@ -7,7 +7,7 @@ const InfoBarContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: linear-gradient(60deg, #023e8a, #0077b6);
+  background: #023e8a;
 
   min-height: 70px;
   width: 100%;
@@ -31,7 +31,8 @@ const InfoBarContainer = styled.div`
     border-radius: 10px 0 0 0;
     transition: 0.5s;
     :hover {
-      background: #023e8a;
+      background: #0077b6;
+      cursor: pointer;
     }
     @media ${(props) => props.theme.mobile} {
       border-radius: 0 0 0 0;
@@ -48,7 +49,8 @@ const InfoBarContainer = styled.div`
     border-radius: 0 10px 0 0;
     transition: 0.5s;
     :hover {
-      background: #023e8a;
+      background: #0077b6;
+      cursor: pointer;
     }
     @media ${(props) => props.theme.mobile} {
       border-radius: 0 0 0 0;

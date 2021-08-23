@@ -34,7 +34,7 @@ const StyledForm = styled.form`
   .sendButton {
     color: #fff;
     text-transform: uppercase;
-    background: linear-gradient(60deg, #023e8a, #0077b6);
+    background: #023e8a;
     padding: 20px;
     display: flex;
     min-width: 100px;
@@ -42,6 +42,7 @@ const StyledForm = styled.form`
     justify-content: center;
     align-items: center;
     font-size: 1.6rem;
+    transition: 0.5s;
     span {
       display: flex;
       align-items: center;
@@ -50,7 +51,8 @@ const StyledForm = styled.form`
       border-radius: 0 0 0 0;
     }
     :hover {
-      background: #023e8a;
+      background: #0077b6;
+      cursor: pointer;
     }
   }
 `;
