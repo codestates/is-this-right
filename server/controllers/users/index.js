@@ -3,6 +3,7 @@ const { isAuthorized, generateAccessToken, sendAccessToken } = require('../token
 const aws = require('aws-sdk');
 const s3Config = require(__dirname + '/../../config/s3');
 const s3 = new aws.S3(s3Config);
+const bcrypt = require('bcrypt');
 require('dotenv').config();
 module.exports = {
   get: async (req, res) => {

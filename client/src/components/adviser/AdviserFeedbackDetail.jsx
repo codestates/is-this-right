@@ -61,6 +61,10 @@ const AdviserCardStyle = styled.div`
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
+
+    @media ${(props) => props.theme.mobile} {
+      width: 30%;
+    }
     .postTitle {
       font-size: 1.2rem;
       color: #fff;
@@ -73,6 +77,9 @@ const AdviserCardStyle = styled.div`
       text-overflow: ellipsis;
       white-space: nowrap;
       color: #fff;
+      @media ${(props) => props.theme.mobile} {
+        width: 100px;
+      }
     }
   }
   .info {
