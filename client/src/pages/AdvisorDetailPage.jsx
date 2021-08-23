@@ -204,8 +204,8 @@ const AdviserDetailContainer = styled(ContainerStlye)`
     gap: 20px;
     padding: 20px;
     padding-bottom: 40px;
-    padding-left: 10vw;
-    padding-right: 10vw;
+    padding-left: 5vw;
+    padding-right: 5vw;
     box-shadow: 0 0 5px rgba(3, 4, 94, 0.3);
     @media ${(props) => props.theme.mobile} {
       margin: 0;
@@ -326,21 +326,7 @@ function AdvisorDetailPage() {
           <div className="right">
             <div className="head">소개</div>
             <div className="detailSection">
-              <div className="content">
-                {parse(
-                  adviserDetailInfo.detail +
-                    adviserDetailInfo.detail +
-                    adviserDetailInfo.detail +
-                    adviserDetailInfo.detail +
-                    adviserDetailInfo.detail +
-                    adviserDetailInfo.detail +
-                    adviserDetailInfo.detail +
-                    adviserDetailInfo.detail +
-                    adviserDetailInfo.detail +
-                    adviserDetailInfo.detail +
-                    adviserDetailInfo.detail,
-                )}
-              </div>
+              <div className="content">{parse(adviserDetailInfo.detail)}</div>
             </div>
           </div>
         </div>

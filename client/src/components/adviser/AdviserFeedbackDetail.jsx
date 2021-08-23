@@ -29,7 +29,7 @@ const AdviserCardStyle = styled.div`
     height: 90px;
     border-radius: 5px;
     bottom: 0;
-    background: linear-gradient(60deg, #0096c7, #0077b6);
+    background: linear-gradient(60deg, #0096c7, #00b4d8);
     box-shadow: 0 0 10px rgba(3, 4, 94, 0.6);
 
     @media ${(props) => props.theme.mobile} {
