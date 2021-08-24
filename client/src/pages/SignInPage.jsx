@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link, useHistory } from 'react-router-dom';
-import { Form, Input, Button, message } from 'antd';
+import { Form, Input, Button, message, Modal } from 'antd';
 import { useDispatch } from 'react-redux';
 import { addSignUpInfo } from '../actions/userActionIndex';
 import { GoogleLogin } from 'react-google-login';
@@ -63,6 +63,22 @@ const ButtonStyle = styled(Button)`
   width: 100%;
   height: 40px;
   margin: 12px 0 12px;
+  font-size: 22px;
+`;
+
+const SocialButtonStyle = styled.img`
+  width: 100%;
+  height: 40px;
+  margin: 12px 0 0px;
+  border-radius: 2px;
+  border: 1px solid transparent;
+  border-color: #d9d9d9;
+  transition: all 0.3s;
+  box-shadow: 0 2px 0 rgb(0 0 0 / 2%);
+  :hover {
+    cursor: pointer;
+    border-color: #0dcaf0;
+  }
 `;
 
 const SignUpStyle = styled.div`
@@ -76,6 +92,7 @@ const DivToSignUpStyle = styled.span`
   text-align: center;
   color: rgb(114, 114, 114);
   margin: 12px;
+
   :hover {
     color: blue;
   }
@@ -172,7 +189,7 @@ function SignInPage() {
     successSocial({ email: res.email, password: socialPw, provider: 'naver' });
   };
   let handleFail = (res) => {
-    alert('해당 소셜사이트 인증에 실패했어요 ㅠㅠ');
+    message.error('해당 소셜사이트 인증에 실패했습니다.');
   };
   let handleSocialSignup = () => {
     setIsSocialSignUp(!isSocialSignUp);
@@ -218,6 +235,13 @@ function SignInPage() {
       getKakaoInfo(kakaoCode);
     }
   }, [kakaoCode]);
+
+  const openModal = () => {
+    setIsSocialSignUp(true);
+  };
+  const closeModal = () => {
+    setIsSocialSignUp(false);
+  };
   return (
     <DividePage>
       <LoginSectionStyle>
@@ -237,7 +261,6 @@ function SignInPage() {
               placeholder="이메일을 입력해주세요"
               required
             />
-
             <LabelStyle htmlFor="user-password">비밀번호</LabelStyle>
             <Input
               name="user-password"
@@ -252,25 +275,35 @@ function SignInPage() {
             <SignUpStyle>
               회원 가입이 필요하신가요?
               <div>
-                <Link to="/AdvisorSignUp">
+                <Link to="/AdvisorSignUp" style={{ textDecoration: 'none' }}>
                   <DivToSignUpStyle>강사</DivToSignUpStyle>
                 </Link>
-                <Link to="/UserSignUp">
+                <Link to="/UserSignUp" style={{ textDecoration: 'none' }}>
                   <DivToSignUpStyle>유저</DivToSignUpStyle>
                 </Link>
               </div>
             </SignUpStyle>
-            <ButtonStyle onClick={handleLogIn}> 로그인</ButtonStyle>
-            <ButtonStyle onClick={getKakaoToken}> Kakao Login</ButtonStyle>
+            <ButtonStyle onClick={handleLogIn}>Login</ButtonStyle>
+            {/* <ButtonStyle
+              style={{ backgroundImage: "url('../../imageFile/kakao.png')", backgroundSize: 'cover' }}
+              onClick={getKakaoToken}> */}
+            <SocialButtonStyle src="../../imageFile/kakao.jpg" onClick={getKakaoToken} alt="kakao login" />
+            {/* </ButtonStyle> */}
             <GoogleLogin
               clientId={process.env.REACT_APP_GOOGLE_API_KEY}
-              render={(props) => <ButtonStyle onClick={props.onClick}>Google Login</ButtonStyle>}
+              render={(props) => (
+                <SocialButtonStyle src="../../imageFile/google.jpg" onClick={props.onClick} alt="google login" />
+              )}
+              // <ButtonStyle onClick={props.onClick}>Google Login</ButtonStyle>
               onSuccess={handleGoogleLogIn}
               onFailure={handleFail}></GoogleLogin>
             <NaverLogin
               clientId={process.env.REACT_APP_NAVER_API_KEY}
               callbackUrl={'http://localhost:3000/SignIn'}
-              render={(props) => <ButtonStyle onClick={props.onClick}>Naver Login</ButtonStyle>}
+              render={(props) => (
+                <SocialButtonStyle src="../../imageFile/naver.jpg" onClick={props.onClick} alt="naver login" />
+              )}
+              // <ButtonStyle onClick={props.onClick}>Naver Login</ButtonStyle>
               onSuccess={handleNaverLogin}
               onFailure={handleFail}
             />
@@ -278,20 +311,23 @@ function SignInPage() {
         </LogInStyle>
       </LoginSectionStyle>
       <ImageStyle />
-      {isSocialSignUp ? (
-        <ModalwindowStyle>
-          <div>
-            <ModalCloseStyle onClick={handleSocialSignup}>close</ModalCloseStyle>
-            <h1>회원가입 종류를 선택해주세요</h1>
-            <Link to="/AdvisorSignUp/Social">
-              <button>강사</button>
+      <Modal
+        visible={isSocialSignUp}
+        title={<p style={{ textAlign: 'center' }}>Social Signup</p>}
+        onOk={openModal}
+        onCancel={closeModal}
+        footer={[
+          <div style={{ width: '100%', display: 'flex', justifyContent: 'space-evenly', alignItems: 'center' }}>
+            <Link to="/AdvisorSignUp/Social" style={{ width: '50%' }}>
+              <Button style={{ width: '100%' }}>Mentor</Button>
             </Link>
-            <Link to="/UserSignUp/Social">
-              <button style={{ marginLeft: '40px' }}>유저</button>
+            <Link to="/UserSignUp/Social" style={{ width: '50%' }}>
+              <Button style={{ width: '100%' }}>User</Button>
             </Link>
-          </div>
-        </ModalwindowStyle>
-      ) : null}
+          </div>,
+        ]}>
+        <p style={{ textAlign: 'center' }}>회원가입 종류를 선택해주세요</p>
+      </Modal>
     </DividePage>
   );
 }

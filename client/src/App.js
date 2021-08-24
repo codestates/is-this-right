@@ -18,6 +18,7 @@ import UserQuestionPage from './pages/UserQuestionPage';
 import QuestionDetailPage from './pages/QuestionDetailPage';
 import AdvisorListPage from './pages/AdvisorListPage';
 import AdvisorDetailPage from './pages/AdvisorDetailPage';
+import LandingPage from './pages/LandingPage/LandingPage';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   changeRoom,
@@ -145,6 +146,7 @@ function App() {
           <Footer />
         </Route>
       </Switch>
+      {/* <LandingPage /> */}
     </div>
   );
 }

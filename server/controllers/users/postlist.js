@@ -25,7 +25,7 @@ module.exports = async (req, res) => {
     //feedbacks (postId, content, createdAt), posts (title, selected),
     const feedbackInfo = await sequelize
       .query(
-        `SELECT feedbacks.postId, feedbacks.content, feedbacks.createdAt, posts.title, posts.category, IFNULL(posts.selected, 0) as selected, users.username, users.profileImg
+        `SELECT feedbacks.id, feedbacks.postId, feedbacks.content, feedbacks.createdAt, posts.title, posts.category, IFNULL(posts.selected, 0) as selected, users.username, users.profileImg
       FROM advisers
       JOIN feedbacks ON advisers.id = feedbacks.adviserId
       JOIN posts ON posts.id = feedbacks.postId

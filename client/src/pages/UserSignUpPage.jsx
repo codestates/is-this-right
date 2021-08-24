@@ -28,9 +28,12 @@ const LoginSectionStyle = styled.div`
 `;
 
 const LogInStyle = styled(Form)`
+  height: 100%;
   max-width: 500px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  /* align-items: center; */
 `;
 
 const ImageStyle = styled.div`
@@ -44,7 +47,7 @@ const ImageStyle = styled.div`
 `;
 
 const HeadSectionStyle = styled.div`
-  padding: 150px 150px 0px;
+  /* padding: 30% 150px 0px; */
   margin: 0px auto;
   width: 100%;
   display: flex;
@@ -228,7 +231,7 @@ function UserSignUpPage() {
           </HeadSectionStyle>
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '28px' }}>
             회원가입
-            <span>유저</span>
+            <span>User</span>
           </div>
           <UploadCompo where="user" />
 
@@ -269,7 +272,7 @@ function UserSignUpPage() {
             />
             {passwordErr ? <div>{passwordErr}</div> : null}
 
-            <LabelStyle htmlFor="confirmPassword">confirmPassword</LabelStyle>
+            <LabelStyle htmlFor="confirmPassword">ConfirmPassword</LabelStyle>
             <Input.Password
               name="confirmPassword"
               onChange={(e) => {

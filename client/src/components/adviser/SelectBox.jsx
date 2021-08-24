@@ -1,7 +1,7 @@
 import React from 'react';
 import { Select } from 'antd';
 
-function SelectBox({ func, data, keyData, name, validation, value }) {
+function SelectBox({ func, data, keyData, name, validation, value, defaultValue }) {
   console.log(keyData);
   return (
     <Select
@@ -12,6 +12,7 @@ function SelectBox({ func, data, keyData, name, validation, value }) {
       onBlur={() => {
         validation(name);
       }}
+      defaultValue={defaultValue ? defaultValue : ''}
       placeholder="데이터를 선택해주세요.">
       {data.map((el) => (
         <Select.Option key={el} value={el}>

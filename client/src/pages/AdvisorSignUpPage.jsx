@@ -19,7 +19,6 @@ const AdvisorSignupPageStyle = styled.div`
 
 const ContainerStlye = styled.div`
   width: 60%;
-  background-color: red;
   display: flex;
   flex-direction: column;
   align-items: center;

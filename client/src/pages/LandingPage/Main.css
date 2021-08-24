@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500&display=swap');
+
+@font-face {
+  font-family: 'font-css';
+  font-style: normal;
+  font-weight: 100;
+  src: url('../../fonts/yg-jalnan.ttf') format('truetype');
+}
+
+html {
+  font-family: 'Noto Sans Kr', sans-serif;
+  font-size: 14px;
+}
+
+body {
+  /* overflow: hidden; */
+  color: rgb(29, 29, 31);
+  letter-spacing: -0.05em;
+  background: white;
+}
+
+p {
+  line-height: 1.6;
+}
+
+.scroll-section {
+  padding-top: 50vh;
+  border: 10px solid red;
+}
+
+#scroll-section-0 h1,
+h2 {
+  font-size: 5rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+#scroll-section-0 h1 {
+  font-family: 'font-css';
+}
+
+#scroll-section-2 strong {
+  font-size: 5rem;
+  font-weight: bold;
+}
+#scroll-section-2 h1 {
+  font-family: 'font-css';
+  font-size: 5rem;
+  font-weight: bold;
+  text-align: center;
+}
+.logo-rotate {
+  display: inline-block;
+  transform: rotate(50deg);
+  -moz-transform: rotate(50deg);
+  -webkit-transform: rotate(50deg);
+  -o-transform: rotate(50deg);
+}
+
+.main-message {
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+  justify-content: center;
+  height: 10em;
+  font-size: 2rem;
+  opacity: 0;
+  top: 35vh;
+}
+
+.main-message small {
+  /* margin-top: 0.5em; */
+  font-size: 1rem;
+}
+
+.main-message p {
+  font-weight: bold;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.sticky-elem {
+  display: none;
+  position: fixed;
+  left: 0;
+  width: 100%;
+}
+
+#show-scene-0 #scroll-section-0 .sticky-elem,
+#show-scene-1 #scroll-section-1 .sticky-elem,
+#show-scene-2 #scroll-section-2 .sticky-elem,
+#show-scene-3 #scroll-section-3 .sticky-elem,
+#show-scene-4 #scroll-section-4 .sticky-elem {
+  display: block;
+}
+
+@media (min-width: 1024px) {
+  #scroll-section-0 h1,
+  h2 {
+    font-size: 10vw;
+  }
+  .main-message {
+    font-size: 4vw;
+  }
+
+  #scroll-section-2 strong {
+    font-size: 10vw;
+  }
+  .main-message small {
+    /* margin-top: 0.5em; */
+    font-size: 2vw;
+  }
+}

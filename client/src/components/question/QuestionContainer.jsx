@@ -10,11 +10,19 @@ const QuestionContainerStyle = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  min-height: 100%;
+  position: relative;
   @media ${(props) => props.theme.mobile} {
+    height: 70%;
     min-height: auto;
   }
+`;
+const CenterComponentsStyle = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  /* position: absolute;
+  bottom: 10%; */
 `;
 
 function QuestionContainer() {
@@ -38,14 +46,16 @@ function QuestionContainer() {
           <PostCard data={el} />
         </Link>
       ))}
-      <Pagination
-        simple
-        defaultCurrent={0}
-        current={currentPage}
-        pageSize={PAGE_SIZE}
-        onChange={handlePageChange}
-        total={state.searchPosts.length}
-      />
+      <CenterComponentsStyle>
+        <Pagination
+          simple
+          defaultCurrent={0}
+          current={currentPage}
+          pageSize={PAGE_SIZE}
+          onChange={handlePageChange}
+          total={state.searchPosts.length}
+        />
+      </CenterComponentsStyle>
     </QuestionContainerStyle>
   );
 }
