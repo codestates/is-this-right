@@ -530,6 +530,13 @@ function LandingPage() {
     scrollLoop();
   });
 
+  useEffect(() => {
+    return () => {
+      window.addEventListener('load', () => {});
+      window.addEventListener('resize', () => {});
+      window.addEventListener('scroll', () => {});
+    };
+  });
   return (
     <div className="body" ref={ref}>
       <Nav landing="landing" />
