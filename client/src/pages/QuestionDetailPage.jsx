@@ -21,6 +21,8 @@ axios.defaults.withCredentials = true;
 
 const ContainerStlyeRes = styled(ContainerStlye)`
   margin-bottom: 50px;
+  display: flex;
+  flex-direction: column;
 
   @media ${(props) => props.theme.mobile} {
     padding: 30px;
