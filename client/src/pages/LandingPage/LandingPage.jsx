@@ -258,16 +258,18 @@ function LandingPage() {
     const currentYOffset = yOffset - prevScrollHeight;
     const scrollHeight = sceneInfo[currentScene].scrollHeight;
     const scrollRatio = currentYOffset / scrollHeight;
-    console.log(objs, values);
-    console.log(currentYOffset, currentScene, scrollRatio);
+    // console.log(objs, values);
+    // console.log(currentYOffset, currentScene, scrollRatio);
     switch (currentScene) {
       case 0:
         if (scrollRatio <= 0.22) {
-          objs.messageA.current.style.opacity = calcValues(values.messageAOpacityIn, currentYOffset);
-          objs.messageA.current.style.transform = `translateY(${calcValues(
-            values.messageATranslateYIn,
-            currentYOffset,
-          )}%)`;
+          if (objs.messageA.current.style) {
+            objs.messageA.current.style.opacity = calcValues(values.messageAOpacityIn, currentYOffset);
+            objs.messageA.current.style.transform = `translateY(${calcValues(
+              values.messageATranslateYIn,
+              currentYOffset,
+            )}%)`;
+          }
         } else {
           objs.messageA.current.style.opacity = calcValues(values.messageAOpacityOut, currentYOffset);
           objs.messageA.current.style.transform = `translateY(${calcValues(
@@ -275,6 +277,7 @@ function LandingPage() {
             currentYOffset,
           )}%)`;
         }
+
         if (scrollRatio <= 0.42) {
           // in
           objs.messageB.current.style.opacity = calcValues(values.messageBOpacityIn, currentYOffset);
@@ -496,7 +499,7 @@ function LandingPage() {
   };
 
   const scrollLoop = () => {
-    console.log(currentScene);
+    // console.log(currentScene);
     // console.log(sceneInfo[currentScene].scrollHeight);
     enterNewScene = false;
     prevScrollHeight = 0;
@@ -523,20 +526,22 @@ function LandingPage() {
     playAnimation();
   };
 
-  window.addEventListener('load', setLayout);
-  window.addEventListener('resize', setLayout);
-  window.addEventListener('scroll', () => {
+  let setScrollHeight = () => {
     yOffset = window.pageYOffset;
     scrollLoop();
-  });
-
+  };
   useEffect(() => {
+    window.addEventListener('load', setLayout);
+    window.addEventListener('resize', setLayout);
+    window.addEventListener('scroll', setScrollHeight);
+
     return () => {
-      window.addEventListener('load', () => {});
-      window.addEventListener('resize', () => {});
-      window.addEventListener('scroll', () => {});
+      console.log('안나오는거같음');
+      window.removeEventListener('load', setLayout);
+      window.removeEventListener('resize', setLayout);
+      window.removeEventListener('scroll', setScrollHeight);
     };
-  });
+  }, []);
   return (
     <div className="body" ref={ref}>
       <Nav landing="landing" />
