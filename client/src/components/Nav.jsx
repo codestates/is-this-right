@@ -1,26 +1,102 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
+import { TeamOutlined, MessageOutlined, QuestionOutlined, UserOutlined, LoginOutlined } from '@ant-design/icons';
+import { Avatar, Badge } from 'antd';
 import axios from 'axios';
 import { successLogIn, addUserInfo, successLogout } from '../actions/userActionIndex';
+import { setViewChatlist, setIsChat, setMessages, changeRoom } from '../actions/chatAction';
 const url = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 
 const NavAreaStyle = styled.div`
   width: 100%;
-  height: 100px;
+  height: 80px;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  background: #00baef;
+  /* background: linear-gradient(70deg, #6366f1, #1d4ed8, #2563eb); */
+  background: linear-gradient(60deg, #0096c7 40%, #0077b6);
+  /* background: rgba(0, 119, 182, 0.8); */
   box-shadow: rgba(163, 163, 163, 0.62) 0px 5px 5px 0px;
   position: ${(props) => (props.landing === 'landing' ? 'absolute' : 'static')};
   top: ${(props) => (props.landing === 'landing' ? '0' : '0px')};
   left: ${(props) => (props.landing === 'landing' ? '0' : '0')};
-  > img {
-    width: 150px;
 
+  .logo {
+    color: #fafafa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 25px;
+    background-size: cover;
+    font-family: 'font-css';
+    font-size: 1.5rem;
+    /* background-image: url('../../imageFile/Logo2.png'); */
+
+    .zero {
+      font-size: 1.63rem;
+    }
+    .logo-rotate {
+      display: inline-block;
+      margin-left: -6px;
+      font-size: 1.7rem;
+      margin-bottom: -3px;
+      transform: rotate(45deg);
+      -moz-transform: rotate(45deg);
+      -webkit-transform: rotate(45deg);
+      -o-transform: rotate(45deg);
+    }
+    .logo-rotate-a {
+      font-size: 1.5rem;
+      margin-left: -6px;
+      margin-bottom: -1px;
+      display: inline-block;
+      transform: rotate(10deg);
+      -moz-transform: rotate(10deg);
+      -webkit-transform: rotate(10deg);
+      -o-transform: rotate(10deg);
+    }
+    :hover {
+      cursor: pointer;
+      width: 220px;
+      height: 30px;
+      font-size: 1.7rem;
+      transition: 0.2s ease-in-out;
+    }
+    :hover .zero {
+      cursor: pointer;
+      font-size: 1.7rem;
+      transition: 0.3s ease-in-out;
+      transform: rotate(10deg);
+      -moz-transform: rotate(10deg);
+      -webkit-transform: rotate(10deg);
+      -o-transform: rotate(10deg);
+    }
+    :hover .logo-rotate-a {
+      cursor: pointer;
+      font-size: 1.7rem;
+      transition: 1.7s ease-in-out;
+      transform: rotate(40deg);
+      -moz-transform: rotate(40deg);
+      -webkit-transform: rotate(40deg);
+      -o-transform: rotate(40deg);
+      margin-bottom: -7px;
+    }
+    :hover .logo-rotate {
+      cursor: pointer;
+      font-size: 1.7rem;
+      transition: 2s ease-in-out;
+      transform: rotate(430deg);
+      -moz-transform: rotate(430deg);
+      -webkit-transform: rotate(430deg);
+      -o-transform: rotate(430deg);
+      margin-bottom: -20px;
+    }
+  }
+  > img {
     @media ${(props) => props.theme.mobile} {
       margin: 0 auto;
     }
@@ -32,45 +108,89 @@ const ContainerStlye = styled.div`
   justify-content: space-between;
 `;
 
-const DivStyle = styled.ul`
-  color: black;
-  font-size: 15px;
+const DivStyle = styled.div`
+  color: #fff;
+  font-size: 1rem;
   width: 30%;
   display: flex;
   justify-content: flex-end;
   list-style: none;
   padding: 0;
-
-  > li {
+  height: 100%;
+  > div {
+    display: flex;
+    align-items: center;
     padding: 8px 12px;
+    min-height: 100%;
+    & > :hover {
+      font-weight: bold;
+      font-size: 1.1rem;
+      transition: 0.2s ease-in;
+    }
+  }
+  @media ${(props) => props.theme.mobile} {
+    display: none;
   }
 
+  .selected {
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
+`;
+
+const MobileDivStyle = styled.div`
+  display: none;
   @media ${(props) => props.theme.mobile} {
-    background-color: #c2c2c2;
-    opacity: 0.5;
-    border-radius: 20px;
-    height: 100px;
+    font-size: 2rem;
+    background: #023e8a;
+
+    height: 12vh;
     position: fixed;
     bottom: 0;
     width: 100%;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    z-index: 999;
+    z-index: 899;
+    margin-bottom: 0;
+    list-style: none;
+    > div {
+      width: 100%;
+      height: 100%;
+    }
+
+    .selected {
+      font-size: 2.5rem;
+    }
   }
 `;
 const SpanStyle = styled.span`
-  :hover {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  &:hover {
     cursor: pointer;
+  }
+  &:hover .messageIcon > svg {
+    font-size: 2.5rem;
+    transition: 0.2s;
   }
 `;
 
 const LinkStyle = styled(Link)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
   text-decoration-line: none;
-  color: black;
-
-  :hover {
-    color: black;
+  color: #fff;
+  &:hover {
+    font-size: 2.5rem;
+    transition: 0.2s;
   }
 `;
 
@@ -82,6 +202,8 @@ function Nav({ landing = 'normal' }) {
   const dispatch = useDispatch();
   const history = useHistory();
   console.log(state.logIn, '로그인 상태입니다.');
+  const location = useLocation();
+  console.log('Path:', location.pathname);
 
   useEffect(async () => {
     let userInfo = await axios.get(`${url}/users`);
@@ -115,42 +237,99 @@ function Nav({ landing = 'normal' }) {
       window.location.replace('/');
     });
   };
+
+  const handleChat = () => {
+    dispatch(setIsChat(true));
+    dispatch(setViewChatlist(true));
+    chatState.socket.emit('quitRoom');
+    dispatch(setMessages([]));
+    dispatch(changeRoom(null));
+  };
   return (
     <NavAreaStyle landing={landing}>
       {/* <ContainerStlye> */}
-      <img onClick={handleClickHome} src="../../imageFile/Logo_black.png" alt="" />
+      {/* <img onClick={handleClickHome} src="../../imageFile/Logo2.png" alt="" /> */}
+      <div onClick={handleClickHome} className="logo">
+        이거맞<span className="zero">0</span>
+        <span className="logo-rotate-a">ㅏ</span>
+        <span className="logo-rotate">?</span>
+      </div>
       <DivStyle>
-        <li>
+        <div>
           <LinkStyle to="/AdviserList">
-            <SpanStyle>Mentors</SpanStyle>
+            <SpanStyle className={location.pathname === '/AdviserList' ? 'selected' : ''}>Mentors</SpanStyle>
           </LinkStyle>
-        </li>
-        <li>
+        </div>
+        <div>
           <LinkStyle to="/">
-            <SpanStyle>Question</SpanStyle>
+            <SpanStyle className={location.pathname === '/' ? 'selected' : ''}>Question</SpanStyle>
           </LinkStyle>
-        </li>
+        </div>
 
         {state.logIn ? (
           <>
-            <li>
+            <div>
               <LinkStyle to="/MyPage">
-                <SpanStyle>Mypage</SpanStyle>
+                <SpanStyle className={location.pathname === '/MyPage' ? 'selected' : ''}>Mypage</SpanStyle>
               </LinkStyle>
-            </li>
-            <li>
+            </div>
+            <div>
               <SpanStyle onClick={handleLogOut}>Logout</SpanStyle>
-            </li>
+            </div>
           </>
         ) : (
-          <li>
+          <div>
             <LinkStyle to="/SignIn">
               <SpanStyle>Login</SpanStyle>
             </LinkStyle>
-          </li>
+          </div>
         )}
       </DivStyle>
       {/* </ContainerStlye> */}
+      <MobileDivStyle>
+        <div>
+          <LinkStyle to="/AdviserList" className={location.pathname === '/AdviserList' ? 'selected' : ''}>
+            <SpanStyle>
+              <TeamOutlined />
+            </SpanStyle>
+          </LinkStyle>
+        </div>
+        <div>
+          <LinkStyle to="/" className={location.pathname === '/' ? 'selected' : ''}>
+            <SpanStyle>
+              <QuestionOutlined />
+            </SpanStyle>
+          </LinkStyle>
+        </div>
+
+        {state.logIn ? (
+          <>
+            <div>
+              <LinkStyle to="/MyPage" className={location.pathname === '/MyPage' ? 'selected' : ''}>
+                <SpanStyle>
+                  {/* <Avatar size={32} src={<img src={state.userInfo.profileImg} />} /> */}
+                  <UserOutlined />
+                </SpanStyle>
+              </LinkStyle>
+            </div>
+            <div>
+              <SpanStyle onClick={handleChat}>
+                <Badge count={chatState.newMessages}>
+                  <MessageOutlined className="messageIcon" style={{ fontSize: '2rem', color: '#fff' }} />
+                </Badge>
+              </SpanStyle>
+            </div>
+          </>
+        ) : (
+          <div>
+            <LinkStyle to="/SignIn">
+              <SpanStyle>
+                <LoginOutlined />
+              </SpanStyle>
+            </LinkStyle>
+          </div>
+        )}
+      </MobileDivStyle>
     </NavAreaStyle>
   );
 }

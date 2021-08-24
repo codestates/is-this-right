@@ -8,6 +8,7 @@ import {
   SET_ISCHAT,
   SET_VIEWCHATLIST,
   SET_NEWMESSAGES,
+  SET_ROOMNAME,
 } from '../actions/chatAction';
 
 const chatReducer = (state = chatInitialState, action) => {
@@ -43,6 +44,10 @@ const chatReducer = (state = chatInitialState, action) => {
     case SET_NEWMESSAGES:
       return Object.assign({}, state, {
         newMessages: action.payload,
+      });
+    case SET_ROOMNAME:
+      return Object.assign({}, state, {
+        roomName: action.payload,
       });
     default:
       return state;

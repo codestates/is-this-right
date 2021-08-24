@@ -6,6 +6,7 @@ export const ADD_MESSAGE = 'ADD_MESSAGE';
 export const SET_ISCHAT = 'SET_ISCHAT';
 export const SET_VIEWCHATLIST = 'SET_VIEWCHATLIST';
 export const SET_NEWMESSAGES = 'SET_NEWMESSAGES';
+export const SET_ROOMNAME = 'SET_ROOMNAME';
 
 export const changeRoom = (chatId) => {
   return {
@@ -60,5 +61,12 @@ export const setNewMessages = (count) => {
   return {
     type: SET_NEWMESSAGES,
     payload: count,
+  };
+};
+
+export const setRoomName = (username) => {
+  return {
+    type: SET_ROOMNAME,
+    payload: username,
   };
 };

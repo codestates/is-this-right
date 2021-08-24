@@ -5,16 +5,19 @@ module.exports = function (io) {
 
   io.on('connection', (socket) => {
     socket.on('online', (userInfo) => {
-      console.dir(userInfo);
-      console.log('received: "' + userInfo + '" from client' + socket.id);
-      socket.emit('online', 'Ok, i got it, ' + socket.id);
+      if (userInfo) {
+        console.dir(userInfo);
+        console.log('received: "' + userInfo + '" from client' + socket.id);
+        socket.emit('online', 'Ok, i got it, ' + socket.id);
 
-      addUser({ ...userInfo, socketId: socket.id });
-      console.log('추가를 했는데 이게 들어왔을까? current user:', getUsers());
+        addUser({ ...userInfo, socketId: socket.id });
+        console.log('추가를 했는데 이게 들어왔을까? current users from online:', getUsers());
+      }
     });
     socket.on('quitRoom', (data) => {
       socket.leaveAll();
       socket.join(socket.id);
+      console.log('현재 참여중인 채널 목록:', socket.rooms);
     });
     socket.on('join', (data) => {
       // 방입장할때
@@ -53,7 +56,7 @@ module.exports = function (io) {
       console.log(messageInfo, '여기메세지떠야하는뎅', response, ' receiver 는 >', receiver);
       console.log('sendMessage On 인데, emit message 받을 채널은?:', socket.rooms);
       io.to(messageInfo.room).emit('message', response);
-      console.log('current users: ', getUsers());
+      console.log('current users from messages: ', getUsers());
       let receiverOnline = getUser(receiver);
       console.log('Online Receiver Info', receiverOnline);
       if (receiverOnline) {
@@ -63,10 +66,11 @@ module.exports = function (io) {
     });
     socket.on('logout', () => {
       removeUser(socket.id);
-      console.log('current users: ', getUsers());
+      console.log('current users on logout: ', getUsers());
     });
     socket.on('disconnect', () => {
       console.log('disconnected from ', socket.id);
+      // removeUser(socket.id);
     });
   });
 };

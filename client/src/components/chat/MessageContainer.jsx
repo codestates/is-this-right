@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 
 const MessagesContainer = styled.div`
+  position: relative;
+  background: rgba(179, 200, 219, 0.8);
   overflow-y: scroll;
   height: 100%;
   padding-bottom: 10px;

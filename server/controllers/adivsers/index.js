@@ -1,5 +1,7 @@
 const { user, adviser, feedback, post, sequelize } = require('../../models');
+
 const { QueryTypes } = require('sequelize');
+const Sequelize = require('sequelize');
 const { generateAccessToken, isAuthorized, sendAccessToken } = require('../tokenFunctions');
 const bcrypt = require('bcrypt');
 const { getUsers } = require('../../users');
@@ -187,7 +189,7 @@ module.exports = {
     const adviserId = req.params.id;
 
     const adviserDetail = await sequelize.query(
-      `SELECT advisers.*, users.profileImg
+      `SELECT advisers.*, users.profileImg, users.email
       FROM advisers
       JOIN users ON users.id = advisers.userId
       WHERE advisers.id = ${adviserId}

@@ -37,4 +37,5 @@ export const chatInitialState = {
   messages: [],
   isChat: false,
   viewChatlist: true,
+  roomName: '',
 };
