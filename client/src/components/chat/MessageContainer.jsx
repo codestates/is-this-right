@@ -25,6 +25,7 @@ const MessageContainer = () => {
 
   return (
     <MessagesContainer ref={msgContainer}>
+      <div style={{ height: '70px' }} />
       {chatState.messages.map((message, i) => (
         <div key={i}>
           <Message message={message} />
