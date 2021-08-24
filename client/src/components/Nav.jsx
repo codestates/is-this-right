@@ -23,6 +23,7 @@ const NavAreaStyle = styled.div`
   position: ${(props) => (props.landing === 'landing' ? 'absolute' : 'static')};
   top: ${(props) => (props.landing === 'landing' ? '0' : '0px')};
   left: ${(props) => (props.landing === 'landing' ? '0' : '0')};
+  z-index: 900;
 
   .logo {
     color: #fafafa;

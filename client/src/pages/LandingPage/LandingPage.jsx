@@ -20,6 +20,7 @@ function LandingPage() {
   const section0C = useRef();
   const section0D = useRef();
   const section0E = useRef();
+  const videoCanvas0 = useRef();
 
   const section1 = useRef();
   const section1A = useRef();
@@ -60,9 +61,14 @@ function LandingPage() {
         messageC: section0C,
         messageD: section0D,
         messageE: section0E,
+        canvas: videoCanvas0,
+        conText: videoCanvas0,
+        videoImages: [],
       },
       values: {
         //인
+        videoImageCount: 315,
+        imageSequence: [0, 314],
         messageAOpacityIn: [0, 1, { start: 0.1, end: 0.2 }],
         messageATranslateYIn: [20, 0, { start: 0.1, end: 0.2 }],
 
@@ -209,6 +215,16 @@ function LandingPage() {
     },
   ];
 
+  const setCanvasImages = () => {
+    let imgElem;
+    for (let i = 0; i < sceneInfo[0].values.videoImageCount; i++) {
+      imgElem = new Image();
+      imgElem.src = `../../../imageFile/0/${i + 1}.jpg`;
+      sceneInfo[0].objs.videoImages.push(imgElem);
+    }
+  };
+  setCanvasImages();
+
   const setLayout = () => {
     yOffset = window.pageYOffset;
 
@@ -226,6 +242,8 @@ function LandingPage() {
       }
     }
     ref.current.setAttribute('id', `show-scene-${currentScene}`);
+    const heightRatio = window.innerHeight / 1080;
+    videoCanvas0.current.style.transform = `translate3d(-50%, -50%, 0) scale(${heightRatio})`;
   };
 
   const calcValues = (values, currentYOffset) => {
@@ -260,8 +278,11 @@ function LandingPage() {
     const scrollRatio = currentYOffset / scrollHeight;
     // console.log(objs, values);
     // console.log(currentYOffset, currentScene, scrollRatio);
+    console.log(objs.conText.current.width);
     switch (currentScene) {
       case 0:
+        let sequence = Math.round(calcValues(values.imageSequence, currentYOffset));
+        objs.conText.current.getContext('2d').drawImage(objs.videoImages[sequence], 0, 0);
         if (scrollRatio <= 0.22) {
           if (objs.messageA.current.style) {
             objs.messageA.current.style.opacity = calcValues(values.messageAOpacityIn, currentYOffset);
@@ -550,6 +571,9 @@ function LandingPage() {
           이거 맞아<span className="logo-rotate">?</span>
         </h1>
         <h2>Is this right?</h2>
+        <div className="sticky-elem sticky-elem-canvas">
+          <canvas id="video-canvas-0" width="1920" height="1080" ref={videoCanvas0}></canvas>
+        </div>
         <div className="sticky-elem main-message a" ref={section0A}>
           <p>
             운동을 시작했을 때, <br></br> 인터넷에 영상은 많은데 <br></br>어떤것이 좋은 것인지 몰라<br></br> 검색만
