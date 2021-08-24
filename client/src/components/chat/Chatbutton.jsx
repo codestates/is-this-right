@@ -30,7 +30,7 @@ const Chatbutton = () => {
       {userState.logIn ? (
         <FixDivStyle>
           <Badge count={chatState.newMessages}>
-            <MessageFilled onClick={handleIsChat} style={{ fontSize: '80px', color: '#0096c7' }} />
+            <MessageFilled onClick={handleIsChat} style={{ fontSize: '75px', color: '#0096c7' }} />
           </Badge>
         </FixDivStyle>
       ) : null}

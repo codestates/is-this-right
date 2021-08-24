@@ -4,7 +4,7 @@ import { Avatar, Pagination, Result, Image } from 'antd';
 import { BodyAreaStyle, ContainerStlye } from '../style/pageStyle';
 import parse from 'html-react-parser';
 import { useSelector, useDispatch } from 'react-redux';
-import { changeRoom, setIsChat, setViewChatlist, setRoomName } from '../actions/chatAction';
+import { changeRoom, setIsChat, setViewChatlist, setRoomName, setMessages } from '../actions/chatAction';
 import { Link, useParams } from 'react-router-dom';
 import { SmileOutlined, MessageOutlined, MailOutlined, LinkOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import axios from 'axios';
@@ -13,6 +13,12 @@ import AdviserFeedbackDetail from '../components/adviser/AdviserFeedbackDetail';
 
 const url = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
+const AdviserBodyAreaStyle = styled(BodyAreaStyle)`
+  background: #f4f4f4;
+  @media ${(props) => props.theme.mobile} {
+    background: #fff;
+  }
+`;
 
 const AdviserDetailContainer = styled(ContainerStlye)`
   display: flex;
@@ -63,10 +69,13 @@ const AdviserDetailContainer = styled(ContainerStlye)`
       position: absolute;
       margin-bottom: 36px;
       bottom: 0;
+      box-shadow: 0 0 5px rgba(3, 4, 94, 0.5);
+      border-radius: 0 0 3px 3px;
       @media ${(props) => props.theme.mobile} {
         height: 264px;
         bottom: auto;
         top: 100px;
+        border-radius: 0;
       }
     }
     .left {
@@ -140,21 +149,21 @@ const AdviserDetailContainer = styled(ContainerStlye)`
         > div {
           display: flex;
           align-items: center;
-          background-color: white;
+          background: #fafafa;
           border-radius: 50%;
           padding: 15px;
-          box-shadow: 0 0 10px rgba(3, 4, 94, 0.5);
+          box-shadow: 0 0 7px rgba(3, 4, 94, 0.3);
           :hover {
             cursor: pointer;
             padding: 14px;
-            box-shadow: 0 0 12px rgba(3, 4, 94, 0.8);
+            box-shadow: 0 0 10px rgba(3, 4, 94, 0.5);
             transition: 0.1s ease-in-out;
           }
         }
         > div a {
           display: flex;
           align-items: center;
-          background-color: white;
+          background: #fafafa;
           border-radius: 50%;
           color: #023e8a;
         }
@@ -179,7 +188,8 @@ const AdviserDetailContainer = styled(ContainerStlye)`
         padding: 30px;
         width: 100%;
         color: black;
-        height: 300px;
+        height: auto;
+        max-height: 300px;
       }
       .head {
         font-size: 1.5rem;
@@ -194,30 +204,39 @@ const AdviserDetailContainer = styled(ContainerStlye)`
     }
   }
   .feedback {
+    color: #353535;
     margin-top: 50px;
     margin-bottom: 50px;
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 1px solid #dddddd;
     gap: 20px;
-    padding: 20px;
     padding-bottom: 40px;
-    padding-left: 5vw;
-    padding-right: 5vw;
-    box-shadow: 0 0 5px rgba(3, 4, 94, 0.3);
+    /* border: 1px solid #dddddd; */
+    /* border-radius: 10px;
+    box-shadow: 0 0 5px rgba(3, 4, 94, 0.3); */
     @media ${(props) => props.theme.mobile} {
+      border-top: 1px solid #f1f1f1;
+      box-shadow: 0 0 2px rgba(3, 4, 94, 0.2);
       margin: 0;
       position: relative;
       margin-bottom: 12vh;
       border-left: 0;
       border-right: 0;
+      background: #f4f4f4;
     }
     .title {
-      font-size: 1.2rem;
+      width: 100%;
+      display: flex;
+      font-size: 1.3rem;
       margin-top: 10px;
       margin-bottom: 10px;
+      @media ${(props) => props.theme.mobile} {
+        width: auto;
+        margin-top: 20px;
+        margin-bottom: 0;
+      }
     }
     .feedbackContainer {
       width: 100%;
@@ -240,6 +259,14 @@ function AdvisorDetailPage() {
   const dispatch = useDispatch();
   useEffect(() => {
     axios.get(`${url}/advisers/${id}`).then((data) => setAdviserDetailInfo(data.data.data));
+    //챗 초기화
+    dispatch(setViewChatlist(true));
+    dispatch(setIsChat(false));
+    if (chatState.socket) {
+      chatState.socket.emit('quitRoom');
+    }
+    dispatch(setMessages([]));
+    dispatch(changeRoom(null));
   }, []);
 
   //pagination states
@@ -286,7 +313,7 @@ function AdvisorDetailPage() {
   };
 
   return (
-    <BodyAreaStyle>
+    <AdviserBodyAreaStyle>
       <AdviserDetailContainer>
         <div className="userInfo">
           <div className="background-triangle-right" />
@@ -331,7 +358,7 @@ function AdvisorDetailPage() {
           </div>
         </div>
         <div className="feedback">
-          <div className="title">{adviserDetailInfo.name}님이 남긴 답변들</div>
+          <div className="title">{adviserDetailInfo.name}'s Feedbacks</div>
           <div className="feedbackContainer">
             {adviserDetailInfo.feedbacks.length === 0 ? (
               <Result icon={<SmileOutlined style={{ color: '#0077b6' }} />} title="등록된 답변이 없습니다." />
@@ -353,7 +380,7 @@ function AdvisorDetailPage() {
           />
         </div>
       </AdviserDetailContainer>
-    </BodyAreaStyle>
+    </AdviserBodyAreaStyle>
   );
 }
 

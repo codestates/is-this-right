@@ -10,18 +10,14 @@ import { updateChatList, setMessages, setNewMessages } from '../../actions/chatA
 const url = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 
-const StyledInfoBar = styled(InfoBar)`
-  height: 60px;
-`;
 const OuterContainer = styled.div`
   height: 600px;
   width: 400px;
   position: fixed;
   bottom: 5vh;
   right: 5vw;
-  border: 1px solid #dddddd;
-  z-index: 999;
-  border-radius: 10px;
+  z-index: 980;
+  border-radius: 4px;
 
   @media ${(props) => props.theme.mobile} {
     height: 100vh;
@@ -31,14 +27,32 @@ const OuterContainer = styled.div`
     z-index: 990;
     border-radius: 0 0 0 0;
   }
-
+  .infobar {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 70px;
+    @media ${(props) => props.theme.mobile} {
+      position: fixed;
+      top: 0;
+    }
+  }
+  .chatlist {
+    width: 100%;
+    height: 100%;
+    @media ${(props) => props.theme.mobile} {
+      position: absolute;
+    }
+  }
   .chatContainer {
+    position: relative;
+    background: #fff;
     display: flex;
     flex-direction: column;
-    background: #ffffff;
     height: 100%;
     width: 100%;
-    border-radius: 10px;
+    border-radius: 4px;
+    box-shadow: 0 0 5px rgba(3, 4, 94, 0.3);
 
     @media ${(props) => props.theme.mobile} {
       border-radius: 0 0 0 0;
@@ -81,15 +95,20 @@ const Chat = () => {
   return (
     <OuterContainer>
       <div className="chatContainer">
-        <StyledInfoBar isChatList={chatState.viewChatlist} username={username} />
-        {chatState.viewChatlist ? (
-          <ChatList setUsername={setUsername} />
-        ) : (
+        {chatState.viewChatlist ? null : (
           <>
             <MessageContainer />
             <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
           </>
         )}
+      </div>
+      <div className="infobar">
+        <InfoBar isChatList={chatState.viewChatlist} username={username} />
+        {chatState.viewChatlist ? (
+          <div className="chatlist">
+            <ChatList setUsername={setUsername} />
+          </div>
+        ) : null}
       </div>
     </OuterContainer>
   );

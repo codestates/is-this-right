@@ -4,56 +4,87 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { LeftOutlined, CloseOutlined } from '@ant-design/icons';
 const InfoBarContainer = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #023e8a;
-
-  min-height: 70px;
+  height: 100%;
   width: 100%;
-  border-radius: 10px 10px 0 0;
+  border-radius: 4px 4px 0 0;
   @media ${(props) => props.theme.mobile} {
     z-index: 999;
     border-radius: 0 0 0 0;
     top: 0;
   }
-  .title {
-    color: white;
-    font-size: 1.1rem;
+  .chatlist {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* background: #3a1d1d; */
+    background: #023e8a;
+    border-radius: 3px 3px 0 0;
+    @media ${(props) => props.theme.mobile} {
+      border-radius: 0 0 0 0;
+    }
+    .title {
+      color: #eee;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+    .rightInnerContainer {
+      color: #eee;
+    }
   }
+  .messages {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(179, 200, 219, 0.95);
+    border-bottom: 1px solid rgba(179, 200, 219, 0.9);
+    border-radius: 3px 3px 0 0;
+    .title {
+      color: #353535;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+  }
+
   .leftInnerContainer {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: #666666;
     height: 100%;
     width: 70px;
-    border-radius: 10px 0 0 0;
     transition: 0.5s;
     :hover {
-      background: #0077b6;
+      font-size: 1.3rem;
+      transition: 0.1s ease-in-out;
       cursor: pointer;
     }
     @media ${(props) => props.theme.mobile} {
-      border-radius: 0 0 0 0;
+      border-radius: 0;
     }
   }
 
   .rightInnerContainer {
     align-items: center;
-    color: white;
+    color: #666666;
     display: flex;
     width: 70px;
     height: 100%;
     justify-content: center;
-    border-radius: 0 10px 0 0;
-    transition: 0.5s;
     :hover {
-      background: #0077b6;
+      font-size: 1.3rem;
+      transition: 0.1s ease-in-out;
       cursor: pointer;
     }
     @media ${(props) => props.theme.mobile} {
-      border-radius: 0 0 0 0;
+      border-radius: 0;
     }
   }
 `;
@@ -75,16 +106,18 @@ const InfoBar = ({ isChatList }) => {
   };
   return (
     <InfoBarContainer>
-      {isChatList ? (
-        <div style={{ width: '70px' }} />
-      ) : (
-        <div className="leftInnerContainer" onClick={handleChatlist}>
-          <LeftOutlined />
+      <div className={isChatList ? 'chatlist' : 'messages'}>
+        {isChatList ? (
+          <div style={{ width: '70px' }} />
+        ) : (
+          <div className="leftInnerContainer" onClick={handleChatlist}>
+            <LeftOutlined />
+          </div>
+        )}
+        <div className="title">{isChatList ? '채팅' : chatState.roomName}</div>
+        <div className="rightInnerContainer" onClick={handleIsChat}>
+          <CloseOutlined />
         </div>
-      )}
-      <div className="title">{isChatList ? '채팅' : chatState.roomName}</div>
-      <div className="rightInnerContainer" onClick={handleIsChat}>
-        <CloseOutlined />
       </div>
     </InfoBarContainer>
   );

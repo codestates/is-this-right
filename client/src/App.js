@@ -37,25 +37,6 @@ function App() {
   const chatState = useSelector((state) => state.chatReducer);
   const dispatch = useDispatch();
 
-  //멘토페이지에서 채팅하기 눌렀을때 필요한 친구.
-  const createChatRoom = (userId) => {
-    //방만들고 룸넘버 획득
-    if (state.logIn) {
-      let payload = {
-        sender: state.userInfo.id,
-        receiver: userId,
-      };
-      axios.post(`${url}/chats`, payload).then((data) => {
-        dispatch(changeRoom(data.data.data.roomId));
-        chatState.socket.emit('join', { room: data.data.data.roomId });
-        dispatch(setIsChat(true));
-        dispatch(setViewChatlist(false));
-      });
-    } else {
-      alert('로그인이 필요한 서비스입니다.');
-    }
-  };
-
   useEffect(() => {
     if (state.logIn) dispatch(setSocket(io(`${url}`)));
   }, [state.logIn]);

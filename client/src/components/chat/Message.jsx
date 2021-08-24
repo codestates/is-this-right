@@ -74,7 +74,7 @@ const MessageDiv = styled.div`
   }
 
   .colorWhite {
-    color: white;
+    color: #fafafa;
   }
 
   .colorDark {
@@ -82,11 +82,14 @@ const MessageDiv = styled.div`
   }
 
   .backgroundBlue {
+    box-shadow: 0 0 1px rgba(3, 4, 94, 0.3);
+
+    /* background: #f3e137; */
     background: #023e8a;
   }
 
   .backgroundLight {
-    background: rgba(202, 240, 248, 0.3);
+    background: #fafafa;
   }
 `;
 

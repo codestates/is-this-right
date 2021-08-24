@@ -15,17 +15,6 @@ import { getTopAdvisers } from '../actions/adviserActionIndex';
 import { setIsChat, setViewChatlist, changeRoom, setMessages } from '../actions/chatAction';
 const url = process.env.REACT_APP_API_URL;
 
-// const BodyAreaStyle = styled.div`
-//   height: 80vh;
-//   width: 100vw;
-//   display: flex;
-//   justify-content: center;
-// `;
-
-// const ContainerStlye = styled.div`
-//   width: 60%;
-//   background-color: black;
-// `;
 const CategorySection = styled.div`
   display: flex;
   width: 100%;
@@ -136,14 +125,14 @@ function QuestionListPage() {
     dispatch(getAllPosts(postState.currentCategory));
     dispatch(getTopAdvisers(postState.currentCategory));
     setIsLoading(false);
-    // //챗 초기화
-    // dispatch(setViewChatlist(true));
-    // dispatch(setIsChat(false));
-    // if (chatState.socket) {
-    //   chatState.socket.emit('quitRoom');
-    // }
-    // dispatch(setMessages([]));
-    // dispatch(changeRoom(null));
+    //챗 초기화
+    dispatch(setViewChatlist(true));
+    dispatch(setIsChat(false));
+    if (chatState.socket) {
+      chatState.socket.emit('quitRoom');
+    }
+    dispatch(setMessages([]));
+    dispatch(changeRoom(null));
   }, []);
 
   if (isLoading === true) {
@@ -215,13 +204,13 @@ function QuestionListPage() {
               <RadioButton
                 value="Answered"
                 onClick={handleAnswerButton}
-                style={{ borderRadius: '10px 0px 0px 10px', borderRight: '0px' }}>
+                style={{ borderRadius: '10px 0px 0px 10px', borderRight: '0px', width: '200px' }}>
                 Answered
               </RadioButton>
               <RadioButton
                 value="Unanswered"
                 onClick={handleUnAnswerButton}
-                style={{ borderRadius: '0 10px 10px 0', borderLeft: '0px' }}>
+                style={{ borderRadius: '0 10px 10px 0', borderLeft: '0px', width: '200px' }}>
                 Unanswered
               </RadioButton>
             </AnsweredSectionStyle>

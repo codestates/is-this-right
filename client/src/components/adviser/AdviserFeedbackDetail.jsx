@@ -8,7 +8,7 @@ const AdviserCardStyle = styled.div`
   padding-top: 20px;
   position: relative;
   width: 100%;
-  height: 110px;
+  height: 130px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -17,7 +17,7 @@ const AdviserCardStyle = styled.div`
     padding-bottom: 1px;
   }
   :hover .background {
-    box-shadow: 0 0 12px rgba(3, 4, 94, 0.8);
+    box-shadow: 0 0 5px rgba(3, 4, 94, 0.3);
     transition: 0.1s ease-in-out;
   }
   @media ${(props) => props.theme.mobile} {
@@ -26,11 +26,13 @@ const AdviserCardStyle = styled.div`
   .background {
     position: absolute;
     width: 100%;
-    height: 90px;
+    height: 110px;
     border-radius: 5px;
     bottom: 0;
-    background: linear-gradient(60deg, #0096c7, #00b4d8);
-    box-shadow: 0 0 10px rgba(3, 4, 94, 0.6);
+    /* background: linear-gradient(60deg, #0096c7, #00b4d8); */
+    background: white;
+    /* box-shadow: 0 0 5px rgba(3, 4, 94, 0.3); */
+    border: 1px solid #ddd;
 
     @media ${(props) => props.theme.mobile} {
       width: 95vw;
@@ -47,7 +49,7 @@ const AdviserCardStyle = styled.div`
       margin-bottom: 5px;
     }
     .name {
-      color: #fff;
+      color: #000;
       font-size: 1rem;
       margin-bottom: 40px;
     }
@@ -66,17 +68,19 @@ const AdviserCardStyle = styled.div`
       width: 30%;
     }
     .postTitle {
-      font-size: 1.2rem;
-      color: #fff;
+      font-size: 1.1rem;
+      color: #353535;
+      border-bottom: 1px solid #ddd;
     }
     .content {
-      font-size: 0.9rem;
+      padding-top: 5px;
+      font-size: 0.8rem;
       display: block;
       width: 200px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      color: #fff;
+      color: #353535;
       @media ${(props) => props.theme.mobile} {
         width: 100px;
       }
@@ -89,7 +93,7 @@ const AdviserCardStyle = styled.div`
     .moment {
       position: relative;
       font-size: 0.8rem;
-      color: #dddddd;
+      color: #777;
       height: 100%;
       display: flex;
       align-items: center;
@@ -127,7 +131,7 @@ function AdviserFeedbackDetail({ data }) {
         </div>
         <div className="selected">
           {data.selected ? (
-            <CheckCircleOutlined style={{ color: '#8ac926' }} />
+            <CheckCircleOutlined style={{ color: '#0096c7' }} />
           ) : (
             <CheckCircleOutlined style={{ color: '#dddddd' }} />
           )}

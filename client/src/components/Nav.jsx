@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { TeamOutlined, MessageOutlined, QuestionOutlined, UserOutlined, LoginOutlined } from '@ant-design/icons';
 import { Avatar, Badge } from 'antd';
 import axios from 'axios';
@@ -12,22 +12,24 @@ axios.defaults.withCredentials = true;
 
 const NavAreaStyle = styled.div`
   width: 100%;
-  height: 100px;
+  height: 80px;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   /* background: linear-gradient(70deg, #6366f1, #1d4ed8, #2563eb); */
-  background: linear-gradient(70deg, #00b4d8, #0096c7);
+  background: linear-gradient(60deg, #0096c7 40%, #0077b6);
+  /* background: rgba(0, 119, 182, 0.8); */
   box-shadow: rgba(163, 163, 163, 0.62) 0px 5px 5px 0px;
   > .logo {
-    width: 180px;
-    height: 40px;
+    width: 120px;
+    height: 25px;
     background-size: cover;
     background-image: url('../../imageFile/Logo2.png');
     :hover {
       cursor: pointer;
-      background-image: url('../../imageFile/Logo3.png');
-      transition: 0.5s ease-in-out;
+      width: 150px;
+      height: 30px;
+      transition: 0.2s ease-in-out;
     }
   }
   > img {
@@ -44,7 +46,7 @@ const ContainerStlye = styled.div`
 
 const DivStyle = styled.div`
   color: #fff;
-  font-size: 1.1rem;
+  font-size: 1rem;
   width: 30%;
   display: flex;
   justify-content: flex-end;
@@ -57,12 +59,18 @@ const DivStyle = styled.div`
     padding: 8px 12px;
     min-height: 100%;
     & > :hover {
-      transition: 0.5s ease-in-out;
-      color: #0077b6;
+      font-weight: bold;
+      font-size: 1.1rem;
+      transition: 0.2s ease-in;
     }
   }
   @media ${(props) => props.theme.mobile} {
     display: none;
+  }
+
+  .selected {
+    font-size: 1.1rem;
+    font-weight: bold;
   }
 `;
 
@@ -70,7 +78,7 @@ const MobileDivStyle = styled.div`
   display: none;
   @media ${(props) => props.theme.mobile} {
     font-size: 2rem;
-    background: linear-gradient(70deg, #023e8a, #0077b6 90%);
+    background: #023e8a;
 
     height: 12vh;
     position: fixed;
@@ -86,6 +94,10 @@ const MobileDivStyle = styled.div`
       width: 100%;
       height: 100%;
     }
+
+    .selected {
+      font-size: 2.5rem;
+    }
   }
 `;
 const SpanStyle = styled.span`
@@ -94,12 +106,13 @@ const SpanStyle = styled.span`
   align-items: center;
   width: 100%;
   height: 100%;
+  color: #fff;
   &:hover {
     cursor: pointer;
   }
   &:hover .messageIcon > svg {
-    color: #023e8a;
-    transition: 0.5s;
+    font-size: 2.5rem;
+    transition: 0.2s;
   }
 `;
 
@@ -112,7 +125,8 @@ const LinkStyle = styled(Link)`
   text-decoration-line: none;
   color: #fff;
   &:hover {
-    color: #023e8a;
+    font-size: 2.5rem;
+    transition: 0.2s;
   }
 `;
 
@@ -124,6 +138,8 @@ function Nav() {
   const dispatch = useDispatch();
   const history = useHistory();
   console.log(state.logIn, '로그인 상태입니다.');
+  const location = useLocation();
+  console.log('Path:', location.pathname);
 
   useEffect(async () => {
     let userInfo = await axios.get(`${url}/users`);
@@ -173,12 +189,12 @@ function Nav() {
       <DivStyle>
         <div>
           <LinkStyle to="/AdviserList">
-            <SpanStyle>Mentors</SpanStyle>
+            <SpanStyle className={location.pathname === '/AdviserList' ? 'selected' : ''}>Mentors</SpanStyle>
           </LinkStyle>
         </div>
         <div>
           <LinkStyle to="/">
-            <SpanStyle>Question</SpanStyle>
+            <SpanStyle className={location.pathname === '/' ? 'selected' : ''}>Question</SpanStyle>
           </LinkStyle>
         </div>
 
@@ -186,7 +202,7 @@ function Nav() {
           <>
             <div>
               <LinkStyle to="/MyPage">
-                <SpanStyle>Mypage</SpanStyle>
+                <SpanStyle className={location.pathname === '/MyPage' ? 'selected' : ''}>Mypage</SpanStyle>
               </LinkStyle>
             </div>
             <div>
@@ -204,14 +220,14 @@ function Nav() {
       {/* </ContainerStlye> */}
       <MobileDivStyle>
         <div>
-          <LinkStyle to="/AdviserList">
+          <LinkStyle to="/AdviserList" className={location.pathname === '/AdviserList' ? 'selected' : ''}>
             <SpanStyle>
               <TeamOutlined />
             </SpanStyle>
           </LinkStyle>
         </div>
         <div>
-          <LinkStyle to="/">
+          <LinkStyle to="/" className={location.pathname === '/' ? 'selected' : ''}>
             <SpanStyle>
               <QuestionOutlined />
             </SpanStyle>
@@ -221,7 +237,7 @@ function Nav() {
         {state.logIn ? (
           <>
             <div>
-              <LinkStyle to="/MyPage">
+              <LinkStyle to="/MyPage" className={location.pathname === '/MyPage' ? 'selected' : ''}>
                 <SpanStyle>
                   {/* <Avatar size={32} src={<img src={state.userInfo.profileImg} />} /> */}
                   <UserOutlined />

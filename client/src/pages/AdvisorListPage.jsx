@@ -11,128 +11,132 @@ import { useDispatch, useSelector } from 'react-redux';
 const url = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 
-const SearchAndFilterStyle = styled.div`
-  border: 1px solid rgba(222, 222, 222, 0.5);
-  margin: 20px;
-  margin-top: 30px;
-  display: flex;
-  width: 300px;
-  flex-direction: column;
-  padding: 10px;
-  /* flex-wrap: wrap; */
-  > div {
-    margin-top: 10px;
-  }
-  @media ${(props) => props.theme.mobile} {
-    width: 100%;
-    flex-direction: row;
-    flex-wrap: wrap;
-
-    > input {
-      width: 100%;
-    }
-  }
-`;
-
-const FilterStyle = styled.div`
-  /* background-color: red; */
-  height: 100%;
-  width: 100%;
-  .title {
-    margin-top: 10px;
-  }
-  .filterCategory {
-    display: flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-  }
-  .filterCategory > label {
-    width: 46%;
-    margin: 2%;
-    font-size: 0.9rem;
-    text-align: center;
-    &.all {
-      width: 100%;
-    }
-  }
-  @media ${(props) => props.theme.mobile} {
-    padding-left: 0;
-    padding-right: 0;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    width: 100%;
-    > div {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      border-top: 1px solid #dddddd;
-    }
-    .title {
-      margin-top: 10px;
-      width: 10vw;
-    }
-    .filterCategory {
-      display: flex;
-      justify-content: flex-start;
-      width: 100%;
-    }
-    .filterCategory > label {
-      width: auto;
-      font-size: 0.9rem;
-      text-align: center;
-      margin: 10px 2px 10px 2px;
-      &.all {
-        width: auto;
-      }
-    }
-  }
-`;
-const AdviserSection = styled.div`
-  position: relative;
-  border-left: 1px solid rgba(222, 222, 222, 0.5);
-  border-right: 1px solid rgba(222, 222, 222, 0.5);
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-left: 100px;
-  padding-left: 50px;
-  padding-right: 50px;
-  padding-top: 20px;
-  .adviserListContainer {
-    width: 100%;
-    min-width: 400px;
-    /* background-color: green; */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100%;
-    gap: 20px;
-  }
-  @media ${(props) => props.theme.mobile} {
-    padding: 0;
-    margin: 0;
-    overflow-x: hidden;
-  }
-`;
-const FilterSection = styled.div`
-  display: flex;
-  justify-content: flex-start;
-`;
-
 const AdviserBodyAreaStyle = styled(BodyAreaStyle)`
   @media ${(props) => props.theme.mobile} {
-    display: flex;
-    flex-direction: column-reverse;
-    overflow-x: hidden;
   }
 `;
 const AdviserContainerStyle = styled(ContainerStlye)`
+  width: 100vw;
+  padding: 2vw 7vw 2vw 5vw;
+
   @media ${(props) => props.theme.mobile} {
+    padding: 0;
+    display: flex;
+    flex-direction: column-reverse;
+    overflow-x: hidden;
     margin-bottom: 15vh;
     width: 100vw;
-    overflow-x: hidden;
+  }
+  .adviserSection {
+    float: left;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+
+    @media ${(props) => props.theme.mobile} {
+      float: none;
+      width: 100%;
+    }
+    .pagination {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .adviserListContainer {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      height: 100%;
+      gap: 3vw;
+      padding-right: 3vw;
+      padding-left: 3vw;
+      row-gap: 20px;
+      padding-bottom: 20px;
+      @media ${(props) => props.theme.medium} {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+      }
+      @media ${(props) => props.theme.mobile} {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        gap: 0;
+        padding-bottom: 20px;
+      }
+    }
+  }
+
+  .filterSection {
+    background: #fff;
+    float: right;
+    min-width: 300px;
+    width: 300px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+
+    @media ${(props) => props.theme.mobile} {
+      width: 100%;
+    }
+    .filter {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+      @media ${(props) => props.theme.mobile} {
+        gap: 0;
+      }
+      .category {
+        border-top: 1px solid #ddd;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        @media ${(props) => props.theme.mobile} {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+        }
+        .title {
+          color: #353535;
+          @media ${(props) => props.theme.mobile} {
+            width: 10%;
+          }
+        }
+        .filterCategory {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          @media ${(props) => props.theme.mobile} {
+            flex-wrap: none;
+            width: 100%;
+            gap: 5px;
+          }
+          .all {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            @media ${(props) => props.theme.mobile} {
+              width: auto;
+            }
+          }
+          > label {
+            width: 48%;
+            display: flex;
+            justify-content: center;
+            @media ${(props) => props.theme.mobile} {
+              width: auto;
+            }
+          }
+        }
+      }
+    }
   }
 `;
 
@@ -144,7 +148,7 @@ function AdvisorListPage() {
   const dispatch = useDispatch();
   const chatState = useSelector((state) => state.chatReducer);
   //pagination states
-  const PAGE_SIZE = 5;
+  const PAGE_SIZE = 6;
   const [currentPageList, setCurrentPageList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const handlePageChange = (page) => {
@@ -173,14 +177,14 @@ function AdvisorListPage() {
       setAdviserDetail([...onlineList, ...list]);
     });
 
-    //챗 초기화
-    // dispatch(setViewChatlist(true));
-    // dispatch(setIsChat(false));
-    // if (chatState.socket) {
-    //   chatState.socket.emit('quitRoom');
-    // }
-    // dispatch(setMessages([]));
-    // dispatch(changeRoom(null));
+    // 챗 초기화
+    dispatch(setViewChatlist(true));
+    dispatch(setIsChat(false));
+    if (chatState.socket) {
+      chatState.socket.emit('quitRoom');
+    }
+    dispatch(setMessages([]));
+    dispatch(changeRoom(null));
   }, []);
 
   const getOption = (e, key) => {
@@ -219,11 +223,13 @@ function AdvisorListPage() {
   return (
     <AdviserBodyAreaStyle>
       <AdviserContainerStyle>
-        <AdviserSection>
+        <div className="adviserSection">
           <div className="adviserListContainer">
             {currentPageList.map((el) => (
               <AdviserCard key={el.id} data={el} />
             ))}
+          </div>
+          <div className="pagination">
             <Pagination
               simple
               defaultCurrent={1}
@@ -234,10 +240,8 @@ function AdvisorListPage() {
               style={{ margin: '20px' }}
             />
           </div>
-        </AdviserSection>
-      </AdviserContainerStyle>
-      <FilterSection>
-        <SearchAndFilterStyle>
+        </div>
+        <div className="filterSection">
           <Search
             originalList={originalList}
             type={'adviserList'}
@@ -248,8 +252,8 @@ function AdvisorListPage() {
           <Button onClick={setClear} style={{ marginTop: '10px', textAlign: 'center', width: '100%', height: '38px' }}>
             필터 초기화
           </Button>
-          <FilterStyle>
-            <div>
+          <div className="filter">
+            <div className="category">
               <div className="title">종목</div>
               <Radio.Group
                 className="filterCategory"
@@ -267,7 +271,7 @@ function AdvisorListPage() {
                 <Radio.Button value="기타">기타</Radio.Button>
               </Radio.Group>
             </div>
-            <div>
+            <div className="category">
               <div className="title">성별</div>
               <Radio.Group
                 className="filterCategory"
@@ -283,7 +287,7 @@ function AdvisorListPage() {
                 <Radio.Button value="여자">여자</Radio.Button>
               </Radio.Group>
             </div>
-            <div>
+            <div className="category">
               <div className="title">지역</div>
               <Radio.Group
                 className="filterCategory"
@@ -304,9 +308,9 @@ function AdvisorListPage() {
                 <Radio.Button value="제주도">제주도</Radio.Button>
               </Radio.Group>
             </div>
-          </FilterStyle>
-        </SearchAndFilterStyle>
-      </FilterSection>
+          </div>
+        </div>
+      </AdviserContainerStyle>
     </AdviserBodyAreaStyle>
   );
 }

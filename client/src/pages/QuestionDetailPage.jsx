@@ -13,6 +13,8 @@ import 'moment/locale/ko';
 import TextEditor from '../components/textComponent/TextEditor';
 import FeedbackContainer from '../components/question/FeedbackContainer';
 import QuestionPostPage from './QuestionPostPage';
+import { setIsChat, setMessages, setViewChatlist, changeRoom } from '../actions/chatAction';
+
 const url = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 
@@ -25,6 +27,8 @@ const ContentStyle = styled.div`
 
 function QuestionDetailPage() {
   const state = useSelector((state) => state.userReducer);
+  const chatState = useSelector((state) => state.chatReducer);
+  const dispatch = useDispatch();
   console.log('스테이트', state);
   const { id } = useParams();
   const [post, setPost] = useState(null);
@@ -49,6 +53,13 @@ function QuestionDetailPage() {
       setCurrentPage(1);
       setCurrentPageList(post.data.feedbacks.slice(PAGE_SIZE * (currentPage - 1), PAGE_SIZE * currentPage));
     }
+    //챗 초기화
+    dispatch(setViewChatlist(true));
+    dispatch(setIsChat(false));
+    if (chatState.socket) {
+      chatState.socket.emit('quitRoom');
+    }
+    dispatch(setMessages([]));
   }, [post]);
 
   const history = useHistory();
