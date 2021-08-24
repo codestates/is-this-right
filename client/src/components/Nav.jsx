@@ -20,16 +20,76 @@ const NavAreaStyle = styled.div`
   background: linear-gradient(60deg, #0096c7 40%, #0077b6);
   /* background: rgba(0, 119, 182, 0.8); */
   box-shadow: rgba(163, 163, 163, 0.62) 0px 5px 5px 0px;
-  > .logo {
-    width: 120px;
+  .logo {
+    color: #fafafa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
     height: 25px;
     background-size: cover;
-    background-image: url('../../imageFile/Logo2.png');
+    font-family: 'font-css';
+    font-size: 1.5rem;
+    /* background-image: url('../../imageFile/Logo2.png'); */
+
+    .zero {
+      font-size: 1.63rem;
+    }
+    .logo-rotate {
+      display: inline-block;
+      margin-left: -6px;
+      font-size: 1.7rem;
+      margin-bottom: -3px;
+      transform: rotate(45deg);
+      -moz-transform: rotate(45deg);
+      -webkit-transform: rotate(45deg);
+      -o-transform: rotate(45deg);
+    }
+    .logo-rotate-a {
+      font-size: 1.5rem;
+      margin-left: -6px;
+      margin-bottom: -1px;
+      display: inline-block;
+      transform: rotate(10deg);
+      -moz-transform: rotate(10deg);
+      -webkit-transform: rotate(10deg);
+      -o-transform: rotate(10deg);
+    }
     :hover {
       cursor: pointer;
-      width: 150px;
+      width: 220px;
       height: 30px;
+      font-size: 1.7rem;
       transition: 0.2s ease-in-out;
+    }
+    :hover .zero {
+      cursor: pointer;
+      font-size: 1.7rem;
+      transition: 0.3s ease-in-out;
+      transform: rotate(10deg);
+      -moz-transform: rotate(10deg);
+      -webkit-transform: rotate(10deg);
+      -o-transform: rotate(10deg);
+    }
+    :hover .logo-rotate-a {
+      cursor: pointer;
+      font-size: 1.7rem;
+      transition: 1.7s ease-in-out;
+      transform: rotate(40deg);
+      -moz-transform: rotate(40deg);
+      -webkit-transform: rotate(40deg);
+      -o-transform: rotate(40deg);
+      margin-bottom: -7px;
+    }
+    :hover .logo-rotate {
+      cursor: pointer;
+      font-size: 1.7rem;
+      transition: 2s ease-in-out;
+      transform: rotate(430deg);
+      -moz-transform: rotate(430deg);
+      -webkit-transform: rotate(430deg);
+      -o-transform: rotate(430deg);
+      margin-bottom: -20px;
     }
   }
   > img {
@@ -185,7 +245,11 @@ function Nav() {
     <NavAreaStyle>
       {/* <ContainerStlye> */}
       {/* <img onClick={handleClickHome} src="../../imageFile/Logo2.png" alt="" /> */}
-      <div onClick={handleClickHome} className="logo" />
+      <div onClick={handleClickHome} className="logo">
+        이거맞<span className="zero">0</span>
+        <span className="logo-rotate-a">ㅏ</span>
+        <span className="logo-rotate">?</span>
+      </div>
       <DivStyle>
         <div>
           <LinkStyle to="/AdviserList">

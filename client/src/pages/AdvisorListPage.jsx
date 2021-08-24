@@ -166,13 +166,8 @@ function AdvisorListPage() {
 
   useEffect(() => {
     axios.get(`${url}/advisers`).then((result) => {
-      let list = result.data.slice();
-      let onlineList = result.data.filter((el, index) => {
-        if (el.isonline) {
-          list.splice(index, 1);
-          return true;
-        }
-      });
+      let list = result.data.filter((el) => !el.isonline);
+      let onlineList = result.data.filter((el) => el.isonline);
       setOriginalList([...onlineList, ...list]);
       setAdviserDetail([...onlineList, ...list]);
     });

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Avatar, Button } from 'antd';
-import { Link, useHistory } from 'react-router-dom';
+import { Avatar, Badge } from 'antd';
+import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { MessageOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import { changeRoom, setIsChat, setViewChatlist, setRoomName } from '../../actions/chatAction';
@@ -67,11 +67,11 @@ const AdviserCardStyle = styled.div`
   }
   .avatar {
     border-radius: 50%;
-    border: 4px solid #f3f3f3;
     box-shadow: 0 0 5px rgba(3, 4, 94, 0.5);
     position: relative;
     display: flex;
     justify-content: center;
+    border: 5px solid #f3f3f3;
     :hover {
       cursor: pointer;
     }
@@ -98,6 +98,15 @@ const AdviserCardStyle = styled.div`
       cursor: pointer;
     }
     .name {
+      position: relative;
+      span {
+        position: relative;
+      }
+      .badge {
+        position: absolute;
+        left: 10px;
+        bottom: -1px;
+      }
     }
     .name > span:first-child {
       font-weight: bold;
@@ -212,7 +221,12 @@ function AdviserCard({ data }) {
       <div className="adviserInfo" onClick={sendDataToDetailPage}>
         <div className="name">
           <span>{data.name}</span>
-          <span>님</span>
+          <span>
+            님
+            <div className="badge" style={data.isonline ? {} : { display: 'none' }}>
+              <Badge status={'success'} />
+            </div>
+          </span>
         </div>
         <div className="text">
           <div className="state">
@@ -232,6 +246,7 @@ function AdviserCard({ data }) {
           <MessageOutlined />
         </div>
       </div>
+      <div className="badge"></div>
     </AdviserCardStyle>
   );
 }
