@@ -45,7 +45,7 @@ const AdviserCardStyle = styled.div`
   .background {
     position: absolute;
     bottom: 0;
-    border-radius: 40% 40% 10px 10px;
+    border-radius: 30% 30% 10px 10px;
     /* border: 4px solid white; */
     background: linear-gradient(180deg, rgba(2, 62, 138, 0.9), #0077b6 20%);
     /* background: linear-gradient(60deg, rgba(2, 62, 138, 0.9), rgba(2, 62, 138)); */
