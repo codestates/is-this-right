@@ -73,6 +73,11 @@ const ButtonStyle = styled(Button)`
 const HideInputStyle = styled.div`
   margin: 0px;
 `;
+const AlertMessageStyle = styled.div`
+  color: red;
+  font-size: 14px;
+  margin-bottom: 3px;
+`;
 
 function UserSignUpPage() {
   const [usernameErr, setUsernameErr] = useState(null);
@@ -246,7 +251,7 @@ function UserSignUpPage() {
             placeholder="닉네임을 입력해주세요"
             required
           />
-          {usernameErr ? <div>{usernameErr}</div> : null}
+          {usernameErr ? <AlertMessageStyle>{usernameErr}</AlertMessageStyle> : null}
           <HideInputStyle ref={socialHide}>
             <LabelStyle htmlFor="user-email">Email</LabelStyle>
             <InputStyle
@@ -259,7 +264,7 @@ function UserSignUpPage() {
               placeholder="이메일을 입력해주세요"
               required
             />
-            {emailErr ? <div>{emailErr}</div> : null}
+            {emailErr ? <AlertMessageStyle>{emailErr}</AlertMessageStyle> : null}
             <LabelStyle htmlFor="password">Password</LabelStyle>
             <Input.Password
               name="password"
@@ -270,7 +275,7 @@ function UserSignUpPage() {
               placeholder="비밀번호를 입력해주세요"
               required
             />
-            {passwordErr ? <div>{passwordErr}</div> : null}
+            {passwordErr ? <AlertMessageStyle>{passwordErr}</AlertMessageStyle> : null}
 
             <LabelStyle htmlFor="confirmPassword">ConfirmPassword</LabelStyle>
             <Input.Password
@@ -283,9 +288,9 @@ function UserSignUpPage() {
               placeholder="입력했던 비밀번호를 다시 입력해주세요"
               required
             />
-            {confirmPasswordErr ? <div>{confirmPasswordErr}</div> : null}
+            {confirmPasswordErr ? <AlertMessageStyle>{confirmPasswordErr}</AlertMessageStyle> : null}
           </HideInputStyle>
-          {signupErr ? <div>{signupErr}</div> : null}
+          {signupErr ? <AlertMessageStyle>{signupErr}</AlertMessageStyle> : null}
           <ButtonStyle type="primary" onClick={handleSignUp} disabled={disable}>
             회원가입
           </ButtonStyle>
