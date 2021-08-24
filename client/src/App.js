@@ -125,8 +125,10 @@ function App() {
           <UserQuestionPage />
           <Footer />
         </Route>
+        <Route path="/landing">
+          <LandingPage />
+        </Route>
       </Switch>
-      {/* <LandingPage /> */}
     </div>
   );
 }
