@@ -9,10 +9,18 @@ import { useSelector } from 'react-redux';
 const Top10Styled = styled.div`
   width: 300px;
   height: 600px;
+  min-height: auto;
   margin: 10px;
+  margin-top: 100px;
   border: 1px solid #d3d3d3;
   border-radius: 3px;
   padding: 10px;
+  @media ${(props) => props.theme.mobile} {
+    height: 100%;
+    width: 100%;
+    padding: 30px;
+    border: 0px solid #d3d3d3;
+  }
 `;
 
 const TopAdviserDataStyle = styled.div`
@@ -41,7 +49,7 @@ function Top10List() {
           <hr style={{ margin: '5px' }}></hr>
           <TopAdviserDataStyle>
             <div style={{ display: 'flex', alignItems: 'center', width: '50%' }}>
-              <Avatar src={el.profileImg} />
+              <Avatar src={el.profileImg} size="large" />
               <TextStyle style={{ marginLeft: '5px' }}>{el.name}</TextStyle>
             </div>
             <div style={{ display: 'flex', alignItems: 'center' }}>

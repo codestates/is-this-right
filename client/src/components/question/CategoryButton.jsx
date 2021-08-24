@@ -23,6 +23,9 @@ const CategoryStyle = styled.div`
       width: 50px;
     }
   }
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 function CategoryButton({ props, setOnUnanswer, setOnAnswer, viewRadio }) {

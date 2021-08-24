@@ -12,6 +12,7 @@ const FixDivStyle = styled.div`
   position: fixed;
   left: 85vw;
   top: 75vh;
+  z-index: 999;
 `;
 
 const Chatbutton = () => {

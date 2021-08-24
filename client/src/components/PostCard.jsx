@@ -4,6 +4,7 @@ import { Avatar } from 'antd';
 import Moment from 'react-moment';
 import 'moment/locale/ko';
 import { CheckCircleTwoTone, CheckCircleOutlined } from '@ant-design/icons';
+import CheckCircleSharpIcon from '@material-ui/icons/CheckCircleSharp';
 
 const PostCardStyle = styled.div`
   background-color: white;
@@ -20,6 +21,12 @@ const PostCardStyle = styled.div`
   }
 `;
 
+const NumStyle = styled.span`
+  margin-left: 10px;
+  color: ${(props) => (props.props === 0 ? '#686868' : 'green')};
+  font-size: 25px;
+`;
+
 function PostCard({ data }) {
   // [{
   //     "id" : PK,
@@ -33,6 +40,7 @@ function PostCard({ data }) {
   //     "updatedAt" : 2021-08-04
   // },
   //  ...]
+  console.log(data);
   const nowTime = Date.now(),
     startTime = new Date(data.updatedAt);
   return (
@@ -42,8 +50,21 @@ function PostCard({ data }) {
           size={100}
           icon={<img src={data.profileImg} />} // img데이터 넣기
         />
-        <div style={{ marginLeft: '30px' }}>
-          <div style={{ fontSize: '1.3rem', color: 'black' }}>{data.title}</div>
+        <div
+          style={{
+            marginLeft: '30px',
+          }}>
+          <div
+            style={{
+              fontSize: '1.3rem',
+              color: 'black',
+              width: '400px',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            }}>
+            {data.title}
+          </div>
           <div>
             <span style={{ fontSize: '0.8rem', color: '#686868' }}>{data.username}</span>
             <Moment fromNow style={{ fontSize: '0.8rem', color: '#686868', marginLeft: '5px' }}>
@@ -53,14 +74,16 @@ function PostCard({ data }) {
         </div>
       </div>
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           {data.selected ? (
-            <CheckCircleTwoTone style={{ color: 'green', fontSize: '25px' }} />
+            <CheckCircleSharpIcon style={{ color: 'green', fontSize: '25px' }} />
           ) : (
             <CheckCircleOutlined style={{ color: '#686868', fontSize: '25px' }} />
           )}
+
+          <NumStyle props={data.selected}>{data.feedbackCount}</NumStyle>
         </div>
-        <div style={{ marginLeft: '30px' }}>{data.commentNum}</div>
+        <div style={{ marginLeft: '30px' }}></div>
       </div>
     </PostCardStyle>
   );

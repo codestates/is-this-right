@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Avatar, Button } from 'antd';
+import { Avatar, Button, Popover } from 'antd';
 import styled from 'styled-components';
 import axios from 'axios';
 import parse from 'html-react-parser';
@@ -57,6 +57,15 @@ const ButtonStyle = styled(Button)`
   background-color: #00baef;
 `;
 
+const DivButtonStyle = styled.div`
+  margin: 2px;
+  transition: all 0.3s;
+  :hover {
+    cursor: pointer;
+    color: #40a9ff;
+  }
+`;
+
 function FeedbackContainer({
   adviser,
   postUserId,
@@ -65,11 +74,12 @@ function FeedbackContainer({
   checkSelect,
   handleSelection,
   handleSelectionCancel,
+  setIsReply,
 }) {
   const state = useSelector((state) => state.userReducer);
   console.log(adviser);
   const [isEdit, setIsEdit] = useState(false);
-  const [testT, setTestT] = useState('');
+  const [testT, setTestT] = useState(adviser.content);
   const [selected, setSelected] = useState(isSelected);
   console.log(selected, isSelected);
   // console.log(parse(adviser.content));
@@ -88,6 +98,7 @@ function FeedbackContainer({
 
   const handleDeleteFeedback = () => {
     axios.delete(`${url}/feedbacks/${adviser.id}`).then((result) => {
+      setIsReply(false);
       handleIsEdit();
       getDetailData();
     });
@@ -103,12 +114,21 @@ function FeedbackContainer({
     setIsEdit(!isEdit);
   };
 
+  const sendDataToDetailPage = () => {
+    history.push(`/advisers/${adviser.adviserId}`);
+  };
+
   return (
     <FeedbackContainerStyle isSelected={isSelected}>
       <AdviserInfoStyle>
         <span>
-          <Avatar size={50} icon={<img src={adviser.profileImg} />} />
-          <span style={{ margin: '0 5px 0 5px' }}>{adviser.name}</span>
+          <Popover
+            placement="bottom"
+            content={<DivButtonStyle onClick={sendDataToDetailPage}>{adviser.name}님의 댓글 보러가기</DivButtonStyle>}
+            trigger="click">
+            <Avatar size={50} icon={<img src={adviser.profileImg} />} />
+            <span style={{ margin: '0 5px 0 5px' }}>{adviser.name}</span>
+          </Popover>
           <Moment fromNow style={{ fontSize: '0.8rem', color: '#686868' }}>
             {startTime}
           </Moment>

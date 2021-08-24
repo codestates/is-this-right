@@ -9,23 +9,31 @@ import { Switch, Route } from 'react-router-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
+const ContainnerStyleRed = styled(ContainerStlye)`
+  @media ${(props) => props.theme.avatar} {
+    margin-bottom: 170px;
+    display: flex;
+    flex-direction: column;
+  }
+`;
+
 function MyPage() {
   const state = useSelector((state) => state.userReducer);
 
   return (
     <BodyAreaStyle>
-      <ContainerStlye>
+      <ContainnerStyleRed>
         <AvatarCompo />
         <Route exact path="/MyPage">
           <UserPostListCompo />
         </Route>
-        <Route exact path="/MyPage/MyPostPage">
+        <Route path="/MyPage/MyPostPage">
           <UserPostListCompo />
         </Route>
         <Route path="/MyPage/UserEditPage">
           <UserEditCompo />
         </Route>
-      </ContainerStlye>
+      </ContainnerStyleRed>
     </BodyAreaStyle>
   );
 }

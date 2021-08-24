@@ -39,7 +39,7 @@ const ContainerSection = styled.div`
   @media ${(props) => props.theme.mobile} {
     flex-direction: column-reverse;
     /* justify-content: center; */
-    margin-bottom: 300px;
+    margin-bottom: 150px;
     align-items: center;
   }
 `;
@@ -70,17 +70,21 @@ const AnsweredSectionStyle = styled.div`
 `;
 
 const RadioGroup = styled(Radio.Group)`
-  width: 30% !important;
+  width: 40% !important;
+  margin: 0px 30px 0px 30px;
 
   @media ${(props) => props.theme.mobile} {
     width: 100% !important;
+    margin: 0px;
   }
 `;
 
 const RadioButton = styled(Radio.Button)`
   width: 50%;
-  font-size: 1rem;
+  /* font-size: ; */
   text-align: center;
+  min-width: 100px;
+  padding: 0px;
 `;
 
 const LinkButtonStyle = styled(Link)`
@@ -191,12 +195,11 @@ function QuestionListPage() {
         <CategorySection>
           {category.map((el) => (
             <CategoryButton viewRadio={viewRadio} setOnAnswer={setOnAnswer} setOnUnanswer={setOnUnanswer} props={el} />
-
           ))}
         </CategorySection>
 
         <SearchSection>
-          <div>
+          <div style={{ minWidth: '200px' }}>
             <Search setOnUnanswer={setOnUnanswer} setOnAnswer={setOnAnswer} viewRadio={viewRadio} />
           </div>
           {/* <span> */}
@@ -219,7 +222,7 @@ function QuestionListPage() {
           </RadioGroup>
           {/* </span> */}
           <LinkButtonStyle to="/QuestionPost">
-            <Button>New Question</Button>
+            <Button type="primary">New Question</Button>
           </LinkButtonStyle>
         </SearchSection>
 

@@ -15,6 +15,9 @@ const NavAreaStyle = styled.div`
   align-items: center;
   background: #00baef;
   box-shadow: rgba(163, 163, 163, 0.62) 0px 5px 5px 0px;
+  position: ${(props) => (props.landing === 'landing' ? 'absolute' : 'static')};
+  top: ${(props) => (props.landing === 'landing' ? '0' : '0px')};
+  left: ${(props) => (props.landing === 'landing' ? '0' : '0')};
   > img {
     width: 150px;
 
@@ -53,6 +56,7 @@ const DivStyle = styled.ul`
     display: flex;
     justify-content: space-around;
     align-items: center;
+    z-index: 999;
   }
 `;
 const SpanStyle = styled.span`
@@ -70,7 +74,7 @@ const LinkStyle = styled(Link)`
   }
 `;
 
-function Nav() {
+function Nav({ landing = 'normal' }) {
   // const [scroll, setScroll] = useState('');
   // const scrollRef = useRef()
   const state = useSelector((state) => state.userReducer);
@@ -112,7 +116,7 @@ function Nav() {
     });
   };
   return (
-    <NavAreaStyle>
+    <NavAreaStyle landing={landing}>
       {/* <ContainerStlye> */}
       <img onClick={handleClickHome} src="../../imageFile/Logo_black.png" alt="" />
       <DivStyle>
