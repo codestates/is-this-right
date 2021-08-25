@@ -61,24 +61,109 @@ const LabelStyle = styled.label`
 
 const ButtonStyle = styled(Button)`
   width: 100%;
-  height: 40px;
+  height: 50px;
   margin: 12px 0 12px;
-  font-size: 22px;
+  font-size: 20px;
 `;
 
 const SocialButtonStyle = styled.img`
   width: 100%;
-  height: 40px;
-  margin: 12px 0 0px;
+  object-fit: cover;
+  height: 50px;
+  margin: 12px 0px 0px;
   border-radius: 2px;
   border: 1px solid transparent;
   border-color: #d9d9d9;
   transition: all 0.3s;
   box-shadow: 0 2px 0 rgb(0 0 0 / 2%);
+
   :hover {
     cursor: pointer;
     border-color: #0dcaf0;
   }
+`;
+const SocialDivStyle = styled.div`
+  width: 100%;
+  height: 50px;
+
+  font-size: 20px;
+  display: flex;
+  border: 2px solid black;
+  border-radius: 4px;
+
+  &.naver {
+    margin-top: 13px;
+    border: 2px solid #1ec800;
+    background-color: #1ec800;
+    :hover {
+      cursor: pointer;
+      border: 3px solid #25b50b;
+    }
+  }
+  &.google {
+    margin-top: 13px;
+    border: 2px solid #4285f4;
+    background-color: #4285f4;
+    :hover {
+      cursor: pointer;
+      border: 3px solid #3977da;
+    }
+  }
+  &.kakao {
+    background-color: #fee500;
+    border: 2px solid #fee500;
+    :hover {
+      cursor: pointer;
+      border: 3px solid #e4ce0d;
+    }
+  }
+
+  .icon-box {
+    display: flex;
+    align-items: center;
+    &.naver {
+      border-right: 2px solid #25b50b;
+    }
+    &.google {
+      background-color: white;
+      border-right: 2px solid #3977da;
+    }
+    &.kakao {
+      border-right: 2px solid #ccb001;
+    }
+  }
+  .text-box {
+    transition: all 0.3s;
+    display: flex;
+    flex: 1;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+
+    &.naver {
+      color: #ffffff;
+      :hover {
+        color: black;
+      }
+    }
+    &.google {
+      color: #ffffff;
+      :hover {
+        color: black;
+      }
+    }
+    &.kakao {
+      color: #3a1d1d;
+      :hover {
+        color: #ffffff;
+      }
+    }
+  }
+`;
+const SocialIconStyle = styled.img`
+  width: 60px;
+  height: 25px;
+  object-fit: contain;
 `;
 
 const SignUpStyle = styled.div`
@@ -284,24 +369,35 @@ function SignInPage() {
               </div>
             </SignUpStyle>
             <ButtonStyle onClick={handleLogIn}>Login</ButtonStyle>
-            {/* <ButtonStyle
-              style={{ backgroundImage: "url('../../imageFile/kakao.png')", backgroundSize: 'cover' }}
-              onClick={getKakaoToken}> */}
-            <SocialButtonStyle src="../../imageFile/kakao.jpg" onClick={getKakaoToken} alt="kakao login" />
-            {/* </ButtonStyle> */}
+            <SocialDivStyle onClick={getKakaoToken} className="kakao">
+              <div className="icon-box kakao">
+                <SocialIconStyle src="./../imageFile/social/kakao-icon.png" alt="kakao login" />
+              </div>
+              <div className="text-box kakao">Login with kakao</div>
+            </SocialDivStyle>
             <GoogleLogin
               clientId={process.env.REACT_APP_GOOGLE_API_KEY}
               render={(props) => (
-                <SocialButtonStyle src="../../imageFile/google.jpg" onClick={props.onClick} alt="google login" />
+                <SocialDivStyle onClick={props.onClick} className="google">
+                  <div className="icon-box google">
+                    <SocialIconStyle src="./../imageFile/social/google-icon.png" alt="google login" />
+                  </div>
+                  <div className="text-box google">Login with Google</div>
+                </SocialDivStyle>
               )}
               // <ButtonStyle onClick={props.onClick}>Google Login</ButtonStyle>
               onSuccess={handleGoogleLogIn}
               onFailure={handleFail}></GoogleLogin>
             <NaverLogin
               clientId={process.env.REACT_APP_NAVER_API_KEY}
-              callbackUrl={'http://localhost:3000/SignIn'}
+              callbackUrl={`${url}/SignIn`}
               render={(props) => (
-                <SocialButtonStyle src="../../imageFile/naver.jpg" onClick={props.onClick} alt="naver login" />
+                <SocialDivStyle onClick={props.onClick} className="naver">
+                  <div className="icon-box naver">
+                    <SocialIconStyle src="./../imageFile/social/naver-icon.png" alt="naver login" />
+                  </div>
+                  <div className="text-box naver">Login with Naver</div>
+                </SocialDivStyle>
               )}
               // <ButtonStyle onClick={props.onClick}>Naver Login</ButtonStyle>
               onSuccess={handleNaverLogin}

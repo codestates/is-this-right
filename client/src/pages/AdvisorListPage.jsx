@@ -253,7 +253,7 @@ function AdvisorListPage() {
               <Radio.Group
                 className="filterCategory"
                 size="large"
-                defaultValue="전체"
+                value={filterOption.category}
                 onChange={(e) => {
                   getOption(e, 'category');
                 }}>
@@ -263,7 +263,7 @@ function AdvisorListPage() {
                 <Radio.Button value="헬스">헬스</Radio.Button>
                 <Radio.Button value="골프">골프</Radio.Button>
                 <Radio.Button value="클라이밍">클라이밍</Radio.Button>
-                <Radio.Button value="기타">기타</Radio.Button>
+                <Radio.Button value="기타-추가예정">기타</Radio.Button>
               </Radio.Group>
             </div>
             <div className="category">
@@ -271,7 +271,7 @@ function AdvisorListPage() {
               <Radio.Group
                 className="filterCategory"
                 size="large"
-                defaultValue="남+여"
+                value={filterOption.gender}
                 onChange={(e) => {
                   getOption(e, 'gender');
                 }}>
@@ -287,7 +287,7 @@ function AdvisorListPage() {
               <Radio.Group
                 className="filterCategory"
                 size="large"
-                defaultValue="전국"
+                value={filterOption.state}
                 onChange={(e) => {
                   getOption(e, 'state');
                 }}>
