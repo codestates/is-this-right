@@ -46,7 +46,7 @@ function QuestionContainer() {
   };
   useEffect(() => {
     setCurrentPage(1);
-    setCurrentPageList(state.searchPosts.slice(PAGE_SIZE * (currentPage - 1), PAGE_SIZE * currentPage));
+    setCurrentPageList(state.searchPosts.slice(0, PAGE_SIZE));
   }, [state.searchPosts]);
 
   return (

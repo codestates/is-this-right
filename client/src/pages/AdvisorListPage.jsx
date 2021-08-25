@@ -170,7 +170,7 @@ function AdvisorListPage() {
   useEffect(() => {
     if (adviserDetail) {
       setCurrentPage(1);
-      setCurrentPageList(adviserDetail.slice(PAGE_SIZE * (currentPage - 1), PAGE_SIZE * currentPage));
+      setCurrentPageList(adviserDetail.slice(0, PAGE_SIZE));
     }
   }, [adviserDetail]);
 

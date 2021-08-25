@@ -110,7 +110,7 @@ function QuestionPostPage({ post, setPost, setIsEdit }) {
             header: { 'Content-Type': 'multipart/form-data' },
           })
           .then((result) => {
-            window.location.replace('/');
+            history.push('/');
           })
           .catch((err) => {
             // setUsernameErr('모든 정보 입력 후 다시 시도 해주세요.');
