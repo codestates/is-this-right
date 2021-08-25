@@ -18,7 +18,7 @@ const DividePage = styled.div`
 `;
 
 const LoginSectionStyle = styled.div`
-  flex: 0.88 1 0%;
+  flex: 1 1 0%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -29,7 +29,8 @@ const LoginSectionStyle = styled.div`
 
 const LogInStyle = styled(Form)`
   height: 100%;
-  max-width: 500px;
+  width: 100%;
+  padding: 6vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -51,6 +52,7 @@ const HeadSectionStyle = styled.div`
   margin: 0px auto;
   width: 100%;
   display: flex;
+
   justify-content: center;
   align-items: center;
   margin-bottom: 40px;
@@ -234,10 +236,10 @@ function UserSignUpPage() {
           <HeadSectionStyle>
             <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
           </HeadSectionStyle>
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '28px' }}>
+          {/* <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '28px' }}>
             회원가입
             <span>User</span>
-          </div>
+          </div> */}
           <UploadCompo where="user" />
 
           <LabelStyle htmlFor="username">username</LabelStyle>

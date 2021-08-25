@@ -153,8 +153,9 @@ const SocialDivStyle = styled.div`
       }
     }
     &.kakao {
+      color: #3a1d1d;
       :hover {
-        color: #a3af3a;
+        color: #ffffff;
       }
     }
   }
