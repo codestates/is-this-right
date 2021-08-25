@@ -8,81 +8,137 @@ import { useSelector, useDispatch } from 'react-redux';
 import Search from '../components/Search';
 import { Button, Radio } from 'antd';
 import { Link } from 'react-router-dom';
-
 import { getAllPosts, searchPosts, getCategoryPosts } from '../actions/postActionIndex';
-import { StarTwoTone } from '@ant-design/icons';
 import { getTopAdvisers } from '../actions/adviserActionIndex';
 import { setIsChat, setViewChatlist, changeRoom, setMessages } from '../actions/chatAction';
 const url = process.env.REACT_APP_API_URL;
-
-const CategorySection = styled.div`
-  display: flex;
-  width: 100%;
-  height: 20%;
-  /* min-height: 170px;
-  min-width: 200px; */
+const QuestionBodyStyle = styled(BodyAreaStyle)`
+  background: #f4f4f4;
 `;
-
-const ContainerSection = styled.div`
+const QuestionListContainer = styled(ContainerStlye)`
   display: flex;
-  height: 100%;
-  @media ${(props) => props.theme.mobile} {
-    flex-direction: column-reverse;
-    /* justify-content: center; */
-    margin-bottom: 150px;
-    align-items: center;
-  }
-`;
-
-const SearchSection = styled.div`
-  /* height: 10%; */
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 0px 10px 0px;
-  > div {
-    width: 60%;
-  }
-
-  > Radio.Group {
-  }
+  flex-direction: column;
+  width: 75vw;
 
   @media ${(props) => props.theme.mobile} {
-    flex-wrap: wrap;
-    > div {
-      width: 100vw;
+    width: 100vw;
+  }
+  .name {
+    font-family: 'font-css';
+  }
+  .backgroundSection {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-radius: 10px 10px 0 0;
+    border: 2px solid #eee;
+    border-bottom: 0;
+    height: 100%;
+  }
+  .categorySection {
+    display: flex;
+    background: #f4f4f4;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  .searchSection {
+    padding: 20px 20px 10px 20px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 40% 40% 20%;
+
+    @media ${(props) => props.theme.mobile} {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      height: 160px;
+    }
+    .search {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      border-right: 0;
+      overflow: hidden;
+      .ant-input-search-button {
+        display: flex;
+        align-items: center;
+      }
+
+      @media ${(props) => props.theme.mobile} {
+        width: 100%;
+        margin-bottom: 20px;
+      }
+    }
+    .answered {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      align-items: center;
+      .ans {
+        display: flex;
+        justify-content: center;
+        border-radius: 10px 0 0 10px;
+        width: 100px;
+        height: 100%;
+        align-items: center;
+      }
+      .unAns {
+        width: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 0 10px 10px 0;
+        height: 100%;
+      }
+      @media ${(props) => props.theme.mobile} {
+        margin-bottom: 10px;
+      }
+    }
+    .post {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      font-family: 'font-css';
+      button {
+        width: 100px;
+        border-radius: 10px;
+        height: 100%;
+      }
+      @media ${(props) => props.theme.mobile} {
+        margin-bottom: 10px;
+      }
     }
   }
-`;
-
-const AnsweredSectionStyle = styled.div`
-  display: flex;
-`;
-
-const RadioGroup = styled(Radio.Group)`
-  width: 40% !important;
-  margin: 0px 30px 0px 30px;
-
-  @media ${(props) => props.theme.mobile} {
-    width: 100% !important;
-    margin: 0px;
-  }
-`;
-
-const RadioButton = styled(Radio.Button)`
-  width: 50%;
-  /* font-size: ; */
-  text-align: center;
-  min-width: 100px;
-  padding: 0px;
-`;
-
-const LinkButtonStyle = styled(Link)`
-  @media ${(props) => props.theme.mobile} {
+  .mainSection {
+    display: flex;
     width: 100%;
-    > Button {
+    height: 100%;
+
+    @media ${(props) => props.theme.mobile} {
+      flex-direction: column-reverse;
+    }
+    .top10 {
+      flex: 1 1;
+      display: flex;
+      position: relative;
+      justify-content: flex-start;
+      align-items: flex-start;
+      height: 100%;
+      min-width: 300px;
+      @media ${(props) => props.theme.mobile} {
+        margin-top: 20px;
+      }
+    }
+    .listContainer {
+      flex: 2 3;
+      display: flex;
+      position: relative;
+      justify-content: flex-start;
+      align-items: flex-end;
       width: 100%;
-      border-radius: 10px 10px 10px 10px;
+    }
+    @media ${(props) => props.theme.mobile} {
+      margin-bottom: 12vh;
     }
   }
 `;
@@ -99,28 +155,28 @@ function QuestionListPage() {
 
   const category = [
     {
-      name: 'Personal Training',
+      name: 'P . T',
       search: '헬스',
-      color: 'red', //배경컬러를 바꿔야함
-      icon: '../../imageFile/fitness.png',
+      color: '#C0392B', //배경컬러를 바꿔야함
+      icon: '../../imageFile/fitness_white.png',
     },
     {
       name: 'Golf',
       search: '골프',
-      color: 'pink',
-      icon: '../../imageFile/golf.png',
+      color: '#D25528',
+      icon: '../../imageFile/golf_white.png',
     },
     {
       name: 'Climbing',
       search: '클라이밍',
-      color: 'black',
-      icon: '../../imageFile/climbing.png',
+      color: '#F39D31',
+      icon: '../../imageFile/climbing_white.png',
     },
     {
       name: 'E.T.C',
       search: '기타',
-      color: 'blue',
-      icon: '../../imageFile/etc.png',
+      color: '#F1C531',
+      icon: '../../imageFile/etc_white.png',
     },
   ];
 
@@ -189,48 +245,43 @@ function QuestionListPage() {
     setRadioValue(value);
   };
   return (
-    <BodyAreaStyle>
-      <ContainerStlye style={{ display: 'flex', flexDirection: 'column' }}>
-        <CategorySection>
+    <QuestionBodyStyle>
+      <QuestionListContainer>
+        <div className="categorySection">
           {category.map((el) => (
             <CategoryButton viewRadio={viewRadio} setOnAnswer={setOnAnswer} setOnUnanswer={setOnUnanswer} props={el} />
           ))}
-        </CategorySection>
-
-        <SearchSection>
-          <div style={{ minWidth: '200px' }}>
-            <Search setOnUnanswer={setOnUnanswer} setOnAnswer={setOnAnswer} viewRadio={viewRadio} />
-          </div>
-          {/* <span> */}
-
-          <RadioGroup buttonStyle="solid" value={radioValue}>
-            <AnsweredSectionStyle>
-              <RadioButton
-                value="Answered"
-                onClick={handleAnswerButton}
-                style={{ borderRadius: '10px 0px 0px 10px', borderRight: '0px', width: '200px' }}>
+        </div>
+        <div className="backgroundSection">
+          <div className="searchSection">
+            <div className="search">
+              <Search setOnUnanswer={setOnUnanswer} setOnAnswer={setOnAnswer} viewRadio={viewRadio} />
+            </div>
+            <Radio.Group className="answered" buttonStyle="solid" value={radioValue}>
+              <Radio.Button value="Answered" onClick={handleAnswerButton} className="ans">
                 Answered
-              </RadioButton>
-              <RadioButton
-                value="Unanswered"
-                onClick={handleUnAnswerButton}
-                style={{ borderRadius: '0 10px 10px 0', borderLeft: '0px', width: '200px' }}>
+              </Radio.Button>
+              <Radio.Button value="Unanswered" onClick={handleUnAnswerButton} className="unAns">
                 Unanswered
-              </RadioButton>
-            </AnsweredSectionStyle>
-          </RadioGroup>
-          {/* </span> */}
-          <LinkButtonStyle to="/QuestionPost">
-            <Button type="primary">New Question</Button>
-          </LinkButtonStyle>
-        </SearchSection>
+              </Radio.Button>
+            </Radio.Group>
+            {/* </span> */}
+            <Link className="post" to="/QuestionPost">
+              <Button type="primary">물어볼까?</Button>
+            </Link>
+          </div>
 
-        <ContainerSection>
-          <Top10List />
-          <QuestionContainer />
-        </ContainerSection>
-      </ContainerStlye>
-    </BodyAreaStyle>
+          <div className="mainSection">
+            <div className="top10">
+              <Top10List />
+            </div>
+            <div className="listContainer">
+              <QuestionContainer />
+            </div>
+          </div>
+        </div>
+      </QuestionListContainer>
+    </QuestionBodyStyle>
   );
 }
 

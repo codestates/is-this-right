@@ -26,9 +26,15 @@ const OuterContainer = styled.div`
     bottom: 0;
     z-index: 990;
     border-radius: 0 0 0 0;
+    overflow-x: hidden;
+    -ms-overflow-style: none;
+    ::-webkit-scrollbar {
+      display: none;
+    }
   }
   .infobar {
     position: absolute;
+    left: 0;
     top: 0;
     width: 100%;
     height: 70px;
@@ -45,6 +51,7 @@ const OuterContainer = styled.div`
     }
   }
   .chatContainer {
+    overflow-x: hidden;
     position: relative;
     background: #fff;
     display: flex;

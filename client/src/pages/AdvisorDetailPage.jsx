@@ -29,7 +29,9 @@ const AdviserDetailContainer = styled(ContainerStlye)`
   @media ${(props) => props.theme.mobile} {
     width: 100vw;
   }
-
+  .name {
+    font-family: 'font-css';
+  }
   .userInfo {
     position: relative;
     width: 100%;
@@ -193,13 +195,16 @@ const AdviserDetailContainer = styled(ContainerStlye)`
       }
       .head {
         font-size: 1.5rem;
+        font-family: 'font-css';
       }
       .detailSection {
         position: relative;
         height: 100%;
-        overflow-y: scroll;
-        @media ${(props) => props.theme.mobile} {
-        }
+        overflow-y: auto;
+        -ms-overflow-style: none;
+      }
+      .detailSection::-webkit-scrollbar {
+        display: none;
       }
     }
   }
@@ -353,12 +358,32 @@ function AdvisorDetailPage() {
           <div className="right">
             <div className="head">소개</div>
             <div className="detailSection">
-              <div className="content">{parse(adviserDetailInfo.detail)}</div>
+              <div className="content">
+                {parse(
+                  adviserDetailInfo.detail +
+                    adviserDetailInfo.detail +
+                    adviserDetailInfo.detail +
+                    adviserDetailInfo.detail +
+                    adviserDetailInfo.detail +
+                    adviserDetailInfo.detail +
+                    adviserDetailInfo.detail +
+                    adviserDetailInfo.detail +
+                    adviserDetailInfo.detail +
+                    adviserDetailInfo.detail +
+                    adviserDetailInfo.detail +
+                    adviserDetailInfo.detail +
+                    adviserDetailInfo.detail +
+                    adviserDetailInfo.detail +
+                    adviserDetailInfo.detail,
+                )}
+              </div>
             </div>
           </div>
         </div>
         <div className="feedback">
-          <div className="title">{adviserDetailInfo.name}'s Feedbacks</div>
+          <div className="title">
+            <div className="name">{adviserDetailInfo.name}</div>'s Feedbacks
+          </div>
           <div className="feedbackContainer">
             {adviserDetailInfo.feedbacks.length === 0 ? (
               <Result icon={<SmileOutlined style={{ color: '#0077b6' }} />} title="등록된 답변이 없습니다." />

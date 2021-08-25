@@ -12,7 +12,9 @@ const url = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 
 const AdviserBodyAreaStyle = styled(BodyAreaStyle)`
+  background: #f4f4f4;
   @media ${(props) => props.theme.mobile} {
+    background: #fafafa;
   }
 `;
 const AdviserContainerStyle = styled(ContainerStlye)`
@@ -83,9 +85,15 @@ const AdviserContainerStyle = styled(ContainerStlye)`
     border-radius: 5px;
 
     @media ${(props) => props.theme.mobile} {
+      border: none;
+      border-bottom: 1px solid #ddd;
       width: 100%;
     }
     .filter {
+      label {
+        color: #353535;
+        font-size: 0.9rem;
+      }
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -105,6 +113,7 @@ const AdviserContainerStyle = styled(ContainerStlye)`
         }
         .title {
           color: #353535;
+          font-weight: bold;
           @media ${(props) => props.theme.mobile} {
             width: 10%;
           }
@@ -113,6 +122,7 @@ const AdviserContainerStyle = styled(ContainerStlye)`
           display: flex;
           flex-wrap: wrap;
           gap: 10px;
+
           @media ${(props) => props.theme.mobile} {
             flex-wrap: none;
             width: 100%;
@@ -244,7 +254,7 @@ function AdvisorListPage() {
             getfilterData={getfilterData}
             inputRef={inputRef}
           />
-          <Button onClick={setClear} style={{ marginTop: '10px', textAlign: 'center', width: '100%', height: '38px' }}>
+          <Button onClick={setClear} style={{ marginTop: '10px', textAlign: 'center', width: '100%', height: '40px' }}>
             필터 초기화
           </Button>
           <div className="filter">

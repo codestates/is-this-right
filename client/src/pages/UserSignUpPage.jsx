@@ -14,11 +14,12 @@ const DividePage = styled.div`
   width: 100vw;
   height: 100vh;
   background-color: white;
+  position: relative;
   display: flex;
 `;
 
 const LoginSectionStyle = styled.div`
-  flex: 0.88 1 0%;
+  flex: 1 1 0%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -29,10 +30,11 @@ const LoginSectionStyle = styled.div`
 
 const LogInStyle = styled(Form)`
   height: 100%;
-  max-width: 500px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding: 100px;
   /* align-items: center; */
 `;
 

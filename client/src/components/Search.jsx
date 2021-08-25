@@ -32,7 +32,7 @@ function Search({ type, setOnUnanswer, setOnAnswer, getfilterData, inputRef, vie
       <Input.Search
         ref={inputRef}
         size="large"
-        placeholder="input here"
+        placeholder="Search.."
         enterButton
         onSearch={type === 'adviserList' ? getAdviserSearch : getQuestionSearch}
       />
