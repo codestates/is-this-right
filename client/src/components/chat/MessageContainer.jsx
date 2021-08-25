@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 const MessagesContainer = styled.div`
   position: relative;
   background: rgba(179, 200, 219, 0.8);
-  overflow-y: auto;
+  overflow-y: scroll;
   -ms-overflow-style: none;
   ::-webkit-scrollbar {
     display: none;

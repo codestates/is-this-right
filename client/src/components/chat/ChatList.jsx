@@ -10,12 +10,15 @@ const url = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 
 const ListContainer = styled.div`
-  overflow-y: auto;
+  position: relative;
+  overflow-y: scroll;
+  height: 520px;
   -ms-overflow-style: none;
   ::-webkit-scrollbar {
     display: none;
   }
   @media ${(props) => props.theme.mobile} {
+    height: 92vh;
   }
   .listitem {
     padding-left: 20px;
@@ -67,39 +70,37 @@ const ChatList = () => {
     dispatch(setViewChatlist(false));
   };
   return (
-    <>
-      <ListContainer>
-        {chatState.chatList.map((chat) => {
-          return (
-            <div className="listitem" key={chat.chatId} onClick={() => handleChatRoom(chat.chatId, chat.username)}>
-              <div className="avatar">
-                <BorderedAvatar
-                  shape={'square'}
-                  size={45}
-                  src={<img src={chat.profileImg} style={{ objectFit: 'cover' }} />}
-                />{' '}
+    <ListContainer>
+      {chatState.chatList.map((chat) => {
+        return (
+          <div className="listitem" key={chat.chatId} onClick={() => handleChatRoom(chat.chatId, chat.username)}>
+            <div className="avatar">
+              <BorderedAvatar
+                shape={'square'}
+                size={45}
+                src={<img src={chat.profileImg} style={{ objectFit: 'cover' }} />}
+              />{' '}
+            </div>
+            <div className="chatInfo">
+              <div className="upper">
+                <span>{chat.username} </span>
+                <span>
+                  <Moment fromNow style={{ color: '#777777', fontSize: '0.7rem' }}>
+                    {new Date(chat.lastCreate)}
+                  </Moment>{' '}
+                </span>
               </div>
-              <div className="chatInfo">
-                <div className="upper">
-                  <span>{chat.username} </span>
-                  <span>
-                    <Moment fromNow style={{ color: '#777777', fontSize: '0.7rem' }}>
-                      {new Date(chat.lastCreate)}
-                    </Moment>{' '}
-                  </span>
-                </div>
-                <div className="lower">
-                  <span style={{ color: '#777777', fontSize: '0.85rem' }}>{chat.lastMessage} </span>
-                  <span>
-                    <Badge count={chat.unreadMessageCount} />
-                  </span>
-                </div>
+              <div className="lower">
+                <span style={{ color: '#777777', fontSize: '0.85rem' }}>{chat.lastMessage} </span>
+                <span>
+                  <Badge count={chat.unreadMessageCount} />
+                </span>
               </div>
             </div>
-          );
-        })}
-      </ListContainer>
-    </>
+          </div>
+        );
+      })}
+    </ListContainer>
   );
 };
 
