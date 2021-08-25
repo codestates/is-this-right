@@ -31,6 +31,7 @@ module.exports = {
           ON chats_users.chatId = messages.chatId AND chats_users.userId = messages.receiver 
           WHERE chats_users.updatedAt < messages.createdAt AND messages.receiver = ${userInfo.id} GROUP BY chatId) unread ON chats_users.chatId = unread.chatId
         WHERE NOT chats_users.userId = ${userInfo.id}
+        ORDER BY lastMessages.lastCreate DESC
           `,
         { type: QueryTypes.SELECT },
       );
