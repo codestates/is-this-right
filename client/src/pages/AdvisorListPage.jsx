@@ -4,7 +4,8 @@ import { BodyAreaStyle, ContainerStlye } from '../style/pageStyle';
 import AdviserCard from '../components/adviser/AdviserCard';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { Radio, Pagination, Button } from 'antd';
+import { Radio, Pagination, Button, Result } from 'antd';
+import { SmileOutlined, FrownOutlined } from '@ant-design/icons';
 import Search from '../components/Search';
 import { setIsChat, setMessages, setViewChatlist, changeRoom } from '../actions/chatAction';
 import { useDispatch, useSelector } from 'react-redux';
@@ -149,6 +150,10 @@ const AdviserContainerStyle = styled(ContainerStlye)`
     }
   }
 `;
+const BlankStyle = styled.div`
+  margin-top: 50px;
+  width: 100%;
+`;
 
 function AdvisorListPage() {
   const [adviserDetail, setAdviserDetail] = useState(null);
@@ -229,22 +234,34 @@ function AdvisorListPage() {
     <AdviserBodyAreaStyle>
       <AdviserContainerStyle>
         <div className="adviserSection">
-          <div className="adviserListContainer">
-            {currentPageList.map((el) => (
-              <AdviserCard key={el.id} data={el} />
-            ))}
-          </div>
-          <div className="pagination">
-            <Pagination
-              simple
-              defaultCurrent={1}
-              current={currentPage}
-              pageSize={PAGE_SIZE}
-              onChange={handlePageChange}
-              total={adviserDetail.length}
-              style={{ margin: '20px' }}
-            />
-          </div>
+          {currentPageList.length ? (
+            <>
+              <div className="adviserListContainer">
+                {currentPageList.map((el) => (
+                  <AdviserCard key={el.id} data={el} />
+                ))}
+              </div>
+              <div className="pagination">
+                <Pagination
+                  simple
+                  defaultCurrent={1}
+                  current={currentPage}
+                  pageSize={PAGE_SIZE}
+                  onChange={handlePageChange}
+                  total={adviserDetail.length}
+                  style={{ margin: '20px' }}
+                />
+              </div>
+            </>
+          ) : (
+            <>
+              <div />
+              <BlankStyle>
+                <Result icon={<FrownOutlined style={{ fontSize: '100px' }} />} title="요청하신 검색 결과가 없습니다." />
+              </BlankStyle>
+              <div />
+            </>
+          )}
         </div>
         <div className="filterSection">
           <Search
