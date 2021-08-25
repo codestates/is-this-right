@@ -7,15 +7,49 @@ import { CheckCircleTwoTone, CheckCircleOutlined } from '@ant-design/icons';
 import CheckCircleSharpIcon from '@material-ui/icons/CheckCircleSharp';
 
 const PostCardStyle = styled.div`
-  background-color: white;
-  border-top: 1px solid #ebedef;
-  width: 100%;
-  height: 100%;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  margin: 2px 0px 2px 0px;
+  height: 100%;
+  border-bottom: 1px dashed #ddd;
+  padding: 15px;
+  :hover {
+    border: 1px dashed #ddd;
+    margin-top: -1px;
+  }
+  .avatarSection {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .postInfoSection {
+    flex: 5;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    padding-left: 20px;
+    .title {
+      font-size: 1.2rem;
+    }
+    .moment {
+      font-size: 0.8rem;
+    }
+    .name {
+      font-size: 0.8rem;
+    }
+  }
+  .selectedSection {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: bold;
+    .count {
+      margin-left: 5px;
+      font-size: 1rem;
+    }
+  }
   @media ${(props) => props.theme.mobile} {
     padding-left: 30px;
   }
@@ -45,45 +79,22 @@ function PostCard({ data }) {
     startTime = new Date(data.updatedAt);
   return (
     <PostCardStyle>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div className="avatarSection">
         <Avatar
-          size={100}
+          size={80}
           icon={<img src={data.profileImg} />} // img데이터 넣기
         />
-        <div
-          style={{
-            marginLeft: '30px',
-          }}>
-          <div
-            style={{
-              fontSize: '1.3rem',
-              color: 'black',
-              width: '400px',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
-            }}>
-            {data.title}
-          </div>
-          <div>
-            <span style={{ fontSize: '0.8rem', color: '#686868' }}>{data.username}</span>
-            <Moment fromNow style={{ fontSize: '0.8rem', color: '#686868', marginLeft: '5px' }}>
-              {startTime}
-            </Moment>
-          </div>
-        </div>
       </div>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          {data.selected ? (
-            <CheckCircleSharpIcon style={{ color: 'green', fontSize: '25px' }} />
-          ) : (
-            <CheckCircleOutlined style={{ color: '#686868', fontSize: '25px' }} />
-          )}
-
-          <NumStyle props={data.selected}>{data.feedbackCount}</NumStyle>
+      <div className="postInfoSection">
+        <div className="title">{data.title}</div>
+        <div className="moment">
+          <Moment fromNow>{startTime}</Moment>
         </div>
-        <div style={{ marginLeft: '30px' }}></div>
+        <span className="name">{data.username}</span>
+      </div>
+      <div className="selectedSection">
+        {data.selected ? <CheckCircleOutlined style={{ color: '#0096c7' }} /> : <CheckCircleOutlined />}
+        <span className="count">{data.feedbackCount}</span>
       </div>
     </PostCardStyle>
   );

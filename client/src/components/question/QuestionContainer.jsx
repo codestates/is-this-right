@@ -6,23 +6,33 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 const QuestionContainerStyle = styled.div`
-  margin: 10px;
-  width: 100%;
   display: flex;
   flex-direction: column;
-  position: relative;
-  @media ${(props) => props.theme.mobile} {
-    height: 70%;
-    min-height: auto;
-  }
-`;
-const CenterComponentsStyle = styled.div`
+  justify-content: space-between;
+  height: 100%;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: 30px;
-  /* position: absolute;
-  bottom: 10%; */
+  border-left: 1px solid #eee;
+  border-top: 1px solid #eee;
+  .postContainer {
+    height: 100%;
+    flex: 8;
+    margin-top: 20px;
+    padding: 0 20px 0 20px;
+    display: flex;
+    flex-direction: column;
+    a {
+      color: inherit;
+    }
+  }
+  .pagination {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @media ${(props) => props.theme.mobile} {
+      margin-top: 10px;
+    }
+  }
 `;
 
 function QuestionContainer() {
@@ -41,12 +51,14 @@ function QuestionContainer() {
 
   return (
     <QuestionContainerStyle>
-      {currentPageList.map((el) => (
-        <Link key={el.id} to={`/posts/${el.id}`} style={{ margin: '5px 0px 5px 0px', textDecorationLine: 'none' }}>
-          <PostCard data={el} />
-        </Link>
-      ))}
-      <CenterComponentsStyle>
+      <div className="postContainer">
+        {currentPageList.map((el) => (
+          <Link key={el.id} to={`/posts/${el.id}`} style={{ textDecorationLine: 'none' }}>
+            <PostCard data={el} />
+          </Link>
+        ))}
+      </div>
+      <div className="pagination">
         <Pagination
           simple
           defaultCurrent={0}
@@ -55,7 +67,7 @@ function QuestionContainer() {
           onChange={handlePageChange}
           total={state.searchPosts.length}
         />
-      </CenterComponentsStyle>
+      </div>
     </QuestionContainerStyle>
   );
 }

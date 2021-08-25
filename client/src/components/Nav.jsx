@@ -16,17 +16,18 @@ const NavAreaStyle = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  font-family: 'font-css';
   /* background: linear-gradient(70deg, #6366f1, #1d4ed8, #2563eb); */
-  background: linear-gradient(60deg, #0096c7 40%, #0077b6);
+  /* background: linear-gradient(180deg, #0096c7, #0077b6); */
   /* background: rgba(0, 119, 182, 0.8); */
-  box-shadow: rgba(163, 163, 163, 0.62) 0px 5px 5px 0px;
+
+  border-bottom: 1px solid rgba(222, 222, 222, 0.9);
   position: ${(props) => (props.landing === 'landing' ? 'absolute' : 'static')};
   top: ${(props) => (props.landing === 'landing' ? '0' : '0px')};
   left: ${(props) => (props.landing === 'landing' ? '0' : '0')};
-  z-index: 900;
 
   .logo {
-    color: #fafafa;
+    /* color: #fafafa; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -110,7 +111,6 @@ const ContainerStlye = styled.div`
 `;
 
 const DivStyle = styled.div`
-  color: #fff;
   font-size: 1rem;
   width: 30%;
   display: flex;
@@ -118,6 +118,9 @@ const DivStyle = styled.div`
   list-style: none;
   padding: 0;
   height: 100%;
+  span {
+    color: #000;
+  }
   > div {
     display: flex;
     align-items: center;
@@ -144,7 +147,6 @@ const MobileDivStyle = styled.div`
   @media ${(props) => props.theme.mobile} {
     font-size: 2rem;
     background: #023e8a;
-
     height: 12vh;
     position: fixed;
     bottom: 0;

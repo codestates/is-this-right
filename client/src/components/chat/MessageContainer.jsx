@@ -6,7 +6,11 @@ import { useSelector } from 'react-redux';
 const MessagesContainer = styled.div`
   position: relative;
   background: rgba(179, 200, 219, 0.8);
-  overflow-y: scroll;
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  ::-webkit-scrollbar {
+    display: none;
+  }
   height: 100%;
   padding-bottom: 10px;
 `;
@@ -25,6 +29,7 @@ const MessageContainer = () => {
 
   return (
     <MessagesContainer ref={msgContainer}>
+      <div style={{ height: '70px' }} />
       {chatState.messages.map((message, i) => (
         <div key={i}>
           <Message message={message} />
