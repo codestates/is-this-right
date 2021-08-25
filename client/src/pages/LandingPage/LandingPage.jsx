@@ -19,7 +19,6 @@ function LandingPage() {
   const section0B = useRef();
   const section0C = useRef();
   const section0D = useRef();
-  const section0E = useRef();
   const videoCanvas0 = useRef();
 
   const section1 = useRef();
@@ -30,13 +29,19 @@ function LandingPage() {
   const section1E = useRef();
   const section1F = useRef();
   const section1G = useRef();
+  const videoCanvas1 = useRef();
 
   const section2 = useRef();
   const section2A = useRef();
   const section2B = useRef();
   const section2C = useRef();
+  const videoCanvas2 = useRef();
 
   const section3 = useRef();
+  const userExplainSectionA = useRef();
+  const userExplainTextA = useRef();
+  const userExplainGifA = useRef();
+
   const section4 = useRef();
 
   let yOffset = 0;
@@ -60,7 +65,6 @@ function LandingPage() {
         messageB: section0B,
         messageC: section0C,
         messageD: section0D,
-        messageE: section0E,
         canvas: videoCanvas0,
         conText: videoCanvas0,
         videoImages: [],
@@ -81,9 +85,6 @@ function LandingPage() {
         messageDOpacityIn: [0, 1, { start: 0.6, end: 0.7 }],
         messageDTranslateYIn: [20, 0, { start: 0.6, end: 0.7 }],
 
-        messageEOpacityIn: [0, 1, { start: 0.7, end: 0.8 }],
-        messageETranslateYIn: [20, 0, { start: 0.7, end: 0.8 }],
-
         //아웃
         messageAOpacityOut: [1, 0, { start: 0.22, end: 0.3 }],
         messageATranslateYOut: [0, -20, { start: 0.22, end: 0.3 }],
@@ -96,9 +97,6 @@ function LandingPage() {
 
         messageDOpacityOut: [1, 0, { start: 0.62, end: 0.7 }],
         messageDTranslateYOut: [0, -20, { start: 0.62, end: 0.7 }],
-
-        messageEOpacityOut: [1, 0, { start: 0.82, end: 0.9 }],
-        messageETranslateYOut: [0, -20, { start: 0.82, end: 0.9 }],
       },
     },
     {
@@ -115,8 +113,13 @@ function LandingPage() {
         messageE: section1E,
         messageF: section1F,
         messageG: section1G,
+        canvas: videoCanvas1,
+        conText: videoCanvas1,
+        videoImages: [],
       },
       values: {
+        videoImageCount: 315,
+        imageSequence: [0, 314],
         //인
         messageAOpacityIn: [0, 1, { start: 0.08, end: 0.14 }],
         messageATranslateYIn: [20, 0, { start: 0.08, end: 0.14 }],
@@ -158,8 +161,8 @@ function LandingPage() {
         messageFOpacityOut: [1, 0, { start: 0.75, end: 0.8 }],
         messageFTranslateYOut: [0, -20, { start: 0.75, end: 0.8 }],
 
-        messageGOpacityOut: [1, 0, { start: 0.87, end: 0.9 }],
-        messageGTranslateYOut: [0, -20, { start: 0.87, end: 0.9 }],
+        messageGOpacityOut: [1, 0, { start: 0.87, end: 0.95 }],
+        messageGTranslateYOut: [0, -20, { start: 0.87, end: 0.95 }],
       },
     },
     {
@@ -172,27 +175,33 @@ function LandingPage() {
         messageA: section2A,
         messageB: section2B,
         messageC: section2C,
+        canvas: videoCanvas2,
+        conText: videoCanvas2,
+        videoImages: [],
       },
       values: {
+        videoImageCount: 315,
+        imageSequence: [0, 314],
+        canvas_opacity: [1, 0, { start: 0.94, end: 1 }],
         //인
-        messageAOpacityIn: [0, 1, { start: 0.15, end: 0.25 }],
-        messageATranslateYIn: [20, 0, { start: 0.15, end: 0.25 }],
+        messageAOpacityIn: [0, 1, { start: 0.1, end: 0.15 }],
+        messageATranslateYIn: [20, 0, { start: 0.1, end: 0.15 }],
 
-        messageBOpacityIn: [0, 1, { start: 0.42, end: 0.5 }],
-        messageBTranslateYIn: [20, 0, { start: 0.42, end: 0.5 }],
+        messageBOpacityIn: [0, 1, { start: 0.27, end: 0.29 }],
+        messageBTranslateYIn: [20, 0, { start: 0.27, end: 0.29 }],
 
-        messageCOpacityIn: [0, 1, { start: 0.65, end: 0.7 }],
-        messageCTranslateYIn: [20, 0, { start: 0.65, end: 0.7 }],
+        messageCOpacityIn: [0, 1, { start: 0.42, end: 0.45 }],
+        messageCTranslateYIn: [20, 0, { start: 0.42, end: 0.45 }],
 
         //아웃
-        messageAOpacityOut: [1, 0, { start: 0.3, end: 0.4 }],
-        messageATranslateYOut: [0, -20, { start: 0.3, end: 0.4 }],
+        messageAOpacityOut: [1, 0, { start: 0.2, end: 0.25 }],
+        messageATranslateYOut: [0, -20, { start: 0.2, end: 0.25 }],
 
-        messageBOpacityOut: [1, 0, { start: 0.53, end: 0.6 }],
-        messageBTranslateYOut: [0, -20, { start: 0.53, end: 0.6 }],
+        messageBOpacityOut: [1, 0, { start: 0.35, end: 0.4 }],
+        messageBTranslateYOut: [0, -20, { start: 0.35, end: 0.4 }],
 
-        messageCOpacityOut: [1, 0, { start: 0.8, end: 0.9 }],
-        messageCTranslateYOut: [0, -20, { start: 0.8, end: 0.9 }],
+        messageCOpacityOut: [1, 0, { start: 0.85, end: 0.92 }],
+        messageCTranslateYOut: [0, -20, { start: 0.85, end: 0.92 }],
       },
     },
     {
@@ -202,6 +211,25 @@ function LandingPage() {
       type: 'sticky',
       objs: {
         container: section3,
+        userExplainText: userExplainSectionA,
+
+        userExplainTextA: userExplainTextA,
+        userExplainGifA: userExplainGifA,
+      },
+      values: {
+        //인
+        // messageAOpacityIn: [20, 0, { start: 0.1, end: 0.15 }],
+        backgroundTranslateXLeftIn: [-100, 0, { start: -0.3, end: 0.03 }],
+        backgroundTranslateXRightIn: [100, 0, { start: 0.5, end: 0.53 }],
+        backgroundOpacityLeftIn: [0, 1, { start: 0, end: 0.03 }],
+        backgroundOpacityRightIn: [0, 1, { start: 0.5, end: 0.53 }],
+
+        //아웃
+        // messageAOpacityOut: [0, -20, { start: 0.2, end: 0.25 }],
+        backgroundTranslateXLeftOut: [0, -100, { start: 0.48, end: 0.53 }],
+        backgroundTranslateXRightOut: [0, 100, { start: 0.92, end: 0.97 }],
+        backgroundOpacityLeftOut: [1, 0, { start: 0.48, end: 0.53 }],
+        backgroundOpacityRightOut: [1, 0, { start: 0.92, end: 0.97 }],
       },
     },
     {
@@ -222,11 +250,30 @@ function LandingPage() {
       imgElem.src = `../../../imageFile/0/${i + 1}.jpg`;
       sceneInfo[0].objs.videoImages.push(imgElem);
     }
+    let imgElem1;
+    for (let i = 0; i < sceneInfo[1].values.videoImageCount; i++) {
+      imgElem1 = new Image();
+      imgElem1.src = `../../../imageFile/1/${i + 316}.jpg`;
+      sceneInfo[1].objs.videoImages.push(imgElem1);
+    }
+
+    let imgElem2;
+    for (let i = 0; i < sceneInfo[2].values.videoImageCount; i++) {
+      imgElem2 = new Image();
+      imgElem2.src = `../../../imageFile/2/${i + 631}.jpg`;
+      sceneInfo[2].objs.videoImages.push(imgElem2);
+    }
   };
+
   setCanvasImages();
+
+  let canvasWidth = window.innerWidth;
+  let canvasHeight = window.innerHeight;
 
   const setLayout = () => {
     yOffset = window.pageYOffset;
+    canvasWidth = window.innerWidth;
+    canvasHeight = window.innerHeight;
 
     for (let i = 0; i < sceneInfo.length; i++) {
       //각 스크롤 섹션의 높이 셋팅
@@ -242,8 +289,10 @@ function LandingPage() {
       }
     }
     ref.current.setAttribute('id', `show-scene-${currentScene}`);
-    const heightRatio = window.innerHeight / 1080;
-    videoCanvas0.current.style.transform = `translate3d(-50%, -50%, 0) scale(${heightRatio})`;
+
+    sceneInfo[0].objs.canvas.current.style.transform = `translate3d(-50%, -50%, 0) `;
+    sceneInfo[1].objs.canvas.current.style.transform = `translate3d(-50%, -50%, 0) `;
+    sceneInfo[2].objs.canvas.current.style.transform = `translate3d(-50%, -50%, 0) `;
   };
 
   const calcValues = (values, currentYOffset) => {
@@ -276,13 +325,14 @@ function LandingPage() {
     const currentYOffset = yOffset - prevScrollHeight;
     const scrollHeight = sceneInfo[currentScene].scrollHeight;
     const scrollRatio = currentYOffset / scrollHeight;
-    // console.log(objs, values);
+
     // console.log(currentYOffset, currentScene, scrollRatio);
-    console.log(objs.conText.current.width);
     switch (currentScene) {
       case 0:
         let sequence = Math.round(calcValues(values.imageSequence, currentYOffset));
-        objs.conText.current.getContext('2d').drawImage(objs.videoImages[sequence], 0, 0);
+        objs.conText.current
+          .getContext('2d')
+          .drawImage(objs.videoImages[sequence], 0, 0, videoCanvas0.current.width, videoCanvas0.current.height);
         if (scrollRatio <= 0.22) {
           if (objs.messageA.current.style) {
             objs.messageA.current.style.opacity = calcValues(values.messageAOpacityIn, currentYOffset);
@@ -346,10 +396,13 @@ function LandingPage() {
             currentYOffset,
           )}%, 0)`;
         }
-
         break;
+
       case 1:
-        console.log('2 실행');
+        let sequence1 = Math.round(calcValues(values.imageSequence, currentYOffset));
+        objs.conText.current
+          .getContext('2d')
+          .drawImage(objs.videoImages[sequence1], 0, 0, videoCanvas0.current.width, videoCanvas0.current.height);
         if (scrollRatio <= 0.12) {
           // in
           objs.messageA.current.style.opacity = calcValues(values.messageAOpacityIn, currentYOffset);
@@ -461,9 +514,14 @@ function LandingPage() {
             currentYOffset,
           )}%, 0)`;
         }
-
         break;
+
       case 2:
+        let sequence2 = Math.round(calcValues(values.imageSequence, currentYOffset));
+        objs.conText.current
+          .getContext('2d')
+          .drawImage(objs.videoImages[sequence2], 0, 0, videoCanvas0.current.width, videoCanvas0.current.height);
+        objs.conText.current.style.opacity = calcValues(values.canvas_opacity, currentYOffset);
         if (scrollRatio <= 0.25) {
           // in
           objs.messageA.current.style.opacity = calcValues(values.messageAOpacityIn, currentYOffset);
@@ -480,7 +538,7 @@ function LandingPage() {
           )}%, 0)`;
         }
 
-        if (scrollRatio <= 0.57) {
+        if (scrollRatio <= 0.37) {
           // in
           objs.messageB.current.style.opacity = calcValues(values.messageBOpacityIn, currentYOffset);
           objs.messageB.current.style.transform = `translate3d(0, ${calcValues(
@@ -496,7 +554,7 @@ function LandingPage() {
           )}%, 0)`;
         }
 
-        if (scrollRatio <= 0.85) {
+        if (scrollRatio <= 0.95) {
           // in
           objs.messageC.current.style.opacity = calcValues(values.messageCOpacityIn, currentYOffset);
           objs.messageC.current.style.transform = `translate3d(0, ${calcValues(
@@ -513,6 +571,34 @@ function LandingPage() {
         }
         break;
       case 3:
+        console.log(objs.userExplainTextA.current);
+
+        if (scrollRatio <= 0.5) {
+          objs.userExplainTextA.current.style.transform = `translate3d(${calcValues(
+            values.backgroundTranslateXLeftIn,
+            currentYOffset,
+          )}%,0, 0)`;
+          objs.userExplainTextA.current.style.opacity = calcValues(values.backgroundOpacityLeftIn, currentYOffset);
+        } else {
+          objs.userExplainTextA.current.style.transform = `translate3d(${calcValues(
+            values.backgroundTranslateXLeftOut,
+            currentYOffset,
+          )}%,0, 0)`;
+          objs.userExplainTextA.current.style.opacity = calcValues(values.backgroundOpacityLeftOut, currentYOffset);
+        }
+        if (scrollRatio <= 0.95) {
+          objs.userExplainGifA.current.style.transform = `translate3d(${calcValues(
+            values.backgroundTranslateXRightIn,
+            currentYOffset,
+          )}%,0, 0)`;
+          objs.userExplainGifA.current.style.opacity = calcValues(values.backgroundOpacityRightIn, currentYOffset);
+        } else {
+          objs.userExplainGifA.current.style.transform = `translate3d(${calcValues(
+            values.backgroundTranslateXRightOut,
+            currentYOffset,
+          )}%,0, 0)`;
+          objs.userExplainGifA.current.style.opacity = calcValues(values.backgroundOpacityRightOut, currentYOffset);
+        }
         break;
       case 4:
         break;
@@ -551,8 +637,14 @@ function LandingPage() {
     yOffset = window.pageYOffset;
     scrollLoop();
   };
+  window.addEventListener('resize', setLayout);
   useEffect(() => {
-    window.addEventListener('load', setLayout);
+    window.addEventListener('load', () => {
+      setLayout();
+      sceneInfo[0].objs.conText.current
+        .getContext('2d')
+        .drawImage(sceneInfo[0].objs.videoImages[0], 0, 0, videoCanvas0.current.width, videoCanvas0.current.height);
+    });
     window.addEventListener('resize', setLayout);
     window.addEventListener('scroll', setScrollHeight);
 
@@ -568,11 +660,11 @@ function LandingPage() {
       <Nav landing="landing" />
       <section className="scroll-section" id="scroll-section-0" ref={section0}>
         <h1>
-          이거 맞아<span className="logo-rotate">?</span>
+          이거맞아<span className="logo-rotate">?</span>
         </h1>
         <h2>Is this right?</h2>
         <div className="sticky-elem sticky-elem-canvas">
-          <canvas id="video-canvas-0" width="1920" height="1080" ref={videoCanvas0}></canvas>
+          <canvas id="video-canvas-0" width={canvasWidth} height={canvasHeight} ref={videoCanvas0}></canvas>
         </div>
         <div className="sticky-elem main-message a" ref={section0A}>
           <p>
@@ -598,13 +690,11 @@ function LandingPage() {
             생각해본적이 없으신가요?
           </p>
         </div>
-        <div className="sticky-elem main-message e" ref={section0E}>
-          <p>
-            내 공은 왜 <br></br> 직선으로 안가나 <br></br> 생각해본적이 없으신가요?
-          </p>
-        </div>
       </section>
       <section className="scroll-section" id="scroll-section-1" ref={section1}>
+        <div className="sticky-elem sticky-elem-canvas">
+          <canvas id="video-canvas-1" width={canvasWidth} height={canvasHeight} ref={videoCanvas1}></canvas>
+        </div>
         <div className="sticky-elem main-message a" ref={section1A}>
           <p>그럼 혹시...</p>
         </div>
@@ -634,24 +724,97 @@ function LandingPage() {
         </div>
       </section>
       <section className="scroll-section" id="scroll-section-2" ref={section2}>
-        <div className="sticky-elem main-message a" ref={section2A}>
+        <div className="sticky-elem sticky-elem-canvas">
+          <canvas id="video-canvas-2" width={canvasWidth} height={canvasHeight} ref={videoCanvas2}></canvas>
+        </div>
+        <div className="sticky-elem main-message a3" ref={section2A}>
           <p>너무 많은 고민들...</p>
         </div>
-        <div className="sticky-elem main-message b" ref={section2B}>
+        <div className="sticky-elem main-message b3" ref={section2B}>
           <p>여러분들을 위해</p>
         </div>
-        <div className="sticky-elem main-message c" ref={section2C}>
+        <div className="sticky-elem main-message c3" ref={section2C}>
           <p>
             <h1>
-              이거 맞아<span className="logo-rotate">?</span>
+              이거맞아<span className="logo-rotate">?</span>
             </h1>
-            <br></br>
+
             <small>에서 도와드립니다.</small>
           </p>
         </div>
       </section>
       <section className="scroll-section" id="scroll-section-3" ref={section3}>
-        <p className="servise-dec">비디오와 설명</p>
+        <div className="explain-messageA">
+          <div className="animation textA" ref={userExplainTextA}>
+            <div className="mini-TextA-Section a">
+              <p>
+                <strong>Lorem ipsum dolor</strong> sit amet consectetur adipisicing elit. Dolore suscipit adipisci
+                consequuntur voluptate dolor atque alias quaerat. Tenetur laudantium unde accusantium fuga repellat
+                deserunt, doloremque ut deleniti nulla, aspernatur vero. Lorem ipsum, dolor sit amet consectetur
+                adipisicing elit. Repellendus, nobis. Quo, id! Reprehenderit pariatur aliquid ratione reiciendis optio
+                natus beatae voluptatem, necessitatibus dolorem et commodi iure repudiandae! Expedita, magni unde.
+              </p>
+              <div>
+                <img src="../../../imageFile/mockGif.gif" alt="" />
+              </div>
+            </div>
+            <div className="mini-TextA-Section b">
+              <div>
+                <img src="../../../imageFile/mockGif.gif" alt="" />
+              </div>
+              <p>
+                <strong>Lorem ipsum dolor</strong> sit amet consectetur adipisicing elit. Dolore suscipit adipisci
+                consequuntur voluptate dolor atque alias quaerat. Tenetur laudantium unde accusantium fuga repellat
+                deserunt, doloremque ut deleniti nulla, aspernatur vero. Lorem ipsum, dolor sit amet consectetur
+                adipisicing elit. Repellendus, nobis. Quo, id! Reprehenderit pariatur aliquid ratione reiciendis optio
+                natus beatae voluptatem, necessitatibus dolorem et
+              </p>
+            </div>
+            <div className="mini-TextA-Section c">
+              <p>
+                <strong>Lorem ipsum dolor</strong> sit amet consectetur adipisicing elit. Dolore suscipit adipisci
+                consequuntur voluptate dolor atque alias quaerat. Tenetur laudantium unde accusantium fuga repellat
+                deserunt, doloremque ut deleniti nulla, aspernatur vero. Lorem ipsum, dolor sit amet consectetur
+                adipisicing elit. Repellendus, nobis. Quo, id! Reprehenderit pariatur aliquid ratione reiciendis optio
+                natus beatae voluptatem, necessitatibus dolorem et
+              </p>
+              <div>
+                <img src="../../../imageFile/mockGif.gif" alt="" />
+              </div>
+            </div>
+            <div className="mini-TextA-Section d">
+              <div>
+                <img src="../../../imageFile/mockGif.gif" alt="" />
+              </div>
+              <p>
+                <strong>Lorem ipsum dolor</strong> sit amet consectetur adipisicing elit. Dolore suscipit adipisci
+                consequuntur voluptate dolor atque alias quaerat. Tenetur laudantium unde accusantium fuga repellat
+                deserunt, doloremque ut deleniti nulla, aspernatur vero. Lorem ipsum, dolor sit amet consectetur
+                adipisicing elit. Repellendus, nobis. Quo, id! Reprehenderit pariatur aliquid ratione reiciendis optio
+                natus beatae voluptatem, necessitatibus dolorem et
+              </p>
+            </div>
+          </div>
+          <div className="animation gifA" ref={userExplainGifA}>
+            gif
+          </div>
+        </div>
+
+        {/* <div className="explain-messageB">
+          <div className="textA" ref={userExplainTextA}>
+            텍스트텍스트응
+          </div>
+          <div className="gifA" ref={userExplainGifA}>
+            gif
+          </div>
+        </div> */}
+        {/* <div className="sticky-elem main-message gif" ref={userExplainGifA}>
+          <p></p>
+        </div>
+        <div className="sticky-elem main-message c3" ref={userExplainSectionA}>
+          <p>
+          </p>
+        </div> */}
       </section>
       <section className="scroll-section" id="scroll-section-4" ref={section4}>
         <p className="servise-dec">비디오와 설명</p>

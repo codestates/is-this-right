@@ -18,22 +18,23 @@ const AdvisorSignupPageStyle = styled.div`
 `;
 
 const ContainerStlye = styled.div`
-  width: 60%;
+  width: 70%;
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
-const HeaderLogoStyle = styled.div`
-  background-color: #3957d1;
-  width: 600px;
-  height: 200px;
-  padding: 20px;
-  margin: 12px 12px 0;
-`;
+// const HeaderLogoStyle = styled.div`
+//   background-color: #3957d1;
+//   width: 600px;
+//   height: 200px;
+//   padding: 20px;
+//   margin: 12px 12px 0;
+// `;
 
 const InputAreaStyle = styled.div`
-  width: 600px;
+  width: 100%;
+  max-width: 600px;
   margin: 12px;
   padding: 20px;
 `;
@@ -50,7 +51,22 @@ const LabelStyle = styled.label`
 const HideInputStyle = styled.div`
   margin: 0px;
 `;
+const HeadSectionStyle = styled.div`
+  /* padding: 30% 150px 0px; */
+  margin: 0px auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 60px;
+  margin-bottom: 20px;
+`;
 
+const AlertMessageStyle = styled.div`
+  color: red;
+  font-size: 14px;
+  margin-bottom: 3px;
+`;
 function AdvisorSignUpPage() {
   const [profileErr, setProfileErr] = useState('');
   const [usernameErr, setUsernameErr] = useState(null);
@@ -302,15 +318,13 @@ function AdvisorSignUpPage() {
     <AdvisorSignupPageStyle>
       {console.log('AdviserSignUp rendered!')}
       <ContainerStlye>
-        <HeaderLogoStyle>
-          <img src="../../imageFile/Logo2.png" alt="" />
-          <div>안녕하세요.</div>
-          <div>강사 회원가입</div>
-        </HeaderLogoStyle>
+        <HeadSectionStyle>
+          <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
+        </HeadSectionStyle>
         <InputAreaStyle>
-          <div>계정정보</div>
+          {/* <div>adviser Sign Up</div> */}
           <UploadCompo where="adviser" />
-          {profileErr ? <div>{profileErr}</div> : null}
+          {profileErr ? <AlertMessageStyle>{profileErr}</AlertMessageStyle> : null}
           <LabelStyle>닉네임</LabelStyle>
           <Input
             name="username"
@@ -322,7 +336,7 @@ function AdvisorSignUpPage() {
             placeholder="닉네임을 입력해주세요"
             required
           />
-          {usernameErr ? <div>{usernameErr}</div> : null}
+          {usernameErr ? <AlertMessageStyle>{usernameErr}</AlertMessageStyle> : null}
           <HideInputStyle ref={socialHide}>
             <LabelStyle>이메일</LabelStyle>
             <Input
@@ -335,7 +349,7 @@ function AdvisorSignUpPage() {
               placeholder="닉네임을 입력해주세요"
               required
             />
-            {emailErr ? <div>{emailErr}</div> : null}
+            {emailErr ? <AlertMessageStyle>{emailErr}</AlertMessageStyle> : null}
 
             <LabelStyle>비밀번호</LabelStyle>
             <Input
@@ -348,7 +362,7 @@ function AdvisorSignUpPage() {
               placeholder="닉네임을 입력해주세요"
               required
             />
-            {passwordErr ? <div>{passwordErr}</div> : null}
+            {passwordErr ? <AlertMessageStyle>{passwordErr}</AlertMessageStyle> : null}
 
             <LabelStyle>비밀번호 확인</LabelStyle>
             <Input
@@ -362,7 +376,7 @@ function AdvisorSignUpPage() {
               placeholder="닉네임을 입력해주세요"
               required
             />
-            {confirmPasswordErr ? <div>{confirmPasswordErr}</div> : null}
+            {confirmPasswordErr ? <AlertMessageStyle>{confirmPasswordErr}</AlertMessageStyle> : null}
           </HideInputStyle>
           <LabelStyle>이름</LabelStyle>
           <Input
@@ -375,10 +389,10 @@ function AdvisorSignUpPage() {
             placeholder="닉네임을 입력해주세요"
             required
           />
-          {nameErr ? <div>{nameErr}</div> : null}
+          {nameErr ? <AlertMessageStyle>{nameErr}</AlertMessageStyle> : null}
 
           <LabelStyle>성별</LabelStyle>
-          <div>
+          <div style={{ marginBottom: '4px' }}>
             <Radio.Group
               name="gender"
               optionType={'button'}
@@ -392,7 +406,7 @@ function AdvisorSignUpPage() {
               <Radio.Button value="여자">여자</Radio.Button>
             </Radio.Group>
           </div>
-          {genderErr ? <div>{genderErr}</div> : null}
+          {genderErr ? <AlertMessageStyle>{genderErr}</AlertMessageStyle> : null}
 
           <LabelStyle>지역</LabelStyle>
           <div>
@@ -404,7 +418,7 @@ function AdvisorSignUpPage() {
               validation={checkValidation}
             />
           </div>
-          {stateErr ? <div>{stateErr}</div> : null}
+          {stateErr ? <AlertMessageStyle>{stateErr}</AlertMessageStyle> : null}
 
           <LabelStyle>종목</LabelStyle>
           <div>
@@ -428,14 +442,14 @@ function AdvisorSignUpPage() {
             /> */}
             <TextEditor text={setText} checkValidation={checkValidation} />
           </div>
-          {detailErr ? <div>{detailErr}</div> : null}
+          {detailErr ? <AlertMessageStyle>{detailErr}</AlertMessageStyle> : null}
 
           <LabelStyle>Url</LabelStyle>
           <div>
             <Input onChange={(e) => handleInputValue('url', e)} onKeyUp={() => checkValidation('url')} />
           </div>
-          {urlErr ? <div>{urlErr}</div> : null}
-          {signupErr ? <div>{signupErr}</div> : null}
+          {urlErr ? <AlertMessageStyle>{urlErr}</AlertMessageStyle> : null}
+          {signupErr ? <AlertMessageStyle>{signupErr}</AlertMessageStyle> : null}
           <ButtonStyle type="primary" onClick={handleSignUp} disabled={disable}>
             회원가입
           </ButtonStyle>
