@@ -19,13 +19,19 @@ const NavAreaStyle = styled.div`
   font-family: 'font-css';
   /* background: linear-gradient(70deg, #6366f1, #1d4ed8, #2563eb); */
   /* background: linear-gradient(180deg, #0096c7, #0077b6); */
-  /* background: rgba(0, 119, 182, 0.8); */
+  background: white;
+
+  background: rgba(255, 255, 255, 0.8);
+  -webkit-backdrop-filter: saturate(180%) blur(15px);
+  -moz-backdrop-filter: saturate(180%) blur(15px);
+  -o-backdrop-filter: saturate(180%) blur(15px);
+  backdrop-filter: saturate(180%) blur(15px);
 
   border-bottom: 1px solid rgba(222, 222, 222, 0.9);
-  position: ${(props) => (props.landing === 'landing' ? 'absolute' : 'static')};
-  top: ${(props) => (props.landing === 'landing' ? '0' : '0px')};
+  position: ${(props) => (props.landing === 'landing' ? 'fixed' : 'static')};
+  top: ${(props) => (props.landing === 'landing' ? '0px' : '0px')};
   left: ${(props) => (props.landing === 'landing' ? '0' : '0')};
-
+  z-index: 900;
   .logo {
     /* color: #fafafa; */
     display: flex;
