@@ -41,6 +41,7 @@ function UploadCompo({ where, post }) {
     }
     return () => {
       dispatch(userProfileImg('', ''));
+      dispatch(removeImages());
     };
   }, []);
 

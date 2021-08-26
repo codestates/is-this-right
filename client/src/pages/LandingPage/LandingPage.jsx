@@ -8,7 +8,8 @@ import styled from 'styled-components';
 import { Button } from 'antd';
 import LoadingCircle from '../../components/LoadingCircle';
 import { BackTop } from 'antd';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { handleLanding, handleDisable } from '../../actions/userActionIndex';
 const ButtonStyle = styled(Button)`
   width: 10vw;
   min-width: 200px;
@@ -76,6 +77,9 @@ function LandingPage() {
   const mentorExplainD = useRef();
   const mentorExplainCTextAction = useRef();
   const mentorExplainCImgAction = useRef();
+
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state.userReducer);
 
   const goToAdviserListPage = () => {
     history.push('/');
@@ -375,6 +379,7 @@ function LandingPage() {
         break;
       }
     }
+
     ref.current.setAttribute('id', `show-scene-${currentScene}`);
 
     sceneInfo[0].objs.canvas.current.style.transform = `translate3d(-50%, -50%, 0) `;
@@ -837,10 +842,17 @@ function LandingPage() {
     yOffset = window.pageYOffset;
     scrollLoop();
   };
-  window.addEventListener('resize', setLayout);
   useEffect(() => {
+    console.log(state.disableBack, '안녕');
+    if (state.disableBack) {
+      history.push('/');
+      document.getElementById('root').scrollTo({
+        top: 0,
+        behavior: 'auto',
+      });
+    }
+    setIsLoading(true);
     window.addEventListener('load', () => {
-      setIsLoading(false);
       setLayout();
       sceneInfo[0].objs.conText.current
         .getContext('2d')
@@ -848,12 +860,18 @@ function LandingPage() {
     });
     window.addEventListener('resize', setLayout);
     window.addEventListener('scroll', setScrollHeight);
-
+    setIsLoading(false);
+    // }
     return () => {
-      console.log('안나오는거같음');
+      dispatch(handleLanding());
       window.removeEventListener('load', setLayout);
       window.removeEventListener('resize', setLayout);
       window.removeEventListener('scroll', setScrollHeight);
+      dispatch(handleDisable());
+      window.scrollTo({
+        top: 0,
+        behavior: 'auto',
+      });
     };
   }, []);
 

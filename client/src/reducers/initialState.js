@@ -8,6 +8,8 @@ export const initialState = {
     imaFile: '',
     preview: '',
   },
+  guest: true,
+  disableBack: false,
 };
 
 export const adviserInitialState = {
