@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router';
 import './Default.css';
 import './Main.css';
@@ -33,7 +33,8 @@ const RotateSpan = styled.span`
   -o-transform: rotate(20deg);
 `;
 
-function LandingPage() {
+function LandingPage({ test }) {
+  console.log(test);
   const [isLoading, setIsLoading] = useState(true);
   const history = useHistory();
   const ref = useRef();
@@ -51,7 +52,7 @@ function LandingPage() {
   const section1D = useRef();
   const section1E = useRef();
   const section1F = useRef();
-  const section1G = useRef();
+  // const section1G = useRef();
   const videoCanvas1 = useRef();
 
   const section2 = useRef();
@@ -113,14 +114,14 @@ function LandingPage() {
         messageAOpacityIn: [0, 1, { start: 0.1, end: 0.2 }],
         messageATranslateYIn: [20, 0, { start: 0.1, end: 0.2 }],
 
-        messageBOpacityIn: [0, 1, { start: 0.3, end: 0.4 }],
-        messageBTranslateYIn: [20, 0, { start: 0.3, end: 0.4 }],
+        messageBOpacityIn: [0, 1, { start: 0.32, end: 0.4 }],
+        messageBTranslateYIn: [20, 0, { start: 0.32, end: 0.4 }],
 
-        messageCOpacityIn: [0, 1, { start: 0.5, end: 0.6 }],
-        messageCTranslateYIn: [20, 0, { start: 0.5, end: 0.6 }],
+        messageCOpacityIn: [0, 1, { start: 0.52, end: 0.6 }],
+        messageCTranslateYIn: [20, 0, { start: 0.52, end: 0.6 }],
 
-        messageDOpacityIn: [0, 1, { start: 0.6, end: 0.7 }],
-        messageDTranslateYIn: [20, 0, { start: 0.6, end: 0.7 }],
+        messageDOpacityIn: [0, 1, { start: 0.69, end: 0.82 }],
+        messageDTranslateYIn: [20, 0, { start: 0.69, end: 0.82 }],
 
         //아웃
         messageAOpacityOut: [1, 0, { start: 0.22, end: 0.3 }],
@@ -129,11 +130,11 @@ function LandingPage() {
         messageBOpacityOut: [1, 0, { start: 0.42, end: 0.5 }],
         messageBTranslateYOut: [0, -20, { start: 0.42, end: 0.5 }],
 
-        messageCOpacityOut: [1, 0, { start: 0.52, end: 0.6 }],
-        messageCTranslateYOut: [0, -20, { start: 0.52, end: 0.6 }],
+        messageCOpacityOut: [1, 0, { start: 0.64, end: 0.67 }],
+        messageCTranslateYOut: [0, -20, { start: 0.64, end: 0.67 }],
 
-        messageDOpacityOut: [1, 0, { start: 0.62, end: 0.7 }],
-        messageDTranslateYOut: [0, -20, { start: 0.62, end: 0.7 }],
+        messageDOpacityOut: [1, 0, { start: 0.9, end: 0.95 }],
+        messageDTranslateYOut: [0, -20, { start: 0.9, end: 0.95 }],
       },
     },
     {
@@ -149,7 +150,7 @@ function LandingPage() {
         messageD: section1D,
         messageE: section1E,
         messageF: section1F,
-        messageG: section1G,
+        // messageG: section1G,
         canvas: videoCanvas1,
         conText: videoCanvas1,
         videoImages: [],
@@ -158,48 +159,48 @@ function LandingPage() {
         videoImageCount: 315,
         imageSequence: [0, 314],
         //인
-        messageAOpacityIn: [0, 1, { start: 0.08, end: 0.14 }],
-        messageATranslateYIn: [20, 0, { start: 0.08, end: 0.14 }],
+        messageAOpacityIn: [0, 1, { start: 0, end: 0.14 }],
+        messageATranslateYIn: [20, 0, { start: 0, end: 0.14 }],
 
-        messageBOpacityIn: [0, 1, { start: 0.21, end: 0.26 }],
-        messageBTranslateYIn: [20, 0, { start: 0.21, end: 0.26 }],
+        messageBOpacityIn: [0, 1, { start: 0.25, end: 0.28 }],
+        messageBTranslateYIn: [20, 0, { start: 0.25, end: 0.28 }],
 
-        messageCOpacityIn: [0, 1, { start: 0.33, end: 0.38 }],
-        messageCTranslateYIn: [20, 0, { start: 0.33, end: 0.38 }],
+        messageCOpacityIn: [0, 1, { start: 0.37, end: 0.4 }],
+        messageCTranslateYIn: [20, 0, { start: 0.37, end: 0.4 }],
 
-        messageDOpacityIn: [0, 1, { start: 0.45, end: 0.5 }],
-        messageDTranslateYIn: [20, 0, { start: 0.45, end: 0.5 }],
+        messageDOpacityIn: [0, 1, { start: 0.5, end: 0.52 }],
+        messageDTranslateYIn: [20, 0, { start: 0.5, end: 0.52 }],
 
-        messageEOpacityIn: [0, 1, { start: 0.57, end: 0.62 }],
-        messageETranslateYIn: [20, 0, { start: 0.57, end: 0.62 }],
+        messageEOpacityIn: [0, 1, { start: 0.6, end: 0.64 }],
+        messageETranslateYIn: [20, 0, { start: 0.6, end: 0.64 }],
 
-        messageFOpacityIn: [0, 1, { start: 0.69, end: 0.74 }],
-        messageFTranslateYIn: [20, 0, { start: 0.69, end: 0.74 }],
+        messageFOpacityIn: [0, 1, { start: 0.75, end: 0.78 }],
+        messageFTranslateYIn: [20, 0, { start: 0.75, end: 0.78 }],
 
-        messageGOpacityIn: [0, 1, { start: 0.81, end: 0.86 }],
-        messageGTranslateYIn: [20, 0, { start: 0.81, end: 0.86 }],
+        // messageGOpacityIn: [0, 1, { start: 0.81, end: 0.86 }],
+        // messageGTranslateYIn: [20, 0, { start: 0.81, end: 0.86 }],
 
         //아웃
-        messageAOpacityOut: [1, 0, { start: 0.15, end: 0.2 }],
-        messageATranslateYOut: [0, -20, { start: 0.15, end: 0.2 }],
+        messageAOpacityOut: [1, 0, { start: 0.2, end: 0.23 }],
+        messageATranslateYOut: [0, -20, { start: 0.2, end: 0.23 }],
 
-        messageBOpacityOut: [1, 0, { start: 0.27, end: 0.32 }],
-        messageBTranslateYOut: [0, -20, { start: 0.27, end: 0.32 }],
+        messageBOpacityOut: [1, 0, { start: 0.31, end: 0.35 }],
+        messageBTranslateYOut: [0, -20, { start: 0.31, end: 0.35 }],
 
-        messageCOpacityOut: [1, 0, { start: 0.39, end: 0.44 }],
-        messageCTranslateYOut: [0, -20, { start: 0.39, end: 0.44 }],
+        messageCOpacityOut: [1, 0, { start: 0.45, end: 0.48 }],
+        messageCTranslateYOut: [0, -20, { start: 0.45, end: 0.48 }],
 
-        messageDOpacityOut: [1, 0, { start: 0.51, end: 0.56 }],
-        messageDTranslateYOut: [0, -20, { start: 0.51, end: 0.56 }],
+        messageDOpacityOut: [1, 0, { start: 0.55, end: 0.58 }],
+        messageDTranslateYOut: [0, -20, { start: 0.55, end: 0.58 }],
 
-        messageEOpacityOut: [1, 0, { start: 0.63, end: 0.68 }],
-        messageETranslateYOut: [0, -20, { start: 0.63, end: 0.68 }],
+        messageEOpacityOut: [1, 0, { start: 0.7, end: 0.73 }],
+        messageETranslateYOut: [0, -20, { start: 0.7, end: 0.73 }],
 
-        messageFOpacityOut: [1, 0, { start: 0.75, end: 0.8 }],
-        messageFTranslateYOut: [0, -20, { start: 0.75, end: 0.8 }],
+        messageFOpacityOut: [1, 0, { start: 0.89, end: 0.95 }],
+        messageFTranslateYOut: [0, -20, { start: 0.89, end: 0.95 }],
 
-        messageGOpacityOut: [1, 0, { start: 0.87, end: 0.95 }],
-        messageGTranslateYOut: [0, -20, { start: 0.87, end: 0.95 }],
+        // messageGOpacityOut: [1, 0, { start: 0.87, end: 0.95 }],
+        // messageGTranslateYOut: [0, -20, { start: 0.87, end: 0.95 }],
       },
     },
     {
@@ -302,26 +303,32 @@ function LandingPage() {
       },
       values: {
         //인
-        mentorTextOpacityIn: [0, 1, { start: 0, end: 0.05 }],
-        mentorTextTranslateYIn: [20, 0, { start: 0, end: 0.05 }],
+        mentorTextOpacityIn: [0, 1, { start: 0, end: 0.02 }],
+        mentorTextTranslateYIn: [20, 0, { start: 0, end: 0.03 }],
 
         mentorFeedbackExplainOpacityIn: [0, 1, { start: 0.07, end: 0.1 }],
-        mentorFeedbackExplainTranslateIn: [20, 0, { start: 0.07, end: 0.1 }],
+        mentorFeedbackExplainTranslateIn: [-100, 0, { start: 0.07, end: 0.1 }],
 
-        mentorExplainCTextActionOpacityIn: [0, 1, { start: 0.35, end: 0.4 }],
-        mentorExplainCImgActionTranslateLeftIn: [-100, 0, { start: 0.35, end: 0.4 }],
-        mentorExplainCImgActionTranslateRightIn: [100, 0, { start: 0.35, end: 0.4 }],
+        mentorExplainCTextActionOpacityIn: [0, 1, { start: 0.32, end: 0.36 }],
+        mentorExplainCImgActionTranslateLeftIn: [-100, 0, { start: 0.32, end: 0.36 }],
+        mentorExplainCImgActionTranslateRightIn: [100, 0, { start: 0.32, end: 0.36 }],
+
+        mentorExplainDOpacityIn: [0, 1, { start: 0.57, end: 0.65 }],
+        mentorExplainDTranslateIn: [100, 0, { start: 0.57, end: 0.65 }],
 
         //아웃
-        mentorTextOpacityOut: [1, 0, { start: 0.1, end: 0.15 }],
-        mentorTextTranslateYOut: [0, -20, { start: 0.12, end: 0.17 }],
+        mentorTextOpacityOut: [1, 0, { start: 0.068, end: 0.08 }],
+        mentorTextTranslateYOut: [0, -20, { start: 0.068, end: 0.08 }],
 
-        mentorFeedbackExplainOpacityOut: [1, 0, { start: 0.32, end: 0.37 }],
-        mentorFeedbackExplainTranslateOut: [0, -20, { start: 0.32, end: 0.37 }],
+        mentorFeedbackExplainOpacityOut: [1, 0, { start: 0.32, end: 0.38 }],
+        mentorFeedbackExplainTranslateOut: [0, -100, { start: 0.32, end: 0.38 }],
 
-        mentorExplainCTextActionOpacityOut: [1, 0, { start: 0.65, end: 0.7 }],
-        mentorExplainCImgActionTranslateLeftOut: [0, -100, { start: 0.65, end: 0.7 }],
-        mentorExplainCImgActionTranslateRightOut: [0, 100, { start: 0.65, end: 0.7 }],
+        mentorExplainCTextActionOpacityOut: [1, 0, { start: 0.58, end: 0.61 }],
+        mentorExplainCImgActionTranslateLeftOut: [0, -100, { start: 0.58, end: 0.61 }],
+        mentorExplainCImgActionTranslateRightOut: [0, 100, { start: 0.58, end: 0.61 }],
+
+        mentorExplainDOpacityOut: [1, 0, { start: 0.9, end: 0.95 }],
+        mentorExplainDTranslateOut: [0, 100, { start: 0.9, end: 0.95 }],
       },
     },
   ];
@@ -356,7 +363,9 @@ function LandingPage() {
 
   let canvasWidth = window.innerWidth;
   let canvasHeight = window.innerHeight;
-
+  function isNull(v) {
+    return v === undefined || v === null ? true : false;
+  }
   const setLayout = () => {
     yOffset = window.pageYOffset;
     canvasWidth = window.innerWidth;
@@ -364,8 +373,10 @@ function LandingPage() {
 
     for (let i = 0; i < sceneInfo.length; i++) {
       //각 스크롤 섹션의 높이 셋팅
-      sceneInfo[i].scrollHeight = sceneInfo[i].heightNum * window.innerHeight;
-      sceneInfo[i].objs.container.current.style.height = `${sceneInfo[i].scrollHeight}px`;
+      if (sceneInfo[i].objs.container.current) {
+        sceneInfo[i].scrollHeight = sceneInfo[i].heightNum * window.innerHeight;
+        sceneInfo[i].objs.container.current.style.height = `${sceneInfo[i].scrollHeight}px`;
+      }
     }
     let totalScrollHeight = 0;
     for (let i = 0; i < sceneInfo.length; i++) {
@@ -375,11 +386,15 @@ function LandingPage() {
         break;
       }
     }
-    ref.current.setAttribute('id', `show-scene-${currentScene}`);
+    if (ref.current) {
+      ref.current.setAttribute('id', `show-scene-${currentScene}`);
+    }
 
-    sceneInfo[0].objs.canvas.current.style.transform = `translate3d(-50%, -50%, 0) `;
-    sceneInfo[1].objs.canvas.current.style.transform = `translate3d(-50%, -50%, 0) `;
-    sceneInfo[2].objs.canvas.current.style.transform = `translate3d(-50%, -50%, 0) `;
+    if (!isNull(sceneInfo[0].objs.canvas.current)) {
+      sceneInfo[0].objs.canvas.current.style.transform = `translate3d(-50%, -50%, 0) `;
+      sceneInfo[1].objs.canvas.current.style.transform = `translate3d(-50%, -50%, 0) `;
+      sceneInfo[2].objs.canvas.current.style.transform = `translate3d(-50%, -50%, 0) `;
+    }
   };
 
   const calcValues = (values, currentYOffset) => {
@@ -405,14 +420,14 @@ function LandingPage() {
 
     return rv;
   };
-
-  const playAnimation = () => {
+  const UseCallbackPlayAnimation = useCallback(() => {
     const objs = sceneInfo[currentScene].objs;
     const values = sceneInfo[currentScene].values;
     const currentYOffset = yOffset - prevScrollHeight;
     const scrollHeight = sceneInfo[currentScene].scrollHeight;
     const scrollRatio = currentYOffset / scrollHeight;
     console.log(scrollRatio);
+
     switch (currentScene) {
       case 0:
         let sequence = Math.round(calcValues(values.imageSequence, currentYOffset));
@@ -467,7 +482,7 @@ function LandingPage() {
           )}%, 0)`;
         }
 
-        if (scrollRatio <= 0.82) {
+        if (scrollRatio <= 0.85) {
           // in
           objs.messageD.current.style.opacity = calcValues(values.messageDOpacityIn, currentYOffset);
           objs.messageD.current.style.transform = `translate3d(0, ${calcValues(
@@ -489,7 +504,7 @@ function LandingPage() {
         objs.conText.current
           .getContext('2d')
           .drawImage(objs.videoImages[sequence1], 0, 0, videoCanvas0.current.width, videoCanvas0.current.height);
-        if (scrollRatio <= 0.12) {
+        if (scrollRatio <= 0.15) {
           // in
           objs.messageA.current.style.opacity = calcValues(values.messageAOpacityIn, currentYOffset);
           objs.messageA.current.style.transform = `translate3d(0, ${calcValues(
@@ -505,7 +520,7 @@ function LandingPage() {
           )}%, 0)`;
         }
 
-        if (scrollRatio <= 0.24) {
+        if (scrollRatio <= 0.3) {
           // in
           objs.messageB.current.style.opacity = calcValues(values.messageBOpacityIn, currentYOffset);
           objs.messageB.current.style.transform = `translate3d(0, ${calcValues(
@@ -521,7 +536,7 @@ function LandingPage() {
           )}%, 0)`;
         }
 
-        if (scrollRatio <= 0.36) {
+        if (scrollRatio <= 0.42) {
           // in
           objs.messageC.current.style.opacity = calcValues(values.messageCOpacityIn, currentYOffset);
           objs.messageC.current.style.transform = `translate3d(0, ${calcValues(
@@ -537,7 +552,7 @@ function LandingPage() {
           )}%, 0)`;
         }
 
-        if (scrollRatio <= 0.48) {
+        if (scrollRatio <= 0.53) {
           // in
           objs.messageD.current.style.opacity = calcValues(values.messageDOpacityIn, currentYOffset);
           objs.messageD.current.style.transform = `translate3d(0, ${calcValues(
@@ -553,7 +568,7 @@ function LandingPage() {
           )}%, 0)`;
         }
 
-        if (scrollRatio <= 0.6) {
+        if (scrollRatio <= 0.66) {
           // in
           objs.messageE.current.style.opacity = calcValues(values.messageEOpacityIn, currentYOffset);
           objs.messageE.current.style.transform = `translate3d(0, ${calcValues(
@@ -569,7 +584,7 @@ function LandingPage() {
           )}%, 0)`;
         }
 
-        if (scrollRatio <= 0.72) {
+        if (scrollRatio <= 0.8) {
           // in
           objs.messageF.current.style.opacity = calcValues(values.messageFOpacityIn, currentYOffset);
           objs.messageF.current.style.transform = `translate3d(0, ${calcValues(
@@ -585,21 +600,21 @@ function LandingPage() {
           )}%, 0)`;
         }
 
-        if (scrollRatio <= 0.84) {
-          // in
-          objs.messageG.current.style.opacity = calcValues(values.messageGOpacityIn, currentYOffset);
-          objs.messageG.current.style.transform = `translate3d(0, ${calcValues(
-            values.messageGTranslateYIn,
-            currentYOffset,
-          )}%, 0)`;
-        } else {
-          // out
-          objs.messageG.current.style.opacity = calcValues(values.messageGOpacityOut, currentYOffset);
-          objs.messageG.current.style.transform = `translate3d(0, ${calcValues(
-            values.messageGTranslateYOut,
-            currentYOffset,
-          )}%, 0)`;
-        }
+        // if (scrollRatio <= 0.84) {
+        //   // in
+        //   objs.messageG.current.style.opacity = calcValues(values.messageGOpacityIn, currentYOffset);
+        //   objs.messageG.current.style.transform = `translate3d(0, ${calcValues(
+        //     values.messageGTranslateYIn,
+        //     currentYOffset,
+        //   )}%, 0)`;
+        // } else {
+        //   // out
+        //   objs.messageG.current.style.opacity = calcValues(values.messageGOpacityOut, currentYOffset);
+        //   objs.messageG.current.style.transform = `translate3d(0, ${calcValues(
+        //     values.messageGTranslateYOut,
+        //     currentYOffset,
+        //   )}%, 0)`;
+        // }
         break;
 
       case 2:
@@ -729,7 +744,7 @@ function LandingPage() {
 
         break;
       case 4:
-        if (scrollRatio <= 0.2) {
+        if (scrollRatio <= 0.05) {
           //           sceneInfo[4].objs;
           // sceneInfo[4].values;
           objs.mentorExplainA.current.style.opacity = calcValues(values.mentorTextOpacityIn, currentYOffset);
@@ -744,23 +759,23 @@ function LandingPage() {
             currentYOffset,
           )}%, 0)`;
         }
-        if (scrollRatio <= 0.35) {
+        if (scrollRatio <= 0.2) {
           objs.mentorExplainB.current.style.opacity = calcValues(values.mentorFeedbackExplainOpacityIn, currentYOffset);
-          objs.mentorExplainB.current.style.transform = `translate3d(0, ${calcValues(
+          objs.mentorExplainB.current.style.transform = `translate3d( ${calcValues(
             values.mentorFeedbackExplainTranslateIn,
             currentYOffset,
-          )}%, 0)`;
+          )}%,0, 0)`;
         } else {
           objs.mentorExplainB.current.style.opacity = calcValues(
             values.mentorFeedbackExplainOpacityOut,
             currentYOffset,
           );
-          objs.mentorExplainB.current.style.transform = `translate3d(0, ${calcValues(
+          objs.mentorExplainB.current.style.transform = `translate3d(${calcValues(
             values.mentorFeedbackExplainTranslateOut,
             currentYOffset,
-          )}%, 0)`;
+          )}%,0,  0)`;
         }
-        if (scrollRatio <= 0.65) {
+        if (scrollRatio <= 0.5) {
           console.log('실행');
           mentorExplainCTextAction.current.style.opacity = calcValues(
             values.mentorExplainCTextActionOpacityIn,
@@ -801,9 +816,22 @@ function LandingPage() {
             currentYOffset,
           )}%,0, 0)`;
         }
+        if (scrollRatio <= 0.75) {
+          objs.mentorExplainD.current.style.opacity = calcValues(values.mentorExplainDOpacityIn, currentYOffset);
+          objs.mentorExplainD.current.style.transform = `translate3d( ${calcValues(
+            values.mentorExplainDTranslateIn,
+            currentYOffset,
+          )}%,0, 0)`;
+        } else {
+          objs.mentorExplainD.current.style.opacity = calcValues(values.mentorExplainDOpacityOut, currentYOffset);
+          objs.mentorExplainD.current.style.transform = `translate3d( ${calcValues(
+            values.mentorExplainDTranslateOut,
+            currentYOffset,
+          )}%,0, 0)`;
+        }
         break;
     }
-  };
+  }, []);
 
   const scrollLoop = () => {
     // console.log(currentScene);
@@ -830,7 +858,7 @@ function LandingPage() {
 
     if (enterNewScene) return;
 
-    playAnimation();
+    UseCallbackPlayAnimation();
   };
 
   let setScrollHeight = () => {
@@ -838,10 +866,28 @@ function LandingPage() {
     scrollLoop();
   };
   window.addEventListener('resize', setLayout);
+
   useEffect(() => {
+    console.log(document.querySelector('body'));
     window.addEventListener('load', () => {
       setIsLoading(false);
+
+      let temYOffset = window.pageYOffset;
+      let temScrollCount = 0;
+      if (temYOffset > 0) {
+        let siId = setInterval(() => {
+          window.scrollTo(0, temYOffset);
+          temYOffset += 5;
+          console.log(window.pageYOffset);
+          if (temScrollCount > 20) {
+            clearInterval(siId);
+          }
+          temScrollCount++;
+        }, 20);
+      }
+
       setLayout();
+
       sceneInfo[0].objs.conText.current
         .getContext('2d')
         .drawImage(sceneInfo[0].objs.videoImages[0], 0, 0, videoCanvas0.current.width, videoCanvas0.current.height);
@@ -850,7 +896,6 @@ function LandingPage() {
     window.addEventListener('scroll', setScrollHeight);
 
     return () => {
-      console.log('안나오는거같음');
       window.removeEventListener('load', setLayout);
       window.removeEventListener('resize', setLayout);
       window.removeEventListener('scroll', setScrollHeight);
@@ -863,12 +908,13 @@ function LandingPage() {
   };
 
   const goMentorExplainSection = () => {
-    const location = mentorExplainB.current.offsetTop;
+    const location = mentorExplainA.current.offsetTop;
     window.scrollTo({ top: location, behavior: 'smooth' });
   };
 
   const gotoTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // window.scrollTo({ top: 0, behavior: 'smooth' });
+    history.push('/');
   };
 
   if (isLoading) {
@@ -916,26 +962,29 @@ function LandingPage() {
         </div>
         <div className="sticky-elem main-message a" ref={section0A}>
           <p>
-            운동을 시작했을 때, <br></br> 인터넷에 영상은 많은데 <br></br>어떤것이 좋은 것인지 몰라<br></br> 검색만
-            주구장창 하신적 없으신가요?
+            운동을 하고 있는 <br />
+            우리들을 위한
           </p>
         </div>
         <div className="sticky-elem main-message b" ref={section0B}>
           <p>
-            유튜브, 온라인 PT를 하면서<br></br> 화면 너머 그 분들에게 <br></br> 자신의 현 상황을 확인받고 싶은적{' '}
-            <br></br>
-            없으신가요 ?
+            <p>
+              운동을 해본 적 없는
+              <br />
+              사람들을 위한
+            </p>
           </p>
         </div>
         <div className="sticky-elem main-message c" ref={section0C}>
           <p>
-            내 자세가 맞는지 <br></br>궁금했던적이 없으신가요?
+            운동에 대한 모든 <br />
+            고민을 해결할 수 있는 <br />
+            운동 피드백 커뮤니티
           </p>
         </div>
         <div className="sticky-elem main-message d" ref={section0D}>
           <p>
-            내가 지금 하고있는 운동(루틴)에서<br></br> 발전시킬 수 있는 부분, <br></br>고칠 부분이 뭐가 있을까 <br></br>
-            생각해본적이 없으신가요?
+            이거맞아<span className="logo-rotate">?</span>
           </p>
         </div>
       </section>
@@ -944,43 +993,61 @@ function LandingPage() {
           <canvas id="video-canvas-1" width={canvasWidth} height={canvasHeight} ref={videoCanvas1}></canvas>
         </div>
         <div className="sticky-elem main-message a" ref={section1A}>
-          <p>그럼 혹시...</p>
+          <p>
+            이제 막<br />
+            운동 관련 <br />
+            코칭을 시작한 <br />
+            사람
+          </p>
         </div>
         <div className="sticky-elem main-message b" ref={section1B}>
-          <p>운동 관련 종사자신가요?</p>
+          <p>
+            홍보 수단을 찾는
+            <br />
+            헬스인을 위한
+          </p>
         </div>
         <div className="sticky-elem main-message c" ref={section1C}>
-          <p>운동 유튜브를 하고있는데</p>
+          <p>
+            고객 유치를 희망하는
+            <br />
+            강사들을 위한
+          </p>
         </div>
         <div className="sticky-elem main-message d" ref={section1D}>
           <p>
-            구독자 수가 <br></br>늘지 않아 고민이신가요?
+            운동 오지랖퍼들을 위한
+            <br />
           </p>
         </div>
         <div className="sticky-elem main-message e" ref={section1E}>
-          <p>
-            자신을 <br></br>홍보를 하고 싶으신가요?
-          </p>
+          <p>운동 피드백 커뮤니티</p>
         </div>
         <div className="sticky-elem main-message f" ref={section1F}>
-          <p>아니면 !</p>
+          <p>
+            이거맞아<span className="logo-rotate">?</span>
+          </p>
         </div>
-        <div className="sticky-elem main-message g" ref={section1G}>
+        {/* <div className="sticky-elem main-message g" ref={section1G}>
           <p>
             운동갔는데 <br></br> 그 옆 사람을 보며 <br></br>입이 근질근질하지 않으셨나요?
           </p>
-        </div>
+        </div> */}
       </section>
       <section className="scroll-section" id="scroll-section-2" ref={section2}>
         <div className="sticky-elem sticky-elem-canvas">
           <canvas id="video-canvas-2" width={canvasWidth} height={canvasHeight} ref={videoCanvas2}></canvas>
         </div>
         <div className="sticky-elem main-message a3" ref={section2A}>
-          <p>너무 많은 고민들...</p>
+          <p>
+            <small>식단 루틴 팁 방법 자세 금액 등...</small>
+            <br />
+            <strong>운동 고민</strong>
+          </p>
         </div>
         <div className="sticky-elem main-message b3" ref={section2B}>
           <p>
-            이러한 <strong>여러분</strong>을
+            <strong>여러분</strong>을
           </p>
           <p>도와드립니다.</p>
         </div>
@@ -1047,39 +1114,46 @@ function LandingPage() {
           </p>
         </div>
         <div className="explainA mentor a" ref={mentorExplainB}>
-          <div>
-            <strong>Feedback</strong> <br></br>
-            질문에 피드백을 <br></br>남겨주세요 <br></br>
-            <br></br>
-            채택 수는 랭킹에<br></br> 반영됩니다.
+          <div className="textSection mentor">
+            <div className="textBox">
+              <strong>Feedback</strong> <br></br>
+              질문에 피드백을 <br></br>남겨주세요 <br></br>
+              <br></br>
+              채택 수는 랭킹에<br></br> 반영됩니다.
+            </div>
+            <img className="gifFile mentor" src="../../../imageFile/mockGif.gif" alt="" />
           </div>
-          <img className="gifFile" src="../../../imageFile/mockGif.gif" alt="" />
         </div>
-        <div className="explainB mentor b" ref={mentorExplainC}>
-          <div ref={mentorExplainCTextAction}>
-            <strong>랭 킹</strong> <br></br>
-            좋은 답변을 통해 <br></br>
-            순위를 높여 <br></br>
-            여러분의 계정을 <br></br>
-            상단에 <br></br>
-            노출시키세요.
+        <div className="explainA mentor b" ref={mentorExplainC}>
+          <div className="textSection mentor">
+            <div className="textBox" ref={mentorExplainCTextAction}>
+              <strong>랭 킹</strong> <br></br>
+              좋은 답변을 통해 <br></br>
+              순위를 높여 <br></br>
+              여러분의 계정을 <br></br>
+              상단에 <br></br>
+              노출시키세요.
+            </div>
+            <img className="gifFile" src="../../../imageFile/mockGif.gif" alt="" ref={mentorExplainCImgAction} />
           </div>
-          <img className="gifFile" src="../../../imageFile/mockGif.gif" alt="" ref={mentorExplainCImgAction} />
         </div>
-        <div className="explainC mentor c" ref={mentorExplainD}>
-          <img className="gifFile" src="../../../imageFile/mockGif.gif" alt="" />
-
-          <div>
-            <strong>채팅</strong> <br></br>
-            채팅을 통해<br></br>
-            보다 많은 유저들과 <br></br>
-            소통하고 <br></br>
-            여러분을 홍보하세요!
+        <div className="explainA mentor c">
+          <div className="textSection mentor" ref={mentorExplainD}>
+            <img className="gifFile" src="../../../imageFile/mockGif.gif" alt="" />
+            <div className="textBox">
+              <strong>채팅</strong> <br></br>
+              채팅을 통해<br></br>
+              보다 많은 유저들과 <br></br>
+              소통하고 <br></br>
+              여러분을 홍보하세요!
+            </div>
           </div>
         </div>
       </section>
       <div className="goToTop">
-        <Button onClick={gotoTop}>상단으로</Button>
+        <ButtonStyle style={{ color: 'rgb(18, 99, 206)', borderColor: 'rgb(18, 99, 206);' }} onClick={gotoTop}>
+          Main Page
+        </ButtonStyle>
       </div>
       <Footer />
     </div>
