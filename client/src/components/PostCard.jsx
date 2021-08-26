@@ -43,11 +43,10 @@ const PostCardStyle = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: bold;
     .count {
       margin-left: 5px;
-      font-size: 1rem;
     }
   }
   @media ${(props) => props.theme.mobile} {
@@ -93,7 +92,11 @@ function PostCard({ data }) {
         <span className="name">{data.username}</span>
       </div>
       <div className="selectedSection">
-        {data.selected ? <CheckCircleOutlined style={{ color: '#0096c7' }} /> : <CheckCircleOutlined />}
+        {data.selected ? (
+          <CheckCircleOutlined style={{ color: '#12A803' }} />
+        ) : (
+          <CheckCircleOutlined style={{ color: '#aaa' }} />
+        )}
         <span className="count">{data.feedbackCount}</span>
       </div>
     </PostCardStyle>

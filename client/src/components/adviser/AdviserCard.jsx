@@ -37,18 +37,21 @@ const AdviserCardStyle = styled.div`
     position: absolute;
     width: 100%;
     height: 100%;
-    box-shadow: 0 0 1px rgba(3, 4, 94, 0.2);
-    border: 1px solid #e1e1e1;
+    /* box-shadow: 0 0 1px rgba(3, 4, 94, 0.2); */
+    /* border: 3px dashed rgba(0, 119, 182, 0.7); */
+    /* border: 3px dashed #f7ac03; */
     background: #fafafa;
     border-radius: 10px;
 
     @media ${(props) => props.theme.mobile} {
-      display: none;
       margin-left: 10px;
       border-radius: 25px 0 0 25px;
       height: 100%;
       bottom: 0;
     }
+  }
+  :hover .cardBackground {
+    /* border: 3px solid #f7ac03; */
   }
   .background {
     position: absolute;
@@ -59,9 +62,9 @@ const AdviserCardStyle = styled.div`
     /* background: linear-gradient(60deg, rgba(2, 62, 138, 0.9), rgba(2, 62, 138)); */
     /* background: #0077b6; */
     height: 200px;
-    width: 100%;
-    border: 1px solid #eef;
+    width: 244px;
     border-top: none;
+    margin: 3px;
     @media ${(props) => props.theme.mobile} {
       background: linear-gradient(30deg, rgba(2, 62, 138, 0.9), #0077b6 20%);
       height: 150px;

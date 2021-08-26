@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Carousel from 'react-bootstrap/Carousel';
-import { Avatar, Popover, Button, Result, Pagination, Spin, Modal } from 'antd';
+import { Avatar, Popover, Button, Result, Pagination, Spin, Modal, Image } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import axios from 'axios';
@@ -18,43 +18,249 @@ import { setIsChat, setMessages, setViewChatlist, changeRoom } from '../actions/
 
 const url = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
+const PostDetailBodyStyle = styled(BodyAreaStyle)`
+  background: #f4f4f4;
+`;
 
-const ContainerStlyeRes = styled(ContainerStlye)`
-  margin-bottom: 50px;
+const PostDetailContainer = styled(ContainerStlye)`
+  position: relative;
   display: flex;
-  flex-direction: column;
-
+  justify-content: center;
+  align-items: flex-start;
+  width: 60vw;
   @media ${(props) => props.theme.mobile} {
-    padding: 30px;
-    margin-bottom: 150px;
+    width: 100vw;
+  }
+  //전체를 감싸는 박스
+  .postInfo {
+    /* box-shadow: 0 0 3px rgb(248, 187, 0, 0.5); */
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+    border-radius: 20px 20px 0 0;
+    background: #0077b6;
+    margin-top: 30px;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    .headerSection {
+      border-radius: 20px 20px 0 0;
+      background: #fafafa;
+      /* background: #0077b6; */
+      margin-bottom: 30px;
+      display: flex;
+      height: 100%;
+      width: 100%;
+      flex-direction: column;
+      order: 1;
+      .titleSection {
+        border-radius: 20px 20px 0 0;
+        /* background: rgb(248, 187, 0, 0.9); */
+        /* background: #f7ac03; */
+        border-bottom: 1px solid #dfdfdf;
+        padding: 20px 30px 10px 30px;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        .postTitle {
+          height: 100%;
+          font-size: 1.5rem;
+          font-weight: bold;
+        }
+        .optionButton {
+          display: flex;
+          align-items: center;
+          :hover {
+            cursor: pointer;
+          }
+        }
+      }
+      .userInfoSection {
+        padding: 10px;
+        height: 100%;
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        padding-right: 30px;
+        padding-left: 30px;
+        .moment {
+          display: flex;
+          align-items: center;
+          font-size: 0.8rem;
+        }
+        //popover
+        span {
+          display: flex;
+          gap: 10px;
+          .avatar {
+            display: flex;
+            align-items: center;
+          }
+          .username {
+            display: flex;
+            align-items: center;
+            font-family: 'font-css';
+          }
+          :hover {
+            cursor: pointer;
+          }
+        }
+      }
+    }
+
+    .sourceSection {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 50px;
+      min-height: 300px;
+      min-width: 400px;
+      width: 400px;
+      flex: 1.5;
+      order: 2;
+      position: relative;
+      .sourceContainer {
+        background: #000;
+        height: 300px;
+        width: 400px;
+        position: relative;
+        font-size: 0rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .sourceContainer-control-prev {
+          position: absolute;
+          top: 46%;
+          left: 0;
+        }
+        .sourceContainer-control-next {
+          position: absolute;
+          top: 46%;
+          right: 0;
+        }
+        .sourceItem {
+          height: 300px;
+          width: 400px;
+          position: relative;
+          justify-content: center;
+          align-items: center;
+          /* .player-wrapper {
+            position: relative;
+            padding-top: 56.25%;
+          } */
+
+          /* .react-player {
+            position: absolute;
+            top: 0;
+            left: 0;
+          } */
+        }
+      }
+    }
+    .contentSection {
+      margin-top: 50px;
+      margin-bottom: 50px;
+      padding-left: 50px;
+      padding-right: 50px;
+      border-left: 1px dashed #ddd;
+      flex: 1;
+      max-height: 300px;
+      min-width: 200px;
+      overflow-y: scroll;
+      order: 3;
+      display: flex;
+      color: #fafafa;
+    }
+    .feedbackSection {
+      background: #fcfcfc;
+      /* background: #0077b6; */
+      border-radius: 20px 20px 0 0;
+      height: 100%;
+      padding: 50px;
+      display: flex;
+      flex-direction: column;
+      order: 4;
+      width: 100%;
+      @media ${(props) => props.theme.mobile} {
+        margin-bottom: 12vh;
+      }
+      .feedbackContainer {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+
+        .feedbackHeader {
+          color: #000;
+          padding-top: 30px;
+          padding-left: 20px;
+          font-size: 1.2rem;
+          font-weight: bold;
+        }
+        .feedbackList {
+          display: flex;
+          flex-direction: column;
+          padding: 20px;
+          padding-top: none;
+          gap: 20px;
+        }
+      }
+      .pagination {
+        padding: 20px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .feedbackEditer {
+      }
+      .feedbackSubmit {
+        background: #fafafa;
+        border: 1px solid #ccc;
+        border-top: none;
+        border-radius: 0 0 5px 5px;
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        padding: 10px;
+        .submitButton {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 5px;
+          background: #0077b6;
+          color: #fafafa;
+          width: 150px;
+          height: 40px;
+          :hover {
+            cursor: pointer;
+            font-size: 1.05rem;
+            transition: 0.2s;
+          }
+        }
+      }
+    }
   }
 `;
 
-const ContentStyle = styled.div`
-  border: 1px solid #e1e4e8;
-  border-radius: 6px;
-  padding: 10px;
-  padding-bottom: 30px;
-  padding: 30px;
-`;
-
-const CarouselStyle = styled(Carousel)`
-  .sc-EZqKI iZSpkw carousel slide carousel-dark {
-    position: relative;
-  }
-  .carousel-control-next {
-    height: 50px;
-    position: absolute;
-    right: -15%;
-    margin-top: 50%;
-  }
-  .carousel-control-prev {
-    height: 50px;
-    position: absolute;
-    left: -15%;
-    margin-top: 50%;
-  }
-`;
+// const CarouselStyle = styled(Carousel)`
+//   position: relative;
+//   background: #0000ff;
+//   .carousel-control-next {
+//     height: 50px;
+//     position: absolute;
+//     right: -15%;
+//     margin-top: 50%;
+//     font-size: 0rem;
+//   }
+//   .carousel-control-prev {
+//     height: 50px;
+//     position: absolute;
+//     left: -15%;
+//     margin-top: 50%;
+//     font-size: 0rem;
+//   }
+// `;
 
 const DivButtonStyle = styled.div`
   margin: 2px;
@@ -63,22 +269,6 @@ const DivButtonStyle = styled.div`
     cursor: pointer;
     color: #40a9ff;
   }
-`;
-
-const ButtonStyle = styled(Button)`
-  width: 30%;
-  height: 3%;
-  margin-top: 20px;
-  font-size: 24px;
-  @media ${(props) => props.theme.mobile} {
-    width: 100%;
-  }
-`;
-
-const CenterComponentsStyle = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
 `;
 
 function QuestionDetailPage() {
@@ -118,6 +308,7 @@ function QuestionDetailPage() {
       chatState.socket.emit('quitRoom');
     }
     dispatch(setMessages([]));
+    dispatch(changeRoom(null));
   }, [post]);
 
   const history = useHistory();
@@ -200,143 +391,156 @@ function QuestionDetailPage() {
   };
 
   return (
-    <BodyAreaStyle>
-      <ContainerStlyeRes>
-        {isEdit ? (
-          <QuestionPostPage post={post} setIsEdit={setIsEdit} />
-        ) : (
-          <>
-            <h1 style={{ marginTop: '5%', marginBottom: '20px' }}>{post.data[0].title}</h1>
-            <ContentStyle>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div>
-                  <Popover
-                    placement="bottom"
-                    content={
-                      <DivButtonStyle onClick={sendUserPosts}>
-                        {post.data[0].username}님이 올린 게시물 보기
-                      </DivButtonStyle>
-                    }
-                    trigger="click">
-                    <Avatar size="large" src={<img src={post.data[0].profileImg} />} />
-                  </Popover>
-                  <span style={{ margin: '0 5px 0 5px' }}>{post.data[0].username}</span>
+    <PostDetailBodyStyle>
+      {isEdit ? (
+        <QuestionPostPage post={post} setIsEdit={setIsEdit} />
+      ) : (
+        <PostDetailContainer>
+          <div className="postInfo">
+            <div className="headerSection">
+              <div className="titleSection">
+                <div className="postTitle">{post.data[0].title}</div>
+                <div className="optionButton">
+                  {state.userInfo.id === post.data[0].userId ? (
+                    //  <span onClick={handleEdit}>Edit</span>
+                    <Popover
+                      placement="bottom"
+                      content={
+                        <div className="optionContainer">
+                          <DivButtonStyle onClick={handleEdit}>Edit</DivButtonStyle>
+                          <DivButtonStyle onClick={openModal}>Delete</DivButtonStyle>
+                        </div>
+                      }
+                      trigger="click">
+                      <MoreHorizIcon />
+                    </Popover>
+                  ) : null}
+                </div>
+              </div>
+
+              <div className="userInfoSection">
+                <Popover
+                  placement="bottom"
+                  content={
+                    <DivButtonStyle onClick={sendUserPosts}>
+                      {post.data[0].username}님이 올린 게시물 보기
+                    </DivButtonStyle>
+                  }
+                  trigger="click">
+                  <div className="avatar">
+                    <Avatar size={40} src={<img src={post.data[0].profileImg} />} />
+                  </div>
+                  <div className="username">{post.data[0].username}</div>
+                </Popover>
+                <div className="moment">
                   <Moment fromNow style={{ fontSize: '0.8rem', color: '#686868' }}>
                     {startTime}
                   </Moment>
                 </div>
-                {state.userInfo.id === post.data[0].userId ? (
-                  //  <span onClick={handleEdit}>Edit</span>
-                  <Popover
-                    placement="bottom"
-                    content={
-                      <div>
-                        <DivButtonStyle onClick={handleEdit}>Edit</DivButtonStyle>
-                        <DivButtonStyle onClick={openModal}>Delete</DivButtonStyle>
-                      </div>
-                    }
-                    trigger="click">
-                    <MoreHorizIcon />
-                  </Popover>
+              </div>
+            </div>
+
+            <div className="sourceSection">
+              <Carousel
+                variant="dark"
+                interval={null}
+                bsPrefix={'carousel sourceContainer'}
+                slide={true}
+                indicators={false}>
+                {post.data.sources.length === 0 ? (
+                  <Carousel.Item bsPrefix={'carousel-item sourceItem'}>
+                    <Image src="../../imageFile/blankImg.png" alt="" width="100%" height="100%" />
+                  </Carousel.Item>
+                ) : (
+                  post.data.sources.map((el, idx) =>
+                    el.type === 'video' ? (
+                      <Carousel.Item key={el.id} bsPrefix={'carousel-item sourceItem'}>
+                        <div className="player-wrapper">
+                          <ReactPlayer
+                            url={el.sourceUrl}
+                            // url={'https://vimeo.com/243556536'}
+                            // url={'https://www.youtube.com/watch?v=arbbhHyRP90'}
+                            // url={'https://www.youtube.com/watch?v=jy_UiIQn_d0&list=PLmxVF8ick5cSdoEdME6wEjJDLs4XWSV2Z'}
+                            className="react-player"
+                            controls={true}
+                            width="400px"
+                            height="300px"
+                          />
+                        </div>
+                      </Carousel.Item>
+                    ) : (
+                      <Carousel.Item key={el.id} bsPrefix={'carousel-item sourceItem'}>
+                        <Image src={el.sourceUrl} alt="" width="100%" height="100%" />
+                      </Carousel.Item>
+                    ),
+                  )
+                )}
+              </Carousel>
+            </div>
+            <div className="contentSection">{post.data[0].content}</div>
+
+            {/* </Carousel> */}
+            <div className="feedbackSection">
+              {post.data.feedbacks.length === 0 ? (
+                <Result icon={<SmileOutlined />} title="아직 등록된 답변이 없습니다." />
+              ) : (
+                <div className="feedbackContainer">
+                  <div className="feedbackHeader">{post.data.feedbacks.length} 개의 등록된 답변이 있습니다</div>
+                  <div className="feedbackList">
+                    {currentPageList.map((el) => {
+                      return (
+                        <FeedbackContainer
+                          adviser={el}
+                          postUserId={post.data[0].userId}
+                          isSelected={post.data[0].selected === el.id}
+                          key={el.id}
+                          getDetailData={getDetailData}
+                          checkSelect={setCheckSelect}
+                          handleSelection={() => handleSelection(el.id)}
+                          handleSelectionCancel={() => handleSelectionCancel(el.id)}
+                          setIsReply={setIsReply}
+                        />
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+              <div className="pagination">
+                <Pagination
+                  simple
+                  defaultCurrent={1}
+                  current={currentPage}
+                  pageSize={PAGE_SIZE}
+                  onChange={handlePageChange}
+                  total={post.data.feedbacks.length || 1}
+                />
+              </div>
+              <div className="feedbackEditer">
+                {state.userInfo.role === 'adviser' && !isReply ? (
+                  <TextEditor text={setFeedback} handleSetData={setEditorFunction} />
                 ) : null}
               </div>
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <CarouselStyle variant="dark" interval={null} style={{ width: '400px' }} indicators={false}>
-                  {post.data.sources.length === 0 ? (
-                    <Carousel.Item style={{ height: '400px', width: '400px' }}>
-                      <img src="../../imageFile/blankImg.png" alt="" style={{ height: '400px', width: '400px' }} />
-                    </Carousel.Item>
-                  ) : (
-                    post.data.sources.map((el, idx) =>
-                      el.type === 'video' ? (
-                        <Carousel.Item key={el.id} style={{ height: '400px', width: '400px' }}>
-                          <ReactPlayer
-                            className="d-block w-100"
-                            url={el.sourceUrl}
-                            alt=""
-                            key={idx}
-                            style={{ height: '400px', width: '400px' }}
-                            controls={true}
-                          />
-                        </Carousel.Item>
-                      ) : (
-                        <Carousel.Item key={el.id} style={{ height: '400px', width: '400px' }}>
-                          <img
-                            className="d-block w-100"
-                            src={el.sourceUrl}
-                            alt=""
-                            key={idx}
-                            style={{ height: '400px', width: '400px' }}
-                          />
-                        </Carousel.Item>
-                      ),
-                    )
-                  )}
-                </CarouselStyle>
-              </div>
 
-              {/* </Carousel> */}
-              <div style={{ marginTop: '30px' }}>{post.data[0].content}</div>
-            </ContentStyle>
-          </>
-        )}
-        <div>
-          {post.data.feedbacks.length === 0 ? (
-            <Result icon={<SmileOutlined />} title="아직 등록된 답변이 없습니다." />
-          ) : (
-            <>
-              <h2 style={{ margin: '5% 0px 5% 0px' }}>{post.data.feedbacks.length} suggested feedbacks</h2>
-              {currentPageList.map((el) => {
-                return (
-                  <FeedbackContainer
-                    adviser={el}
-                    postUserId={post.data[0].userId}
-                    isSelected={post.data[0].selected === el.id}
-                    key={el.id}
-                    getDetailData={getDetailData}
-                    checkSelect={setCheckSelect}
-                    handleSelection={() => handleSelection(el.id)}
-                    handleSelectionCancel={() => handleSelectionCancel(el.id)}
-                    setIsReply={setIsReply}
-                  />
-                );
-              })}
-            </>
-          )}
-          <CenterComponentsStyle style={{ margin: '20px 0px 20px 0px' }}>
-            <Pagination
-              simple
-              defaultCurrent={1}
-              current={currentPage}
-              pageSize={PAGE_SIZE}
-              onChange={handlePageChange}
-              total={post.data.feedbacks.length || 1}
-            />
-          </CenterComponentsStyle>
-        </div>
-        <div>
-          {state.userInfo.role === 'adviser' && !isReply ? (
-            <TextEditor text={setFeedback} handleSetData={setEditorFunction} />
-          ) : null}
-        </div>
-        {state.userInfo.role === 'adviser' && !isReply ? (
-          <CenterComponentsStyle>
-            <ButtonStyle type="primary" onClick={answerFeedback}>
-              Answer
-            </ButtonStyle>
-          </CenterComponentsStyle>
-        ) : null}
-        {/* 모달 */}
-        <Modal
-          title="Delete Post"
-          visible={modal}
-          onOk={deletePost}
-          confirmLoading={confirmLoading}
-          onCancel={closeModal}>
-          <p>정말 삭제하시겠습니까?</p>
-        </Modal>
-      </ContainerStlyeRes>
-    </BodyAreaStyle>
+              {state.userInfo.role === 'adviser' && !isReply ? (
+                <div className="feedbackSubmit" onClick={answerFeedback}>
+                  <div className="submitButton">Answer</div>
+                </div>
+              ) : null}
+            </div>
+          </div>
+        </PostDetailContainer>
+      )}
+
+      {/* 모달 */}
+      <Modal
+        title="Delete Post"
+        visible={modal}
+        onOk={deletePost}
+        confirmLoading={confirmLoading}
+        onCancel={closeModal}>
+        <p>정말 삭제하시겠습니까?</p>
+      </Modal>
+    </PostDetailBodyStyle>
   );
 }
 

@@ -34,6 +34,9 @@ const QuestionListContainer = styled(ContainerStlye)`
     border: 2px solid #eee;
     border-bottom: 0;
     height: 100%;
+    @media ${(props) => props.theme.mobile} {
+      border: 0;
+    }
   }
   .categorySection {
     display: flex;
@@ -42,7 +45,7 @@ const QuestionListContainer = styled(ContainerStlye)`
     margin-bottom: 20px;
   }
   .searchSection {
-    padding: 20px 20px 10px 20px;
+    padding: 20px 20px 15px 20px;
     width: 100%;
     display: grid;
     grid-template-columns: 40% 40% 20%;
@@ -130,7 +133,7 @@ const QuestionListContainer = styled(ContainerStlye)`
       }
     }
     .listContainer {
-      flex: 2 3;
+      flex: 2.5 3;
       display: flex;
       position: relative;
       justify-content: flex-start;

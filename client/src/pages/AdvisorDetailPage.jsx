@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Avatar, Pagination, Result, Image } from 'antd';
+import { Avatar, Pagination, Result, Image, Spin } from 'antd';
 import { BodyAreaStyle, ContainerStlye } from '../style/pageStyle';
 import parse from 'html-react-parser';
 import { useSelector, useDispatch } from 'react-redux';
@@ -154,10 +154,10 @@ const AdviserDetailContainer = styled(ContainerStlye)`
           background: #fafafa;
           border-radius: 50%;
           padding: 15px;
+          border: 1px solid #ddd;
           box-shadow: 0 0 7px rgba(3, 4, 94, 0.3);
           :hover {
             cursor: pointer;
-            padding: 14px;
             box-shadow: 0 0 10px rgba(3, 4, 94, 0.5);
             transition: 0.1s ease-in-out;
           }
@@ -292,11 +292,12 @@ function AdvisorDetailPage() {
   }, [adviserDetailInfo]);
 
   if (adviserDetailInfo === null) {
-    return '정보를 받아오고 있습니다.';
-  } else {
-    console.log(adviserDetailInfo.feedbacks);
+    return (
+      <div style={{ width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Spin size="large" tip="데이터를 받아오고 있습니다."></Spin>
+      </div>
+    );
   }
-  console.log(adviserDetailInfo);
 
   const createChatRoom = (userId) => {
     //방만들고 룸넘버 획득

@@ -12,6 +12,12 @@ import axios from 'axios';
 const url = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 
+const QuestionPostPageContainer = styled(ContainerStlye)`
+  width: 50vw;
+  flex-direction: column;
+  gap: 20px;
+`;
+
 const LabelStyle = styled.label`
   font-size: 20px;
 `;
@@ -77,6 +83,7 @@ function QuestionPostPage({ post, setPost, setIsEdit }) {
       setPreviewList(post.data.sources.slice());
     }
   }, []);
+
 
   const removeValidation = () => {
     setValidation({
@@ -160,7 +167,7 @@ function QuestionPostPage({ post, setPost, setIsEdit }) {
   };
   return (
     <BodyAreaStyle>
-      <ContainerStlye style={{ padding: '50px' }}>
+      <QuestionPostPageContainer>
         <LabelStyle htmlFor="title">Title</LabelStyle>
         <InputStyle
           name="title"
@@ -258,7 +265,7 @@ function QuestionPostPage({ post, setPost, setIsEdit }) {
             Cancel
           </Button>
         ) : null}
-      </ContainerStlye>
+      </QuestionPostPageContainer>
     </BodyAreaStyle>
   );
 }

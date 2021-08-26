@@ -15,7 +15,7 @@ const CategoryStyle = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
-  height: 10vw;
+  height: 11vw;
   font-family: 'font-css';
   color: white;
   @media ${(props) => props.theme.mobile} {

@@ -142,7 +142,7 @@ function UserPostListCompo() {
       <Divider />
       {userInfo.role === 'adviser' ? (
         <SectionStyle>
-          <h2 style={{ textAlign: 'center' }}>내가 답변한 게시물</h2>
+          <div style={{ textAlign: 'center' }}>내가 답변한 게시물</div>
           <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
             <MypostSectionStyle>
               {currentFeedbackPageList.map((el) => (
