@@ -102,10 +102,17 @@ const QuestionListContainer = styled(ContainerStlye)`
       justify-content: flex-end;
       align-items: center;
       font-family: 'font-css';
-      button {
-        width: 100px;
+      text-decoration: none;
+      .postButton {
         border-radius: 10px;
-        height: 100%;
+        padding: 10px 23px 10px 23px;
+        color: white;
+        font-size: 0.9rem;
+        background: #0077b6;
+        :hover {
+          background: rgb(0, 119, 182, 0.9);
+          transition: 0.2s;
+        }
       }
       @media ${(props) => props.theme.mobile} {
         margin-bottom: 10px;
@@ -270,7 +277,7 @@ function QuestionListPage() {
             </Radio.Group>
             {/* </span> */}
             <Link className="post" to={state.logIn ? '/QuestionPost' : '/SignIn'}>
-              <Button type="primary">물어볼까?</Button>
+              <div className="postButton">물어볼까?</div>
             </Link>
           </div>
 

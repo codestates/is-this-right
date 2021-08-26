@@ -21,11 +21,7 @@ const NavAreaStyle = styled.div`
   /* background: linear-gradient(180deg, #0096c7, #0077b6); */
   background: white;
 
-  background: rgba(255, 255, 255, 0.8);
-  -webkit-backdrop-filter: saturate(180%) blur(15px);
-  -moz-backdrop-filter: saturate(180%) blur(15px);
-  -o-backdrop-filter: saturate(180%) blur(15px);
-  backdrop-filter: saturate(180%) blur(15px);
+  /* background: rgba(255, 255, 255, 0.7); */
 
   border-bottom: 1px solid rgba(222, 222, 222, 0.9);
   position: ${(props) => (props.landing === 'landing' ? 'fixed' : 'static')};
