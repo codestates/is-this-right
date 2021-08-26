@@ -14,23 +14,26 @@ const url = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 
 const FeedbackContainerStyle = styled.div`
-  background-color: #fff;
-  width: 100%;
-  height: 30%;
+  /* background: #0177b6; */
   display: flex;
   flex-direction: column;
-  margin-bottom: 50px;
-  padding: 10px;
-  padding-bottom: 30px;
-  border: ${(props) => (props.isSelected ? '2px solid #34d058' : '1px solid #e1e4e8')};
-
-  border-radius: 6px;
+  border: ${(props) => (props.isSelected ? '1px solid #12A803' : '1px solid #ddd')};
+  /* color: #fff; */
+  color: #000;
+  border-radius: 10px;
+  /* box-shadow: ${(props) => (props.isSelected ? '0 0 5px rgba(248, 187, 0, 0.6)' : 'none')}; */
+  .name {
+    font-family: 'font-css';
+  }
 `;
 
 const ContentStyle = styled.div`
+  padding: 30px;
   width: 80%;
+  background: #fff;
+  width: 100%;
+  border-radius: 0 0 10px 10px;
   min-height: 30%;
-  padding: 15px;
   /* 이미지 크기 수정  */
   > p > img {
     width: 200px;
@@ -38,10 +41,35 @@ const ContentStyle = styled.div`
 `;
 
 const AdviserInfoStyle = styled.div`
-  margin-bottom: 10px;
+  padding: 15px 30px 15px 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid rgb(221, 221, 255, 0.6);
+  .infoSection {
+    gap: 20px;
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    span {
+      display: flex;
+      gap: 10px;
+      .username {
+        display: flex;
+        align-items: center;
+      }
+      :hover {
+        cursor: pointer;
+      }
+    }
+    .moment {
+      display: flex;
+      align-items: center;
+      font-size: 0.8rem;
+      color: #777;
+      padding-right: 20px;
+    }
+  }
 `;
 
 const ButtonSectionStyle = styled.div`
@@ -60,6 +88,9 @@ const ButtonStyle = styled(Button)`
 const DivButtonStyle = styled.div`
   margin: 2px;
   transition: all 0.3s;
+  .name {
+    font-family: 'font-css';
+  }
   :hover {
     cursor: pointer;
     color: #40a9ff;
@@ -121,26 +152,34 @@ function FeedbackContainer({
   return (
     <FeedbackContainerStyle isSelected={isSelected}>
       <AdviserInfoStyle>
-        <span>
+        <div className="infoSection">
           <Popover
             placement="bottom"
-            content={<DivButtonStyle onClick={sendDataToDetailPage}>{adviser.name}님의 댓글 보러가기</DivButtonStyle>}
+            content={
+              <DivButtonStyle onClick={sendDataToDetailPage}>
+                <span className="name">{adviser.name}</span>님의 정보 보러가기
+              </DivButtonStyle>
+            }
             trigger="click">
-            <Avatar size={50} icon={<img src={adviser.profileImg} />} />
-            <span style={{ margin: '0 5px 0 5px' }}>{adviser.name}</span>
+            <div className="avatar">
+              <Avatar size={50} icon={<img src={adviser.profileImg} />} />
+            </div>
+            <div className="name username">{adviser.name}</div>
           </Popover>
-          <Moment fromNow style={{ fontSize: '0.8rem', color: '#686868' }}>
-            {startTime}
-          </Moment>
-        </span>
+          <div className="moment">
+            <Moment fromNow>{startTime}</Moment>
+          </div>
+        </div>
         {state.userInfo.adviserId === adviser.adviserId ? (
           <Button onClick={handleIsEdit}>Edit</Button>
         ) : postUserId === state.userInfo.id ? (
           isSelected ? (
-            <CheckCircleTwoTone style={{ color: 'green', fontSize: '25px' }} onClick={handleSelectionCancel} />
+            <CheckCircleOutlined style={{ color: '#12A803', fontSize: '1.2rem' }} onClick={handleSelectionCancel} />
           ) : (
-            <CheckCircleOutlined style={{ color: '#686868', fontSize: '25px' }} onClick={handleSelection} />
+            <CheckCircleOutlined style={{ color: '#ddd', fontSize: '1.2rem' }} onClick={handleSelection} />
           )
+        ) : isSelected ? (
+          <CheckCircleOutlined style={{ color: '#12A803', fontSize: '1.2rem' }} />
         ) : null}
       </AdviserInfoStyle>
       {isEdit ? (

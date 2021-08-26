@@ -4,7 +4,7 @@ import { BodyAreaStyle, ContainerStlye } from '../style/pageStyle';
 import AdviserCard from '../components/adviser/AdviserCard';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { Radio, Pagination, Button } from 'antd';
+import { Radio, Pagination, Button, Spin } from 'antd';
 import Search from '../components/Search';
 import { setIsChat, setMessages, setViewChatlist, changeRoom } from '../actions/chatAction';
 import { useDispatch, useSelector } from 'react-redux';
@@ -161,6 +161,7 @@ function AdvisorListPage() {
   const PAGE_SIZE = 6;
   const [currentPageList, setCurrentPageList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+
   const handlePageChange = (page) => {
     if (adviserDetail) {
       setCurrentPage(page);
@@ -222,7 +223,11 @@ function AdvisorListPage() {
     setFilterOption({ category: '전체', gender: '남+여', state: '전국' });
   };
   if (adviserDetail === null) {
-    return '데이터를 받아오고있습니다.';
+    return (
+      <div style={{ width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Spin size="large" tip="데이터를 받아오고 있습니다."></Spin>
+      </div>
+    );
   }
 
   return (

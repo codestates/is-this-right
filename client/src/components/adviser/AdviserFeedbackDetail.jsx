@@ -12,11 +12,14 @@ const AdviserCardStyle = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: black;
+  /* color: #fafafa; */
+  color: #353535;
   :hover {
     padding-bottom: 1px;
   }
   :hover .background {
+    /* border: 3px solid #f8bb00; */
+    /* border: 3px solid #12a803; */
     box-shadow: 0 0 5px rgba(3, 4, 94, 0.3);
     transition: 0.1s ease-in-out;
   }
@@ -29,10 +32,10 @@ const AdviserCardStyle = styled.div`
     height: 110px;
     border-radius: 5px;
     bottom: 0;
+    border: 1px solid #ddd;
     /* background: linear-gradient(60deg, #0096c7, #00b4d8); */
     background: white;
-    /* box-shadow: 0 0 5px rgba(3, 4, 94, 0.3); */
-    border: 1px solid #ddd;
+    /* background: #0177b6; */
 
     @media ${(props) => props.theme.mobile} {
       width: 95vw;
@@ -49,7 +52,6 @@ const AdviserCardStyle = styled.div`
       margin-bottom: 5px;
     }
     .name {
-      color: #000;
       font-size: 1rem;
       margin-bottom: 40px;
     }
@@ -69,7 +71,7 @@ const AdviserCardStyle = styled.div`
     }
     .postTitle {
       font-size: 1.1rem;
-      color: #353535;
+      /* color: #353535; */
       border-bottom: 1px solid #ddd;
     }
     .content {
@@ -80,7 +82,7 @@ const AdviserCardStyle = styled.div`
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      color: #353535;
+      /* color: #353535; */
       @media ${(props) => props.theme.mobile} {
         width: 100px;
       }
@@ -94,6 +96,7 @@ const AdviserCardStyle = styled.div`
       position: relative;
       font-size: 0.8rem;
       color: #777;
+      /* color: #ddd; */
       height: 100%;
       display: flex;
       align-items: center;
@@ -131,9 +134,9 @@ function AdviserFeedbackDetail({ data }) {
         </div>
         <div className="selected">
           {data.selected ? (
-            <CheckCircleOutlined style={{ color: '#0096c7' }} />
+            <CheckCircleOutlined style={{ color: '#12A803' }} />
           ) : (
-            <CheckCircleOutlined style={{ color: '#dddddd' }} />
+            <CheckCircleOutlined style={{ color: '#aaa' }} />
           )}
         </div>
       </div>

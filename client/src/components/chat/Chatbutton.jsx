@@ -10,8 +10,8 @@ axios.defaults.withCredentials = true;
 
 const FixDivStyle = styled.div`
   position: fixed;
-  left: 85vw;
-  top: 75vh;
+  left: 88vw;
+  top: 68vh;
   z-index: 999;
   @media ${(props) => props.theme.mobile} {
     display: none;
