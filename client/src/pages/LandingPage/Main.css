@@ -55,6 +55,9 @@ h2 {
 #scroll-section-0 {
   color: white;
 }
+#scroll-section-1 {
+  color: white;
+}
 
 #scroll-section-2 strong {
   font-size: 5rem;
@@ -83,7 +86,7 @@ h2 {
   height: 10em;
   font-size: 2rem;
   opacity: 0;
-  top: 35vh;
+  top: 40vh;
 }
 
 .main-message small {
@@ -110,6 +113,7 @@ h2 {
 #show-scene-3 #scroll-section-3 .sticky-elem,
 #show-scene-4 #scroll-section-4 .sticky-elem {
   display: block;
+  will-change: transform opacity;
 }
 
 .sticky-elem-canvas {
@@ -262,17 +266,14 @@ h2 {
 .explainA {
   height: 30%;
   width: 100%;
-  display: flex;
-}
-.explainA > div,
-.explainA > img {
-  width: 50%;
 }
 
 .explainA > div {
   font-size: 3vw;
-  margin: auto;
   text-align: center;
+}
+.textBox {
+  width: 50%;
 }
 
 .explainB {
@@ -321,6 +322,13 @@ h2 {
 /* .animation-mentor {
   border: 3px solid red;
 } */
+.textSection {
+  height: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 @media (min-width: 1024px) {
   #scroll-section-0 h1,
@@ -347,6 +355,9 @@ h2 {
   .mini-TextD-Section.d {
     height: 100%;
   }
+  .textSection {
+    height: 100%;
+  }
 }
 
 @media only screen and (max-width: 800px) {
@@ -356,6 +367,13 @@ h2 {
     display: flex;
     flex-direction: column;
   }
+  .textSection {
+    height: 50%;
+  }
+  /* .gifFile.mentor,
+  .textSection.mentor {
+    height: 50%;
+  } */
 }
 
 .container {
@@ -423,4 +441,9 @@ h2 {
     opacity: 0;
     transform: translateY(55px) scale3d(0.5, 0.5, 0.5);
   }
+}
+
+.ant-back-top {
+  top: 78vh;
+  left: 88.4vw;
 }

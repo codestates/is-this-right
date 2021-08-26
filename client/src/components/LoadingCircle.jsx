@@ -12,6 +12,17 @@ const loadingSpin = keyframes`
     100% {transform: rotate(360deg)}
 `;
 
+const rotator = keyframes`
+    0% {
+        -webkit-transform: rotate(-45deg) translateZ(0);
+        transform: rotate(-45deg) translateZ(0);
+    }
+    100% {
+        -webkit-transform: rotate(315deg) translateZ(0);
+        transform: rotate(315deg) translateZ(0);
+    }
+`;
+
 const Loading = styled.div`
   position: fixed;
   top: 0;
