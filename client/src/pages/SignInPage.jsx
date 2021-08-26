@@ -390,7 +390,7 @@ function SignInPage() {
               onFailure={handleFail}></GoogleLogin>
             <NaverLogin
               clientId={process.env.REACT_APP_NAVER_API_KEY}
-              callbackUrl={`${url}/SignIn`}
+              callbackUrl={`${process.env.KAKAO_REDIRECT_URI}`}
               render={(props) => (
                 <SocialDivStyle onClick={props.onClick} className="naver">
                   <div className="icon-box naver">

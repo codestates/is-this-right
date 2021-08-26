@@ -247,6 +247,7 @@ function QuestionListPage() {
   const viewRadio = (value = '') => {
     setRadioValue(value);
   };
+
   return (
     <QuestionBodyStyle>
       <QuestionListContainer>
@@ -269,7 +270,7 @@ function QuestionListPage() {
               </Radio.Button>
             </Radio.Group>
             {/* </span> */}
-            <Link className="post" to="/QuestionPost">
+            <Link className="post" to={state.logIn ? '/QuestionPost' : '/SignIn'}>
               <Button type="primary">물어볼까?</Button>
             </Link>
           </div>
