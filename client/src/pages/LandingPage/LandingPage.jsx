@@ -1,9 +1,30 @@
 import React, { useRef, useState, useEffect } from 'react';
+import { useHistory } from 'react-router';
 import './Default.css';
 import './Main.css';
 import Nav from '../../components/Nav';
 import Footer from '../../components/Footer';
 import styled from 'styled-components';
+import { Button } from 'antd';
+import LoadingCircle from '../../components/LoadingCircle';
+import { BackTop } from 'antd';
+
+const ButtonStyle = styled(Button)`
+  width: 10vw;
+  min-width: 200px;
+  height: 5vh;
+  margin: 1vw;
+  border-radius: 50px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-weight: bold;
+  font-size: 1.5rem;
+  :hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+`;
+
+const NavStyle = styled(Nav)``;
 
 const RotateSpan = styled.span`
   transform: rotate(20deg);
@@ -13,6 +34,8 @@ const RotateSpan = styled.span`
 `;
 
 function LandingPage() {
+  const [isLoading, setIsLoading] = useState(true);
+  const history = useHistory();
   const ref = useRef();
   const section0 = useRef();
   const section0A = useRef();
@@ -41,8 +64,22 @@ function LandingPage() {
   const userExplainSectionA = useRef();
   const userExplainTextA = useRef();
   const userExplainGifA = useRef();
+  const userExplainTextB = useRef();
+
+  const userExplainImgA = useRef();
+  const userExplainCanvas = useRef();
 
   const section4 = useRef();
+  const mentorExplainA = useRef();
+  const mentorExplainB = useRef();
+  const mentorExplainC = useRef();
+  const mentorExplainD = useRef();
+  const mentorExplainCTextAction = useRef();
+  const mentorExplainCImgAction = useRef();
+
+  const goToAdviserListPage = () => {
+    history.push('/');
+  };
 
   let yOffset = 0;
   //window.pageYOffset 대신 사용할 변수 => 현재 스크롤 위치를 알 수 있음
@@ -191,7 +228,7 @@ function LandingPage() {
         messageBTranslateYIn: [20, 0, { start: 0.27, end: 0.29 }],
 
         messageCOpacityIn: [0, 1, { start: 0.42, end: 0.45 }],
-        messageCTranslateYIn: [20, 0, { start: 0.42, end: 0.45 }],
+        // messageCTranslateYIn: [20, 0, { start: 0.42, end: 0.45 }],
 
         //아웃
         messageAOpacityOut: [1, 0, { start: 0.2, end: 0.25 }],
@@ -201,7 +238,7 @@ function LandingPage() {
         messageBTranslateYOut: [0, -20, { start: 0.35, end: 0.4 }],
 
         messageCOpacityOut: [1, 0, { start: 0.85, end: 0.92 }],
-        messageCTranslateYOut: [0, -20, { start: 0.85, end: 0.92 }],
+        // messageCTranslateYOut: [0, -20, { start: 0.85, end: 0.92 }],
       },
     },
     {
@@ -214,22 +251,39 @@ function LandingPage() {
         userExplainText: userExplainSectionA,
 
         userExplainTextA: userExplainTextA,
+        userExplainImgA: userExplainImgA,
         userExplainGifA: userExplainGifA,
+        userExplainTextB: userExplainTextB,
+        canvas: userExplainCanvas,
+        context: userExplainCanvas,
+        imagePath: [],
       },
       values: {
         //인
         // messageAOpacityIn: [20, 0, { start: 0.1, end: 0.15 }],
-        backgroundTranslateXLeftIn: [-100, 0, { start: -0.3, end: 0.03 }],
-        backgroundTranslateXRightIn: [100, 0, { start: 0.5, end: 0.53 }],
-        backgroundOpacityLeftIn: [0, 1, { start: 0, end: 0.03 }],
-        backgroundOpacityRightIn: [0, 1, { start: 0.5, end: 0.53 }],
+        backgroundTranslateXLeftIn: [-100, 0, { start: 0.05, end: 0.07 }],
+        backgroundOpacityLeftIn: [0, 1, { start: 0.05, end: 0.07 }],
+
+        backgroundTranslateXIn: [0, 1, { start: 0.25, end: 0.35 }],
+        backgroundOpacityIn: [0, 1, { start: 0.25, end: 0.35 }],
+
+        backgroundOpacityRightIn: [0, 1, { start: 0.48, end: 0.55 }],
+        backgroundTranslateXRightIn: [100, 0, { start: 0.48, end: 0.55 }],
+
+        backgroundOpacityCenterIn: [0, 1, { start: 0.76, end: 0.8 }],
 
         //아웃
         // messageAOpacityOut: [0, -20, { start: 0.2, end: 0.25 }],
-        backgroundTranslateXLeftOut: [0, -100, { start: 0.48, end: 0.53 }],
-        backgroundTranslateXRightOut: [0, 100, { start: 0.92, end: 0.97 }],
-        backgroundOpacityLeftOut: [1, 0, { start: 0.48, end: 0.53 }],
-        backgroundOpacityRightOut: [1, 0, { start: 0.92, end: 0.97 }],
+        backgroundTranslateXLeftOut: [0, -100, { start: 0.2, end: 0.25 }],
+        backgroundOpacityLeftOut: [1, 0, { start: 0.2, end: 0.25 }],
+
+        backgroundTranslateXOut: [1, 0, { start: 0.42, end: 0.45 }],
+        backgroundOpacityOut: [1, 0, { start: 0.42, end: 0.45 }],
+
+        backgroundOpacityRightOut: [1, 0, { start: 0.74, end: 0.8 }],
+        backgroundTranslateXRightOut: [0, 100, { start: 0.74, end: 0.8 }],
+
+        backgroundOpacityCenterOut: [1, 0, { start: 0.9, end: 0.98 }],
       },
     },
     {
@@ -239,6 +293,35 @@ function LandingPage() {
       type: 'sticky',
       objs: {
         container: section4,
+        mentorExplainA: mentorExplainA,
+        mentorExplainB: mentorExplainB,
+        mentorExplainC: mentorExplainC,
+        mentorExplainD: mentorExplainD,
+        mentorExplainCTextAction: mentorExplainCTextAction,
+        mentorExplainCImgAction: mentorExplainCImgAction,
+      },
+      values: {
+        //인
+        mentorTextOpacityIn: [0, 1, { start: 0, end: 0.05 }],
+        mentorTextTranslateYIn: [20, 0, { start: 0, end: 0.05 }],
+
+        mentorFeedbackExplainOpacityIn: [0, 1, { start: 0.07, end: 0.1 }],
+        mentorFeedbackExplainTranslateIn: [20, 0, { start: 0.07, end: 0.1 }],
+
+        mentorExplainCTextActionOpacityIn: [0, 1, { start: 0.35, end: 0.4 }],
+        mentorExplainCImgActionTranslateLeftIn: [-100, 0, { start: 0.35, end: 0.4 }],
+        mentorExplainCImgActionTranslateRightIn: [100, 0, { start: 0.35, end: 0.4 }],
+
+        //아웃
+        mentorTextOpacityOut: [1, 0, { start: 0.1, end: 0.15 }],
+        mentorTextTranslateYOut: [0, -20, { start: 0.12, end: 0.17 }],
+
+        mentorFeedbackExplainOpacityOut: [1, 0, { start: 0.32, end: 0.37 }],
+        mentorFeedbackExplainTranslateOut: [0, -20, { start: 0.32, end: 0.37 }],
+
+        mentorExplainCTextActionOpacityOut: [1, 0, { start: 0.65, end: 0.7 }],
+        mentorExplainCImgActionTranslateLeftOut: [0, -100, { start: 0.65, end: 0.7 }],
+        mentorExplainCImgActionTranslateRightOut: [0, 100, { start: 0.65, end: 0.7 }],
       },
     },
   ];
@@ -263,6 +346,10 @@ function LandingPage() {
       imgElem2.src = `../../../imageFile/2/${i + 631}.jpg`;
       sceneInfo[2].objs.videoImages.push(imgElem2);
     }
+    let imgElem3;
+    imgElem3 = new Image();
+    imgElem3.src = '../../../imageFile/team.png';
+    sceneInfo[3].objs.imagePath.push(imgElem3);
   };
 
   setCanvasImages();
@@ -325,8 +412,7 @@ function LandingPage() {
     const currentYOffset = yOffset - prevScrollHeight;
     const scrollHeight = sceneInfo[currentScene].scrollHeight;
     const scrollRatio = currentYOffset / scrollHeight;
-
-    // console.log(currentYOffset, currentScene, scrollRatio);
+    console.log(scrollRatio);
     switch (currentScene) {
       case 0:
         let sequence = Math.round(calcValues(values.imageSequence, currentYOffset));
@@ -557,23 +643,36 @@ function LandingPage() {
         if (scrollRatio <= 0.95) {
           // in
           objs.messageC.current.style.opacity = calcValues(values.messageCOpacityIn, currentYOffset);
-          objs.messageC.current.style.transform = `translate3d(0, ${calcValues(
-            values.messageCTranslateYIn,
-            currentYOffset,
-          )}%, 0)`;
+          // objs.messageC.current.style.transform = `translate3d(0, ${calcValues(
+          //   values.messageCTranslateYIn,
+          //   currentYOffset,
+          // )}%, 0)`;
         } else {
           // out
           objs.messageC.current.style.opacity = calcValues(values.messageCOpacityOut, currentYOffset);
-          objs.messageC.current.style.transform = `translate3d(0, ${calcValues(
-            values.messageCTranslateYOut,
-            currentYOffset,
-          )}%, 0)`;
+          // objs.messageC.current.style.transform = `translate3d(0, ${calcValues(
+          //   values.messageCTranslateYOut,
+          //   currentYOffset,
+          // )}%, 0)`;
         }
         break;
       case 3:
         console.log(objs.userExplainTextA.current);
+        //가로사로 모두 꽉 차게하기 위해 여서 세팅
+        const widthRatio = window.innerWidth / objs.canvas.current.width;
+        const heightRatio = window.innerHeight / objs.canvas.current.height;
+        let canvasScaleRatio = 0;
+        if (widthRatio <= heightRatio) {
+          canvasScaleRatio = heightRatio;
+        } else {
+          canvasScaleRatio = widthRatio;
+        }
+        objs.canvas.current.transform = `scale(${canvasScaleRatio})`;
+        objs.canvas.current
+          .getContext('2d')
+          .drawImage(objs.imagePath[0], 0, 0, objs.canvas.current.width, objs.canvas.current.height);
 
-        if (scrollRatio <= 0.5) {
+        if (scrollRatio <= 0.2) {
           objs.userExplainTextA.current.style.transform = `translate3d(${calcValues(
             values.backgroundTranslateXLeftIn,
             currentYOffset,
@@ -586,7 +685,28 @@ function LandingPage() {
           )}%,0, 0)`;
           objs.userExplainTextA.current.style.opacity = calcValues(values.backgroundOpacityLeftOut, currentYOffset);
         }
-        if (scrollRatio <= 0.95) {
+
+        if (scrollRatio <= 0.35) {
+          objs.userExplainImgA.current.style.color = 'black';
+        } else {
+          objs.userExplainImgA.current.style.color = 'white';
+        }
+
+        if (scrollRatio <= 0.25) {
+          objs.userExplainImgA.current.style.opacity = calcValues(values.backgroundOpacityIn, currentYOffset);
+          objs.userExplainImgA.current.style.transform = `translate3d(0, ${calcValues(
+            values.backgroundTranslateXIn,
+            currentYOffset,
+          )}%, 0)`;
+        } else {
+          objs.userExplainImgA.current.style.opacity = calcValues(values.backgroundOpacityOut, currentYOffset);
+          objs.userExplainImgA.current.style.transform = `translate3d(0, ${calcValues(
+            values.backgroundTranslateXOut,
+            currentYOffset,
+          )}%, 0)`;
+        }
+
+        if (scrollRatio <= 0.66) {
           objs.userExplainGifA.current.style.transform = `translate3d(${calcValues(
             values.backgroundTranslateXRightIn,
             currentYOffset,
@@ -599,8 +719,88 @@ function LandingPage() {
           )}%,0, 0)`;
           objs.userExplainGifA.current.style.opacity = calcValues(values.backgroundOpacityRightOut, currentYOffset);
         }
+
+        if (scrollRatio <= 0.76) {
+          objs.userExplainTextB.current.style.opacity = calcValues(values.backgroundOpacityCenterIn, currentYOffset);
+        } else {
+          objs.userExplainTextB.current.style.opacity = calcValues(values.backgroundOpacityCenterOut, currentYOffset);
+        }
+        console.log(calcValues(sceneInfo[4].values.mentorTextOpacityOut, currentYOffset));
+
         break;
       case 4:
+        if (scrollRatio <= 0.2) {
+          //           sceneInfo[4].objs;
+          // sceneInfo[4].values;
+          objs.mentorExplainA.current.style.opacity = calcValues(values.mentorTextOpacityIn, currentYOffset);
+          objs.mentorExplainA.current.style.transform = `translate3d(0, ${calcValues(
+            values.mentorTextTranslateYIn,
+            currentYOffset,
+          )}%, 0)`;
+        } else {
+          objs.mentorExplainA.current.style.opacity = calcValues(values.mentorTextOpacityOut, currentYOffset);
+          objs.mentorExplainA.current.style.transform = `translate3d(0, ${calcValues(
+            values.mentorTextTranslateYOut,
+            currentYOffset,
+          )}%, 0)`;
+        }
+        if (scrollRatio <= 0.35) {
+          objs.mentorExplainB.current.style.opacity = calcValues(values.mentorFeedbackExplainOpacityIn, currentYOffset);
+          objs.mentorExplainB.current.style.transform = `translate3d(0, ${calcValues(
+            values.mentorFeedbackExplainTranslateIn,
+            currentYOffset,
+          )}%, 0)`;
+        } else {
+          objs.mentorExplainB.current.style.opacity = calcValues(
+            values.mentorFeedbackExplainOpacityOut,
+            currentYOffset,
+          );
+          objs.mentorExplainB.current.style.transform = `translate3d(0, ${calcValues(
+            values.mentorFeedbackExplainTranslateOut,
+            currentYOffset,
+          )}%, 0)`;
+        }
+        if (scrollRatio <= 0.65) {
+          console.log('실행');
+          mentorExplainCTextAction.current.style.opacity = calcValues(
+            values.mentorExplainCTextActionOpacityIn,
+            currentYOffset,
+          );
+          mentorExplainCTextAction.current.style.transform = `translate3d(${calcValues(
+            values.mentorExplainCImgActionTranslateLeftIn,
+
+            currentYOffset,
+          )}%,0, 0)`;
+
+          mentorExplainCImgAction.current.style.opacity = calcValues(
+            values.mentorExplainCTextActionOpacityIn,
+            currentYOffset,
+          );
+          mentorExplainCImgAction.current.style.transform = `translate3d(${calcValues(
+            values.mentorExplainCImgActionTranslateRightIn,
+
+            currentYOffset,
+          )}%,0, 0)`;
+        } else {
+          mentorExplainCTextAction.current.style.opacity = calcValues(
+            values.mentorExplainCTextActionOpacityOut,
+            currentYOffset,
+          );
+          objs.mentorExplainCTextAction.current.style.transform = `translate3d(${calcValues(
+            values.mentorExplainCImgActionTranslateLeftOut,
+            currentYOffset,
+          )}%, 0,0)`;
+
+          objs.mentorExplainCImgAction.current.style.opacity = calcValues(
+            values.mentorExplainCTextActionOpacityOut,
+            currentYOffset,
+          );
+          objs.mentorExplainCImgAction.current.style.transform = `translate3d(${calcValues(
+            values.mentorExplainCImgActionTranslateRightOut,
+
+            currentYOffset,
+          )}%,0, 0)`;
+        }
         break;
     }
   };
@@ -640,6 +840,7 @@ function LandingPage() {
   window.addEventListener('resize', setLayout);
   useEffect(() => {
     window.addEventListener('load', () => {
+      setIsLoading(false);
       setLayout();
       sceneInfo[0].objs.conText.current
         .getContext('2d')
@@ -655,14 +856,61 @@ function LandingPage() {
       window.removeEventListener('scroll', setScrollHeight);
     };
   }, []);
+
+  const goUserExplainSection = () => {
+    const location = userExplainTextA.current.offsetTop;
+    window.scrollTo({ top: location, behavior: 'smooth' });
+  };
+
+  const goMentorExplainSection = () => {
+    const location = mentorExplainB.current.offsetTop;
+    window.scrollTo({ top: location, behavior: 'smooth' });
+  };
+
+  const gotoTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  if (isLoading) {
+    return <LoadingCircle />;
+  }
+
   return (
     <div className="body" ref={ref}>
-      <Nav landing="landing" />
+      <BackTop>
+        <div
+          style={{
+            height: 60,
+            width: 60,
+            lineHeight: '40px',
+            border: '2px solid #1263CE',
+            borderRadius: 10,
+            color: '#1263CE',
+            fontSize: 18,
+            fontWeight: 'bold',
+            verticalAlign: 'center',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <span>UP</span>
+        </div>
+      </BackTop>
+      <NavStyle landing="landing" />
       <section className="scroll-section" id="scroll-section-0" ref={section0}>
         <h1>
           이거맞아<span className="logo-rotate">?</span>
         </h1>
         <h2>Is this right?</h2>
+        <div className="buttonSection">
+          <ButtonStyle onClick={goMentorExplainSection}>for Mentor</ButtonStyle>
+          <ButtonStyle onClick={goUserExplainSection}>for User</ButtonStyle>
+        </div>
+        <div class="container">
+          <div class="chevron"></div>
+          <div class="chevron"></div>
+          <div class="chevron"></div>
+        </div>
         <div className="sticky-elem sticky-elem-canvas">
           <canvas id="video-canvas-0" width={canvasWidth} height={canvasHeight} ref={videoCanvas0}></canvas>
         </div>
@@ -731,15 +979,16 @@ function LandingPage() {
           <p>너무 많은 고민들...</p>
         </div>
         <div className="sticky-elem main-message b3" ref={section2B}>
-          <p>여러분들을 위해</p>
+          <p>
+            이러한 <strong>여러분</strong>을
+          </p>
+          <p>도와드립니다.</p>
         </div>
         <div className="sticky-elem main-message c3" ref={section2C}>
           <p>
             <h1>
               이거맞아<span className="logo-rotate">?</span>
             </h1>
-
-            <small>에서 도와드립니다.</small>
           </p>
         </div>
       </section>
@@ -748,77 +997,90 @@ function LandingPage() {
           <div className="animation textA" ref={userExplainTextA}>
             <div className="mini-TextA-Section a">
               <p>
-                <strong>Lorem ipsum dolor</strong> sit amet consectetur adipisicing elit. Dolore suscipit adipisci
-                consequuntur voluptate dolor atque alias quaerat. Tenetur laudantium unde accusantium fuga repellat
-                deserunt, doloremque ut deleniti nulla, aspernatur vero. Lorem ipsum, dolor sit amet consectetur
-                adipisicing elit. Repellendus, nobis. Quo, id! Reprehenderit pariatur aliquid ratione reiciendis optio
-                natus beatae voluptatem, necessitatibus dolorem et commodi iure repudiandae! Expedita, magni unde.
+                <strong>질문기능</strong> <br />
+                운동에 대한 <br />
+                여러분의 모든 궁금증을 <br />
+                물어보세요 <br />
               </p>
-              <div>
-                <img src="../../../imageFile/mockGif.gif" alt="" />
-              </div>
-            </div>
-            <div className="mini-TextA-Section b">
-              <div>
-                <img src="../../../imageFile/mockGif.gif" alt="" />
-              </div>
-              <p>
-                <strong>Lorem ipsum dolor</strong> sit amet consectetur adipisicing elit. Dolore suscipit adipisci
-                consequuntur voluptate dolor atque alias quaerat. Tenetur laudantium unde accusantium fuga repellat
-                deserunt, doloremque ut deleniti nulla, aspernatur vero. Lorem ipsum, dolor sit amet consectetur
-                adipisicing elit. Repellendus, nobis. Quo, id! Reprehenderit pariatur aliquid ratione reiciendis optio
-                natus beatae voluptatem, necessitatibus dolorem et
-              </p>
-            </div>
-            <div className="mini-TextA-Section c">
-              <p>
-                <strong>Lorem ipsum dolor</strong> sit amet consectetur adipisicing elit. Dolore suscipit adipisci
-                consequuntur voluptate dolor atque alias quaerat. Tenetur laudantium unde accusantium fuga repellat
-                deserunt, doloremque ut deleniti nulla, aspernatur vero. Lorem ipsum, dolor sit amet consectetur
-                adipisicing elit. Repellendus, nobis. Quo, id! Reprehenderit pariatur aliquid ratione reiciendis optio
-                natus beatae voluptatem, necessitatibus dolorem et
-              </p>
-              <div>
-                <img src="../../../imageFile/mockGif.gif" alt="" />
-              </div>
-            </div>
-            <div className="mini-TextA-Section d">
-              <div>
-                <img src="../../../imageFile/mockGif.gif" alt="" />
-              </div>
-              <p>
-                <strong>Lorem ipsum dolor</strong> sit amet consectetur adipisicing elit. Dolore suscipit adipisci
-                consequuntur voluptate dolor atque alias quaerat. Tenetur laudantium unde accusantium fuga repellat
-                deserunt, doloremque ut deleniti nulla, aspernatur vero. Lorem ipsum, dolor sit amet consectetur
-                adipisicing elit. Repellendus, nobis. Quo, id! Reprehenderit pariatur aliquid ratione reiciendis optio
-                natus beatae voluptatem, necessitatibus dolorem et
-              </p>
+              <img className="gifFile" src="../../../imageFile/mockGif.gif" alt="" />
             </div>
           </div>
-          <div className="animation gifA" ref={userExplainGifA}>
-            gif
+          <div className="sticky-elem main-message textC" ref={userExplainImgA} style={{ color: 'white' }}>
+            <p>
+              여러분들에겐
+              <br />
+              멘토들이<br></br>있습니다.
+            </p>
           </div>
-        </div>
-
-        {/* <div className="explain-messageB">
-          <div className="textA" ref={userExplainTextA}>
-            텍스트텍스트응
-          </div>
-          <div className="gifA" ref={userExplainGifA}>
-            gif
-          </div>
-        </div> */}
-        {/* <div className="sticky-elem main-message gif" ref={userExplainGifA}>
-          <p></p>
-        </div>
-        <div className="sticky-elem main-message c3" ref={userExplainSectionA}>
           <p>
+            <canvas className="image-blend-canvas" width={1980} height={1080} ref={userExplainCanvas}></canvas>
           </p>
-        </div> */}
+
+          <div className="animation textB" ref={userExplainGifA}>
+            <div className="mini-TextB-Section b">
+              <img className="gifFile" src="../../../imageFile/mockGif.gif" alt="" />
+
+              <p>
+                <strong>채택 기능</strong>
+                <br></br>
+                가장 마음에 든 <br></br>답변을 선택해주세요<br></br>
+              </p>
+            </div>
+          </div>
+          <div className="animation textD" ref={userExplainTextB}>
+            <div className="mini-TextD-Section d">
+              <img className="gifFile" src="../../../imageFile/mockGif.gif" alt="" />
+              <p>
+                <strong>채팅</strong> <br></br>
+                채택 or 검색을 통해 <br></br>
+                멘토들과 채팅을 할 수 있습니다.
+              </p>
+            </div>
+          </div>
+        </div>
       </section>
       <section className="scroll-section" id="scroll-section-4" ref={section4}>
-        <p className="servise-dec">비디오와 설명</p>
+        <div className="start mentor a" ref={mentorExplainA}>
+          <p>
+            <small>내가 만약</small> <br></br>
+            <strong>멘토</strong>
+          </p>
+        </div>
+        <div className="explainA mentor a" ref={mentorExplainB}>
+          <div>
+            <strong>Feedback</strong> <br></br>
+            질문에 피드백을 <br></br>남겨주세요 <br></br>
+            <br></br>
+            채택 수는 랭킹에<br></br> 반영됩니다.
+          </div>
+          <img className="gifFile" src="../../../imageFile/mockGif.gif" alt="" />
+        </div>
+        <div className="explainB mentor b" ref={mentorExplainC}>
+          <div ref={mentorExplainCTextAction}>
+            <strong>랭 킹</strong> <br></br>
+            좋은 답변을 통해 <br></br>
+            순위를 높여 <br></br>
+            여러분의 계정을 <br></br>
+            상단에 <br></br>
+            노출시키세요.
+          </div>
+          <img className="gifFile" src="../../../imageFile/mockGif.gif" alt="" ref={mentorExplainCImgAction} />
+        </div>
+        <div className="explainC mentor c" ref={mentorExplainD}>
+          <img className="gifFile" src="../../../imageFile/mockGif.gif" alt="" />
+
+          <div>
+            <strong>채팅</strong> <br></br>
+            채팅을 통해<br></br>
+            보다 많은 유저들과 <br></br>
+            소통하고 <br></br>
+            여러분을 홍보하세요!
+          </div>
+        </div>
       </section>
+      <div className="goToTop">
+        <Button onClick={gotoTop}>상단으로</Button>
+      </div>
       <Footer />
     </div>
   );
