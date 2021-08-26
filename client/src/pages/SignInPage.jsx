@@ -25,6 +25,8 @@ const LoginSectionStyle = styled(Form)`
   flex-direction: column;
   align-items: center;
   @media ${(props) => props.theme.mobile} {
+    padding-left: 20px;
+    padding-right: 20px;
     flex: 1 1 0%;
   }
 `;

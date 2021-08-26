@@ -43,8 +43,14 @@ const PostDetailContainer = styled(ContainerStlye)`
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+
+    @media ${(props) => props.theme.mobile} {
+      width: 100%;
+      border-radius: 0;
+      margin: 0;
+    }
     .headerSection {
-      border-radius: 20px 20px 0 0;
+      border-radius: 18px 18px 0 0;
       background: #fafafa;
       /* background: #0077b6; */
       margin-bottom: 30px;
@@ -53,20 +59,45 @@ const PostDetailContainer = styled(ContainerStlye)`
       width: 100%;
       flex-direction: column;
       order: 1;
+      @media ${(props) => props.theme.mobile} {
+        flex-direction: row-reverse;
+        width: 100%;
+        margin: 0;
+        order: 2;
+        border-radius: 0;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 5px 10px 5px;
+        border-bottom: 2px solid #eaeaea;
+        border-top: 2px solid #eaeaea;
+      }
       .titleSection {
         border-radius: 20px 20px 0 0;
-        /* background: rgb(248, 187, 0, 0.9); */
-        /* background: #f7ac03; */
         border-bottom: 1px solid #dfdfdf;
         padding: 20px 30px 10px 30px;
         height: 100%;
         width: 100%;
         display: flex;
         justify-content: space-between;
+
+        @media ${(props) => props.theme.mobile} {
+          padding: 0;
+          flex: 4;
+          margin: 0;
+          border-radius: 0;
+          border-bottom: 0;
+        }
         .postTitle {
           height: 100%;
           font-size: 1.5rem;
           font-weight: bold;
+          @media ${(props) => props.theme.mobile} {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            font-size: 1.2rem;
+          }
         }
         .optionButton {
           display: flex;
@@ -84,6 +115,8 @@ const PostDetailContainer = styled(ContainerStlye)`
         gap: 20px;
         padding-right: 30px;
         padding-left: 30px;
+        @media ${(props) => props.theme.mobile} {
+        }
         .moment {
           display: flex;
           align-items: center;
@@ -93,6 +126,11 @@ const PostDetailContainer = styled(ContainerStlye)`
         span {
           display: flex;
           gap: 10px;
+          @media ${(props) => props.theme.mobile} {
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+          }
           .avatar {
             display: flex;
             align-items: center;
@@ -115,15 +153,19 @@ const PostDetailContainer = styled(ContainerStlye)`
       align-items: center;
       padding: 50px;
       min-height: 300px;
-      min-width: 400px;
-      width: 400px;
+      min-width: 375px;
+      width: 375px;
       flex: 1.5;
       order: 2;
       position: relative;
+      @media ${(props) => props.theme.mobile} {
+        order: 1;
+        padding: 0;
+      }
       .sourceContainer {
-        background: #000;
+        background: #0077b6;
         height: 300px;
-        width: 400px;
+        width: 375px;
         position: relative;
         font-size: 0rem;
         display: flex;
@@ -142,20 +184,10 @@ const PostDetailContainer = styled(ContainerStlye)`
         }
         .sourceItem {
           height: 300px;
-          width: 400px;
+          width: 375px;
           position: relative;
           justify-content: center;
           align-items: center;
-          /* .player-wrapper {
-            position: relative;
-            padding-top: 56.25%;
-          } */
-
-          /* .react-player {
-            position: absolute;
-            top: 0;
-            left: 0;
-          } */
         }
       }
     }
@@ -173,6 +205,14 @@ const PostDetailContainer = styled(ContainerStlye)`
       display: flex;
       flex-direction: column;
       color: #fafafa;
+
+      @media ${(props) => props.theme.mobile} {
+        background: #f8f8f8;
+        margin: 0;
+        padding: 50px;
+        color: #353535;
+        border-bottom: 1px dashed #ddd;
+      }
     }
     .feedbackSection {
       background: #fcfcfc;
@@ -186,6 +226,10 @@ const PostDetailContainer = styled(ContainerStlye)`
       width: 100%;
       @media ${(props) => props.theme.mobile} {
         margin-bottom: 12vh;
+        border-radius: 0;
+        padding: 0;
+
+        padding-bottom: 20px;
       }
       .feedbackContainer {
         display: flex;
@@ -198,6 +242,12 @@ const PostDetailContainer = styled(ContainerStlye)`
           padding-left: 20px;
           font-size: 1.2rem;
           font-weight: bold;
+          @media ${(props) => props.theme.mobile} {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-left: 0;
+          }
         }
         .feedbackList {
           display: flex;
@@ -215,28 +265,37 @@ const PostDetailContainer = styled(ContainerStlye)`
         align-items: center;
       }
       .feedbackEditer {
+        padding-left: 20px;
+        padding-right: 20px;
+        @media ${(props) => props.theme.mobile} {
+        }
       }
       .feedbackSubmit {
         background: #fafafa;
         border: 1px solid #ccc;
         border-top: none;
         border-radius: 0 0 5px 5px;
-        width: 100%;
         display: flex;
         justify-content: flex-end;
+        margin-left: 20px;
+        margin-right: 20px;
         padding: 10px;
+        @media ${(props) => props.theme.mobile} {
+          justify-content: center;
+        }
         .submitButton {
           display: flex;
           justify-content: center;
           align-items: center;
-          border-radius: 5px;
+          border-radius: 7px;
           background: #0077b6;
           color: #fafafa;
-          width: 150px;
-          height: 40px;
+          padding: 10px 30px 10px 30px;
+          font-family: 'font-css';
+
           :hover {
             cursor: pointer;
-            font-size: 1.05rem;
+            background: rgb(0, 119, 182, 0.9);
             transition: 0.2s;
           }
         }
@@ -244,25 +303,6 @@ const PostDetailContainer = styled(ContainerStlye)`
     }
   }
 `;
-
-// const CarouselStyle = styled(Carousel)`
-//   position: relative;
-//   background: #0000ff;
-//   .carousel-control-next {
-//     height: 50px;
-//     position: absolute;
-//     right: -15%;
-//     margin-top: 50%;
-//     font-size: 0rem;
-//   }
-//   .carousel-control-prev {
-//     height: 50px;
-//     position: absolute;
-//     left: -15%;
-//     margin-top: 50%;
-//     font-size: 0rem;
-//   }
-// `;
 
 const DivButtonStyle = styled.div`
   margin: 2px;
@@ -314,10 +354,6 @@ function QuestionDetailPage() {
   }, [post]);
 
   const history = useHistory();
-  const nowTime = Date.now();
-  let startTime;
-
-  // = new Date(data.updatedAt);
 
   useEffect(() => {
     getDetailData();
@@ -341,9 +377,6 @@ function QuestionDetailPage() {
         <Spin size="large" tip="데이터를 받아오고 있습니다."></Spin>
       </div>
     );
-  } else {
-    console.log(post.data);
-    startTime = new Date(post.data[0].updatedAt);
   }
 
   const sendUserPosts = () => {
@@ -435,7 +468,7 @@ function QuestionDetailPage() {
                 </Popover>
                 <div className="moment">
                   <Moment fromNow style={{ fontSize: '0.8rem', color: '#686868' }}>
-                    {startTime}
+                    {new Date(post.data[0].updatedAt)}
                   </Moment>
                 </div>
               </div>
@@ -464,7 +497,7 @@ function QuestionDetailPage() {
                             // url={'https://www.youtube.com/watch?v=jy_UiIQn_d0&list=PLmxVF8ick5cSdoEdME6wEjJDLs4XWSV2Z'}
                             className="react-player"
                             controls={true}
-                            width="400px"
+                            width="375px"
                             height="300px"
                           />
                         </div>

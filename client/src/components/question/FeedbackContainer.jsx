@@ -25,6 +25,46 @@ const FeedbackContainerStyle = styled.div`
   .name {
     font-family: 'font-css';
   }
+  .editFeedbackSection {
+    .editButtonSection {
+      border: 1px solid #ddd;
+      border-top: none;
+      border-radius: 0 0 10px 10px;
+      font-size: 0.9rem;
+      display: flex;
+      justify-content: flex-end;
+      padding: 20px;
+      gap: 20px;
+      font-family: 'font-css';
+      @media ${(props) => props.theme.mobile} {
+        gap: 10px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .deleteButton {
+        background: #ddd;
+        padding: 10px 30px 10px 30px;
+        border-radius: 7px;
+        :hover {
+          cursor: pointer;
+          background: rgb(221, 221, 221, 0.8);
+          transition: 0.2s;
+        }
+      }
+      .updateButton {
+        color: #fafafa;
+        background: #0077b6;
+        padding: 10px 30px 10px 30px;
+        border-radius: 7px;
+        :hover {
+          cursor: pointer;
+          background: rgb(0, 119, 182, 0.9);
+          transition: 0.2s;
+        }
+      }
+    }
+  }
 `;
 
 const ContentStyle = styled.div`
@@ -183,12 +223,16 @@ function FeedbackContainer({
         ) : null}
       </AdviserInfoStyle>
       {isEdit ? (
-        <div>
+        <div className="editFeedbackSection">
           <TextEditor text={setTestT} data={adviser.content} />
-          <ButtonSectionStyle>
-            <Button onClick={handleDeleteFeedback}>Delete Comment</Button>
-            <ButtonStyle onClick={handlePutFeedback}>Update Comment</ButtonStyle>
-          </ButtonSectionStyle>
+          <div className="editButtonSection">
+            <div className="deleteButton" onClick={handleDeleteFeedback}>
+              Delete
+            </div>
+            <div className="updateButton" onClick={handlePutFeedback}>
+              Update
+            </div>
+          </div>
         </div>
       ) : (
         <ContentStyle>{parse(adviser.content)}</ContentStyle>
