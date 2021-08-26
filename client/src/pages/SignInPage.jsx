@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link, useHistory } from 'react-router-dom';
 import { Form, Input, Button, message, Modal } from 'antd';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addSignUpInfo } from '../actions/userActionIndex';
 import { GoogleLogin } from 'react-google-login';
 import NaverLogin from 'react-naver-login';
 import axios from 'axios';
+import userReducer from '../reducers/userReducer';
 
 const url = process.env.REACT_APP_API_URL;
 const socialPw = process.env.REACT_APP_SOCIAL_PW;
@@ -25,6 +26,8 @@ const LoginSectionStyle = styled(Form)`
   flex-direction: column;
   align-items: center;
   @media ${(props) => props.theme.mobile} {
+    padding-left: 20px;
+    padding-right: 20px;
     flex: 1 1 0%;
   }
 `;
@@ -236,6 +239,7 @@ function SignInPage() {
   const [isSocialSignUp, setIsSocialSignUp] = useState(false);
   const [kakaoCode, setKakaoCode] = useState(null);
   const dispatch = useDispatch();
+  const state = useSelector((state) => state.userReducer);
   const history = useHistory();
   //로그인 요청을 보낼 데이터
   const handleInputValue = (key) => (e) => {
@@ -288,7 +292,7 @@ function SignInPage() {
           //소셜 회원가입 모달 선택창으로이동 !
         } else {
           console.log('로그인성공 ! ');
-          window.location.replace('/');
+          history.push('/');
         }
       })
       .catch((err) => console.log(err.response));
@@ -309,6 +313,7 @@ function SignInPage() {
     }
   };
   useEffect(() => {
+    console.log('state', state);
     if (!kakaoCode) {
       let Url = new URL(window.location.href);
       let authorizationCode = Url.searchParams.get('code');
@@ -390,7 +395,7 @@ function SignInPage() {
               onFailure={handleFail}></GoogleLogin>
             <NaverLogin
               clientId={process.env.REACT_APP_NAVER_API_KEY}
-              callbackUrl={`${process.env.KAKAO_REDIRECT_URI}`}
+              callbackUrl={process.env.KAKAO_REDIRECT_URI}
               render={(props) => (
                 <SocialDivStyle onClick={props.onClick} className="naver">
                   <div className="icon-box naver">

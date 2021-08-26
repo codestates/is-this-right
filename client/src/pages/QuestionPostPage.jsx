@@ -11,21 +11,72 @@ import axios from 'axios';
 
 const url = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
-
+const QuestionPostBody = styled(BodyAreaStyle)`
+  background: #f4f4f4;
+`;
 const QuestionPostPageContainer = styled(ContainerStlye)`
+  background: #fefefe;
+  border-left: 1px solid #eee;
+  border-right: 1px solid #eee;
   width: 50vw;
   flex-direction: column;
-  gap: 20px;
+  margin-top: 30px;
+  border-radius: 20px 20px 0 0;
+  padding: 50px 10vw 0px 10vw;
+  justify-content: flex-start;
+
+  @media ${(props) => props.theme.mobile} {
+    width: 100vw;
+    margin: 0;
+    border-radius: 0;
+    padding: 30px 50px 0px 50px;
+  }
+
+  .label {
+    font-size: 1.1rem;
+  }
+  .title {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+  .category {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+  .image {
+  }
+  .content {
+    margin-top: -40px;
+  }
+  .submitArea {
+    display: flex;
+    justify-content: flex-end;
+    border: 1px solid #ddd;
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+    padding: 10px;
+    .submitButton {
+      font-family: 'font-css';
+      color: #fafafa;
+      background: #0076bb;
+      border-radius: 7px;
+      padding: 10px 30px 10px 30px;
+      :hover {
+        cursor: pointer;
+        background: rgb(0, 119, 182, 0.9);
+        transition: 0.2s;
+      }
+    }
+    @media ${(props) => props.theme.mobile} {
+      margin-bottom: 15vh;
+    }
+  }
 `;
 
-const LabelStyle = styled.label`
-  font-size: 20px;
-`;
-
-const InputStyle = styled(Input)`
-  margin-top: 6px;
-  margin-bottom: 12px;
-`;
 const ImgPreview = styled.div`
   position: relative;
   width: auto;
@@ -55,6 +106,7 @@ const textFade = keyframes`
         100% {color:white; }
 `;
 const AlertMessageStyle = styled.div`
+  font-size: 0.8rem;
   color: red;
   animation: ${textFade} 0.5s linear infinite;
 `;
@@ -75,15 +127,18 @@ function QuestionPostPage({ post, setPost, setIsEdit }) {
     category: '',
     content: '',
   });
-
   useEffect(() => {
     if (post) {
       let info = post.data[0];
-      setPostInfo({ title: info.title, category: info.category, content: info.content });
+
+      setPostInfo({
+        title: info.title,
+        category: info.category,
+        content: info.content.replace(/<p>/g, '').split('</p>').join('\n'),
+      });
       setPreviewList(post.data.sources.slice());
     }
   }, []);
-
 
   const removeValidation = () => {
     setValidation({
@@ -99,7 +154,6 @@ function QuestionPostPage({ post, setPost, setIsEdit }) {
       setPostInfo({ ...postInfo, [key]: e.target.value });
     }
   };
-
   const handlePost = () => {
     const images = state.imgFile;
     const formData = new FormData();
@@ -108,7 +162,11 @@ function QuestionPostPage({ post, setPost, setIsEdit }) {
       formData.append('files', el);
     }
     for (let key in postInfo) {
-      formData.append(key, postInfo[key]);
+      if (key === 'content') {
+        formData.append(key, '<p>' + postInfo[key].split('\n').join('</p><p>') + '</p>');
+      } else {
+        formData.append(key, postInfo[key]);
+      }
     }
     if (post) {
       formData.append('toDelete', sourcesToDelete);
@@ -166,34 +224,37 @@ function QuestionPostPage({ post, setPost, setIsEdit }) {
     }
   };
   return (
-    <BodyAreaStyle>
+    <QuestionPostBody>
       <QuestionPostPageContainer>
-        <LabelStyle htmlFor="title">Title</LabelStyle>
-        <InputStyle
-          name="title"
-          type="text"
-          size="large"
-          value={postInfo.title}
-          onChange={(e) => handleInputValue('title', e)}
-          onClick={removeValidation}
-          // onBlur={() => checkValidation('title')}
-          style={{ margin: '12px 0 6px 0' }}
-          placeholder="제목을 입력해주세요"
-          required
-        />
-        {validation.title ? <AlertMessageStyle>{validation.title}</AlertMessageStyle> : null}
-        <LabelStyle htmlFor="username">Category</LabelStyle>
-        <SelectBox
-          func={handleInputValue}
-          data={['헬스', '골프', '클라이밍', '기타-추가예정']}
-          keyData={'category'}
-          name="category"
-          value={postInfo.category}
-          validation={() => {}}
-          required
-        />
-        {validation.category ? <AlertMessageStyle>{validation.category}</AlertMessageStyle> : null}
-        <div style={{ display: 'flex' }}>
+        <div className="title">
+          <div className="label">제목</div>
+          <Input
+            name="title"
+            type="text"
+            size="default"
+            value={postInfo.title}
+            onChange={(e) => handleInputValue('title', e)}
+            onClick={removeValidation}
+            placeholder="제목을 입력해주세요"
+            required
+          />
+          {validation.title ? <AlertMessageStyle>{validation.title}</AlertMessageStyle> : null}
+        </div>
+        <div className="category">
+          <div className="label">카테고리</div>
+          <SelectBox
+            func={handleInputValue}
+            data={['헬스', '골프', '클라이밍', '기타-추가예정']}
+            keyData={'category'}
+            name="category"
+            value={postInfo.category}
+            validation={() => {}}
+            required
+          />
+          {validation.category ? <AlertMessageStyle>{validation.category}</AlertMessageStyle> : null}
+        </div>
+        <div className="image">
+          <div className="label">사진 / 영상</div>
           {post
             ? previewList.map((item) => {
                 if (item.type === 'image') {
@@ -222,40 +283,45 @@ function QuestionPostPage({ post, setPost, setIsEdit }) {
                   );
               })
             : null}
+          <UploadCompo where="postImg" post={post} />
         </div>
-        <UploadCompo where="postImg" post={post} />
-        <LabelStyle htmlFor="content">Content</LabelStyle>
-        <Input.TextArea
-          name="content"
-          onChange={(e) => handleInputValue('content', e)}
-          // onBlur={() => checkValidation('content')}
-          placeholder="내용을 입력해주세요"
-          onClick={removeValidation}
-          value={postInfo.content}
-          required
-        />
-        {validation.content ? <AlertMessageStyle>{validation.content}</AlertMessageStyle> : null}
-        <Button
-          onClick={() => {
-            if (postInfo.category && postInfo.title && postInfo.content) {
-              handlePost();
-            } else {
-              if (!postInfo.category)
-                setValidation((state) => {
-                  return { ...state, category: '카테고리를 선택해주세요.' };
-                });
-              if (!postInfo.title)
-                setValidation((state) => {
-                  return { ...state, title: '제목을 입력해주세요.' };
-                });
-              if (!postInfo.content)
-                setValidation((state) => {
-                  return { ...state, content: '내용을 입력해주세요.' };
-                });
-            }
-          }}>
-          Submit
-        </Button>
+        <div className="content">
+          <div className="label">내용</div>
+          <Input.TextArea
+            name="content"
+            onChange={(e) => handleInputValue('content', e)}
+            placeholder="내용을 입력해주세요"
+            onClick={removeValidation}
+            value={postInfo.content}
+            rows={10}
+            required
+          />
+          {validation.content ? <AlertMessageStyle>{validation.content}</AlertMessageStyle> : null}
+        </div>
+        <div className="submitArea">
+          <div
+            className="submitButton"
+            onClick={() => {
+              if (postInfo.category && postInfo.title && postInfo.content) {
+                handlePost();
+              } else {
+                if (!postInfo.category)
+                  setValidation((state) => {
+                    return { ...state, category: '카테고리를 선택해주세요.' };
+                  });
+                if (!postInfo.title)
+                  setValidation((state) => {
+                    return { ...state, title: '제목을 입력해주세요.' };
+                  });
+                if (!postInfo.content)
+                  setValidation((state) => {
+                    return { ...state, content: '내용을 입력해주세요.' };
+                  });
+              }
+            }}>
+            질문하기
+          </div>
+        </div>
         {post ? (
           <Button
             style={{ background: 'red' }}
@@ -266,7 +332,7 @@ function QuestionPostPage({ post, setPost, setIsEdit }) {
           </Button>
         ) : null}
       </QuestionPostPageContainer>
-    </BodyAreaStyle>
+    </QuestionPostBody>
   );
 }
 

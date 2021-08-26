@@ -22,6 +22,9 @@ const ContainerStlye = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media ${(props) => props.theme.mobile} {
+    width: 100vw;
+  }
 `;
 
 // const HeaderLogoStyle = styled.div`
@@ -37,6 +40,10 @@ const InputAreaStyle = styled.div`
   max-width: 600px;
   margin: 12px;
   padding: 20px;
+  @media ${(props) => props.theme.mobile} {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const ButtonStyle = styled(Button)`
@@ -46,7 +53,7 @@ const ButtonStyle = styled(Button)`
 `;
 
 const LabelStyle = styled.label`
-  font-size: 20px;
+  font-size: 1rem;
 `;
 const HideInputStyle = styled.div`
   margin: 0px;
@@ -60,6 +67,10 @@ const HeadSectionStyle = styled.div`
   align-items: center;
   margin-top: 60px;
   margin-bottom: 20px;
+  @media ${(props) => props.theme.mobile} {
+    margin-top: 40px;
+    margin-bottom: 0;
+  }
 `;
 
 const AlertMessageStyle = styled.div`
@@ -323,6 +334,7 @@ function AdvisorSignUpPage() {
         </HeadSectionStyle>
         <InputAreaStyle>
           {/* <div>adviser Sign Up</div> */}
+          <LabelStyle>프로필 이미지</LabelStyle>
           <UploadCompo where="adviser" />
           {profileErr ? <AlertMessageStyle>{profileErr}</AlertMessageStyle> : null}
           <LabelStyle>닉네임</LabelStyle>

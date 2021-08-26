@@ -5,6 +5,8 @@ import {
   ADD_USER_INFO,
   ADD_SIGN_UP_INFO,
   SUCCESS_LOGOUT,
+  HANDLE_LANDINGPAGE,
+  DISABLE_BACK,
 } from '../actions/userActionIndex';
 
 // initialState = {
@@ -53,6 +55,10 @@ const userReducer = (state = initialState, action) => {
       };
     case SUCCESS_LOGOUT:
       return { ...newState, logIn: false };
+    case HANDLE_LANDINGPAGE:
+      return { ...newState, guest: false };
+    case DISABLE_BACK:
+      return { ...newState, disableBack: true };
     default:
       return newState;
   }

@@ -130,7 +130,8 @@ module.exports = {
       }
       if (profileImg) userpayload.profileImg = profileImg;
       if (name) adviserpayload.name = name;
-      if (category) adviserpayload.detail = detail;
+      if (category) adviserpayload.category = category;
+      if (detail) adviserpayload.detail = detail;
       if (url) adviserpayload.url = url;
       if (gender) adviserpayload.gender = gender;
       if (state) adviserpayload.state = state;

@@ -41,6 +41,7 @@ function UploadCompo({ where, post }) {
     }
     return () => {
       dispatch(userProfileImg('', ''));
+      dispatch(removeImages());
     };
   }, []);
 
@@ -134,7 +135,6 @@ function UploadCompo({ where, post }) {
 
   return (
     <div style={{ height: '150px', marginBottom: '32px' }}>
-      <LabelStyle htmlFor="file">Profile image</LabelStyle>
       {where === 'user' || where === 'adviser' ? (
         <Dragger
           name="image"
@@ -151,7 +151,7 @@ function UploadCompo({ where, post }) {
               <div>
                 <InboxOutlined />
               </div>
-              <span>프로필 이미지를 업로드해주세요</span>
+              <span>이미지를 업로드해주세요</span>
             </div>
           )}
         </Dragger>

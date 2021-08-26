@@ -16,6 +16,9 @@ const DividePage = styled.div`
   background-color: white;
   position: relative;
   display: flex;
+  @media ${(props) => props.theme.mobile} {
+    margin-bottom: 5vh;
+  }
 `;
 
 const LoginSectionStyle = styled.div`
@@ -241,9 +244,12 @@ function UserSignUpPage() {
             회원가입
             <span>User</span>
           </div> */}
+          <LabelStyle htmlFor="profileImg" style={{ marginBottom: '6px' }}>
+            프로필 이미지
+          </LabelStyle>
           <UploadCompo where="user" />
 
-          <LabelStyle htmlFor="username">username</LabelStyle>
+          <LabelStyle htmlFor="username">닉네임</LabelStyle>
           <InputStyle
             name="username"
             type="text"
@@ -256,7 +262,7 @@ function UserSignUpPage() {
           />
           {usernameErr ? <AlertMessageStyle>{usernameErr}</AlertMessageStyle> : null}
           <HideInputStyle ref={socialHide}>
-            <LabelStyle htmlFor="user-email">Email</LabelStyle>
+            <LabelStyle htmlFor="user-email">이메일</LabelStyle>
             <InputStyle
               name="user-email"
               type="email"
@@ -268,7 +274,7 @@ function UserSignUpPage() {
               required
             />
             {emailErr ? <AlertMessageStyle>{emailErr}</AlertMessageStyle> : null}
-            <LabelStyle htmlFor="password">Password</LabelStyle>
+            <LabelStyle htmlFor="password">비밀번호</LabelStyle>
             <Input.Password
               name="password"
               onChange={(e) => handleInputValue('password', e)}
@@ -280,7 +286,7 @@ function UserSignUpPage() {
             />
             {passwordErr ? <AlertMessageStyle>{passwordErr}</AlertMessageStyle> : null}
 
-            <LabelStyle htmlFor="confirmPassword">ConfirmPassword</LabelStyle>
+            <LabelStyle htmlFor="confirmPassword">비밀번호 확인</LabelStyle>
             <Input.Password
               name="confirmPassword"
               onChange={(e) => {
