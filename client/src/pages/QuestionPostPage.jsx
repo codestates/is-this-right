@@ -75,15 +75,18 @@ function QuestionPostPage({ post, setPost, setIsEdit }) {
     category: '',
     content: '',
   });
-
   useEffect(() => {
     if (post) {
       let info = post.data[0];
-      setPostInfo({ title: info.title, category: info.category, content: info.content });
+
+      setPostInfo({
+        title: info.title,
+        category: info.category,
+        content: info.content.replace(/<p>/g, '').split('</p>').join('\n'),
+      });
       setPreviewList(post.data.sources.slice());
     }
   }, []);
-
 
   const removeValidation = () => {
     setValidation({
@@ -99,7 +102,6 @@ function QuestionPostPage({ post, setPost, setIsEdit }) {
       setPostInfo({ ...postInfo, [key]: e.target.value });
     }
   };
-
   const handlePost = () => {
     const images = state.imgFile;
     const formData = new FormData();
@@ -108,7 +110,11 @@ function QuestionPostPage({ post, setPost, setIsEdit }) {
       formData.append('files', el);
     }
     for (let key in postInfo) {
-      formData.append(key, postInfo[key]);
+      if (key === 'content') {
+        formData.append(key, '<p>' + postInfo[key].split('\n').join('</p><p>') + '</p>');
+      } else {
+        formData.append(key, postInfo[key]);
+      }
     }
     if (post) {
       formData.append('toDelete', sourcesToDelete);

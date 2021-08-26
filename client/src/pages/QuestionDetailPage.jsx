@@ -15,6 +15,7 @@ import TextEditor from '../components/textComponent/TextEditor';
 import FeedbackContainer from '../components/question/FeedbackContainer';
 import QuestionPostPage from './QuestionPostPage';
 import { setIsChat, setMessages, setViewChatlist, changeRoom } from '../actions/chatAction';
+import parse from 'html-react-parser';
 
 const url = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
@@ -170,6 +171,7 @@ const PostDetailContainer = styled(ContainerStlye)`
       overflow-y: scroll;
       order: 3;
       display: flex;
+      flex-direction: column;
       color: #fafafa;
     }
     .feedbackSection {
@@ -389,7 +391,6 @@ function QuestionDetailPage() {
   const closeModal = () => {
     setModal(false);
   };
-
   return (
     <PostDetailBodyStyle>
       {isEdit ? (
@@ -477,7 +478,7 @@ function QuestionDetailPage() {
                 )}
               </Carousel>
             </div>
-            <div className="contentSection">{post.data[0].content}</div>
+            <div className="contentSection">{parse(post.data[0].content)}</div>
 
             {/* </Carousel> */}
             <div className="feedbackSection">
