@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Input, Button } from 'antd';
 import styled, { keyframes } from 'styled-components';
 import SelectBox from '../components/adviser/SelectBox';
 import { BodyAreaStyle, ContainerStlye } from '../style/pageStyle';
 import UploadCompo from '../components/UploadCompo';
 import { useHistory } from 'react-router-dom';
+import { saveCategory } from '../actions/postActionIndex';
 import axios from 'axios';
 
 const url = process.env.REACT_APP_API_URL;
@@ -54,12 +55,13 @@ const AlertMessageStyle = styled.div`
 
 function QuestionPostPage({ post, setPost, setIsEdit }) {
   const state = useSelector((state) => state.postReducer.postImgs);
+  const dispatch = useDispatch();
   const [previewList, setPreviewList] = useState([]);
   const [sourcesToDelete, setSourcesToDelete] = useState([]);
   const history = useHistory();
   const [postInfo, setPostInfo] = useState({
     title: '',
-    category: '',
+    category: '헬스',
     content: '',
   });
   const [validation, setValidation] = useState({
@@ -75,6 +77,14 @@ function QuestionPostPage({ post, setPost, setIsEdit }) {
       setPreviewList(post.data.sources.slice());
     }
   }, []);
+
+  const removeValidation = () => {
+    setValidation({
+      title: '',
+      category: '',
+      content: '',
+    });
+  };
   const handleInputValue = (key, e) => {
     if (key === 'category') {
       setPostInfo({ ...postInfo, [key]: e });
@@ -110,7 +120,8 @@ function QuestionPostPage({ post, setPost, setIsEdit }) {
             header: { 'Content-Type': 'multipart/form-data' },
           })
           .then((result) => {
-            window.location.replace('/');
+            dispatch(saveCategory(postInfo.category));
+            history.push('/');
           })
           .catch((err) => {
             // setUsernameErr('모든 정보 입력 후 다시 시도 해주세요.');
@@ -157,7 +168,8 @@ function QuestionPostPage({ post, setPost, setIsEdit }) {
           size="large"
           value={postInfo.title}
           onChange={(e) => handleInputValue('title', e)}
-          onBlur={() => checkValidation('title')}
+          onClick={removeValidation}
+          // onBlur={() => checkValidation('title')}
           style={{ margin: '12px 0 6px 0' }}
           placeholder="제목을 입력해주세요"
           required
@@ -170,7 +182,7 @@ function QuestionPostPage({ post, setPost, setIsEdit }) {
           keyData={'category'}
           name="category"
           value={postInfo.category}
-          validation={checkValidation}
+          validation={() => {}}
           required
         />
         {validation.category ? <AlertMessageStyle>{validation.category}</AlertMessageStyle> : null}
@@ -209,18 +221,30 @@ function QuestionPostPage({ post, setPost, setIsEdit }) {
         <Input.TextArea
           name="content"
           onChange={(e) => handleInputValue('content', e)}
-          onBlur={() => checkValidation('content')}
+          // onBlur={() => checkValidation('content')}
           placeholder="내용을 입력해주세요"
+          onClick={removeValidation}
           value={postInfo.content}
           required
         />
         {validation.content ? <AlertMessageStyle>{validation.content}</AlertMessageStyle> : null}
         <Button
           onClick={() => {
-            if (postInfo.category) {
+            if (postInfo.category && postInfo.title && postInfo.content) {
               handlePost();
             } else {
-              setValidation({ ...validation, category: '카테고리를 선택해주세요.' });
+              if (!postInfo.category)
+                setValidation((state) => {
+                  return { ...state, category: '카테고리를 선택해주세요.' };
+                });
+              if (!postInfo.title)
+                setValidation((state) => {
+                  return { ...state, title: '제목을 입력해주세요.' };
+                });
+              if (!postInfo.content)
+                setValidation((state) => {
+                  return { ...state, content: '내용을 입력해주세요.' };
+                });
             }
           }}>
           Submit

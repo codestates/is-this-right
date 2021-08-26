@@ -5,6 +5,7 @@ import { UserOutlined } from '@ant-design/icons';
 import { getTopAdvisers } from '../../actions/adviserActionIndex';
 import { CheckCircleOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 const Top10Container = styled.div`
   background: #0077b6;
@@ -27,6 +28,7 @@ const Top10Container = styled.div`
     background-repeat: no-repeat;
     background-position: center;
     margin-top: 20px;
+
     div {
       position: absolute;
       height: 100%;
@@ -51,6 +53,7 @@ const Top10Container = styled.div`
       gap: 10px;
       width: 100%;
       color: #fafafa;
+
       .rank {
         border-radius: 5px 5px 0 0;
         display: flex;
@@ -97,6 +100,13 @@ const Top10Container = styled.div`
         }
       }
       .top10Item {
+        :hover {
+          cursor: pointer;
+          > .top10Name {
+            text-decoration: underline;
+            text-underline-position: under;
+          }
+        }
         position: relative;
         width: 80px;
         position: relative;
@@ -133,6 +143,13 @@ const Top10Container = styled.div`
         display: flex;
         justify-content: flex-start;
         padding: 10px 5px 5px 10px;
+        :hover {
+          cursor: pointer;
+          > .top10Name {
+            text-decoration: underline;
+            text-underline-position: under;
+          }
+        }
 
         .rank {
           display: flex;
@@ -181,7 +198,10 @@ const BorderedAvatar = styled(Avatar)`
 
 function Top10List() {
   const top10List = useSelector((state) => state.adviserReducer.topAdvisers);
-
+  const history = useHistory();
+  const handleDetail = (adviserId) => {
+    history.push(`/advisers/${adviserId}`);
+  };
   return (
     <Top10Container>
       <div className="top10Title">
@@ -192,7 +212,7 @@ function Top10List() {
           {top10List
             .filter((el, index) => index < 3)
             .map((el, index) => (
-              <div className={`top10Item rank${index + 1}`} key={el.id}>
+              <div className={`top10Item rank${index + 1}`} key={el.id} onClick={() => handleDetail(el.id)}>
                 <div className="top10Avatar">
                   <BorderedAvatar shape={'square'} size={60} src={<img src={el.profileImg} />} />
                 </div>
@@ -208,7 +228,7 @@ function Top10List() {
           {top10List
             .filter((el, index) => index > 2)
             .map((el, index) => (
-              <div className={`top10Item rank${index + 4}`} key={el.id}>
+              <div className={`top10Item rank${index + 4}`} key={el.id} onClick={() => handleDetail(el.id)}>
                 <div className="rank">{index + 4}</div>
                 <div className="top10Avatar">
                   <BorderedAvatar shape={'square'} size={40} src={el.profileImg} />

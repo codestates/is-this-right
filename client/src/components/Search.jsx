@@ -21,7 +21,7 @@ function Search({ type, setOnUnanswer, setOnAnswer, getfilterData, inputRef, vie
     if (value) {
       let filterData = state.filterPosts.filter((el) => el.title.includes(value) || el.username.includes(value));
       dispatch(searchPosts(filterData));
-      dispatch(filterPosts(filterData));
+      // dispatch(filterPosts(filterData));
     } else {
       dispatch(searchPosts(state.categoryPosts));
       dispatch(filterPosts(state.categoryPosts));
