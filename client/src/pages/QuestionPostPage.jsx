@@ -84,7 +84,6 @@ function QuestionPostPage({ post, setPost, setIsEdit }) {
     }
   }, []);
 
-
   const removeValidation = () => {
     setValidation({
       title: '',

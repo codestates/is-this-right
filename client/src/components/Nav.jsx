@@ -5,7 +5,7 @@ import { Link, useHistory, useLocation } from 'react-router-dom';
 import { TeamOutlined, MessageOutlined, QuestionOutlined, UserOutlined, LoginOutlined } from '@ant-design/icons';
 import { Avatar, Badge } from 'antd';
 import axios from 'axios';
-import { successLogIn, addUserInfo, successLogout } from '../actions/userActionIndex';
+import { successLogIn, addUserInfo, successLogout, handleLanding } from '../actions/userActionIndex';
 import { setViewChatlist, setIsChat, setMessages, changeRoom } from '../actions/chatAction';
 const url = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
@@ -213,13 +213,20 @@ function Nav({ landing = 'normal' }) {
   console.log(state.logIn, '로그인 상태입니다.');
   const location = useLocation();
   console.log('Path:', location.pathname);
-
+  const [count, setCount] = useState(0);
   useEffect(async () => {
-    let userInfo = await axios.get(`${url}/users`);
+    let userInfo = await axios.get(`${url}/users`).catch((el) => {
+      console.log('잘변하니', state);
+      if (state.guest) {
+        dispatch(handleLanding());
+        history.push('./landing');
+      }
+    });
     if (userInfo) {
       dispatch(successLogIn());
       dispatch(addUserInfo(userInfo.data.data));
     }
+
     // window.addEventListener('scroll', handleScroll);
   }, []);
 

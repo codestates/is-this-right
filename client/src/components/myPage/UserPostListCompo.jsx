@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import MypostCard from './MypostCard';
 import MyFeedbackCard from './MyFeedbackCard';
-import { Pagination, Spin, Divider } from 'antd';
+import { Pagination, Spin, Divider, Result } from 'antd';
+import { SmileOutlined, FrownOutlined } from '@ant-design/icons';
 
 const url = process.env.REACT_APP_API_URL;
 
@@ -43,9 +44,13 @@ const PaginationStyle = styled.div`
   display: flex;
   justify-content: center;
   position: absolute;
-  bottom: 0;
+  bottom: 5;
   left: 50%;
   transform: translate(-50%);
+  width: 100%;
+`;
+
+const BlankStyle = styled.div`
   width: 100%;
 `;
 
@@ -83,9 +88,7 @@ function UserPostListCompo() {
   useEffect(() => {
     if (myPostList) {
       setCurrentPostPage(1);
-      setCurrentPostPageList(
-        myPostList.slice(POST_PAGE_SIZE * (currentPostPage - 1), POST_PAGE_SIZE * currentPostPage),
-      );
+      setCurrentPostPageList(myPostList.slice(0, POST_PAGE_SIZE));
     }
   }, [myPostList]);
 
@@ -120,47 +123,64 @@ function UserPostListCompo() {
   return (
     <UserPostListCompoStyle>
       <SectionStyle role={userInfo.role}>
-        <div style={{ textAlign: 'center' }}>내가 올린 게시물</div>
+        <div style={{ textAlign: 'center', marginTop: '40px', fontSize: '1.2em' }}>내가 올린 게시물</div>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <MypostSectionStyle role={userInfo.role}>
-            {currentPostPageList.map((el) => (
-              <MypostCard data={el} />
-            ))}
+            {currentPostPageList.length ? (
+              currentPostPageList.map((el) => <MypostCard data={el} />)
+            ) : (
+              <BlankStyle>
+                <Result icon={<SmileOutlined style={{ fontSize: '100px' }} />} title="내가 작성한 게시물이 없습니다." />
+              </BlankStyle>
+            )}
           </MypostSectionStyle>
         </div>
         <PaginationStyle>
-          <Pagination
-            simple
-            defaultCurrent={1}
-            current={currentPostPage}
-            pageSize={POST_PAGE_SIZE}
-            onChange={handlePostPageChange}
-            total={myPostList.length}
-          />
+          {currentPostPageList.length ? (
+            <Pagination
+              simple
+              defaultCurrent={1}
+              current={currentPostPage}
+              pageSize={POST_PAGE_SIZE}
+              onChange={handlePostPageChange}
+              total={myPostList.length}
+            />
+          ) : null}
         </PaginationStyle>
       </SectionStyle>
       <Divider />
       {userInfo.role === 'adviser' ? (
         <SectionStyle>
-          <div style={{ textAlign: 'center' }}>내가 답변한 게시물</div>
+          <div style={{ textAlign: 'center', fontSize: '1.2em' }}>내가 답변한 게시물</div>
           <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
             <MypostSectionStyle>
-              {currentFeedbackPageList.map((el) => (
-                // <Link to={`/posts/${el.id}`} style={{ margin: '5px 0px 5px 0px', textDecorationLine: 'none' }}>
-                <MyFeedbackCard data={el} />
-                // </Link>
-              ))}
+              {currentFeedbackPageList.length ? (
+                currentFeedbackPageList.map((el) => (
+                  // <Link to={`/posts/${el.id}`} style={{ margin: '5px 0px 5px 0px', textDecorationLine: 'none' }}>
+                  <MyFeedbackCard data={el} />
+                  // </Link>
+                ))
+              ) : (
+                <BlankStyle>
+                  <Result
+                    icon={<SmileOutlined style={{ fontSize: '100px' }} />}
+                    title="내가 답변한 게시물이 없습니다."
+                  />
+                </BlankStyle>
+              )}
             </MypostSectionStyle>
           </div>
           <PaginationStyle>
-            <Pagination
-              simple
-              defaultCurrent={1}
-              current={currentFeedbackPage}
-              pageSize={FEEDBACK_PAGE_SIZE}
-              onChange={handleFeedbackPageChange}
-              total={myFeedbackList.length}
-            />
+            {myFeedbackList.length ? (
+              <Pagination
+                simple
+                defaultCurrent={1}
+                current={currentFeedbackPage}
+                pageSize={FEEDBACK_PAGE_SIZE}
+                onChange={handleFeedbackPageChange}
+                total={myFeedbackList.length}
+              />
+            ) : null}
           </PaginationStyle>
         </SectionStyle>
       ) : null}

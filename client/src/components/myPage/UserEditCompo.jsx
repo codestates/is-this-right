@@ -52,7 +52,6 @@ const textFade = keyframes`
 const AlertMessageStyle = styled.div`
   text-align: left;
   color: red;
-  animation: ${textFade} 0.5s linear infinite;
 `;
 
 function UserEditCompo() {
@@ -89,12 +88,11 @@ function UserEditCompo() {
   };
 
   const handleEditUser = () => {
-    checkValidation('username');
-    checkValidation('name');
-    checkValidation('detail');
-    checkValidation('url');
-
-    if (!usernameErr && !nameErr && !detailErr && !urlErr) {
+    let { username, name, detail, url } = editInfo;
+    if (
+      (userInfo.role === 'adviser' && username && name && detail && url && !usernameErr) ||
+      (userInfo.role === 'user' && username && !usernameErr)
+    ) {
       console.log(preview);
       const formData = new FormData();
       const img = preview.imaFile;
@@ -116,6 +114,11 @@ function UserEditCompo() {
         .catch((err) => {
           setEditErr('잘못된 정보가 있습니다. 확인 후 다시 시도 해주세요.');
         });
+    } else {
+      checkValidation('username');
+      checkValidation('name');
+      checkValidation('detail');
+      checkValidation('url');
     }
   };
   const checkValidation = (funcName) => {
@@ -170,21 +173,24 @@ function UserEditCompo() {
   };
 
   useEffect(() => {
+    setEditInfo({ ...editInfo, detail: text });
+  }, [text]);
+
+  useEffect(() => {
     if (userInfo.role === 'user') {
       userHide.current.style.display = 'none';
     }
     let { username, email, name, detail, url, gender, state, category } = userInfo;
-    setEditInfo({ username, email, name, detail, url, gender, state, category });
-  }, []);
+    setEditInfo((state1) => {
+      return { username, email, name, detail, url, gender, state, category };
+    });
+    setText(detail);
+  }, [userInfo]);
 
   useEffect(() => {
+    console.log('기존 유저정보입니다.', userInfo);
     console.log(editInfo);
   }, [editInfo]);
-
-  useEffect(() => {
-    setEditInfo({ ...editInfo, detail: text });
-  }, [text]);
-
   return (
     <UserPostListCompoStyle>
       <HideInputStyle>
@@ -209,7 +215,7 @@ function UserEditCompo() {
           placeholder="닉네임을 입력해주세요"
           onChange={(e) => handleInputValue('username', e)}
           onBlur={() => checkValidation('username')}
-          defaultValue="sdfsdf"
+          value={editInfo.username}
           required
         />
         {usernameErr ? <AlertMessageStyle>{usernameErr}</AlertMessageStyle> : null}
@@ -225,7 +231,7 @@ function UserEditCompo() {
             placeholder="이름을 입력해주세요"
             onChange={(e) => handleInputValue('name', e)}
             onBlur={() => checkValidation('name')}
-            defaultValue={userInfo.name}
+            value={editInfo.name}
             required
           />
           {nameErr ? <AlertMessageStyle>{nameErr}</AlertMessageStyle> : null}
@@ -237,7 +243,7 @@ function UserEditCompo() {
             data={['헬스', '골프', '클라이밍', '기타-추가예정']}
             keyData={'category'}
             name="category"
-            defaultValue={userInfo.category}
+            value={editInfo.category}
             validation={checkValidation}
           />
         </div>
@@ -256,7 +262,7 @@ function UserEditCompo() {
             placeholder="주소를 입력해주세요"
             onChange={(e) => handleInputValue('url', e)}
             onBlur={() => checkValidation('url')}
-            defaultValue={userInfo.url}
+            value={editInfo.url}
             required
           />
           {urlErr ? <AlertMessageStyle>{urlErr}</AlertMessageStyle> : null}
