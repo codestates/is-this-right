@@ -57,6 +57,10 @@ const UserPostListBody = styled.div`
         width: 100%;
         gap: 30px;
         grid-template-columns: 1fr 1fr 1fr;
+        @media ${(props) => props.theme.mobile} {
+          display: flex;
+          flex-direction: column;
+        }
       }
     }
     .pagination {
