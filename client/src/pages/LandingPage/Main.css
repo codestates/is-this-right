@@ -232,7 +232,6 @@ h2 {
 }
 
 .gifFile {
-  object-fit: cover;
   width: 50%;
   height: 100%;
 }
@@ -354,7 +353,7 @@ h2 {
     height: 50%;
   }
   .mini-TextD-Section.d {
-    height: 50%;
+    height: 80%;
     padding: 3vw;
   }
   .textSection {
@@ -370,7 +369,7 @@ h2 {
     flex-direction: column;
   }
   .textSection {
-    height: 50%;
+    height: 40%;
   }
   /* .gifFile.mentor,
   .textSection.mentor {
@@ -448,4 +447,13 @@ h2 {
 .ant-back-top {
   top: 78vh;
   left: 88.4vw;
+}
+
+.mini-TextB-Section p {
+  transform: none;
+}
+
+.mini-TextD-Section {
+  padding-right: 3vw;
+  padding-left: 3vw;
 }
