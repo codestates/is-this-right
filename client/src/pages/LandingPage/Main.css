@@ -193,7 +193,6 @@ h2 {
   font-size: 5vw;
   width: 100vw;
   transform: translate(0, -50%);
-  margin-top: 50%;
   text-align: center;
 }
 
@@ -211,11 +210,11 @@ h2 {
   display: flex;
   justify-content: space-between;
   margin: 100px 0px 100px 0px;
+  align-items: center;
   height: 50%;
 }
 .mini-TextA-Section p,
-.mini-TextD-Section p,
-.mini-TextB-Section p {
+.mini-TextD-Section p {
   text-align: center;
   margin: auto;
   font-size: 3vw;
@@ -233,6 +232,7 @@ h2 {
 }
 
 .gifFile {
+  object-fit: cover;
   width: 50%;
   height: 100%;
 }
@@ -266,6 +266,7 @@ h2 {
 .explainA {
   height: 30%;
   width: 100%;
+  padding: 3vw;
 }
 
 .explainA > div {
@@ -323,7 +324,7 @@ h2 {
   border: 3px solid red;
 } */
 .textSection {
-  height: 50%;
+  /* height: 20%; */
   width: 100%;
   display: flex;
   justify-content: center;
@@ -347,16 +348,17 @@ h2 {
     font-size: 2vw;
   }
   .mini-TextA-Section.a {
-    height: 100%;
+    height: 50%;
   }
   .mini-TextB-Section.b {
-    height: 100%;
+    height: 50%;
   }
   .mini-TextD-Section.d {
-    height: 100%;
+    height: 50%;
+    padding: 3vw;
   }
   .textSection {
-    height: 100%;
+    height: 50%;
   }
 }
 
