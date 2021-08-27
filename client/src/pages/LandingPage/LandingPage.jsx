@@ -1167,7 +1167,7 @@ function LandingPage() {
                 여러분의 모든 궁금증을 <br />
                 물어보세요 <br />
               </p>
-              <img className="gifFile" src="../../../imageFile/mockGif.gif" alt="" />
+              <img className="gifFile" src="../../../imageFile/squ.gif" alt="" />
             </div>
           </div>
           <div className="sticky-elem main-message textC" ref={userExplainImgA} style={{ color: 'white' }}>
@@ -1183,7 +1183,7 @@ function LandingPage() {
 
           <div className="animation textB" ref={userExplainGifA}>
             <div className="mini-TextB-Section b">
-              <img className="gifFile" src="../../../imageFile/mockGif.gif" alt="" />
+              <img className="gifFile" src="../../../imageFile/answer.gif" alt="" />
 
               <p>
                 <strong>채택 기능</strong>
@@ -1194,7 +1194,7 @@ function LandingPage() {
           </div>
           <div className="animation textD" ref={userExplainTextB}>
             <div className="mini-TextD-Section d">
-              <img className="gifFile" src="../../../imageFile/mockGif.gif" alt="" />
+              <img className="gifFile" src="../../../imageFile/chat.gif" alt="" />
               <p>
                 <strong>채팅</strong> <br></br>
                 채택 or 검색을 통해 <br></br>
@@ -1219,7 +1219,7 @@ function LandingPage() {
               <br></br>
               채택 수는 랭킹에<br></br> 반영됩니다.
             </div>
-            <img className="gifFile mentor" src="../../../imageFile/mockGif.gif" alt="" />
+            <img className="gifFile mentor" src="../../../imageFile/답변하기.gif" alt="" />
           </div>
         </div>
         <div className="explainA mentor b" ref={mentorExplainC}>
@@ -1232,12 +1232,12 @@ function LandingPage() {
               상단에 <br></br>
               노출시키세요.
             </div>
-            <img className="gifFile" src="../../../imageFile/mockGif.gif" alt="" ref={mentorExplainCImgAction} />
+            <img className="gifFile" src="../../../imageFile/랭킹표시.gif" alt="" ref={mentorExplainCImgAction} />
           </div>
         </div>
         <div className="explainA mentor c">
           <div className="textSection mentor" ref={mentorExplainD}>
-            <img className="gifFile" src="../../../imageFile/mockGif.gif" alt="" />
+            <img className="gifFile" src="../../../imageFile/chat.gif" alt="" />
             <div className="textBox">
               <strong>채팅</strong> <br></br>
               채팅을 통해<br></br>
