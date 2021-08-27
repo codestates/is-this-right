@@ -202,6 +202,8 @@ function QuestionListPage() {
     }
     dispatch(setMessages([]));
     dispatch(changeRoom(null));
+
+    window.scrollTo({ top: 0 });
   }, []);
 
   // if (isLoading === true) {

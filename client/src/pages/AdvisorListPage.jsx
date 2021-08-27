@@ -196,6 +196,8 @@ function AdvisorListPage() {
     }
     dispatch(setMessages([]));
     dispatch(changeRoom(null));
+
+    window.scrollTo({ top: 0 });
   }, []);
 
   const getOption = (e, key) => {
