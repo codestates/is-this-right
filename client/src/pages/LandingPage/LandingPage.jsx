@@ -8,6 +8,8 @@ import styled from 'styled-components';
 import { Button } from 'antd';
 import LoadingCircle from '../../components/LoadingCircle';
 import { BackTop } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { handleLanding, handleDisable } from '../../actions/userActionIndex';
 
 const ButtonStyle = styled(Button)`
   width: 10vw;
@@ -954,6 +956,8 @@ function LandingPage() {
     handleLoading();
   };
 
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state.userReducer);
   useEffect(() => {
     window.addEventListener('load', () => {
       let temYOffset = window.pageYOffset;
@@ -980,8 +984,13 @@ function LandingPage() {
     });
     window.addEventListener('resize', setLayout);
     window.addEventListener('scroll', setScrollHeight);
+    if (state.disableBack) {
+      setIsLoading(false);
+    }
 
     return () => {
+      dispatch(handleLanding());
+      dispatch(handleDisable());
       // window.removeEventListener('load', setLayout);
       window.removeEventListener('resize', setLayout);
       window.removeEventListener('scroll', setScrollHeight);
