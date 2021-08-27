@@ -19,10 +19,25 @@ const UserPostListCompoStyle = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  .updateButton {
+    background: #0077b6;
+    padding: 10px 30px 10px 30px;
+    font-family: 'font-css';
+    margin: 20px;
+    color: #fafafa;
+    border-radius: 7px;
+    :hover {
+      cursor: pointer;
+      background: rgb(0, 119, 182, 0.8);
+      transition: 0.2s;
+    }
+  }
 `;
 
 const LabelStyle = styled.label`
-  font-size: 20px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-size: 1rem;
 `;
 
 const InputStyle = styled(Input)`
@@ -195,18 +210,7 @@ function UserEditCompo() {
     <UserPostListCompoStyle>
       <HideInputStyle>
         <UploadCompo where={userInfo.role} />
-        <LabelStyle htmlFor="user-email">Email</LabelStyle>
-        <InputStyle
-          name="user-email"
-          type="email"
-          size="large"
-          value={editInfo.email} //프롭스 들어갈 위치
-          style={{ margin: '12px 0 6px 0', color: 'black' }}
-          placeholder="이메일을 입력해주세요"
-          disabled="true"
-          required
-        />
-        <LabelStyle htmlFor="username">username</LabelStyle>
+        <LabelStyle htmlFor="username">닉네임</LabelStyle>
         <InputStyle
           name="username"
           type="text"
@@ -219,10 +223,21 @@ function UserEditCompo() {
           required
         />
         {usernameErr ? <AlertMessageStyle>{usernameErr}</AlertMessageStyle> : null}
+        <LabelStyle htmlFor="user-email">이메일</LabelStyle>
+        <InputStyle
+          name="user-email"
+          type="email"
+          size="large"
+          value={editInfo.email} //프롭스 들어갈 위치
+          style={{ margin: '12px 0 6px 0', color: 'black' }}
+          placeholder="이메일을 입력해주세요"
+          disabled="true"
+          required
+        />
       </HideInputStyle>
       <HideInputStyle ref={userHide}>
+        <LabelStyle htmlFor="name">이름</LabelStyle>
         <div>
-          <LabelStyle htmlFor="name">name</LabelStyle>
           <InputStyle
             name="name"
             type="text"
@@ -236,7 +251,29 @@ function UserEditCompo() {
           />
           {nameErr ? <AlertMessageStyle>{nameErr}</AlertMessageStyle> : null}
         </div>
-        <LabelStyle htmlFor="category">category</LabelStyle>
+        <LabelStyle htmlFor="gender">성별</LabelStyle>
+        <div>
+          <Radio.Group
+            defaultValue={userInfo.gender}
+            name="gender"
+            optionType={'button'}
+            onChange={(e) => handleInputValue('gender', e)}>
+            <Radio.Button value="남자">남자</Radio.Button>
+            <Radio.Button value="여자">여자</Radio.Button>
+          </Radio.Group>
+        </div>
+        <LabelStyle htmlFor="state">지역</LabelStyle>
+        <div>
+          <SelectBox
+            func={handleInputValue}
+            data={['서울', '경기/인천', '강원도', '충청도', '경상도', '전라도', '제주도']}
+            keyData={'state'}
+            name="state"
+            validation={checkValidation}
+            defaultValue={userInfo.state}
+          />
+        </div>
+        <LabelStyle htmlFor="category">종목</LabelStyle>
         <div>
           <SelectBox
             func={handleInputValue}
@@ -247,13 +284,13 @@ function UserEditCompo() {
             validation={checkValidation}
           />
         </div>
-        <LabelStyle htmlFor="detail">detail</LabelStyle>
+        <LabelStyle htmlFor="detail">디테일</LabelStyle>
         <div>
           <TextEditor text={setText} checkValidation={checkValidation} data={userInfo.detail} />
           {detailErr ? <AlertMessageStyle>{detailErr}</AlertMessageStyle> : null}
         </div>
         <div>
-          <LabelStyle htmlFor="url">url</LabelStyle>
+          <LabelStyle htmlFor="url">Url</LabelStyle>
           <InputStyle
             name="url"
             type="text"
@@ -267,32 +304,10 @@ function UserEditCompo() {
           />
           {urlErr ? <AlertMessageStyle>{urlErr}</AlertMessageStyle> : null}
         </div>
-        <LabelStyle htmlFor="gender">gender</LabelStyle>
-        <div>
-          <Radio.Group
-            defaultValue={userInfo.gender}
-            name="gender"
-            optionType={'button'}
-            onChange={(e) => handleInputValue('gender', e)}>
-            <Radio.Button value="남자">남자</Radio.Button>
-            <Radio.Button value="여자">여자</Radio.Button>
-          </Radio.Group>
-        </div>
-        <LabelStyle htmlFor="state">state</LabelStyle>
-        <div>
-          <SelectBox
-            func={handleInputValue}
-            data={['서울', '경기/인천', '강원도', '충청도', '경상도', '전라도', '제주도']}
-            keyData={'state'}
-            name="state"
-            validation={checkValidation}
-            defaultValue={userInfo.state}
-          />
-        </div>
       </HideInputStyle>
-      <ButtonStyle type="primary" onClick={handleEditUser}>
+      <div className="updateButton" onClick={handleEditUser}>
         수정하기
-      </ButtonStyle>
+      </div>
     </UserPostListCompoStyle>
   );
 }

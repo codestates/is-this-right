@@ -68,8 +68,8 @@ const PostDetailContainer = styled(ContainerStlye)`
         justify-content: space-between;
         align-items: center;
         padding: 10px 5px 10px 5px;
-        border-bottom: 2px solid #eaeaea;
-        border-top: 2px solid #eaeaea;
+        border-bottom: 1px solid #eaeaea;
+        border-top: 1px solid #eaeaea;
       }
       .titleSection {
         border-radius: 20px 20px 0 0;

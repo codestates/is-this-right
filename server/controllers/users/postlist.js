@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
   const response = {};
   const postInfo = await sequelize
     .query(
-      `SELECT posts.id, posts.title, posts.category, posts.createdAt, posts.updatedAt, IFNULL(posts.selected, 0) as selected, users.username, users.profileImg, IFNULL(fbCount.count,0) as feedbackCount
+      `SELECT posts.id, posts.title, posts.content, posts.category, posts.createdAt, posts.updatedAt, IFNULL(posts.selected, 0) as selected, users.username, users.profileImg, IFNULL(fbCount.count,0) as feedbackCount
       FROM posts 
       JOIN users ON posts.userId = users.id
       LEFT JOIN (SELECT postId, COUNT(*) as count FROM feedbacks GROUP BY postId)fbCount ON posts.id = fbCount.postId
