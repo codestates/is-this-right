@@ -94,7 +94,7 @@ function LandingPage() {
       //0으로 둔 이유는 브라우저를 여는 기계에 따라 높이가 다르기에
       // 그 기계 height의 배수로 처리한다.
       scrollHeight: 0,
-      heightNum: 5, //브라우저 높이의 5배로 scrollHeight 설정
+      heightNum: 3, //브라우저 높이의 5배로 scrollHeight 설정
       type: 'sticky', //해당 구ㄱ관의 그냥 스크롤인지 스티키인지 설정
       objs: {
         container: section0,
@@ -139,7 +139,7 @@ function LandingPage() {
     {
       //1
       scrollHeight: 0,
-      heightNum: 5,
+      heightNum: 3,
       type: 'sticky',
       objs: {
         container: section1,
@@ -205,7 +205,7 @@ function LandingPage() {
     {
       //2
       scrollHeight: 0,
-      heightNum: 5,
+      heightNum: 3,
       type: 'sticky',
       objs: {
         container: section2,
@@ -370,8 +370,10 @@ function LandingPage() {
 
     for (let i = 0; i < sceneInfo.length; i++) {
       //각 스크롤 섹션의 높이 셋팅
-      sceneInfo[i].scrollHeight = sceneInfo[i].heightNum * window.innerHeight;
-      sceneInfo[i].objs.container.current.style.height = `${sceneInfo[i].scrollHeight}px`;
+      if (sceneInfo[i].objs.container.current) {
+        sceneInfo[i].scrollHeight = sceneInfo[i].heightNum * window.innerHeight;
+        sceneInfo[i].objs.container.current.style.height = `${sceneInfo[i].scrollHeight}px`;
+      }
     }
     let totalScrollHeight = 0;
     for (let i = 0; i < sceneInfo.length; i++) {
@@ -381,11 +383,18 @@ function LandingPage() {
         break;
       }
     }
-    ref.current.setAttribute('id', `show-scene-${currentScene}`);
-
-    sceneInfo[0].objs.canvas.current.style.transform = `translate3d(-50%, -50%, 0) `;
-    sceneInfo[1].objs.canvas.current.style.transform = `translate3d(-50%, -50%, 0) `;
-    sceneInfo[2].objs.canvas.current.style.transform = `translate3d(-50%, -50%, 0) `;
+    if (ref.current) {
+      ref.current.setAttribute('id', `show-scene-${currentScene}`);
+    }
+    if (sceneInfo[0].objs.canvas.current) {
+      sceneInfo[0].objs.canvas.current.style.transform = `translate3d(-50%, -50%, 0) `;
+    }
+    if (sceneInfo[1].objs.canvas.current) {
+      sceneInfo[1].objs.canvas.current.style.transform = `translate3d(-50%, -50%, 0) `;
+    }
+    if (sceneInfo[2].objs.canvas.current) {
+      sceneInfo[2].objs.canvas.current.style.transform = `translate3d(-50%, -50%, 0) `;
+    }
   }, []);
 
   const calcValues = (values, currentYOffset) => {
@@ -938,9 +947,7 @@ function LandingPage() {
         temScrollCount++;
       }, 20);
     }
-
     setLayout();
-
     sceneInfo[0].objs.conText.current
       .getContext('2d')
       .drawImage(sceneInfo[0].objs.videoImages[0], 0, 0, videoCanvas0.current.width, videoCanvas0.current.height);
@@ -964,24 +971,23 @@ function LandingPage() {
       }
 
       setLayout();
-
-      sceneInfo[0].objs.conText.current
-        .getContext('2d')
-        .drawImage(sceneInfo[0].objs.videoImages[0], 0, 0, videoCanvas0.current.width, videoCanvas0.current.height);
+      if (sceneInfo[0].objs.conText.current) {
+        sceneInfo[0].objs.conText.current
+          .getContext('2d')
+          .drawImage(sceneInfo[0].objs.videoImages[0], 0, 0, videoCanvas0.current.width, videoCanvas0.current.height);
+      }
       setIsLoading(false);
     });
     window.addEventListener('resize', setLayout);
     window.addEventListener('scroll', setScrollHeight);
-    setIsLoading(false);
 
     return () => {
-      window.removeEventListener('load', setLayout);
+      // window.removeEventListener('load', setLayout);
       window.removeEventListener('resize', setLayout);
       window.removeEventListener('scroll', setScrollHeight);
       setLayout = () => {};
       setScrollHeight = () => {};
       UseCallbackPlayAnimation = () => {};
-      setIsLoading(false);
     };
   }, []);
 
