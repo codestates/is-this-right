@@ -9,10 +9,18 @@ import { Switch, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 const ContainnerStyleRed = styled(ContainerStlye)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 20vw;
+  padding-right: 20vw;
+  width: 100%;
+  height: 100%;
   @media ${(props) => props.theme.avatar} {
-    margin-bottom: 170px;
+    margin-bottom: 12vh;
     display: flex;
     flex-direction: column;
+    padding: 0;
   }
 `;
 

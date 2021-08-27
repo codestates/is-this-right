@@ -10,48 +10,74 @@ import { SmileOutlined, FrownOutlined } from '@ant-design/icons';
 
 const url = process.env.REACT_APP_API_URL;
 
-const UserPostListCompoStyle = styled.div`
+const UserPostListBody = styled.div`
   width: 100%;
   height: 100%;
-  padding: 20px;
-  display: table;
-`;
-
-const SectionStyle = styled.div`
-  height: ${(props) => (props.role === 'user' ? '100%' : '50%')};
-  position: relative;
-  display: table-row;
-  padding: 20px;
-`;
-
-const MypostSectionStyle = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  flex-wrap: wrap;
-  margin: 20px 0px 20px 0px;
-  padding-left: ${(props) => (props.role === 'user' ? '10%' : '0px')};
-  @media ${(props) => props.theme.mobile} {
-    justify-content: center;
-  }
-  @media ${(props) => props.theme.avatar} {
-    justify-content: center;
-    padding-left: 0px;
-  }
-`;
-
-const PaginationStyle = styled.div`
   display: flex;
   justify-content: center;
-  position: absolute;
-  bottom: 5;
-  left: 50%;
-  transform: translate(-50%);
+  .divider {
+    border-top: 1px dashed #ddd;
+  }
+  .section {
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+
+    .label {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+    .listContainer {
+      width: 100%;
+      height: 100%;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      .listWrapper {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        gap: 30px;
+        @media ${(props) => props.theme.mobile} {
+          flex-direction: column;
+          padding-left: 3vw;
+          padding-right: 3vw;
+          width: 100%;
+        }
+      }
+      .userListWrapper {
+        display: grid;
+        width: 100%;
+        gap: 30px;
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+    }
+    .pagination {
+      margin-top: 10px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+  }
+`;
+const UserView = styled.div`
   width: 100%;
+  height: 100%;
+  display: flex;
 `;
 
-const BlankStyle = styled.div`
+const AdviserView = styled.div`
   width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 `;
 
 function UserPostListCompo() {
@@ -69,9 +95,6 @@ function UserPostListCompo() {
         setMyFeedbackList(list.data.data.feedbackInfo);
       }
     });
-    // if (userInfo.role === 'adviser') {
-    //   axios.get(`${url}/advisers/${userInfo.userId}`).then((data) => setAdviserDetailInfo(data.data));
-    // }
   }, []);
 
   //Post pagination states
@@ -121,70 +144,99 @@ function UserPostListCompo() {
   }
 
   return (
-    <UserPostListCompoStyle>
-      <SectionStyle role={userInfo.role}>
-        <div style={{ textAlign: 'center', marginTop: '40px', fontSize: '1.2em' }}>내가 올린 게시물</div>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <MypostSectionStyle role={userInfo.role}>
-            {currentPostPageList.length ? (
-              currentPostPageList.map((el) => <MypostCard data={el} />)
-            ) : (
-              <BlankStyle>
-                <Result icon={<SmileOutlined style={{ fontSize: '100px' }} />} title="내가 작성한 게시물이 없습니다." />
-              </BlankStyle>
-            )}
-          </MypostSectionStyle>
-        </div>
-        <PaginationStyle>
-          {currentPostPageList.length ? (
-            <Pagination
-              simple
-              defaultCurrent={1}
-              current={currentPostPage}
-              pageSize={POST_PAGE_SIZE}
-              onChange={handlePostPageChange}
-              total={myPostList.length}
-            />
-          ) : null}
-        </PaginationStyle>
-      </SectionStyle>
-      <Divider />
-      {userInfo.role === 'adviser' ? (
-        <SectionStyle>
-          <div style={{ textAlign: 'center', fontSize: '1.2em' }}>내가 답변한 게시물</div>
-          <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
-            <MypostSectionStyle>
-              {currentFeedbackPageList.length ? (
-                currentFeedbackPageList.map((el) => (
-                  // <Link to={`/posts/${el.id}`} style={{ margin: '5px 0px 5px 0px', textDecorationLine: 'none' }}>
-                  <MyFeedbackCard data={el} />
-                  // </Link>
-                ))
+    <UserPostListBody>
+      {userInfo.role === 'user' ? (
+        <UserView>
+          <div className="section">
+            <div className="label">내가 올린 질문</div>
+            <div className="listContainer">
+              {currentPostPageList.length ? (
+                <div className="userListWrapper">
+                  {currentPostPageList.map((el) => (
+                    <Link className="link" to={`/posts/${el.id}`} style={{ textDecorationLine: 'none' }}>
+                      <MypostCard data={el} />
+                    </Link>
+                  ))}
+                </div>
               ) : (
-                <BlankStyle>
-                  <Result
-                    icon={<SmileOutlined style={{ fontSize: '100px' }} />}
-                    title="내가 답변한 게시물이 없습니다."
-                  />
-                </BlankStyle>
+                <Result icon={<SmileOutlined style={{ fontSize: '100px' }} />} title="내가 작성한 게시물이 없습니다." />
               )}
-            </MypostSectionStyle>
+            </div>
+            <div className="pagination">
+              {currentPostPageList.length ? (
+                <Pagination
+                  simple
+                  defaultCurrent={1}
+                  current={currentPostPage}
+                  pageSize={POST_PAGE_SIZE}
+                  onChange={handlePostPageChange}
+                  total={myPostList.length}
+                />
+              ) : null}
+            </div>
           </div>
-          <PaginationStyle>
-            {myFeedbackList.length ? (
-              <Pagination
-                simple
-                defaultCurrent={1}
-                current={currentFeedbackPage}
-                pageSize={FEEDBACK_PAGE_SIZE}
-                onChange={handleFeedbackPageChange}
-                total={myFeedbackList.length}
-              />
-            ) : null}
-          </PaginationStyle>
-        </SectionStyle>
-      ) : null}
-    </UserPostListCompoStyle>
+        </UserView>
+      ) : (
+        <AdviserView>
+          <div className="section">
+            <div className="label">내가 올린 질문</div>
+            <div className="listContainer">
+              {currentPostPageList.length ? (
+                <div className="listWrapper">
+                  {currentPostPageList.map((el) => (
+                    <Link className="link" to={`/posts/${el.id}`} style={{ textDecorationLine: 'none' }}>
+                      <MypostCard data={el} />
+                    </Link>
+                  ))}
+                </div>
+              ) : (
+                <Result icon={<SmileOutlined style={{ fontSize: '100px' }} />} title="내가 작성한 게시물이 없습니다." />
+              )}
+            </div>
+            <div className="pagination">
+              {currentPostPageList.length ? (
+                <Pagination
+                  simple
+                  defaultCurrent={1}
+                  current={currentPostPage}
+                  pageSize={POST_PAGE_SIZE}
+                  onChange={handlePostPageChange}
+                  total={myPostList.length}
+                />
+              ) : null}
+            </div>
+          </div>
+          <div className="section divider">
+            <div className="label">내가 쓴 답변</div>
+            <div className="listContainer">
+              {currentFeedbackPageList.length ? (
+                <div className="listWrapper">
+                  {currentFeedbackPageList.map((el) => (
+                    <Link className="link" to={`/posts/${el.postId}`} style={{ textDecorationLine: 'none' }}>
+                      <MyFeedbackCard data={el} />
+                    </Link>
+                  ))}
+                </div>
+              ) : (
+                <Result icon={<SmileOutlined style={{ fontSize: '100px' }} />} title="내가 답변한 게시물이 없습니다." />
+              )}
+            </div>
+            <div className="pagination">
+              {myFeedbackList.length ? (
+                <Pagination
+                  simple
+                  defaultCurrent={1}
+                  current={currentFeedbackPage}
+                  pageSize={FEEDBACK_PAGE_SIZE}
+                  onChange={handleFeedbackPageChange}
+                  total={myFeedbackList.length}
+                />
+              ) : null}
+            </div>
+          </div>
+        </AdviserView>
+      )}
+    </UserPostListBody>
   );
 }
 

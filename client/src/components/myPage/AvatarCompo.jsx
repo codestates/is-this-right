@@ -10,42 +10,57 @@ const url = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 
 const ContainerStyle = styled.div`
-  width: 200px;
-  height: 300px;
+  flex: 1;
+  position: fixed;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  justify-content: space-around;
-  /* margin-top: 2%; */
-  position: fixed;
-  left: 10%;
-  top: 30%;
-  margin: 0;
+  gap: 30px;
+  left: 10vw;
+  top: 15vh;
+  padding: 20px;
+  font-weight: bold;
 
+  @media ${(props) => props.theme.avatar} {
+    flex-direction: row;
+    padding-left: 5vw;
+    padding-right: 5vw;
+    justify-content: space-around;
+  }
+  .name {
+    font-family: 'font-css';
+  }
+  .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    @media ${(props) => props.theme.avatar} {
+      flex-direction: row;
+      gap: 5px;
+    }
+  }
+  .link {
+    color: #000;
+    :hover {
+      color: rgba(0, 0, 0, 0.7);
+    }
+  }
+  .logout {
+    color: rgb(152, 0, 0);
+    :hover {
+      color: rgb(152, 0, 0, 0.7);
+      transition: 0.1s;
+      cursor: pointer;
+    }
+  }
   @media ${(props) => props.theme.avatar} {
     position: static;
     flex-direction: row;
+    gap: 10px;
     width: 100%;
     height: 150px;
-  }
-`;
-
-const TextStyle = styled(Link)`
-  text-decoration-line: none;
-  color: black;
-  :hover {
-    cursor: pointer;
-  }
-`;
-
-const LogoutStyleRes = styled.span`
-  display: none;
-  :hover {
-    cursor: pointer;
-    color: #0d6efd;
-  }
-  @media ${(props) => props.theme.avatar} {
-    display: inline-block;
   }
 `;
 
@@ -64,17 +79,19 @@ function AvatarCompo() {
   };
   return (
     <ContainerStyle>
-      <div>
+      <div className="header">
         <Avatar size={100} icon={<img src={profileImg} />} />
+        <div className="name">{username}</div>
       </div>
-      <div>{username}</div>
-      <TextStyle to="/MyPage/UserEditPage">
-        <div>EDIT</div>
-      </TextStyle>
-      <TextStyle to="/MyPage/MyPostPage">
-        <div>My Question</div>
-      </TextStyle>
-      <LogoutStyleRes onClick={handleLogOut}>Logout</LogoutStyleRes>
+      <Link className="link" to="/MyPage/UserEditPage" style={{ textDecorationLine: 'none' }}>
+        <div className="edit">내정보</div>
+      </Link>
+      <Link className="link" to="/MyPage/MyPostPage" style={{ textDecorationLine: 'none' }}>
+        <div className="list">내활동</div>
+      </Link>
+      <div className="logout" onClick={handleLogOut}>
+        Logout
+      </div>
     </ContainerStyle>
   );
 }

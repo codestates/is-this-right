@@ -2,67 +2,101 @@ import React from 'react';
 import styled from 'styled-components';
 import Moment from 'react-moment';
 import 'moment/locale/ko';
-import { CheckCircleOutlined } from '@ant-design/icons';
+import { CheckCircleOutlined, CommentOutlined } from '@ant-design/icons';
 import CheckCircleSharpIcon from '@material-ui/icons/CheckCircleSharp';
 import { Card } from 'antd';
 import { Link } from 'react-router-dom';
 
-const CardStyle = styled(Card)`
-  width: 300px;
-  height: 300px;
-  margin: 10px 10px 10px;
-  position: relative;
-  border: ${(props) => (props.isSelected ? '0px solid black' : '1px solid #e1e4e8')};
-  box-shadow: ${(props) =>
-    props.isSelected
-      ? `rgba(52, 208, 89, 0.34) -2px 3px 9px 0px,
-				rgba(51, 207, 87, 0.34) 3px -2px 9px 0px`
-      : null};
+const CardContainer = styled.div`
+  display: flex;
+  height: 200px;
+  width: 15vw;
+  background: #ffffff;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #353535;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 0.9rem;
+  box-shadow: ${(props) => (props.isSelected ? '0 0 3px rgba(18, 168, 3,0.5)' : 'none')};
+  border: 1px solid #eee;
+  @media ${(props) => props.theme.mobile} {
+    width: 100%;
+    height: 120px;
+  }
+  .headerSection {
+    display: flex;
+    padding-bottom: 5px;
+    justify-content: space-between;
 
-  p:last-child {
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    transform: translate(-50%);
+    border-bottom: 1px solid #eee;
+    .title {
+      display: flex;
+      align-items: center;
+      flex: 3;
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-weight: bold;
+    }
+    .moment {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      flex: 1;
+      font-size: 0.7rem;
+    }
+  }
+  .content {
+    margin-top: -70px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    @media ${(props) => props.theme.mobile} {
+      margin-top: -20px;
+    }
+  }
+  .footerSection {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .category {
+      color: #0077b6;
+    }
+    .selected {
+      display: flex;
+      align-items: center;
+    }
   }
 `;
 
 function MypostCard({ data }) {
   console.log(data);
-  // [{
-  //     title : "title",
-  //     category : "헬스",
-  //     feedbackCount : 4,
-  //     selected : false,
-  //     updatedAt : "2021-08-21T14:52:11.000Z",
-  // },
-  //  ...]
-  // <Link to={`/posts/${el.id}`} style={{ margin: '5px 0px 5px 0px', textDecorationLine: 'none', width: 'auto' }}>
 
   const nowTime = Date.now(),
     startTime = new Date(data.updatedAt);
   return (
-    <CardStyle
-      isSelected={data.selected}
-      title={data.title}
-      extra={
-        <Link to={`/posts/${data.id}`} style={{ textDecorationLine: 'none' }}>
-          Detail
-        </Link>
-      }>
-      <p>Category : {data.category}</p>
-      <p>Answers : {data.feedbackCount}</p>
-      <p>
-        Time : <Moment fromNow>{startTime}</Moment>
-      </p>
-      <p style={{ textAlign: 'center' }}>
-        {data.selected ? (
-          <CheckCircleSharpIcon style={{ color: 'green', fontSize: '25px' }} />
-        ) : (
-          <CheckCircleOutlined style={{ color: '#686868', fontSize: '25px' }} />
-        )}
-      </p>
-    </CardStyle>
+    <CardContainer isSelected={data.selected}>
+      <div className="headerSection">
+        <div className="title">{data.title}</div>
+        <div className="moment">
+          <Moment fromNow>{startTime}</Moment>
+        </div>
+      </div>
+      <div className="content">{data.content.replace(/<\/?[^>]>/g, '')}</div>
+      <div className="footerSection">
+        <div className="category">#{data.category}</div>
+        <div className="selected">
+          {data.selected ? (
+            <CommentOutlined style={{ color: '#12A803', fontSize: '1rem' }} />
+          ) : (
+            <CommentOutlined style={{ color: '#353535', fontSize: '1rem' }} />
+          )}
+          <div className="feedbackCount">{data.feedbackCount}</div>
+        </div>
+      </div>
+    </CardContainer>
   );
 }
 
