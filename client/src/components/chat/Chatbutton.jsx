@@ -16,6 +16,10 @@ const FixDivStyle = styled.div`
   @media ${(props) => props.theme.mobile} {
     display: none;
   }
+  :hover svg {
+    color: rgba(0, 119, 182, 0.9);
+    transition: 0.1s;
+  }
 `;
 
 const Chatbutton = () => {
