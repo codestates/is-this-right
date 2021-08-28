@@ -66,7 +66,7 @@ const ButtonStyle = styled(Button)`
   width: 100%;
   height: 50px;
   margin: 12px 0 12px;
-  font-size: 20px;
+  font-size: 1.2rem;
 `;
 
 const SocialButtonStyle = styled.img`
@@ -89,7 +89,7 @@ const SocialDivStyle = styled.div`
   width: 100%;
   height: 50px;
 
-  font-size: 20px;
+  font-size: 1.2rem;
   display: flex;
   border: 2px solid black;
   border-radius: 4px;
