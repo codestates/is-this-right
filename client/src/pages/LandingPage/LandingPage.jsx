@@ -1085,7 +1085,7 @@ function LandingPage() {
         <h1>
           이거맞아<span className="logo-rotate">?</span>
         </h1>
-        <h2>Is this right?</h2>
+        {/* <h2>Is this right?</h2> */}
         <div className="buttonSection">
           <ButtonStyle onClick={goMentorExplainSection}>for Mentor</ButtonStyle>
           <ButtonStyle onClick={goUserExplainSection}>for User</ButtonStyle>
