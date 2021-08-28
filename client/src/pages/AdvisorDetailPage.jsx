@@ -199,6 +199,7 @@ const AdviserDetailContainer = styled(ContainerStlye)`
       }
       .detailSection {
         position: relative;
+        margin-top: 20px;
         height: 100%;
         overflow-y: auto;
         -ms-overflow-style: none;
@@ -359,25 +360,7 @@ function AdvisorDetailPage() {
           <div className="right">
             <div className="head">소개</div>
             <div className="detailSection">
-              <div className="content">
-                {parse(
-                  adviserDetailInfo.detail +
-                    adviserDetailInfo.detail +
-                    adviserDetailInfo.detail +
-                    adviserDetailInfo.detail +
-                    adviserDetailInfo.detail +
-                    adviserDetailInfo.detail +
-                    adviserDetailInfo.detail +
-                    adviserDetailInfo.detail +
-                    adviserDetailInfo.detail +
-                    adviserDetailInfo.detail +
-                    adviserDetailInfo.detail +
-                    adviserDetailInfo.detail +
-                    adviserDetailInfo.detail +
-                    adviserDetailInfo.detail +
-                    adviserDetailInfo.detail,
-                )}
-              </div>
+              <div className="content">{parse(adviserDetailInfo.detail)}</div>
             </div>
           </div>
         </div>
