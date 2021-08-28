@@ -37,7 +37,7 @@ const ContainerStyle = styled.div`
     align-items: center;
     gap: 10px;
     @media ${(props) => props.theme.avatar} {
-      flex-direction: row;
+      flex-direction: column;
       gap: 5px;
     }
   }
