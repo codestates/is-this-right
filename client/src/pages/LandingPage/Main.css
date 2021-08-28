@@ -170,7 +170,10 @@ h2 {
 
 .textA,
 .textB {
-  padding: 5vw;
+  /* padding: 5vw; */
+  padding-left: 5vw;
+  padding-right: 5vw;
+
   display: flex;
   /* flex-direction: column; */
   justify-content: space-between;
@@ -190,7 +193,7 @@ h2 {
   font-size: 3vw;
 }
 .textB p {
-  font-size: 5vw;
+  font-size: 3vw;
   width: 100vw;
   transform: translate(0, -50%);
   text-align: center;
@@ -361,6 +364,11 @@ h2 {
   }
 }
 
+.ant-back-top {
+  top: 78vh;
+  left: 88.4vw;
+}
+
 @media only screen and (max-width: 800px) {
   .textA,
   .textB {
@@ -375,6 +383,13 @@ h2 {
   .textSection.mentor {
     height: 50%;
   } */
+  .ant-back-top {
+    /* top: 78vh; */
+    left: 83vw;
+  }
+  .resText {
+    font-size: 8vw;
+  }
 }
 
 .container {
@@ -442,11 +457,6 @@ h2 {
     opacity: 0;
     transform: translateY(55px) scale3d(0.5, 0.5, 0.5);
   }
-}
-
-.ant-back-top {
-  top: 78vh;
-  left: 88.4vw;
 }
 
 .mini-TextB-Section p {
