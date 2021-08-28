@@ -184,7 +184,7 @@ function QuestionListPage() {
     },
     {
       name: 'E.T.C',
-      search: '기타',
+      search: '기타-추가예정',
       color: '#F1C531',
       icon: '../../imageFile/etc_white.png',
     },

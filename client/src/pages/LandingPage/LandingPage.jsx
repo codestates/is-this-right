@@ -995,6 +995,7 @@ function LandingPage() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state.userReducer);
   useEffect(() => {
+    dispatch(handleLanding());
     window.addEventListener('load', () => {
       let temYOffset = window.pageYOffset;
       let temScrollCount = 0;
@@ -1025,7 +1026,6 @@ function LandingPage() {
     }
 
     return () => {
-      dispatch(handleLanding());
       dispatch(handleDisable());
       // window.removeEventListener('load', setLayout);
       window.removeEventListener('resize', setLayout);
