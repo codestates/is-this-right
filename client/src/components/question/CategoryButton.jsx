@@ -16,15 +16,17 @@ const CategoryStyle = styled.div`
   align-items: center;
   text-align: center;
   height: 11vw;
-  font-family: 'font-css';
+  /* font-family: 'font-css'; */
+  font-family: 'Open Sans', sans-serif;
   color: white;
+  font-size: 1.1rem;
   @media ${(props) => props.theme.mobile} {
     height: 120px;
     font-size: 0rem;
   }
   box-shadow: 0 0 2px rgba(35, 35, 35, 0.3);
   &.currentCategory {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     border: 3px dashed #eee;
     @media ${(props) => props.theme.mobile} {
       font-size: 0rem;

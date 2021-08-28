@@ -89,8 +89,8 @@ const PostDetailContainer = styled(ContainerStlye)`
         }
         .postTitle {
           height: 100%;
-          font-size: 1.5rem;
-          font-weight: bold;
+          font-size: 1.2rem;
+          /* font-weight: bold; */
           @media ${(props) => props.theme.mobile} {
             padding-top: 10px;
             padding-bottom: 10px;
@@ -240,8 +240,8 @@ const PostDetailContainer = styled(ContainerStlye)`
           color: #000;
           padding-top: 30px;
           padding-left: 20px;
-          font-size: 1.2rem;
-          font-weight: bold;
+          font-size: 1.1rem;
+          /* font-weight: bold; */
           @media ${(props) => props.theme.mobile} {
             display: flex;
             align-items: center;
@@ -483,7 +483,7 @@ function QuestionDetailPage() {
                 indicators={false}>
                 {post.data.sources.length === 0 ? (
                   <Carousel.Item bsPrefix={'carousel-item sourceItem'}>
-                    <Image src="../../imageFile/blankImg.png" alt="" width="100%" height="100%" />
+                    <Image src="../../imageFile/blankImg_white.png" alt="" width="100%" height="100%" />
                   </Carousel.Item>
                 ) : (
                   post.data.sources.map((el, idx) =>

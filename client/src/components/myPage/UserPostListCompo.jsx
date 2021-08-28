@@ -44,7 +44,7 @@ const UserPostListBody = styled.div`
         display: flex;
         justify-content: center;
         width: 100%;
-        gap: 30px;
+        gap: 20px;
         @media ${(props) => props.theme.mobile} {
           flex-direction: column;
           padding-left: 3vw;
@@ -55,8 +55,12 @@ const UserPostListBody = styled.div`
       .userListWrapper {
         display: grid;
         width: 100%;
-        gap: 30px;
+        gap: 20px;
         grid-template-columns: 1fr 1fr 1fr;
+        @media ${(props) => props.theme.mobile} {
+          display: flex;
+          flex-direction: column;
+        }
       }
     }
     .pagination {

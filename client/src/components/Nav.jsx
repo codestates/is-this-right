@@ -12,11 +12,12 @@ axios.defaults.withCredentials = true;
 
 const NavAreaStyle = styled.div`
   width: 100%;
-  height: 80px;
+  height: 70px;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  font-family: 'font-css';
+  /* font-family: 'font-css'; */
+  font-family: 'Open Sans', sans-serif;
   /* background: linear-gradient(70deg, #6366f1, #1d4ed8, #2563eb); */
   /* background: linear-gradient(180deg, #0096c7, #0077b6); */
   background: white;
@@ -37,16 +38,16 @@ const NavAreaStyle = styled.div`
     height: 25px;
     background-size: cover;
     font-family: 'font-css';
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     /* background-image: url('../../imageFile/Logo2.png'); */
 
     .zero {
-      font-size: 1.63rem;
+      font-size: 1.73rem;
     }
     .logo-rotate {
       display: inline-block;
       margin-left: -6px;
-      font-size: 1.7rem;
+      font-size: 1.8rem;
       margin-bottom: -3px;
       transform: rotate(45deg);
       -moz-transform: rotate(45deg);
@@ -54,7 +55,7 @@ const NavAreaStyle = styled.div`
       -o-transform: rotate(45deg);
     }
     .logo-rotate-a {
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       margin-left: -6px;
       margin-bottom: -1px;
       display: inline-block;
@@ -67,12 +68,12 @@ const NavAreaStyle = styled.div`
       cursor: pointer;
       width: 220px;
       height: 30px;
-      font-size: 1.7rem;
+      font-size: 1.65rem;
       transition: 0.2s ease-in-out;
     }
     :hover .zero {
       cursor: pointer;
-      font-size: 1.7rem;
+      font-size: 1.78rem;
       transition: 0.3s ease-in-out;
       transform: rotate(10deg);
       -moz-transform: rotate(10deg);
@@ -81,17 +82,17 @@ const NavAreaStyle = styled.div`
     }
     :hover .logo-rotate-a {
       cursor: pointer;
-      font-size: 1.7rem;
+      font-size: 1.65rem;
       transition: 1.7s ease-in-out;
       transform: rotate(40deg);
       -moz-transform: rotate(40deg);
       -webkit-transform: rotate(40deg);
       -o-transform: rotate(40deg);
-      margin-bottom: -7px;
+      margin-bottom: -10px;
     }
     :hover .logo-rotate {
       cursor: pointer;
-      font-size: 1.7rem;
+      font-size: 1.85rem;
       transition: 2s ease-in-out;
       transform: rotate(430deg);
       -moz-transform: rotate(430deg);
@@ -118,6 +119,7 @@ const DivStyle = styled.div`
   display: flex;
   justify-content: flex-end;
   list-style: none;
+  gap: 20px;
   padding: 0;
   height: 100%;
   span {
@@ -147,7 +149,7 @@ const DivStyle = styled.div`
 const MobileDivStyle = styled.div`
   display: none;
   @media ${(props) => props.theme.mobile} {
-    font-size: 2rem;
+    font-size: 2.2rem;
     background: #023e8a;
     height: 12vh;
     position: fixed;
@@ -165,7 +167,7 @@ const MobileDivStyle = styled.div`
     }
 
     .selected {
-      font-size: 2.5rem;
+      font-size: 2.8rem;
     }
   }
 `;
@@ -180,7 +182,7 @@ const SpanStyle = styled.span`
     cursor: pointer;
   }
   &:hover .messageIcon > svg {
-    font-size: 2.5rem;
+    font-size: 2.8rem;
     transition: 0.2s;
   }
 `;
@@ -194,7 +196,7 @@ const LinkStyle = styled(Link)`
   text-decoration-line: none;
   color: #fff;
   &:hover {
-    font-size: 2.5rem;
+    font-size: 2.8rem;
     transition: 0.2s;
   }
 `;
@@ -282,7 +284,7 @@ function Nav({ landing = 'normal' }) {
           <>
             <div>
               <LinkStyle to="/MyPage">
-                <SpanStyle className={location.pathname === '/MyPage' ? 'selected' : ''}>Mypage</SpanStyle>
+                <SpanStyle className={location.pathname.includes('/MyPage') ? 'selected' : ''}>Mypage</SpanStyle>
               </LinkStyle>
             </div>
             <div>

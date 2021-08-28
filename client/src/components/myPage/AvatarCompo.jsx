@@ -20,8 +20,8 @@ const ContainerStyle = styled.div`
   left: 10vw;
   top: 15vh;
   padding: 20px;
-  font-weight: bold;
-
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1.15rem;
   @media ${(props) => props.theme.avatar} {
     flex-direction: row;
     padding-left: 5vw;
@@ -37,20 +37,20 @@ const ContainerStyle = styled.div`
     align-items: center;
     gap: 10px;
     @media ${(props) => props.theme.avatar} {
-      flex-direction: row;
+      flex-direction: column;
       gap: 5px;
     }
   }
   .link {
     color: #000;
     :hover {
-      color: rgba(0, 0, 0, 0.7);
+      color: rgba(0, 0, 0, 0.5);
     }
   }
   .logout {
     color: rgb(152, 0, 0);
     :hover {
-      color: rgb(152, 0, 0, 0.7);
+      color: rgb(152, 0, 0, 0.5);
       transition: 0.1s;
       cursor: pointer;
     }

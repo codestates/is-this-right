@@ -76,7 +76,7 @@ const AdviserCardStyle = styled.div`
     }
     .content {
       padding-top: 5px;
-      font-size: 0.8rem;
+      font-size: 0.9rem;
       display: block;
       width: 200px;
       overflow: hidden;

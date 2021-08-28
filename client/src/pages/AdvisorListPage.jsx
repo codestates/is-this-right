@@ -278,7 +278,9 @@ function AdvisorListPage() {
             getfilterData={getfilterData}
             inputRef={inputRef}
           />
-          <Button onClick={setClear} style={{ marginTop: '10px', textAlign: 'center', width: '100%', height: '40px' }}>
+          <Button
+            onClick={setClear}
+            style={{ marginTop: '10px', textAlign: 'center', width: '100%', height: '40px', fontSize: '0.9rem' }}>
             필터 초기화
           </Button>
           <div className="filter">

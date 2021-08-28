@@ -16,14 +16,17 @@ const CardContainer = styled.div`
   justify-content: space-between;
   color: #353535;
   border-radius: 10px;
-  padding: 10px;
-  font-size: 0.9rem;
-  border: 1px solid #eee;
+  padding: 20px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
   box-shadow: ${(props) => (props.isSelected ? '0 0 3px rgba(18, 168, 3,0.5)' : 'none')};
-
-  @media ${(props) => props.theme.mobile} {
+  :hover {
+    border: 1px solid #aaa;
+    transition: 0.1s;
+  }
+  @media ${(props) => props.theme.avatar} {
     width: 100%;
-    height: 120px;
+    height: 140px;
   }
   .headerSection {
     display: flex;
@@ -38,7 +41,10 @@ const CardContainer = styled.div`
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      font-weight: bold;
+      /* font-weight: bold; */
+      @media ${(props) => props.theme.avatar} {
+        width: 180px;
+      }
     }
     .moment {
       display: flex;
@@ -46,6 +52,7 @@ const CardContainer = styled.div`
       justify-content: flex-end;
       flex: 1;
       font-size: 0.7rem;
+      color: #777;
     }
   }
   .content {
@@ -53,8 +60,9 @@ const CardContainer = styled.div`
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    @media ${(props) => props.theme.mobile} {
-      margin-top: -20px;
+    @media ${(props) => props.theme.avatar} {
+      width: 180px;
+      margin-top: -10px;
     }
   }
   .footerSection {

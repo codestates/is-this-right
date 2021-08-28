@@ -235,7 +235,7 @@ function Top10List() {
                 </div>
                 <div className="top10Name">{el.name}</div>
                 <div className="top10SelectedCount">
-                  <CheckCircleOutlined style={{ color: '#0096c7' }} />
+                  <CheckCircleOutlined style={{ color: '#12A803' }} />
                   <span className="count">{el.selectedCount}</span>
                 </div>
               </div>
