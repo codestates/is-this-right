@@ -4,12 +4,25 @@ import './Default.css';
 import './Main.css';
 import Nav from '../../components/Nav';
 import Footer from '../../components/Footer';
-import styled from 'styled-components';
-import { Button } from 'antd';
-import LoadingCircle from '../../components/LoadingCircle';
+import styled, { keyframes } from 'styled-components';
+import { Button, Spin } from 'antd';
 import { BackTop } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleLanding, handleDisable } from '../../actions/userActionIndex';
+
+const keyFramesAction = keyframes`
+    0% {
+      border-color: rgb(18, 99, 206);
+      
+  }
+  50% {
+    border-color: #cccccc;
+  }
+  100% {
+    border-color: rgb(18, 99, 206);
+  }
+ 
+`;
 
 const ButtonStyle = styled(Button)`
   width: 10vw;
@@ -24,6 +37,29 @@ const ButtonStyle = styled(Button)`
   :hover {
     background-color: rgba(255, 255, 255, 0.1);
   }
+  @media ${(props) => props.theme.mobile} {
+    margin-bottom: 10vh;
+  }
+`;
+
+const ButtonToGoTopStyle = styled(Button)`
+  width: 10vw;
+  min-width: 200px;
+  height: 5vh;
+  margin: 1vw;
+  border-radius: 50px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: rgb(18, 99, 206);
+  font-weight: bold;
+  font-size: 1.5rem;
+  :hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  @media ${(props) => props.theme.mobile} {
+    margin-bottom: 10vh;
+  }
+
+  animation: ${keyFramesAction} 1s 1s infinite;
 `;
 
 const NavStyle = styled(Nav)``;
@@ -96,7 +132,7 @@ function LandingPage() {
       //0으로 둔 이유는 브라우저를 여는 기계에 따라 높이가 다르기에
       // 그 기계 height의 배수로 처리한다.
       scrollHeight: 0,
-      heightNum: 3, //브라우저 높이의 5배로 scrollHeight 설정
+      heightNum: 4, //브라우저 높이의 5배로 scrollHeight 설정
       type: 'sticky', //해당 구ㄱ관의 그냥 스크롤인지 스티키인지 설정
       objs: {
         container: section0,
@@ -112,24 +148,24 @@ function LandingPage() {
         //인
         videoImageCount: 315,
         imageSequence: [0, 314],
-        messageAOpacityIn: [0, 1, { start: 0.1, end: 0.2 }],
-        messageATranslateYIn: [20, 0, { start: 0.1, end: 0.2 }],
+        messageAOpacityIn: [0, 1, { start: 0.1, end: 0.17 }],
+        messageATranslateYIn: [20, 0, { start: 0.1, end: 0.17 }],
 
-        messageBOpacityIn: [0, 1, { start: 0.32, end: 0.4 }],
-        messageBTranslateYIn: [20, 0, { start: 0.32, end: 0.4 }],
+        messageBOpacityIn: [0, 1, { start: 0.32, end: 0.39 }],
+        messageBTranslateYIn: [20, 0, { start: 0.32, end: 0.39 }],
 
-        messageCOpacityIn: [0, 1, { start: 0.52, end: 0.6 }],
-        messageCTranslateYIn: [20, 0, { start: 0.52, end: 0.6 }],
+        messageCOpacityIn: [0, 1, { start: 0.52, end: 0.57 }],
+        messageCTranslateYIn: [20, 0, { start: 0.52, end: 0.57 }],
 
-        messageDOpacityIn: [0, 1, { start: 0.69, end: 0.82 }],
-        messageDTranslateYIn: [20, 0, { start: 0.69, end: 0.82 }],
+        messageDOpacityIn: [0, 1, { start: 0.69, end: 0.8 }],
+        messageDTranslateYIn: [20, 0, { start: 0.69, end: 0.8 }],
 
         //아웃
-        messageAOpacityOut: [1, 0, { start: 0.22, end: 0.3 }],
-        messageATranslateYOut: [0, -20, { start: 0.22, end: 0.3 }],
+        messageAOpacityOut: [1, 0, { start: 0.25, end: 0.3 }],
+        messageATranslateYOut: [0, -20, { start: 0.25, end: 0.3 }],
 
-        messageBOpacityOut: [1, 0, { start: 0.42, end: 0.5 }],
-        messageBTranslateYOut: [0, -20, { start: 0.42, end: 0.5 }],
+        messageBOpacityOut: [1, 0, { start: 0.45, end: 0.5 }],
+        messageBTranslateYOut: [0, -20, { start: 0.45, end: 0.5 }],
 
         messageCOpacityOut: [1, 0, { start: 0.64, end: 0.67 }],
         messageCTranslateYOut: [0, -20, { start: 0.64, end: 0.67 }],
@@ -141,7 +177,7 @@ function LandingPage() {
     {
       //1
       scrollHeight: 0,
-      heightNum: 3,
+      heightNum: 4,
       type: 'sticky',
       objs: {
         container: section1,
@@ -160,45 +196,45 @@ function LandingPage() {
         videoImageCount: 315,
         imageSequence: [0, 314],
         //인
-        messageAOpacityIn: [0, 1, { start: 0, end: 0.14 }],
-        messageATranslateYIn: [20, 0, { start: 0, end: 0.14 }],
+        messageAOpacityIn: [0, 1, { start: 0, end: 0.05 }],
+        messageATranslateYIn: [20, 0, { start: 0, end: 0.05 }],
 
-        messageBOpacityIn: [0, 1, { start: 0.25, end: 0.28 }],
-        messageBTranslateYIn: [20, 0, { start: 0.25, end: 0.28 }],
+        messageBOpacityIn: [0, 1, { start: 0.2, end: 0.23 }],
+        messageBTranslateYIn: [20, 0, { start: 0.2, end: 0.23 }],
 
-        messageCOpacityIn: [0, 1, { start: 0.37, end: 0.4 }],
-        messageCTranslateYIn: [20, 0, { start: 0.37, end: 0.4 }],
+        messageCOpacityIn: [0, 1, { start: 0.35, end: 0.38 }],
+        messageCTranslateYIn: [20, 0, { start: 0.35, end: 0.38 }],
 
-        messageDOpacityIn: [0, 1, { start: 0.5, end: 0.52 }],
-        messageDTranslateYIn: [20, 0, { start: 0.5, end: 0.52 }],
+        messageDOpacityIn: [0, 1, { start: 0.51, end: 0.55 }],
+        messageDTranslateYIn: [20, 0, { start: 0.51, end: 0.55 }],
 
-        messageEOpacityIn: [0, 1, { start: 0.6, end: 0.64 }],
-        messageETranslateYIn: [20, 0, { start: 0.6, end: 0.64 }],
+        messageEOpacityIn: [0, 1, { start: 0.67, end: 0.7 }],
+        messageETranslateYIn: [20, 0, { start: 0.67, end: 0.7 }],
 
-        messageFOpacityIn: [0, 1, { start: 0.75, end: 0.78 }],
-        messageFTranslateYIn: [20, 0, { start: 0.75, end: 0.78 }],
+        messageFOpacityIn: [0, 1, { start: 0.82, end: 0.85 }],
+        messageFTranslateYIn: [20, 0, { start: 0.82, end: 0.85 }],
 
         // messageGOpacityIn: [0, 1, { start: 0.81, end: 0.86 }],
         // messageGTranslateYIn: [20, 0, { start: 0.81, end: 0.86 }],
 
         //아웃
-        messageAOpacityOut: [1, 0, { start: 0.2, end: 0.23 }],
-        messageATranslateYOut: [0, -20, { start: 0.2, end: 0.23 }],
+        messageAOpacityOut: [1, 0, { start: 0.15, end: 0.18 }],
+        messageATranslateYOut: [0, -20, { start: 0.15, end: 0.18 }],
 
-        messageBOpacityOut: [1, 0, { start: 0.31, end: 0.35 }],
-        messageBTranslateYOut: [0, -20, { start: 0.31, end: 0.35 }],
+        messageBOpacityOut: [1, 0, { start: 0.3, end: 0.33 }],
+        messageBTranslateYOut: [0, -20, { start: 0.3, end: 0.33 }],
 
-        messageCOpacityOut: [1, 0, { start: 0.45, end: 0.48 }],
-        messageCTranslateYOut: [0, -20, { start: 0.45, end: 0.48 }],
+        messageCOpacityOut: [1, 0, { start: 0.46, end: 0.49 }],
+        messageCTranslateYOut: [0, -20, { start: 0.46, end: 0.49 }],
 
-        messageDOpacityOut: [1, 0, { start: 0.55, end: 0.58 }],
-        messageDTranslateYOut: [0, -20, { start: 0.55, end: 0.58 }],
+        messageDOpacityOut: [1, 0, { start: 0.62, end: 0.65 }],
+        messageDTranslateYOut: [0, -20, { start: 0.62, end: 0.65 }],
 
-        messageEOpacityOut: [1, 0, { start: 0.7, end: 0.73 }],
-        messageETranslateYOut: [0, -20, { start: 0.7, end: 0.73 }],
+        messageEOpacityOut: [1, 0, { start: 0.78, end: 0.8 }],
+        messageETranslateYOut: [0, -20, { start: 0.78, end: 0.8 }],
 
-        messageFOpacityOut: [1, 0, { start: 0.89, end: 0.95 }],
-        messageFTranslateYOut: [0, -20, { start: 0.89, end: 0.95 }],
+        messageFOpacityOut: [1, 0, { start: 0.95, end: 0.99 }],
+        messageFTranslateYOut: [0, -20, { start: 0.95, end: 0.99 }],
 
         // messageGOpacityOut: [1, 0, { start: 0.87, end: 0.95 }],
         // messageGTranslateYOut: [0, -20, { start: 0.87, end: 0.95 }],
@@ -207,7 +243,7 @@ function LandingPage() {
     {
       //2
       scrollHeight: 0,
-      heightNum: 3,
+      heightNum: 4,
       type: 'sticky',
       objs: {
         container: section2,
@@ -263,14 +299,14 @@ function LandingPage() {
       values: {
         //인
         // messageAOpacityIn: [20, 0, { start: 0.1, end: 0.15 }],
-        backgroundTranslateXLeftIn: [-100, 0, { start: 0.05, end: 0.07 }],
-        backgroundOpacityLeftIn: [0, 1, { start: 0.05, end: 0.07 }],
+        backgroundTranslateXLeftIn: [-100, 0, { start: 0, end: 0.05 }],
+        backgroundOpacityLeftIn: [0, 1, { start: 0, end: 0.05 }],
 
         backgroundTranslateXIn: [0, 1, { start: 0.25, end: 0.35 }],
         backgroundOpacityIn: [0, 1, { start: 0.25, end: 0.35 }],
 
-        backgroundOpacityRightIn: [0, 1, { start: 0.48, end: 0.55 }],
-        backgroundTranslateXRightIn: [100, 0, { start: 0.48, end: 0.55 }],
+        backgroundOpacityRightIn: [0, 1, { start: 0.43, end: 0.5 }],
+        backgroundTranslateXRightIn: [100, 0, { start: 0.43, end: 0.5 }],
 
         backgroundOpacityCenterIn: [0, 1, { start: 0.76, end: 0.8 }],
 
@@ -282,8 +318,8 @@ function LandingPage() {
         backgroundTranslateXOut: [1, 0, { start: 0.42, end: 0.45 }],
         backgroundOpacityOut: [1, 0, { start: 0.42, end: 0.45 }],
 
-        backgroundOpacityRightOut: [1, 0, { start: 0.74, end: 0.8 }],
-        backgroundTranslateXRightOut: [0, 100, { start: 0.74, end: 0.8 }],
+        backgroundOpacityRightOut: [1, 0, { start: 0.65, end: 0.7 }],
+        backgroundTranslateXRightOut: [0, 100, { start: 0.65, end: 0.7 }],
 
         backgroundOpacityCenterOut: [1, 0, { start: 0.9, end: 0.98 }],
       },
@@ -523,7 +559,7 @@ function LandingPage() {
             .getContext('2d')
             .drawImage(objs.videoImages[sequence1], 0, 0, videoCanvas0.current.width, videoCanvas0.current.height);
         }
-        if (scrollRatio <= 0.15) {
+        if (scrollRatio <= 0.14) {
           // in
           if (objs.messageA.current) {
             objs.messageA.current.style.opacity = calcValues(values.messageAOpacityIn, currentYOffset);
@@ -541,7 +577,7 @@ function LandingPage() {
           )}%, 0)`;
         }
 
-        if (scrollRatio <= 0.3) {
+        if (scrollRatio <= 0.28) {
           // in
           if (objs.messageB.current) {
             objs.messageB.current.style.opacity = calcValues(values.messageBOpacityIn, currentYOffset);
@@ -613,7 +649,7 @@ function LandingPage() {
           )}%, 0)`;
         }
 
-        if (scrollRatio <= 0.8) {
+        if (scrollRatio <= 0.9) {
           // in
           if (objs.messageF.current) {
             objs.messageF.current.style.opacity = calcValues(values.messageFOpacityIn, currentYOffset);
@@ -656,7 +692,7 @@ function LandingPage() {
             .drawImage(objs.videoImages[sequence2], 0, 0, videoCanvas0.current.width, videoCanvas0.current.height);
           objs.conText.current.style.opacity = calcValues(values.canvas_opacity, currentYOffset);
         }
-        if (scrollRatio <= 0.25) {
+        if (scrollRatio <= 0.18) {
           // in
           if (objs.messageA.current) {
             objs.messageA.current.style.opacity = calcValues(values.messageAOpacityIn, currentYOffset);
@@ -674,7 +710,7 @@ function LandingPage() {
           )}%, 0)`;
         }
 
-        if (scrollRatio <= 0.37) {
+        if (scrollRatio <= 0.3) {
           // in
           if (objs.messageB.current) {
             objs.messageB.current.style.opacity = calcValues(values.messageBOpacityIn, currentYOffset);
@@ -692,7 +728,7 @@ function LandingPage() {
           )}%, 0)`;
         }
 
-        if (scrollRatio <= 0.95) {
+        if (scrollRatio <= 0.8) {
           // in
           if (objs.messageC.current) {
             objs.messageC.current.style.opacity = calcValues(values.messageCOpacityIn, currentYOffset);
@@ -1016,7 +1052,11 @@ function LandingPage() {
   };
 
   if (isLoading) {
-    return <LoadingCircle />;
+    return (
+      <div style={{ width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Spin size="large" tip="데이터를 받아오고 있습니다."></Spin>
+      </div>
+    );
   }
 
   return (
@@ -1082,7 +1122,9 @@ function LandingPage() {
         </div>
         <div className="sticky-elem main-message d" ref={section0D}>
           <p>
-            이거맞아<span className="logo-rotate">?</span>
+            <span style={{ fontFamily: 'font-css' }}>
+              이거맞아<span className="logo-rotate">?</span>
+            </span>
           </p>
         </div>
       </section>
@@ -1123,7 +1165,9 @@ function LandingPage() {
         </div>
         <div className="sticky-elem main-message f" ref={section1F}>
           <p>
-            이거맞아<span className="logo-rotate">?</span>
+            <span style={{ fontFamily: 'font-css' }}>
+              이거맞아<span className="logo-rotate">?</span>
+            </span>
           </p>
         </div>
         {/* <div className="sticky-elem main-message g" ref={section1G}>
@@ -1174,7 +1218,7 @@ function LandingPage() {
               />
             </div>
           </div>
-          <div className="sticky-elem main-message textC" ref={userExplainImgA} style={{ color: 'white' }}>
+          <div className="sticky-elem main-message textC resText" ref={userExplainImgA} style={{ color: 'white' }}>
             <p>
               여러분들에겐
               <br />
@@ -1193,10 +1237,11 @@ function LandingPage() {
                 alt=""
               />
 
-              <p>
+              <p style={{ paddingRight: '10vw' }}>
                 <strong>채택 기능</strong>
                 <br></br>
-                가장 마음에 든 <br></br>답변을 선택해주세요<br></br>
+                마음에 든 <br></br>답변을 <br />
+                선택해주세요<br></br>
               </p>
             </div>
           </div>
@@ -1219,8 +1264,8 @@ function LandingPage() {
       <section className="scroll-section" id="scroll-section-4" ref={section4}>
         <div className="start mentor a" ref={mentorExplainA}>
           <p>
-            <small>내가 만약</small> <br></br>
-            <strong>멘토</strong>
+            <small style={{ fontSize: '4vw' }}>만약</small> <br></br>
+            <strong style={{ fontSize: '10vw' }}>멘&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;토</strong> <br></br>
           </p>
         </div>
         <div className="explainA mentor a" ref={mentorExplainB}>
@@ -1274,9 +1319,7 @@ function LandingPage() {
         </div>
       </section>
       <div className="goToTop">
-        <ButtonStyle style={{ color: 'rgb(18, 99, 206)', borderColor: 'rgb(18, 99, 206);' }} onClick={gotoTop}>
-          Main Page
-        </ButtonStyle>
+        <ButtonToGoTopStyle onClick={gotoTop}>Main Page</ButtonToGoTopStyle>
       </div>
       <Footer />
     </div>
