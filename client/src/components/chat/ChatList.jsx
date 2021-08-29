@@ -2,10 +2,11 @@ import React from 'react';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { changeRoom, setViewChatlist, setRoomName } from '../../actions/chatAction';
-import { Avatar, Image, Badge } from 'antd';
+import { Avatar, Image, Badge, Result } from 'antd';
 import Moment from 'react-moment';
 import styled from 'styled-components';
 import { fontSize } from '@material-ui/system';
+import { SmileOutlined } from '@ant-design/icons';
 const url = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 
@@ -56,7 +57,14 @@ const BorderedAvatar = styled(Avatar)`
   border-radius: 30%;
   background-size: cover;
 `;
-
+const blankListContainer = styled.div`
+  height: 520px;
+  width: 100%;
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+`;
 const ChatList = () => {
   const chatState = useSelector((state) => state.chatReducer);
   const dispatch = useDispatch();
@@ -69,6 +77,14 @@ const ChatList = () => {
     chatState.socket.emit('join', { room: chatId });
     dispatch(setViewChatlist(false));
   };
+
+  if (!chatState.chatList.length) {
+    return (
+      <blankListContainer>
+        <Result style={{ fontSize: '150px' }} icon={<SmileOutlined />} title={'개설된 채팅방이 없습니다'} />
+      </blankListContainer>
+    );
+  }
   return (
     <ListContainer>
       {chatState.chatList.map((chat) => {

@@ -216,8 +216,7 @@ function Nav({ landing = 'normal' }) {
     let userInfo = await axios.get(`${url}/users`).catch((el) => {
       console.log('잘변하니', state);
       if (state.guest) {
-        dispatch(handleLanding());
-        history.push('./landing');
+        window.location.replace('./landing');
       }
     });
     if (userInfo) {
