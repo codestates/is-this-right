@@ -114,6 +114,7 @@ function LandingPage() {
   const mentorExplainD = useRef();
   const mentorExplainCTextAction = useRef();
   const mentorExplainCImgAction = useRef();
+  const fixScreen = useRef();
 
   const goToAdviserListPage = () => {
     history.push('/');
@@ -327,7 +328,7 @@ function LandingPage() {
     {
       //4
       scrollHeight: 0,
-      heightNum: 5,
+      heightNum: 6,
       type: 'sticky',
       objs: {
         container: section4,
@@ -1042,8 +1043,8 @@ function LandingPage() {
   };
 
   const goMentorExplainSection = () => {
-    const location = mentorExplainA.current.offsetTop;
-    window.scrollTo({ top: location, behavior: 'smooth' });
+    const location = section4.current.offsetTop;
+    window.scrollTo({ top: location + 200, behavior: 'smooth' });
   };
 
   const gotoTop = () => {
@@ -1269,7 +1270,10 @@ function LandingPage() {
       <section className="scroll-section" id="scroll-section-4" ref={section4}>
         <div className="start mentor a" ref={mentorExplainA}>
           <p>
-            <small style={{ fontSize: '8vh' }}>멘토들을 위한</small> <br />
+            <small ref={fixScreen} style={{ fontSize: '8vh' }}>
+              멘토들을 위한
+            </small>{' '}
+            <br />
             <strong style={{ fontSize: '10vh', fontFamily: 'font-css' }}>이거맞아?</strong> <br />
           </p>
         </div>
