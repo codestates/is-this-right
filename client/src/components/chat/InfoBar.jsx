@@ -23,7 +23,8 @@ const InfoBarContainer = styled.div`
     align-items: center;
     justify-content: space-between;
     /* background: #3a1d1d; */
-    background: #023e8a;
+    /* background: #023e8a; */
+    background: #0077b6;
     border-radius: 3px 3px 0 0;
     @media ${(props) => props.theme.mobile} {
       border-radius: 0 0 0 0;

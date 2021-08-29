@@ -7,6 +7,7 @@ const MessagesContainer = styled.div`
   position: relative;
   background: rgba(179, 200, 219, 0.8);
   overflow-y: scroll;
+  border-radius: 3px 3px 0 0;
   -ms-overflow-style: none;
   ::-webkit-scrollbar {
     display: none;

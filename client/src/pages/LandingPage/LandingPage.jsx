@@ -1085,7 +1085,7 @@ function LandingPage() {
         <h1>
           이거맞아<span className="logo-rotate">?</span>
         </h1>
-        <h2>Is this right?</h2>
+        {/* <h2>Is this right?</h2> */}
         <div className="buttonSection">
           <ButtonStyle onClick={goMentorExplainSection}>for Mentor</ButtonStyle>
           <ButtonStyle onClick={goUserExplainSection}>for User</ButtonStyle>
@@ -1101,7 +1101,7 @@ function LandingPage() {
         <div className="sticky-elem main-message a" ref={section0A}>
           <p>
             운동을 하고 있는 <br />
-            우리들을 위한
+            사람들을 위한
           </p>
         </div>
         <div className="sticky-elem main-message b" ref={section0B}>
@@ -1156,7 +1156,7 @@ function LandingPage() {
         </div>
         <div className="sticky-elem main-message d" ref={section1D}>
           <p>
-            운동 오지랖퍼들을 위한
+            운동 오지라퍼들을 위한
             <br />
           </p>
         </div>
@@ -1172,7 +1172,7 @@ function LandingPage() {
         </div>
         {/* <div className="sticky-elem main-message g" ref={section1G}>
           <p>
-            운동갔는데 <br></br> 그 옆 사람을 보며 <br></br>입이 근질근질하지 않으셨나요?
+            운동갔는데 <br /> 그 옆 사람을 보며 <br />입이 근질근질하지 않으셨나요?
           </p>
         </div> */}
       </section>
@@ -1206,9 +1206,10 @@ function LandingPage() {
           <div className="animation textA" ref={userExplainTextA}>
             <div className="mini-TextA-Section a">
               <p>
-                <strong>질문기능</strong> <br />
-                운동에 대한 <br />
-                여러분의 모든 궁금증을 <br />
+                <strong>질문하기</strong> <br />
+                운동에 대한 여러분의
+                <br />
+                모든 고민과 궁금한점을 <br />
                 물어보세요 <br />
               </p>
               <img
@@ -1222,7 +1223,9 @@ function LandingPage() {
             <p>
               여러분들에겐
               <br />
-              멘토들이<br></br>있습니다.
+              멘토들이
+              <br />
+              있습니다.
             </p>
           </div>
           <p>
@@ -1237,11 +1240,12 @@ function LandingPage() {
                 alt=""
               />
 
-              <p style={{ paddingRight: '10vw' }}>
-                <strong>채택 기능</strong>
-                <br></br>
-                마음에 든 <br></br>답변을 <br />
-                선택해주세요<br></br>
+              <p>
+                <strong>채택하기</strong>
+                <br />
+                가장 도움이 된 피드백을 <br />
+                채택해주세요
+                <br />
               </p>
             </div>
           </div>
@@ -1253,9 +1257,10 @@ function LandingPage() {
                 alt=""
               />
               <p>
-                <strong>채팅</strong> <br></br>
-                채택 or 검색을 통해 <br></br>
-                멘토들과 채팅을 할 수 있습니다.
+                <strong>채팅하기</strong> <br />
+                멘토들에게 더 궁금한게 있다면
+                <br />
+                채팅을 통해 실시간으로 물어보세요!
               </p>
             </div>
           </div>
@@ -1264,17 +1269,19 @@ function LandingPage() {
       <section className="scroll-section" id="scroll-section-4" ref={section4}>
         <div className="start mentor a" ref={mentorExplainA}>
           <p>
-            <small style={{ fontSize: '4vw' }}>만약</small> <br></br>
-            <strong style={{ fontSize: '10vw' }}>멘&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;토</strong> <br></br>
+            <small style={{ fontSize: '8vh' }}>멘토들을 위한</small> <br />
+            <strong style={{ fontSize: '10vh', fontFamily: 'font-css' }}>이거맞아?</strong> <br />
           </p>
         </div>
         <div className="explainA mentor a" ref={mentorExplainB}>
           <div className="textSection mentor">
             <div className="textBox">
-              <strong>Feedback</strong> <br></br>
-              질문에 피드백을 <br></br>남겨주세요 <br></br>
-              <br></br>
-              채택 수는 랭킹에<br></br> 반영됩니다.
+              <strong>피드백 남기기</strong> <br />
+              유저들의 질문에
+              <br />
+              피드백을 남겨주세요
+              <br />
+              채택 수는 랭킹에 반영됩니다
             </div>
             <img
               className="gifFile mentor"
@@ -1286,12 +1293,11 @@ function LandingPage() {
         <div className="explainA mentor b" ref={mentorExplainC}>
           <div className="textSection mentor">
             <div className="textBox" ref={mentorExplainCTextAction}>
-              <strong>랭 킹</strong> <br></br>
-              좋은 답변을 통해 <br></br>
-              순위를 높여 <br></br>
-              여러분의 계정을 <br></br>
-              상단에 <br></br>
-              노출시키세요.
+              <strong>랭킹 시스템</strong> <br />
+              채택 순위를 높여 <br />
+              여러분을 홍보해보세요! <br /> <br />
+              *랭킹에 따라 주기적으로 <br />
+              후원금이 지급됩니다 <br />
             </div>
             <img
               className="gifFile"
@@ -1309,10 +1315,11 @@ function LandingPage() {
               alt=""
             />
             <div className="textBox">
-              <strong>채팅</strong> <br></br>
-              채팅을 통해<br></br>
-              보다 많은 유저들과 <br></br>
-              소통하고 <br></br>
+              <strong>채팅</strong> <br />
+              채팅을 통해
+              <br />
+              유저들의 궁금증을 해결해주고
+              <br />
               여러분을 홍보하세요!
             </div>
           </div>

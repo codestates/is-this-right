@@ -32,8 +32,6 @@ const CategoryStyle = styled.div`
       font-size: 0rem;
     }
     > img {
-      /* height: 100px;
-      width: 100px; */
       height: 6vw;
       width: 6vw;
       @media ${(props) => props.theme.mobile} {
@@ -43,9 +41,6 @@ const CategoryStyle = styled.div`
     }
   }
   > img {
-    /* height: 80px;
-    width: 80px; */
-
     height: 5vw;
     width: 5vw;
     @media ${(props) => props.theme.mobile} {

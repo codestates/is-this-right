@@ -36,7 +36,8 @@ const StyledForm = styled.form`
     color: #fafafa;
     text-transform: uppercase;
     /* background: #f3e137; */
-    background: #023e8a;
+    /* background: #023e8a; */
+    background: #0077b6;
     padding: 20px;
     display: flex;
     min-width: 100px;

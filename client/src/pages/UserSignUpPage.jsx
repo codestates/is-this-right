@@ -300,7 +300,7 @@ function UserSignUpPage() {
             {confirmPasswordErr ? <AlertMessageStyle>{confirmPasswordErr}</AlertMessageStyle> : null}
           </HideInputStyle>
           {signupErr ? <AlertMessageStyle>{signupErr}</AlertMessageStyle> : null}
-          <ButtonStyle type="primary" onClick={handleSignUp} disabled={disable}>
+          <ButtonStyle type="primary" size={'large'} onClick={handleSignUp} disabled={disable}>
             회원가입
           </ButtonStyle>
         </LogInStyle>
