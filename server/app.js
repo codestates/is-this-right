@@ -1,26 +1,29 @@
-const express = require("express");
-const cors = require("cors");
-// const controllers = require("./controllers");
-const cookieParser = require("cookie-parser");
-
+const express = require('express');
 const app = express();
-app.use(express.json());
-const port = 80;
+const cors = require('cors');
+const router = require('./router');
+const port = process.env.PORT || 80;
+const cookieParser = require('cookie-parser');
+const server = require('http').createServer(app);
+const io = require('socket.io')(server, {
+  cors: {
+    origin: ['http://localhost:3000', 'http://localhost:3001', 'https://isthisright.ml', 'https://isthisright.kr'],
+    credentials: true,
+  },
+});
 
+app.use(express.json());
+app.use(cookieParser());
 app.use(
   cors({
-    origin: true,
+    origin: ['http://localhost:3000', 'http://localhost:3001', 'https://isthisright.ml', 'https://isthisright.kr'],
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  })
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  }),
 );
-
-app.use(cookieParser());
-
-app.get("/", (req, res) => {
-  res.status(201).send("Welcome to 이거맞아? API Server!");
+app.use(router);
+server.listen(port, () => {
+  console.log(`Listening on port ${port}`);
 });
 
-app.listen(port, () => {
-  console.log(`서버가 ${port}번에서 작동중입니다.`);
-});
+require('./socket')(io);
