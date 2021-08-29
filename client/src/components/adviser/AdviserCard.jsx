@@ -231,7 +231,7 @@ function AdviserCard({ data }) {
       });
       dispatch(setRoomName(data.name));
     } else {
-      alert('로그인이 필요한 서비스입니다.');
+      history.push('/SignIn');
     }
   };
   return (

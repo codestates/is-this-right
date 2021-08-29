@@ -5,7 +5,7 @@ import { BodyAreaStyle, ContainerStlye } from '../style/pageStyle';
 import parse from 'html-react-parser';
 import { useSelector, useDispatch } from 'react-redux';
 import { changeRoom, setIsChat, setViewChatlist, setRoomName, setMessages } from '../actions/chatAction';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { SmileOutlined, MessageOutlined, MailOutlined, LinkOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import axios from 'axios';
 
@@ -262,6 +262,7 @@ function AdvisorDetailPage() {
   const { id } = useParams();
   const state = useSelector((state) => state.userReducer);
   const chatState = useSelector((state) => state.chatReducer);
+  const history = useHistory();
   const dispatch = useDispatch();
   useEffect(() => {
     axios.get(`${url}/advisers/${id}`).then((data) => setAdviserDetailInfo(data.data.data));
@@ -315,7 +316,7 @@ function AdvisorDetailPage() {
       });
       dispatch(setRoomName(adviserDetailInfo.name));
     } else {
-      alert('로그인이 필요한 서비스입니다.');
+      history.push('/SignIn');
     }
   };
 

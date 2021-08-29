@@ -351,8 +351,8 @@ function LandingPage() {
         mentorExplainCImgActionTranslateLeftIn: [-100, 0, { start: 0.38, end: 0.5 }],
         mentorExplainCImgActionTranslateRightIn: [100, 0, { start: 0.38, end: 0.5 }],
 
-        mentorExplainDOpacityIn: [0, 1, { start: 0.57, end: 0.67 }],
-        mentorExplainDTranslateIn: [100, 0, { start: 0.57, end: 0.67 }],
+        mentorExplainDOpacityIn: [0, 1, { start: 0.68, end: 0.8 }],
+        mentorExplainDTranslateIn: [100, 0, { start: 0.68, end: 0.8 }],
 
         //아웃
         mentorTextOpacityOut: [1, 0, { start: 0.068, end: 0.08 }],
@@ -361,9 +361,9 @@ function LandingPage() {
         mentorFeedbackExplainOpacityOut: [1, 0, { start: 0.32, end: 0.36 }],
         mentorFeedbackExplainTranslateOut: [0, -100, { start: 0.32, end: 0.36 }],
 
-        mentorExplainCTextActionOpacityOut: [1, 0, { start: 0.52, end: 0.54 }],
-        mentorExplainCImgActionTranslateLeftOut: [0, -100, { start: 0.52, end: 0.54 }],
-        mentorExplainCImgActionTranslateRightOut: [0, 100, { start: 0.52, end: 0.54 }],
+        mentorExplainCTextActionOpacityOut: [1, 0, { start: 0.62, end: 0.64 }],
+        mentorExplainCImgActionTranslateLeftOut: [0, -100, { start: 0.62, end: 0.64 }],
+        mentorExplainCImgActionTranslateRightOut: [0, 100, { start: 0.62, end: 0.64 }],
 
         mentorExplainDOpacityOut: [1, 0, { start: 0.9, end: 0.95 }],
         mentorExplainDTranslateOut: [0, 100, { start: 0.9, end: 0.95 }],
@@ -912,7 +912,7 @@ function LandingPage() {
             currentYOffset,
           )}%,0, 0)`;
         }
-        if (scrollRatio <= 0.75) {
+        if (scrollRatio <= 0.8) {
           if (objs.mentorExplainD.current) {
             objs.mentorExplainD.current.style.opacity = calcValues(values.mentorExplainDOpacityIn, currentYOffset);
             objs.mentorExplainD.current.style.transform = `translate3d( ${calcValues(
@@ -1206,7 +1206,7 @@ function LandingPage() {
         <div className="explain-messageA">
           <div className="animation textA" ref={userExplainTextA}>
             <div className="mini-TextA-Section a">
-              <p>
+              <p style={{ marginTop: '45vh' }}>
                 <strong>질문하기</strong> <br />
                 운동에 대한 여러분의
                 <br />
@@ -1214,6 +1214,7 @@ function LandingPage() {
                 물어보세요 <br />
               </p>
               <img
+                style={{ marginTop: '45vh' }}
                 className="gifFile"
                 src="https://is-this-right-sources.s3.ap-northeast-2.amazonaws.com/gifs/squ.gif"
                 alt=""
