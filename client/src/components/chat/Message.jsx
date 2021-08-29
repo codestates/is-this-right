@@ -85,7 +85,8 @@ const MessageDiv = styled.div`
     box-shadow: 0 0 1px rgba(3, 4, 94, 0.3);
 
     /* background: #f3e137; */
-    background: #023e8a;
+    /* background: #023e8a; */
+    background: #0077b6;
   }
 
   .backgroundLight {

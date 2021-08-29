@@ -32,8 +32,6 @@ const CategoryStyle = styled.div`
       font-size: 0rem;
     }
     > img {
-      /* height: 100px;
-      width: 100px; */
       height: 6vw;
       width: 6vw;
       @media ${(props) => props.theme.mobile} {
@@ -43,9 +41,6 @@ const CategoryStyle = styled.div`
     }
   }
   > img {
-    /* height: 80px;
-    width: 80px; */
-
     height: 5vw;
     width: 5vw;
     @media ${(props) => props.theme.mobile} {
@@ -55,22 +50,6 @@ const CategoryStyle = styled.div`
   }
   :hover {
     cursor: pointer;
-    font-size: 1.5rem;
-    transition: 0.2s ease-in;
-    @media ${(props) => props.theme.mobile} {
-      font-size: 0rem;
-    }
-  }
-  :hover > img {
-    /* height: 100px;
-      width: 100px; */
-    height: 6vw;
-    width: 6vw;
-    transition: 0.2s ease-in;
-    @media ${(props) => props.theme.mobile} {
-      width: 70px;
-      height: 70px;
-    }
   }
 `;
 
