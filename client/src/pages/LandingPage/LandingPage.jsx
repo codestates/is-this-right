@@ -342,28 +342,28 @@ function LandingPage() {
       values: {
         //인
         mentorTextOpacityIn: [0, 1, { start: 0, end: 0.02 }],
-        mentorTextTranslateYIn: [20, 0, { start: 0, end: 0.03 }],
+        mentorTextTranslateYIn: [20, 0, { start: 0, end: 0.02 }],
 
-        mentorFeedbackExplainOpacityIn: [0, 1, { start: 0.07, end: 0.1 }],
-        mentorFeedbackExplainTranslateIn: [-100, 0, { start: 0.07, end: 0.1 }],
+        mentorFeedbackExplainOpacityIn: [0, 1, { start: 0.1, end: 0.2 }],
+        mentorFeedbackExplainTranslateIn: [-100, 0, { start: 0.1, end: 0.2 }],
 
-        mentorExplainCTextActionOpacityIn: [0, 1, { start: 0.32, end: 0.36 }],
-        mentorExplainCImgActionTranslateLeftIn: [-100, 0, { start: 0.32, end: 0.36 }],
-        mentorExplainCImgActionTranslateRightIn: [100, 0, { start: 0.32, end: 0.36 }],
+        mentorExplainCTextActionOpacityIn: [0, 1, { start: 0.38, end: 0.5 }],
+        mentorExplainCImgActionTranslateLeftIn: [-100, 0, { start: 0.38, end: 0.5 }],
+        mentorExplainCImgActionTranslateRightIn: [100, 0, { start: 0.38, end: 0.5 }],
 
-        mentorExplainDOpacityIn: [0, 1, { start: 0.57, end: 0.65 }],
-        mentorExplainDTranslateIn: [100, 0, { start: 0.57, end: 0.65 }],
+        mentorExplainDOpacityIn: [0, 1, { start: 0.57, end: 0.67 }],
+        mentorExplainDTranslateIn: [100, 0, { start: 0.57, end: 0.67 }],
 
         //아웃
         mentorTextOpacityOut: [1, 0, { start: 0.068, end: 0.08 }],
         mentorTextTranslateYOut: [0, -20, { start: 0.068, end: 0.08 }],
 
-        mentorFeedbackExplainOpacityOut: [1, 0, { start: 0.32, end: 0.38 }],
-        mentorFeedbackExplainTranslateOut: [0, -100, { start: 0.32, end: 0.38 }],
+        mentorFeedbackExplainOpacityOut: [1, 0, { start: 0.32, end: 0.36 }],
+        mentorFeedbackExplainTranslateOut: [0, -100, { start: 0.32, end: 0.36 }],
 
-        mentorExplainCTextActionOpacityOut: [1, 0, { start: 0.58, end: 0.61 }],
-        mentorExplainCImgActionTranslateLeftOut: [0, -100, { start: 0.58, end: 0.61 }],
-        mentorExplainCImgActionTranslateRightOut: [0, 100, { start: 0.58, end: 0.61 }],
+        mentorExplainCTextActionOpacityOut: [1, 0, { start: 0.52, end: 0.54 }],
+        mentorExplainCImgActionTranslateLeftOut: [0, -100, { start: 0.52, end: 0.54 }],
+        mentorExplainCImgActionTranslateRightOut: [0, 100, { start: 0.52, end: 0.54 }],
 
         mentorExplainDOpacityOut: [1, 0, { start: 0.9, end: 0.95 }],
         mentorExplainDTranslateOut: [0, 100, { start: 0.9, end: 0.95 }],
@@ -849,7 +849,7 @@ function LandingPage() {
             currentYOffset,
           )}%, 0)`;
         }
-        if (scrollRatio <= 0.2) {
+        if (scrollRatio <= 0.25) {
           if (objs.mentorExplainB.current) {
             objs.mentorExplainB.current.style.opacity = calcValues(
               values.mentorFeedbackExplainOpacityIn,
@@ -870,7 +870,7 @@ function LandingPage() {
             currentYOffset,
           )}%,0,  0)`;
         }
-        if (scrollRatio <= 0.5) {
+        if (scrollRatio <= 0.51) {
           if (mentorExplainCTextAction.current) {
             mentorExplainCTextAction.current.style.opacity = calcValues(
               values.mentorExplainCTextActionOpacityIn,
