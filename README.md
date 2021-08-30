@@ -86,7 +86,7 @@
 
 ### 팀장 : 김병민
 
-![노션사진.jpg](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a2ce7f76-711d-4556-962d-57f45ce28866/노션사진.jpg)
+![노션사진](https://user-images.githubusercontent.com/42455611/131414069-22e44429-0b30-4bb9-8eb0-b408e7294594.jpg)
 
 `**ROLE**`  Team Leader
 
@@ -123,8 +123,8 @@
 ### 팀원 : 박상현
 
 ---
+![노션1](https://user-images.githubusercontent.com/42455611/131414031-791a3db7-9f58-4149-8102-5736a5f43f04.jpg)
 
-![노션1.jpg](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5deb2e64-091c-4c1c-aed1-6fda6ffe5930/노션1.jpg)
 
 `**ROLE**`  Team Member
 
@@ -169,7 +169,8 @@
 
 ---
 
-![노션사진.jpeg](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/bfeda81d-0af4-4ad9-9311-d06f94bf6fab/노션사진.jpeg)
+![노션사진](https://user-images.githubusercontent.com/42455611/131413993-dac1abdb-0909-4ac4-b105-481a09e641ae.jpeg)
+
 
 `**ROLE**`  Team Member
 
