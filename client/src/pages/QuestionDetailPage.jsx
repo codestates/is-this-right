@@ -483,7 +483,7 @@ function QuestionDetailPage() {
                 indicators={false}>
                 {post.data.sources.length === 0 ? (
                   <Carousel.Item bsPrefix={'carousel-item sourceItem'}>
-                    <Image src="../../imageFile/blankImg_white.png" alt="" width="100%" height="100%" />
+                    <img src="../../imageFile/blankImg_white.png" alt="" />
                   </Carousel.Item>
                 ) : (
                   post.data.sources.map((el, idx) =>
