@@ -1216,7 +1216,7 @@ function LandingPage() {
               <img
                 style={{ marginTop: '45vh' }}
                 className="gifFile"
-                src="https://is-this-right-sources.s3.ap-northeast-2.amazonaws.com/gifs/squ.gif"
+                src="https://is-this-right-sources.s3.ap-northeast-2.amazonaws.com/gifs/%E1%84%8C%E1%85%B5%E1%86%AF%E1%84%86%E1%85%AE%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.gif"
                 alt=""
               />
             </div>
@@ -1238,7 +1238,7 @@ function LandingPage() {
             <div className="mini-TextB-Section b">
               <img
                 className="gifFile"
-                src="https://is-this-right-sources.s3.ap-northeast-2.amazonaws.com/gifs/answer.gif"
+                src="https://is-this-right-sources.s3.ap-northeast-2.amazonaws.com/gifs/%E1%84%8E%E1%85%A2%E1%84%90%E1%85%A2%E1%86%A8%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.gif"
                 alt=""
               />
 
@@ -1255,7 +1255,7 @@ function LandingPage() {
             <div className="mini-TextD-Section d">
               <img
                 className="gifFile"
-                src="https://is-this-right-sources.s3.ap-northeast-2.amazonaws.com/gifs/chat.gif"
+                src="https://is-this-right-sources.s3.ap-northeast-2.amazonaws.com/gifs/%E1%84%8E%E1%85%A2%E1%84%90%E1%85%B5%E1%86%BC%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.gif"
                 alt=""
               />
               <p>
@@ -1290,7 +1290,7 @@ function LandingPage() {
             </div>
             <img
               className="gifFile mentor"
-              src="https://is-this-right-sources.s3.ap-northeast-2.amazonaws.com/gifs/%EB%8B%B5%EB%B3%80%ED%95%98%EA%B8%B0.gif"
+              src="https://is-this-right-sources.s3.ap-northeast-2.amazonaws.com/gifs/%E1%84%91%E1%85%B5%E1%84%83%E1%85%B3%E1%84%87%E1%85%A2%E1%86%A8+%E1%84%8C%E1%85%A1%E1%86%A8%E1%84%89%E1%85%A5%E1%86%BC.gif"
               alt=""
             />
           </div>
@@ -1316,7 +1316,7 @@ function LandingPage() {
           <div className="textSection mentor" ref={mentorExplainD}>
             <img
               className="gifFile"
-              src="https://is-this-right-sources.s3.ap-northeast-2.amazonaws.com/gifs/chat.gif"
+              src="https://is-this-right-sources.s3.ap-northeast-2.amazonaws.com/gifs/%E1%84%8E%E1%85%A2%E1%84%90%E1%85%B5%E1%86%BC%E1%84%87%E1%85%A1%E1%86%AB%E1%84%8B%E1%85%B3%E1%86%BC%E1%84%92%E1%85%A7%E1%86%BC.gif"
               alt=""
             />
             <div className="textBox">

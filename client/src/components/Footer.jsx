@@ -4,20 +4,19 @@ import GitHubIcon from '@material-ui/icons/GitHub';
 
 const FooterAreaStyle = styled.div`
   background-color: #26272b;
-  padding: 45px 0 20px;
+  padding: 15px 0 15px;
   font-size: 15px;
   line-height: 24px;
   color: #737373;
   display: flex;
+  gap: 10px;
   flex-direction: column;
   align-items: center;
   width: 100%;
   align-self: center;
-  /* height: ; */
-  & hr {
+  .divider {
     width: 80vw;
-    border-top-color: #bbb;
-    opacity: 0.5;
+    border-bottom: 1px solid rgb(187, 187, 187, 0.5);
   }
   & h6 {
     color: #fff;
@@ -35,6 +34,19 @@ const FooterAreaStyle = styled.div`
   }
   @media ${(props) => props.theme.mobile} {
     display: none;
+  }
+  .teamSection {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    .name {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    a {
+      text-decoration: none;
+    }
   }
 `;
 
@@ -71,23 +83,30 @@ const SocialIconStyle = styled.div`
 function Footer() {
   return (
     <FooterAreaStyle>
-      <div style={{ display: 'flex', justifyContent: 'space-evenly', width: '100%' }}>
-        <h6>About</h6>
-
-        <h6>Categories</h6>
-
-        <h6>Quick Links</h6>
+      <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>Created by</div>
+      <div className="teamSection">
+        <a href="https://github.com/byungmin12">
+          <div className="name">
+            <GitHubIcon /> 김병민
+          </div>
+        </a>
+        <a href="https://github.com/shpk93">
+          <div className="name">
+            <GitHubIcon /> 박상현
+          </div>
+        </a>
+        <a href="https://github.com/HunKimADev">
+          <div className="name">
+            <GitHubIcon /> 김상훈
+          </div>
+        </a>
       </div>
-
-      <hr></hr>
+      <div className="divider" />
 
       <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
         Copyright &copy; 2021 All Rights Reserved by
-        <a href="">TEAM SMS</a>.
         <SocialIconStyle>
-          <a href="https://github.com/codestates/is-this-right">
-            <GitHubIcon />
-          </a>
+          <a href="https://github.com/codestates/is-this-right">TEAM SMS.</a>
         </SocialIconStyle>
       </div>
     </FooterAreaStyle>

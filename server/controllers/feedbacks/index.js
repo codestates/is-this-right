@@ -15,6 +15,7 @@ module.exports = {
           JOIN advisers ON feedbacks.adviserId = advisers.id 
           WHERE posts.category=${category}
           GROUP BY advisers.id) selectedCount ON advisers.id = selectedCount.id
+        WHERE advisers.category=${category}
         ORDER BY selectedCount DESC LIMIT 10;
         `,
       { type: QueryTypes.SELECT },

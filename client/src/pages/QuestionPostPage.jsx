@@ -8,6 +8,7 @@ import UploadCompo from '../components/UploadCompo';
 import { useHistory } from 'react-router-dom';
 import { saveCategory } from '../actions/postActionIndex';
 import axios from 'axios';
+import { DeleteOutlined } from '@ant-design/icons';
 
 const url = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
@@ -48,6 +49,10 @@ const QuestionPostPageContainer = styled(ContainerStlye)`
     margin-bottom: 20px;
   }
   .image {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
   }
   .content {
     margin-top: -40px;
@@ -59,6 +64,19 @@ const QuestionPostPageContainer = styled(ContainerStlye)`
     border-top: none;
     border-radius: 0 0 5px 5px;
     padding: 10px;
+    gap: 10px;
+    .cancelButton {
+      font-family: 'font-css';
+      color: #0077b6;
+      background: #efefef;
+      border-radius: 7px;
+      padding: 10px 30px 10px 30px;
+      :hover {
+        cursor: pointer;
+        background: #dfdfdf;
+        transition: 0.2s;
+      }
+    }
     .submitButton {
       font-family: 'font-css';
       color: #fafafa;
@@ -79,9 +97,31 @@ const QuestionPostPageContainer = styled(ContainerStlye)`
 
 const ImgPreview = styled.div`
   position: relative;
-  width: auto;
-
-  > :nth-child(2) {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  .deleteButton {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 999;
+    color: white;
+    transform: translate(-50%, -50%);
+  }
+  :hover .deleteButton {
+    width: 200px;
+    height: 100%;
+    margin-left: -27%;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.2);
+    display: flex;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  /* > :nth-child(2) {
     display: none;
     position: absolute;
     top: 50%;
@@ -97,7 +137,7 @@ const ImgPreview = styled.div`
         cursor: pointer;
       }
     }
-  }
+  } */
 `;
 
 const textFade = keyframes`
@@ -260,12 +300,13 @@ function QuestionPostPage({ post, setPost, setIsEdit }) {
                 if (item.type === 'image') {
                   return (
                     <ImgPreview key={item.id}>
-                      <img src={item.sourceUrl} style={{ width: '200px', margin: '10px' }} />
+                      <img src={item.sourceUrl} style={{ width: '200px' }} />
                       <div
+                        className="deleteButton"
                         onClick={() => {
                           handleDeletePreview(item.id);
                         }}>
-                        삭제
+                        <DeleteOutlined />
                       </div>
                     </ImgPreview>
                   );
@@ -274,10 +315,11 @@ function QuestionPostPage({ post, setPost, setIsEdit }) {
                     <ImgPreview key={item.id}>
                       <video src={item.sourceUrl} style={{ width: '200px', margin: '10px' }}></video>
                       <div
+                        className="deleteButton"
                         onClick={() => {
                           handleDeletePreview(item.id);
                         }}>
-                        삭제
+                        <DeleteOutlined />
                       </div>
                     </ImgPreview>
                   );
@@ -299,6 +341,15 @@ function QuestionPostPage({ post, setPost, setIsEdit }) {
           {validation.content ? <AlertMessageStyle>{validation.content}</AlertMessageStyle> : null}
         </div>
         <div className="submitArea">
+          {post ? (
+            <div
+              className="cancelButton"
+              onClick={() => {
+                setIsEdit(false);
+              }}>
+              Cancel
+            </div>
+          ) : null}
           <div
             className="submitButton"
             onClick={() => {
@@ -322,15 +373,6 @@ function QuestionPostPage({ post, setPost, setIsEdit }) {
             질문하기
           </div>
         </div>
-        {post ? (
-          <Button
-            style={{ background: 'red' }}
-            onClick={() => {
-              setIsEdit(false);
-            }}>
-            Cancel
-          </Button>
-        ) : null}
       </QuestionPostPageContainer>
     </QuestionPostBody>
   );

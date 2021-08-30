@@ -8,10 +8,12 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     box-sizing: border-box;
-
+    overflow-y: auto;
+    -ms-overflow-style: none;
   }
-
- 
+  body::-webkit-scrollbar {
+    display: none;
+  }
 
 `;
 

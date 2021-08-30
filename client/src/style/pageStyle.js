@@ -6,6 +6,7 @@ export const BodyAreaStyle = styled.div`
   min-width: 100vw;
   display: flex;
   justify-content: center;
+  overflow-x: hidden;
 `;
 
 export const ContainerStlye = styled.div`
