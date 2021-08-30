@@ -18,8 +18,8 @@
 
 1. 프로젝트 소개
 
-**운동을 좋아하는 사람들을 위한 피드백 커뮤니티!**
-<img width="124" alt="스크린샷 2021-08-29 오전 11 08 16" src="https://user-images.githubusercontent.com/42455611/131413886-e0f03765-d2b6-4e09-8cec-ebd2fb32c535.png">
+**운동을 좋아하는 사람들을 위한 피드백 커뮤니티!** <br/>
+<img width="300" alt="스크린샷 2021-08-29 오전 11 08 16" src="https://user-images.githubusercontent.com/42455611/131413886-e0f03765-d2b6-4e09-8cec-ebd2fb32c535.png">
 
 
 너무 많은 운동 고민들...
@@ -86,7 +86,6 @@
 
 ### 팀장 : 김병민
 
-![노션사진](https://user-images.githubusercontent.com/42455611/131414069-22e44429-0b30-4bb9-8eb0-b408e7294594.jpg)
 
 `**ROLE**`  Team Leader
 
@@ -94,13 +93,6 @@
 
 `**GITHUB` /@byungmin**
 
-📚`**STACK**`
-
----
-
- **`JS`** `**React**`  `**Redux` `Styled-components` `Ckeditor`** 
-
----
 
 - **Works**
     - SR
@@ -123,8 +115,6 @@
 ### 팀원 : 박상현
 
 ---
-![노션1](https://user-images.githubusercontent.com/42455611/131414031-791a3db7-9f58-4149-8102-5736a5f43f04.jpg)
-
 
 `**ROLE**`  Team Member
 
@@ -132,15 +122,6 @@
 
 `**GITHUB`**  [/](https://github.com/HunKimADev)[@shpk93](https://github.com/shpk93)
 
-📚`**STACK**`
-
----
-
-`**Node.js**` **`Express`** `**Sequelize` `Bcypt`** 
-
- **`Socket.io`** `JWT` **`MySQL`** `**JS**` `**React**`  `**Redux**`
-
----
 
 **Works** 
 
@@ -169,26 +150,11 @@
 
 ---
 
-![노션사진](https://user-images.githubusercontent.com/42455611/131413993-dac1abdb-0909-4ac4-b105-481a09e641ae.jpeg)
-
-
 `**ROLE**`  Team Member
 
 `**POSITION`**  Full Stack
 
 `**GITHUB`**  [/@HunKimADev](https://github.com/HunKimADev)
-
-📚`**STACK**`
-
----
-
-- **Stack**
-
-    `**Node.js**` **`Express`** `**Sequelize` `Multer`** **`Socket.io`** **`MySQL`** `**JS**` `**CSS**` `**React**`  `**Redux**`
-
-- **Deploy Stack**
-
-    `**AWS` : `EC2` `S3` `RDS` `Route53` `Cloudfront` `ACM` `ELB`**
 
 - **Works**
     - SR
