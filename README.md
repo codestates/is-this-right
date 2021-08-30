@@ -89,9 +89,9 @@
 
 `**ROLE**`  Team Leader
 
-`**POSITION`  Front-end**
+`**POSITION**`  Front-end
 
-`**GITHUB` /@byungmin**
+`**GITHUB**` /@byungmin
 
 
 - **Works**
@@ -118,9 +118,9 @@
 
 `**ROLE**`  Team Member
 
-`**POSITION`**  Backend
+`**POSITION**`  Backend
 
-`**GITHUB`**  [/](https://github.com/HunKimADev)[@shpk93](https://github.com/shpk93)
+`**GITHUB**`  [/](https://github.com/HunKimADev)[@shpk93](https://github.com/shpk93)
 
 
 **Works** 
@@ -152,9 +152,9 @@
 
 `**ROLE**`  Team Member
 
-`**POSITION`**  Full Stack
+`**POSITION**`  Full Stack
 
-`**GITHUB`**  [/@HunKimADev](https://github.com/HunKimADev)
+`**GITHUB**`  [/@HunKimADev](https://github.com/HunKimADev)
 
 - **Works**
     - SR
