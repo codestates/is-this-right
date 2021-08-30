@@ -366,7 +366,7 @@ function SignInPage() {
               회원 가입이 필요하신가요?
               <div>
                 <Link to="/AdvisorSignUp" style={{ textDecoration: 'none' }}>
-                  <DivToSignUpStyle>강사</DivToSignUpStyle>
+                  <DivToSignUpStyle>멘토</DivToSignUpStyle>
                 </Link>
                 <Link to="/UserSignUp" style={{ textDecoration: 'none' }}>
                   <DivToSignUpStyle>유저</DivToSignUpStyle>
@@ -378,7 +378,7 @@ function SignInPage() {
               <div className="icon-box kakao">
                 <SocialIconStyle src="./../imageFile/social/kakao-icon.png" alt="kakao login" />
               </div>
-              <div className="text-box kakao">Login with kakao</div>
+              <div className="text-box kakao">Login with Kakao</div>
             </SocialDivStyle>
             <GoogleLogin
               clientId={process.env.REACT_APP_GOOGLE_API_KEY}
