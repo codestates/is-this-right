@@ -49,6 +49,10 @@ const QuestionPostPageContainer = styled(ContainerStlye)`
     margin-bottom: 20px;
   }
   .image {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
   }
   .content {
     margin-top: -40px;
