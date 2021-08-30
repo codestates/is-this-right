@@ -201,6 +201,10 @@ const PostDetailContainer = styled(ContainerStlye)`
       max-height: 300px;
       min-width: 200px;
       overflow-y: scroll;
+      -ms-overflow-style: none;
+      ::-webkit-scrollbar {
+        display: none;
+      }
       order: 3;
       display: flex;
       flex-direction: column;
