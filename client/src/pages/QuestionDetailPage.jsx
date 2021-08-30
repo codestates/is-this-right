@@ -201,6 +201,10 @@ const PostDetailContainer = styled(ContainerStlye)`
       max-height: 300px;
       min-width: 200px;
       overflow-y: scroll;
+      -ms-overflow-style: none;
+      ::-webkit-scrollbar {
+        display: none;
+      }
       order: 3;
       display: flex;
       flex-direction: column;
@@ -483,7 +487,7 @@ function QuestionDetailPage() {
                 indicators={false}>
                 {post.data.sources.length === 0 ? (
                   <Carousel.Item bsPrefix={'carousel-item sourceItem'}>
-                    <Image src="../../imageFile/blankImg_white.png" alt="" width="100%" height="100%" />
+                    <img src="../../imageFile/blankImg_white.png" alt="" />
                   </Carousel.Item>
                 ) : (
                   post.data.sources.map((el, idx) =>

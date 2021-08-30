@@ -114,6 +114,7 @@ function LandingPage() {
   const mentorExplainD = useRef();
   const mentorExplainCTextAction = useRef();
   const mentorExplainCImgAction = useRef();
+  const fixScreen = useRef();
 
   const goToAdviserListPage = () => {
     history.push('/');
@@ -327,7 +328,7 @@ function LandingPage() {
     {
       //4
       scrollHeight: 0,
-      heightNum: 5,
+      heightNum: 6,
       type: 'sticky',
       objs: {
         container: section4,
@@ -341,28 +342,28 @@ function LandingPage() {
       values: {
         //인
         mentorTextOpacityIn: [0, 1, { start: 0, end: 0.02 }],
-        mentorTextTranslateYIn: [20, 0, { start: 0, end: 0.03 }],
+        mentorTextTranslateYIn: [20, 0, { start: 0, end: 0.02 }],
 
-        mentorFeedbackExplainOpacityIn: [0, 1, { start: 0.07, end: 0.1 }],
-        mentorFeedbackExplainTranslateIn: [-100, 0, { start: 0.07, end: 0.1 }],
+        mentorFeedbackExplainOpacityIn: [0, 1, { start: 0.1, end: 0.2 }],
+        mentorFeedbackExplainTranslateIn: [-100, 0, { start: 0.1, end: 0.2 }],
 
-        mentorExplainCTextActionOpacityIn: [0, 1, { start: 0.32, end: 0.36 }],
-        mentorExplainCImgActionTranslateLeftIn: [-100, 0, { start: 0.32, end: 0.36 }],
-        mentorExplainCImgActionTranslateRightIn: [100, 0, { start: 0.32, end: 0.36 }],
+        mentorExplainCTextActionOpacityIn: [0, 1, { start: 0.38, end: 0.5 }],
+        mentorExplainCImgActionTranslateLeftIn: [-100, 0, { start: 0.38, end: 0.5 }],
+        mentorExplainCImgActionTranslateRightIn: [100, 0, { start: 0.38, end: 0.5 }],
 
-        mentorExplainDOpacityIn: [0, 1, { start: 0.57, end: 0.65 }],
-        mentorExplainDTranslateIn: [100, 0, { start: 0.57, end: 0.65 }],
+        mentorExplainDOpacityIn: [0, 1, { start: 0.68, end: 0.8 }],
+        mentorExplainDTranslateIn: [100, 0, { start: 0.68, end: 0.8 }],
 
         //아웃
         mentorTextOpacityOut: [1, 0, { start: 0.068, end: 0.08 }],
         mentorTextTranslateYOut: [0, -20, { start: 0.068, end: 0.08 }],
 
-        mentorFeedbackExplainOpacityOut: [1, 0, { start: 0.32, end: 0.38 }],
-        mentorFeedbackExplainTranslateOut: [0, -100, { start: 0.32, end: 0.38 }],
+        mentorFeedbackExplainOpacityOut: [1, 0, { start: 0.32, end: 0.36 }],
+        mentorFeedbackExplainTranslateOut: [0, -100, { start: 0.32, end: 0.36 }],
 
-        mentorExplainCTextActionOpacityOut: [1, 0, { start: 0.58, end: 0.61 }],
-        mentorExplainCImgActionTranslateLeftOut: [0, -100, { start: 0.58, end: 0.61 }],
-        mentorExplainCImgActionTranslateRightOut: [0, 100, { start: 0.58, end: 0.61 }],
+        mentorExplainCTextActionOpacityOut: [1, 0, { start: 0.62, end: 0.64 }],
+        mentorExplainCImgActionTranslateLeftOut: [0, -100, { start: 0.62, end: 0.64 }],
+        mentorExplainCImgActionTranslateRightOut: [0, 100, { start: 0.62, end: 0.64 }],
 
         mentorExplainDOpacityOut: [1, 0, { start: 0.9, end: 0.95 }],
         mentorExplainDTranslateOut: [0, 100, { start: 0.9, end: 0.95 }],
@@ -848,7 +849,7 @@ function LandingPage() {
             currentYOffset,
           )}%, 0)`;
         }
-        if (scrollRatio <= 0.2) {
+        if (scrollRatio <= 0.25) {
           if (objs.mentorExplainB.current) {
             objs.mentorExplainB.current.style.opacity = calcValues(
               values.mentorFeedbackExplainOpacityIn,
@@ -869,7 +870,7 @@ function LandingPage() {
             currentYOffset,
           )}%,0,  0)`;
         }
-        if (scrollRatio <= 0.5) {
+        if (scrollRatio <= 0.51) {
           if (mentorExplainCTextAction.current) {
             mentorExplainCTextAction.current.style.opacity = calcValues(
               values.mentorExplainCTextActionOpacityIn,
@@ -911,7 +912,7 @@ function LandingPage() {
             currentYOffset,
           )}%,0, 0)`;
         }
-        if (scrollRatio <= 0.75) {
+        if (scrollRatio <= 0.8) {
           if (objs.mentorExplainD.current) {
             objs.mentorExplainD.current.style.opacity = calcValues(values.mentorExplainDOpacityIn, currentYOffset);
             objs.mentorExplainD.current.style.transform = `translate3d( ${calcValues(
@@ -1042,8 +1043,8 @@ function LandingPage() {
   };
 
   const goMentorExplainSection = () => {
-    const location = mentorExplainA.current.offsetTop;
-    window.scrollTo({ top: location, behavior: 'smooth' });
+    const location = section4.current.offsetTop;
+    window.scrollTo({ top: location + 200, behavior: 'smooth' });
   };
 
   const gotoTop = () => {
@@ -1205,7 +1206,7 @@ function LandingPage() {
         <div className="explain-messageA">
           <div className="animation textA" ref={userExplainTextA}>
             <div className="mini-TextA-Section a">
-              <p>
+              <p style={{ marginTop: '45vh' }}>
                 <strong>질문하기</strong> <br />
                 운동에 대한 여러분의
                 <br />
@@ -1213,8 +1214,9 @@ function LandingPage() {
                 물어보세요 <br />
               </p>
               <img
+                style={{ marginTop: '45vh' }}
                 className="gifFile"
-                src="https://is-this-right-sources.s3.ap-northeast-2.amazonaws.com/gifs/squ.gif"
+                src="https://is-this-right-sources.s3.ap-northeast-2.amazonaws.com/gifs/%E1%84%8C%E1%85%B5%E1%86%AF%E1%84%86%E1%85%AE%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.gif"
                 alt=""
               />
             </div>
@@ -1236,7 +1238,7 @@ function LandingPage() {
             <div className="mini-TextB-Section b">
               <img
                 className="gifFile"
-                src="https://is-this-right-sources.s3.ap-northeast-2.amazonaws.com/gifs/answer.gif"
+                src="https://is-this-right-sources.s3.ap-northeast-2.amazonaws.com/gifs/%E1%84%8E%E1%85%A2%E1%84%90%E1%85%A2%E1%86%A8%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.gif"
                 alt=""
               />
 
@@ -1253,7 +1255,7 @@ function LandingPage() {
             <div className="mini-TextD-Section d">
               <img
                 className="gifFile"
-                src="https://is-this-right-sources.s3.ap-northeast-2.amazonaws.com/gifs/chat.gif"
+                src="https://is-this-right-sources.s3.ap-northeast-2.amazonaws.com/gifs/%E1%84%8E%E1%85%A2%E1%84%90%E1%85%B5%E1%86%BC%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.gif"
                 alt=""
               />
               <p>
@@ -1269,7 +1271,10 @@ function LandingPage() {
       <section className="scroll-section" id="scroll-section-4" ref={section4}>
         <div className="start mentor a" ref={mentorExplainA}>
           <p>
-            <small style={{ fontSize: '8vh' }}>멘토들을 위한</small> <br />
+            <small ref={fixScreen} style={{ fontSize: '8vh' }}>
+              멘토들을 위한
+            </small>{' '}
+            <br />
             <strong style={{ fontSize: '10vh', fontFamily: 'font-css' }}>이거맞아?</strong> <br />
           </p>
         </div>
@@ -1285,7 +1290,7 @@ function LandingPage() {
             </div>
             <img
               className="gifFile mentor"
-              src="https://is-this-right-sources.s3.ap-northeast-2.amazonaws.com/gifs/%EB%8B%B5%EB%B3%80%ED%95%98%EA%B8%B0.gif"
+              src="https://is-this-right-sources.s3.ap-northeast-2.amazonaws.com/gifs/%E1%84%91%E1%85%B5%E1%84%83%E1%85%B3%E1%84%87%E1%85%A2%E1%86%A8+%E1%84%8C%E1%85%A1%E1%86%A8%E1%84%89%E1%85%A5%E1%86%BC.gif"
               alt=""
             />
           </div>
@@ -1311,7 +1316,7 @@ function LandingPage() {
           <div className="textSection mentor" ref={mentorExplainD}>
             <img
               className="gifFile"
-              src="https://is-this-right-sources.s3.ap-northeast-2.amazonaws.com/gifs/chat.gif"
+              src="https://is-this-right-sources.s3.ap-northeast-2.amazonaws.com/gifs/%E1%84%8E%E1%85%A2%E1%84%90%E1%85%B5%E1%86%BC%E1%84%87%E1%85%A1%E1%86%AB%E1%84%8B%E1%85%B3%E1%86%BC%E1%84%92%E1%85%A7%E1%86%BC.gif"
               alt=""
             />
             <div className="textBox">
