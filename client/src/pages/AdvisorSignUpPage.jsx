@@ -330,7 +330,7 @@ function AdvisorSignUpPage() {
       {console.log('AdviserSignUp rendered!')}
       <ContainerStlye>
         <HeadSectionStyle>
-          <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
+          <img src="../../imageFile/Logo.png" alt="" style={{ width: '200px' }} />
         </HeadSectionStyle>
         <InputAreaStyle>
           {/* <div>adviser Sign Up</div> */}

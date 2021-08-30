@@ -238,7 +238,7 @@ function UserSignUpPage() {
       <LoginSectionStyle>
         <LogInStyle>
           <HeadSectionStyle>
-            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
+            <img src="../../imageFile/Logo.png" alt="" style={{ width: '200px' }} />
           </HeadSectionStyle>
           {/* <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '28px' }}>
             회원가입

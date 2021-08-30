@@ -337,7 +337,7 @@ function SignInPage() {
       <LoginSectionStyle>
         <LogInStyle>
           <HeadSectionStyle>
-            <img src="../../imageFile/Logo_black.png" alt="" style={{ width: '200px' }} />
+            <img src="../../imageFile/Logo.png" alt="" style={{ width: '200px' }} />
           </HeadSectionStyle>
           <div>
             <LabelStyle htmlFor="user-email">이메일</LabelStyle>
