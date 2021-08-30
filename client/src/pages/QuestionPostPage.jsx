@@ -59,6 +59,19 @@ const QuestionPostPageContainer = styled(ContainerStlye)`
     border-top: none;
     border-radius: 0 0 5px 5px;
     padding: 10px;
+    gap: 10px;
+    .cancelButton {
+      font-family: 'font-css';
+      color: #0077b6;
+      background: #efefef;
+      border-radius: 7px;
+      padding: 10px 30px 10px 30px;
+      :hover {
+        cursor: pointer;
+        background: #dfdfdf;
+        transition: 0.2s;
+      }
+    }
     .submitButton {
       font-family: 'font-css';
       color: #fafafa;
@@ -299,6 +312,15 @@ function QuestionPostPage({ post, setPost, setIsEdit }) {
           {validation.content ? <AlertMessageStyle>{validation.content}</AlertMessageStyle> : null}
         </div>
         <div className="submitArea">
+          {post ? (
+            <div
+              className="cancelButton"
+              onClick={() => {
+                setIsEdit(false);
+              }}>
+              Cancel
+            </div>
+          ) : null}
           <div
             className="submitButton"
             onClick={() => {
@@ -322,15 +344,6 @@ function QuestionPostPage({ post, setPost, setIsEdit }) {
             질문하기
           </div>
         </div>
-        {post ? (
-          <Button
-            style={{ background: 'red' }}
-            onClick={() => {
-              setIsEdit(false);
-            }}>
-            Cancel
-          </Button>
-        ) : null}
       </QuestionPostPageContainer>
     </QuestionPostBody>
   );
