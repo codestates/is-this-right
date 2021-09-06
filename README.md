@@ -9,7 +9,6 @@
 - **프로젝트 형태 :** **수강생 프로젝트**
 - **팀원 :** 김병민(팀장), 김상훈, 박상현
 - **배포 링크 :** [isthisright.kr](https://isthisright.kr)
-- **Github Repository:** [https://github.com/codestates/is-this-right](https://github.com/codestates/is-this-right)
 - **Notion Link:** [프로젝트 노션 링크](https://www.notion.so/1-S-M-S-31dbe334fe7544b79569c717c8c6bb16)
 
 ## 2. Project
