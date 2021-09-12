@@ -168,7 +168,7 @@
         - [x]  User관련 API (내가 작성한 포스트, 내가 작성한 피드백 받아오기)
         - [x]  Multer-S3를 이용한 영상/이미지 업로드
         - [x]  Multer-S3 (관련게시물 업데이트 혹은 삭제시 S3의 관련이미지 삭제 구현)
-        - [x]  Squelize 및 DB 구축
+        - [x]  Sequelize 및 DB 구축
         - [x]  SQL 작성
         - [x]  Socket.io를 이용한 실시간 채팅 기능 완성
         - [x]  에러핸들링
