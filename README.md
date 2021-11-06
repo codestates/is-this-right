@@ -10,6 +10,7 @@
 - **팀원 :** 김병민(팀장), 김상훈, 박상현
 - **배포 링크 :** [isthisright.kr](https://isthisright.kr)
 - **Notion Link:** [프로젝트 노션 링크](https://www.notion.so/1-S-M-S-31dbe334fe7544b79569c717c8c6bb16)
+- **소개 영상:** [소개 영상-YouTube](https://youtu.be/N107Fb-_pBU)
 
 ## 2. Project
 
